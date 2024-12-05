@@ -1,0 +1,59 @@
+<!-- Header or Topbar for mobile toggle button -->
+<header class="header">
+  <button class="sidebar-toggle" (click)="toggleMobileMenu()">☰</button>
+</header>
+
+<!-- Sidebar (Left Menu) -->
+<nav class="sidebar">
+  <!-- Logo at the top of the left menu -->
+  <div class="sidebar-logo">
+    <img src="assets/img/AtomsLogoWhite.png" alt="Logo" class="logo">
+  </div>
+
+  <!-- Sidebar Menu Content -->
+  <div class="sidebar-content">
+    <ul class="sidebar-list">
+      <li><a href="/home/dashboard"><i class="material-icons">dashboard</i> Dashboard</a></li>
+      <li><a href="home/employees"><i class="material-icons">calendar_today</i> Employee Registration</a></li>
+      <li class="dropdown">
+        <a href="#"><i class="material-icons">check_circle</i> Task</a>
+        <ul class="dropdown-menu">
+          <li><a href="home/employees">Task List</a></li>
+          <li><a href="/home/employees/add">Add New Task</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#"><i class="material-icons">group</i> Employee</a>
+        <ul class="dropdown-menu">
+          <li><a href="home/employees">Employee List</a></li>
+          <li><a href="/home/employees/add">Add New Employee</a></li>
+        </ul>
+      </li>
+      <li><a href="#"><i class="material-icons">exit_to_app</i> Log out</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Mobile Menu (Hidden by default) -->
+<div class="mobile-menu" [class.active]="isMobileMenuActive">
+  <button class="close-btn" (click)="toggleMobileMenu()">×</button>
+  <ul class="sidebar-list">
+    <li><a href="/home/dashboard"><i class="material-icons">dashboard</i> Dashboard</a></li>
+    <li><a href="home/employees"><i class="material-icons">calendar_today</i> Employee Registration</a></li>
+    <li class="dropdown">
+      <a href="#"><i class="material-icons">check_circle</i> Task</a>
+      <ul class="dropdown-menu">
+        <li><a href="home/employees">Task List</a></li>
+        <li><a href="/home/employees/add">Add New Task</a></li>
+      </ul>
+    </li>
+    <li class="dropdown">
+      <a href="#"><i class="material-icons">group</i> Employee</a>
+      <ul class="dropdown-menu">
+        <li><a href="home/employees">Employee List</a></li>
+        <li><a href="/home/employees/add">Add New Employee</a></li>
+      </ul>
+    </li>
+    <li><a href="#"><i class="material-icons">exit_to_app</i> Log out</a></li>
+  </ul>
+</div>

@@ -1,0 +1,29 @@
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .header {
+    background-color: #579843;
+    color: white;
+    padding: 15px;
+    text-align: center;
+  }
+
+  .main-content {
+    flex: 1;
+    padding: 50px;
+  }
+
+  .card {
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .card h2 {
+    color: #333;
+  }

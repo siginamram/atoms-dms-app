@@ -1,0 +1,23 @@
+/* Footer Styling */
+.dashboard-footer {
+    /* background-color: #2e71c3; */
+    background: linear-gradient(135deg, #007BFF, #2f3b80,black);
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    border-radius: 10px;
+  }
+  
+  .footer-link {
+    color: #ffdd57;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .footer-link:hover {
+    text-decoration: underline;
+  }
+  

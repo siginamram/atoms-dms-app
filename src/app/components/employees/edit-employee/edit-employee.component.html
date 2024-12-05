@@ -1,0 +1,71 @@
+<div class="container my-5">
+    <h1 class="mb-3">Edit Employee</h1>
+    <form #form="ngForm" (ngSubmit)="updateEmployee()"> 
+        <div class="row">
+            <div class="col-12">
+                <div class="mb-3">
+                    <label for="id" class="form-label">ID</label>
+                    <input type="text" class="form-control" id="id" readonly
+                    name="id" [(ngModel)]="employeeDetails.id">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">     
+                <div class="mb-3">
+                    <label for="firstname" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="firstname"
+                    name="firstname" [(ngModel)]="employeeDetails.firstName">
+                </div>
+            </div>
+            <div class="col-6">     
+                <div class="mb-3">
+                    <label for="lastname" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="lastname"
+                    name="lastname" [(ngModel)]="employeeDetails.lastName">
+                </div>
+            </div>
+            <div class="col-6">     
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="text" class="form-control" id="email"
+                    name="email" [(ngModel)]="employeeDetails.emailId">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">     
+                <div class="mb-3"> 
+                    <label for="phone" class="form-label">Phone No</label>
+                    <input type="text" class="form-control" id="phone"
+                    name="phone" [(ngModel)]="employeeDetails.mobile">
+                </div>
+            </div>
+            <div class="col-6">     
+                <div class="mb-3">
+                    <label for="bloodGroup" class="form-label">Blood Group</label>
+                    <input type="text" class="form-control" id="bloodGroup"
+                    name="bloodGroup" [(ngModel)]="employeeDetails.bloodGroup">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">     
+                <div class="mb-3">
+                    <label for="dateOfBirth" class="form-label">DOB</label>
+                    <input type="text" class="form-control" id="dateOfBirth"
+                    name="dob" [(ngModel)]="employeeDetails.dateOfBirth">
+                </div>
+            </div>
+            <div class="col-6">     
+                <div class="mb-3">
+                    <label for="address" class="form-label">Address</label>
+                    <input type="text" class="form-control" id="address"
+                    name="address" [(ngModel)]="employeeDetails.address">
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mr-6">Save</button>
+        <!-- <button type="button" class="btn btn-danger" (click)="deleteEmployee(employeeDetails.id)">Delete</button> -->
+    </form>
+</div>

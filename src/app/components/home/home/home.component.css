@@ -1,0 +1,44 @@
+/* Main Content Layout */
+.main-content {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  /* Left Menu Styling */
+  app-left-menu {
+    width: 250px; /* Adjust width as needed */
+    /* background-color:black;  */
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  /* Page Content Styling */
+  .page-content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  /* Common Footer Styling */
+  app-footer {
+    background-color: #2f3b80; /* Adjust background color as needed */
+    color: white;
+ 
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+
+  }
+  
+  /* Responsive Styles */
+  @media screen and (max-width: 768px) {
+    .main-content {
+      flex-direction: column;
+    }
+  
+    app-left-menu {
+      width: 100%;
+    }
+  }
+  
