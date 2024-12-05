@@ -9,6 +9,7 @@ import { RoleService } from 'src/app/services/role.service';
 export class LeftMenuComponent implements OnInit {
   userRoles: string[] = [];
   isMobileMenuActive = false; // Track the mobile menu visibility
+  isDropdownActive: { [key: string]: boolean } = {}; // Store active state for each dropdown
 
   constructor(public roleService: RoleService) {}
 
@@ -24,5 +25,10 @@ export class LeftMenuComponent implements OnInit {
   // Toggle mobile menu visibility
   toggleMobileMenu() {
     this.isMobileMenuActive = !this.isMobileMenuActive;
+  }
+
+  // Toggle dropdown visibility on mobile
+  toggleDropdown(dropdown: string) {
+    this.isDropdownActive[dropdown] = !this.isDropdownActive[dropdown];
   }
 }

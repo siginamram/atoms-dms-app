@@ -13,11 +13,32 @@ img.img-fluid {
   max-width: 100%;
   height: auto;
 }
-
+img.img-fluid1 {
+  max-width: 100%;
+  height: auto;
+}
 /* Hide image on mobile screens */
 @media (max-width: 768px) {
+  img.img-fluid1 {
+    display: block; /* Hide image on mobile screens */
+  }
   img.img-fluid {
     display: none; /* Hide image on mobile screens */
+  }
+  .login-logo {
+    margin-bottom: 20px; /* Space between logo and login form */
+  }
+}
+/* Hide image on mobile screens */
+@media (min-width: 769px) {
+  img.img-fluid1 {
+    display: none; /* Hide image on mobile screens */
+  }
+  img.img-fluid {
+    display: block; /* Hide image on mobile screens */
+  }
+  .login-logo {
+    margin-bottom: 20px; /* Space between logo and login form */
   }
 }
 

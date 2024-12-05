@@ -16,14 +16,14 @@
       <li><a href="/home/dashboard"><i class="material-icons">dashboard</i> Dashboard</a></li>
       <li><a href="home/employees"><i class="material-icons">calendar_today</i> Employee Registration</a></li>
       <li class="dropdown">
-        <a href="#"><i class="material-icons">check_circle</i> Task</a>
+        <a href="#" (click)="toggleDropdown('task')"><i class="material-icons">check_circle</i> Task</a>
         <ul class="dropdown-menu">
           <li><a href="home/employees">Task List</a></li>
           <li><a href="/home/employees/add">Add New Task</a></li>
         </ul>
       </li>
       <li class="dropdown">
-        <a href="#"><i class="material-icons">group</i> Employee</a>
+        <a href="#" (click)="toggleDropdown('employee')"><i class="material-icons">group</i> Employee</a>
         <ul class="dropdown-menu">
           <li><a href="home/employees">Employee List</a></li>
           <li><a href="/home/employees/add">Add New Employee</a></li>
@@ -40,15 +40,15 @@
   <ul class="sidebar-list">
     <li><a href="/home/dashboard"><i class="material-icons">dashboard</i> Dashboard</a></li>
     <li><a href="home/employees"><i class="material-icons">calendar_today</i> Employee Registration</a></li>
-    <li class="dropdown">
-      <a href="#"><i class="material-icons">check_circle</i> Task</a>
+    <li class="dropdown" [class.active]="isDropdownActive['task']" (click)="toggleDropdown('task')">
+      <a ><i class="material-icons">check_circle</i> Task</a>
       <ul class="dropdown-menu">
         <li><a href="home/employees">Task List</a></li>
         <li><a href="/home/employees/add">Add New Task</a></li>
       </ul>
     </li>
-    <li class="dropdown">
-      <a href="#"><i class="material-icons">group</i> Employee</a>
+    <li class="dropdown" [class.active]="isDropdownActive['employee']" (click)="toggleDropdown('employee')">
+      <a ><i class="material-icons">group</i> Employee</a>
       <ul class="dropdown-menu">
         <li><a href="home/employees">Employee List</a></li>
         <li><a href="/home/employees/add">Add New Employee</a></li>
