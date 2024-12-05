@@ -81,7 +81,7 @@ body {
   position:fixed;
   top: 0;
   left: 0;
-  width: 80%;
+  width: 73%;
   padding: 10px;
   display: flex;
   justify-content: flex-end; /* Align button to the right */

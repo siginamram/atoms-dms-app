@@ -1,7 +1,7 @@
 /* Footer Styling */
 .dashboard-footer {
-    /* background-color: #2e71c3; */
-    background: linear-gradient(135deg, #007BFF, #2f3b80,black);
+    background-color: #2f3b80;
+    /* background: linear-gradient(135deg, #007BFF, #2f3b80,black); */
     color: white;
     text-align: center;
     padding: 15px 0;

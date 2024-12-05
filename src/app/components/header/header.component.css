@@ -3,8 +3,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* background: linear-gradient(135deg, #007BFF, #2f3b80,black); */
-   background-color: white;
+  background-color: white;
   color: #fff;
   padding: 10px 30px;
   border-bottom: 5px solid #ddd;
@@ -22,6 +21,18 @@
   max-width: 100%;
   height: auto;
   display: inline-block;
+}
+
+/* Buttons for Desktop */
+.desktop-buttons {
+  display: flex;
+  gap: 15px; /* Space between buttons */
+}
+
+/* MUI Button Styling */
+.mui-button {
+  padding: 8px 16px;
+  font-size: 1rem;
 }
 
 /* User Info Styling */
@@ -46,7 +57,7 @@
 .user-name {
   font-weight: bold;
   font-size: 1.1rem;
-  color: white;
+  color: navy;
 }
 
 /* Hover effect for user circle */
@@ -57,6 +68,11 @@
 
 /* Mobile responsive styles */
 @media (max-width: 768px) {
+  /* Hide the buttons on mobile */
+  .desktop-buttons {
+    display: none;
+  }
+
   .user-info {
     padding-left: 10px;
   }

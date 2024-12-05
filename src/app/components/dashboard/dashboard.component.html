@@ -1,19 +1,63 @@
 <div class="dashboard-container">
-    <div class="col-xl-5">
-      <h1>Employee Dashboard</h1>
-    </div>
-    <div class="main-content">
+  <div class="row">
+    <div class="main-content col-12">
+      <!-- Card: Welcome Message -->
       <div class="card">
-        <h2>Welcome, {{username}}</h2>
-        <p>This is your personalized dashboard.</p>
+        <div class="card-row">
+          <h2>Welcome, {{username}}</h2>
+        </div>
+        <div class="card-row">
+          <p>This is your personalized dashboard.</p>
+        </div>
       </div>
+
+      <!-- Chat/Message Cards -->
       <div class="card">
-        <h2>Tasks</h2>
-        <ul>
-          <li>Task 1</li>
-          <li>Task 2</li>
-          <li>Task 3</li>
-        </ul>
+        <div class="card-row">
+          <h3>Messages</h3>
+        </div>
+        <div class="card-row">
+          <div *ngFor="let message of messages" class="message-card" [ngStyle]="{'background-color': message.bgColor}">
+            <p><strong>{{message.sender}}:</strong> <span>{{message.text}}</span></p>
+            <p class="said-by">Said by: <span>{{message.sender}}</span></p>
+          </div>
+        </div>
       </div>
-      <!-- Add more cards or content as needed -->
+
+      <!-- Table: Sample Data with Colors -->
+      <div class="card">
+        <div class="card-row">
+          <h3>Sample Data Table</h3>
+        </div>
+        <div class="card-row">
+          <mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="position">
+              <mat-header-cell *matHeaderCellDef class="table-header"> No. </mat-header-cell>
+              <mat-cell *matCellDef="let element" [ngStyle]="{'background-color': getRowColor(element.position)}">
+                {{element.position}} 
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+              <mat-header-cell *matHeaderCellDef class="table-header"> Name </mat-header-cell>
+              <mat-cell *matCellDef="let element" [ngStyle]="{'background-color': getRowColor(element.position)}">
+                {{element.name}} 
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="weight">
+              <mat-header-cell *matHeaderCellDef class="table-header"> Weight </mat-header-cell>
+              <mat-cell *matCellDef="let element" [ngStyle]="{'background-color': getRowColor(element.position)}">
+                {{element.weight}} 
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+        </div>
+      </div>
+
     </div>
+  </div>
+</div>
