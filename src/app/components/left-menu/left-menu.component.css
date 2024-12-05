@@ -78,11 +78,11 @@ body {
 
 /* Header for mobile toggle button */
 .header {
-  position:fixed;
+  position:static;
   top: 0;
   left: 0;
-  width: 73%;
-  padding: 10px;
+  width: 85%;
+  padding: 5px;
   display: flex;
   justify-content: flex-end; /* Align button to the right */
   z-index: 1000; /* Make sure the header is on top */

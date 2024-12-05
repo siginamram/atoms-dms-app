@@ -27,7 +27,8 @@ export class DashboardComponent implements OnInit {
   messages = [
     { sender: 'Alice', text: 'Hello, how are you?', bgColor: '#d1f7d1' },
     { sender: 'Bob', text: 'Good job on the project!', bgColor: '#d1e4f7' },
-    { sender: 'Charlie', text: 'Do you need help with your task?', bgColor: '#f7e0d1' }
+    { sender: 'Charlie', text: 'Do you need help with your task?', bgColor: '#f7e0d1' },
+    { sender: 'Raju', text: 'Good job on the project!', bgColor: '#d1e4f7' },
   ];
 
   constructor() {

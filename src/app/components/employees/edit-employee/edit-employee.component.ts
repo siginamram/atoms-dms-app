@@ -24,30 +24,30 @@ export class EditEmployeeComponent implements OnInit {
   constructor(private route: ActivatedRoute, private employeeService: EmployeesService, private router: Router) { }
 
   ngOnInit(): void {
-    debugger;
-    this.route.paramMap.subscribe({
-      next: (params) => {
-        const id = params.get('id');
-        if (id) {
-          //Call API
-          this.employeeService.getEmployee(id)
-          .subscribe({
-            next: (response) =>{
-              this.employeeDetails = response;
-            }
-          });
-        }
-      }
-    })
+    // debugger;
+    // this.route.paramMap.subscribe({
+    //   next: (params) => {
+    //     const id = params.get('id');
+    //     if (id) {
+    //       //Call API
+    //       this.employeeService.getEmployee(id)
+    //       .subscribe({
+    //         next: (response) =>{
+    //           this.employeeDetails = response;
+    //         }
+    //       });
+    //     }
+    //   }
+    // })
   }
 
   updateEmployee(){
-    this.employeeService.updateEmployee(this.employeeDetails.id, this.employeeDetails)
-    .subscribe({
-      next: (employee) => {
-        this.router.navigate(['employees']);
-      }
-    });
+    // this.employeeService.updateEmployee(this.employeeDetails.id, this.employeeDetails)
+    // .subscribe({
+    //   next: (employee) => {
+    //     this.router.navigate(['employees']);
+    //   }
+    // });
   }
 
   // deleteEmployee(id: string){

@@ -13,23 +13,23 @@
   <!-- Sidebar Menu Content -->
   <div class="sidebar-content">
     <ul class="sidebar-list">
-      <li><a href="/home/dashboard"><i class="material-icons">dashboard</i> Dashboard</a></li>
-      <li><a href="home/employees"><i class="material-icons">calendar_today</i> Employee Registration</a></li>
+      <li><a routerLink="/home/dashboard"><i class="material-icons">dashboard</i> Dashboard</a></li>
+      <li><a routerLink="/home/employees"><i class="material-icons">calendar_today</i> Employee Registration</a></li>
       <li class="dropdown">
-        <a href="#" (click)="toggleDropdown('task')"><i class="material-icons">check_circle</i> Task</a>
+        <a routerLink="#" (click)="toggleDropdown('task')"><i class="material-icons">check_circle</i> Daily Status</a>
         <ul class="dropdown-menu">
-          <li><a href="home/employees">Task List</a></li>
-          <li><a href="/home/employees/add">Add New Task</a></li>
+          <li><a routerLink="/home/employees">Daily Task List</a></li>
+          <!-- <li><a routerLink="/home/employees">New Task</a></li> -->
         </ul>
       </li>
       <li class="dropdown">
-        <a href="#" (click)="toggleDropdown('employee')"><i class="material-icons">group</i> Employee</a>
+        <a routerLink="#" (click)="toggleDropdown('employee')"><i class="material-icons">group</i> Employee</a>
         <ul class="dropdown-menu">
-          <li><a href="home/employees">Employee List</a></li>
-          <li><a href="/home/employees/add">Add New Employee</a></li>
+          <li><a routerLink="/home/employees">Employee List</a></li>
+          <!-- <li><a routerLink="/home/employees">New Employee</a></li> -->
         </ul>
       </li>
-      <li><a href="#"><i class="material-icons">exit_to_app</i> Log out</a></li>
+      <li><a routerLink="#"><i class="material-icons">exit_to_app</i> Log out</a></li>
     </ul>
   </div>
 </nav>
@@ -38,22 +38,22 @@
 <div class="mobile-menu" [class.active]="isMobileMenuActive">
   <button class="close-btn" (click)="toggleMobileMenu()">×</button>
   <ul class="sidebar-list">
-    <li><a href="/home/dashboard"><i class="material-icons">dashboard</i> Dashboard</a></li>
-    <li><a href="home/employees"><i class="material-icons">calendar_today</i> Employee Registration</a></li>
+    <li><a routerLink="/home/dashboard"><i class="material-icons">dashboard</i> Dashboard</a></li>
+    <li><a routerLink="/home/employees"><i class="material-icons">calendar_today</i> Employee Registration</a></li>
     <li class="dropdown" [class.active]="isDropdownActive['task']" (click)="toggleDropdown('task')">
-      <a ><i class="material-icons">check_circle</i> Task</a>
+      <a ><i class="material-icons">check_circle</i> Daily Status</a>
       <ul class="dropdown-menu">
-        <li><a href="home/employees">Task List</a></li>
-        <li><a href="/home/employees/add">Add New Task</a></li>
+        <li><a routerLink="/home/employees">Task List</a></li>
+        <!-- <li><a routerLink="/home/employees">Add New Task</a></li> -->
       </ul>
     </li>
     <li class="dropdown" [class.active]="isDropdownActive['employee']" (click)="toggleDropdown('employee')">
       <a ><i class="material-icons">group</i> Employee</a>
       <ul class="dropdown-menu">
-        <li><a href="home/employees">Employee List</a></li>
-        <li><a href="/home/employees/add">Add New Employee</a></li>
+        <li><a routerLink="/home/employees">Employee List</a></li>
+        <!-- <li><a routerLink="/home/employees">Add New Employee</a></li> -->
       </ul>
     </li>
-    <li><a href="#"><i class="material-icons">exit_to_app</i> Log out</a></li>
+    <li><a routerLink="/login"><i class="material-icons">exit_to_app</i> Log out</a></li>
   </ul>
 </div>

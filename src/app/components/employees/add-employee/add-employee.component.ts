@@ -23,7 +23,7 @@ export class AddEmployeeComponent implements OnInit {
   ngOnInit(): void {
   } 
   addEmployee(){
-    debugger;
+    //debugger;
     // console.log(this.addEmployeeRequest); // Verify if the form is working properly or not
     // this.employeeService.addEmployee(this.addEmployeeRequest)
     // .subscribe({

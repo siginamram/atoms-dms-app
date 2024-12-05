@@ -25,7 +25,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
-
+import { MatTooltipModule } from '@angular/material/tooltip';
 // Animation module
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -59,6 +59,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     MatSidenavModule,
     MatListModule,
     MatTableModule,
+    MatTooltipModule,
     BrowserAnimationsModule,  // Essential for Material Design animations
   ],
   providers: [
