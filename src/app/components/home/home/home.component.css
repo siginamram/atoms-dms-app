@@ -9,14 +9,17 @@
     width: 250px; /* Adjust width as needed */
     /* background-color:black;  */
     color: white;
-    padding: 20px;
+    padding: 10px;
     border-radius: 10px;
   }
   
   /* Page Content Styling */
   .page-content {
     flex: 1;
-    padding: 20px;
+    padding: 10px;
+    width:100%;
+    align-items: center;
+    justify-content: center;
   }
   
   /* Common Footer Styling */

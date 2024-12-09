@@ -26,9 +26,24 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatOptionModule } from '@angular/material/core';
+import { NgIf, NgFor } from '@angular/common';
+
 // Animation module
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSelectModule } from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { LeadmanagementaddComponent } from './components/marketing/leadmanagementadd/leadmanagementadd.component';
+import { MeetmanagementlistComponent } from './components/marketing/meetmanagementlist/meetmanagementlist.component';
+import { MeetmanagementaddComponent } from './components/marketing/meetmanagementadd/meetmanagementadd.component';
+import { LeadmanagementlistComponent } from './components/marketing/leadmanagementlist/leadmanagementlist.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +56,11 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     LeftMenuComponent,
     FooterComponent,
     UserloginComponent,
-    DashboardComponent
+    DashboardComponent,
+    LeadmanagementlistComponent,
+    LeadmanagementaddComponent,
+    MeetmanagementlistComponent,
+    MeetmanagementaddComponent
   ],
   imports: [
     BrowserModule,
@@ -61,9 +80,18 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     MatTableModule,
     MatTooltipModule,
     BrowserAnimationsModule,  // Essential for Material Design animations
+    MatSnackBarModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    CommonModule,
+    MatOptionModule,
+    NgIf, NgFor,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   providers: [
-    provideAnimationsAsync() // Ensure async animations support
+    provideAnimationsAsync(), // Ensure async animations support
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent]
 })

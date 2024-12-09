@@ -1,16 +1,17 @@
 /* Dashboard Container Styling */
 .dashboard-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh; /* Full viewport height */
-  padding-left: 2cm;
-  padding-right: 2cm;
+  max-width: 1000px;
+  margin: 5px auto;
+  padding: 0px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Main Content Section */
 .main-content {
   flex: 1;
-  padding: 20px;
+  padding: 0px;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

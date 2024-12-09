@@ -6,6 +6,10 @@ import { EmployeesListComponent } from './components/employees/employees-list/em
 import { HomeComponent } from './components/home/home/home.component';
 import { UserloginComponent } from './components/userlogin/userlogin.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { LeadmanagementlistComponent } from './components/marketing/leadmanagementlist/leadmanagementlist.component';
+import { LeadmanagementaddComponent } from './components/marketing/leadmanagementadd/leadmanagementadd.component';
+import { MeetmanagementlistComponent } from './components/marketing/meetmanagementlist/meetmanagementlist.component';
+import { MeetmanagementaddComponent } from './components/marketing/meetmanagementadd/meetmanagementadd.component';
 
 const routes: Routes = [
   {
@@ -21,15 +25,27 @@ const routes: Routes = [
         component: DashboardComponent
       },
       {
-        path: 'employees',
-        component: EmployeesListComponent
+        path: 'leadmanagement',
+        component: LeadmanagementlistComponent
       },
       {
-        path: 'employees/add',
-        component: AddEmployeeComponent
+        path: 'leadmanagement/add',
+        component: LeadmanagementaddComponent
       },
       {
-        path: 'employees/edit/:id',
+        path: 'leadmanagement/edit/:id',
+        component: EditEmployeeComponent
+      },
+      {
+        path: 'meetmanagement',
+        component: MeetmanagementlistComponent
+      },
+      {
+        path: 'meetmanagement/add',
+        component: MeetmanagementaddComponent
+      },
+      {
+        path: 'meetmanagement/edit/:id',
         component: EditEmployeeComponent
       },
       { 

@@ -1,0 +1,133 @@
+<div class="lead-form-container">
+  <mat-toolbar color="primary" style="border-radius: 10px;">
+    <span>Add Lead</span>
+  </mat-toolbar>
+
+  <form [formGroup]="leadForm" (ngSubmit)="onSubmit()" class="lead-form">
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Name of Organization*</mat-label>
+        <input matInput formControlName="organizationName" />
+        <mat-error *ngIf="leadForm.get('organizationName')?.hasError('required')">
+          Organization name is required.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Domain of Organization*</mat-label>
+        <input matInput formControlName="domain" />
+        <mat-error *ngIf="leadForm.get('domain')?.hasError('required')">
+          Domain is required.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Country*</mat-label>
+        <mat-select formControlName="country" (selectionChange)="onCountryChange($event.value)">
+          <mat-option *ngFor="let country of countries" [value]="country.id">
+            {{ country.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="leadForm.get('country')?.hasError('required')">
+          Please select a country.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>State*</mat-label>
+        <mat-select formControlName="state" (selectionChange)="onStateChange($event.value)">
+          <mat-option *ngFor="let state of filteredStates" [value]="state.id">
+            {{ state.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="leadForm.get('state')?.hasError('required')">
+          Please select a state.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>District*</mat-label>
+        <mat-select formControlName="district" (selectionChange)="onDistrictChange($event.value)">
+          <mat-option *ngFor="let district of filteredDistricts" [value]="district.id">
+            {{ district.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="leadForm.get('district')?.hasError('required')">
+          Please select a district.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>City*</mat-label>
+        <mat-select formControlName="city">
+          <mat-option *ngFor="let city of filteredCities" [value]="city.id">
+            {{ city.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="leadForm.get('city')?.hasError('required')">
+          Please select a city.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>P.O.C Name*</mat-label>
+        <input matInput formControlName="pocName" />
+        <mat-error *ngIf="leadForm.get('pocName')?.hasError('required')">
+          POC Name is required.
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>P.O.C Contact*</mat-label>
+        <input matInput formControlName="pocContact" />
+        <mat-error *ngIf="leadForm.get('pocContact')?.hasError('required')">
+          POC Contact is required.
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>P.O.C Designation*</mat-label>
+        <input matInput formControlName="pocDesignation" />
+        <mat-error *ngIf="leadForm.get('pocDesignation')?.hasError('required')">
+          P.O.C Designation is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Referred By*</mat-label>
+        <input matInput formControlName="referredBy" />
+        <mat-error *ngIf="leadForm.get('referredBy')?.hasError('required')">
+          Referred By is required.
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Pin Code*</mat-label>
+        <input matInput formControlName="pinCode" />
+        <mat-error *ngIf="leadForm.get('pinCode')?.hasError('required')">
+          pin Code is required.
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Status*</mat-label>
+        <mat-select formControlName="status">
+          <mat-option value="Progressive">Progressive</mat-option>
+          <mat-option value="Converted">Converted</mat-option>
+          <mat-option value="Rejected">Rejected</mat-option>
+        </mat-select>
+        <mat-error *ngIf="leadForm.get('status')?.hasError('required')">
+          Please select a status.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Insight</mat-label>
+        <textarea matInput formControlName="insight"></textarea>
+      </mat-form-field>
+    </div>
+
+    <button mat-raised-button color="primary" type="submit">Save Lead</button>
+  </form>
+</div>

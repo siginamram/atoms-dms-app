@@ -11,49 +11,61 @@
   </div>
 
   <!-- Sidebar Menu Content -->
-  <div class="sidebar-content">
-    <ul class="sidebar-list">
-      <li><a routerLink="/home/dashboard"><i class="material-icons">dashboard</i> Dashboard</a></li>
-      <li><a routerLink="/home/employees"><i class="material-icons">calendar_today</i> Employee Registration</a></li>
-      <li class="dropdown">
-        <a routerLink="#" (click)="toggleDropdown('task')"><i class="material-icons">check_circle</i> Daily Status</a>
-        <ul class="dropdown-menu">
-          <li><a routerLink="/home/employees">Daily Task List</a></li>
-          <!-- <li><a routerLink="/home/employees">New Task</a></li> -->
-        </ul>
-      </li>
-      <li class="dropdown">
-        <a routerLink="#" (click)="toggleDropdown('employee')"><i class="material-icons">group</i> Employee</a>
-        <ul class="dropdown-menu">
-          <li><a routerLink="/home/employees">Employee List</a></li>
-          <!-- <li><a routerLink="/home/employees">New Employee</a></li> -->
-        </ul>
-      </li>
-      <li><a routerLink="#"><i class="material-icons">exit_to_app</i> Log out</a></li>
-    </ul>
-  </div>
+  <nav class="sidebar">
+    <!-- Logo and Sidebar Content -->
+    <div class="sidebar-logo">
+      <img src="assets/img/AtomsLogoWhite.png" alt="Logo" class="logo">
+    </div>
+    <div class="sidebar-content">
+      <ul class="sidebar-list">
+        <li><a routerLink="/home/dashboard" routerLinkActive="active"><i class="material-icons">dashboard</i> Dashboard</a></li>
+        <li><a routerLink="/home/leadmanagement" routerLinkActive="active"><i class="material-icons">check_circle</i> Lead Management</a></li>
+        <li><a routerLink="/home/meetmanagement" routerLinkActive="active"><i class="material-icons">calendar_today</i> Meet Management</a></li>
+        <!-- <li class="dropdown">
+          <a routerLink="#" (click)="toggleDropdown('task')"><i class="material-icons">check_circle</i> Daily Status</a>
+          <ul class="dropdown-menu">
+            <li><a routerLink="/home/leadmanagement" routerLinkActive="active">Task List</a></li>
+          </ul>
+        </li> -->
+        <!-- <li class="dropdown">
+          <a routerLink="#" (click)="toggleDropdown('employee')"><i class="material-icons">group</i> Employee</a>
+          <ul class="dropdown-menu">
+            <li><a routerLink="/home/leadmanagement" routerLinkActive="active">Employee List</a></li>
+          </ul>
+        </li> -->
+      </ul>
+      <!-- Logout Button -->
+      <div class="logout-btn">
+        <a routerLink="/login">
+          <i class="material-icons">exit_to_app</i> Log Out
+        </a>
+      </div>
+    </div>
+  </nav>
+  
 </nav>
 
-<!-- Mobile Menu (Hidden by default) -->
+<!-- Mobile Menu -->
 <div class="mobile-menu" [class.active]="isMobileMenuActive">
   <button class="close-btn" (click)="toggleMobileMenu()">×</button>
   <ul class="sidebar-list">
-    <li><a routerLink="/home/dashboard"><i class="material-icons">dashboard</i> Dashboard</a></li>
-    <li><a routerLink="/home/employees"><i class="material-icons">calendar_today</i> Employee Registration</a></li>
-    <li class="dropdown" [class.active]="isDropdownActive['task']" (click)="toggleDropdown('task')">
+    <li><a routerLink="/home/dashboard" routerLinkActive="active"><i class="material-icons">dashboard</i> Dashboard</a></li>
+    <li><a routerLink="/home/leadmanagement" routerLinkActive="active"><i class="material-icons">check_circle</i> Lead Management</a></li>
+    <li><a routerLink="/home/meetmanagement" routerLinkActive="active"><i class="material-icons">calendar_today</i> Meet Management</a></li>
+    <!-- <li class="dropdown" [class.active]="isDropdownActive['task']" (click)="toggleDropdown('task')">
       <a ><i class="material-icons">check_circle</i> Daily Status</a>
       <ul class="dropdown-menu">
-        <li><a routerLink="/home/employees">Task List</a></li>
-        <!-- <li><a routerLink="/home/employees">Add New Task</a></li> -->
+        <li><a routerLink="/home/leadmanagement" routerLinkActive="active">Task List</a></li>
       </ul>
     </li>
     <li class="dropdown" [class.active]="isDropdownActive['employee']" (click)="toggleDropdown('employee')">
       <a ><i class="material-icons">group</i> Employee</a>
       <ul class="dropdown-menu">
-        <li><a routerLink="/home/employees">Employee List</a></li>
-        <!-- <li><a routerLink="/home/employees">Add New Employee</a></li> -->
+        <li><a routerLink="/home/leadmanagement" routerLinkActive="active">Employee List</a></li>
       </ul>
-    </li>
-    <li><a routerLink=""><i class="material-icons">exit_to_app</i> Log out</a></li>
+    </li> -->
   </ul>
+  <div class="logout-btn">
+    <a routerLink="/login"><i class="material-icons">group</i>Log Out</a>
+  </div>
 </div>
