@@ -12,58 +12,26 @@ import { MeetmanagementlistComponent } from './components/marketing/meetmanageme
 import { MeetmanagementaddComponent } from './components/marketing/meetmanagementadd/meetmanagementadd.component';
 
 const routes: Routes = [
-  {
-    path: 'login',
-    component: UserloginComponent
-  },
+  { path: 'login', component: UserloginComponent },
   {
     path: 'home',
     component: HomeComponent,
     children: [
-      {
-        path: 'dashboard',
-        component: DashboardComponent
-      },
-      {
-        path: 'leadmanagement',
-        component: LeadmanagementlistComponent
-      },
-      {
-        path: 'leadmanagement/add',
-        component: LeadmanagementaddComponent
-      },
-      {
-        path: 'leadmanagement/edit/:id',
-        component: EditEmployeeComponent
-      },
-      {
-        path: 'meetmanagement',
-        component: MeetmanagementlistComponent
-      },
-      {
-        path: 'meetmanagement/add',
-        component: MeetmanagementaddComponent
-      },
-      {
-        path: 'meetmanagement/edit/:id',
-        component: EditEmployeeComponent
-      },
-      { 
-        path: '', // Default child route for home
-        redirectTo: 'dashboard', 
-        pathMatch: 'full' 
-      }
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'leadmanagement', component: LeadmanagementlistComponent },
+      { path: 'leadmanagement/add', component: LeadmanagementaddComponent },
+      { path: 'leadmanagement/edit/:id', component: EditEmployeeComponent },
+      { path: 'meetmanagement', component: MeetmanagementlistComponent },
+      { path: 'meetmanagement/add', component: MeetmanagementaddComponent },
+      { path: 'meetmanagement/edit/:id', component: EditEmployeeComponent },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },
-  {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full'
-  },
+  { path: '', redirectTo: 'login', pathMatch: 'full' }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
