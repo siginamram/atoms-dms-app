@@ -13,25 +13,39 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
-import { ReactiveFormsModule } from '@angular/forms'; // Import ReactiveFormsModule
+import { ReactiveFormsModule } from '@angular/forms'; 
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MeetmanagementlistComponent } from './components/meet-management-list/meetmanagementlist.component';
 import { MeetmanagementaddComponent } from './components/meet-management-add/meetmanagementadd.component';
+import { SlaGenerationAddComponent } from './components/sla-generation-add/sla-generation-add.component';
+import { SlaGenerationsListComponent } from './components/sla-generations-list/sla-generations-list.component';
+import { QuoteGenerationDocComponent } from './components/quote-generation-doc/quote-generation-doc.component';
+import { FormsModule } from '@angular/forms'; 
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { SalesConvertedListComponent } from './components/sales-converted-list/sales-converted-list.component';
+import { MeetManagementPopupComponent } from './components/meet-management-popup/meet-management-popup.component';
+import { SalesConvertStatuEditComponent } from './components/sales-convert-statu-edit/sales-convert-statu-edit.component';
 
 @NgModule({
   declarations: [
     MarketingComponent,
-    LeadManagementListComponent, // Declare LeadManagementListComponent
-    LeadmanagementaddComponent,  // Declare LeadmanagementaddComponent
+    LeadManagementListComponent, 
+    LeadmanagementaddComponent,  
     MeetmanagementlistComponent,
-    MeetmanagementaddComponent
+    MeetmanagementaddComponent,
+    SlaGenerationAddComponent,
+    SlaGenerationsListComponent,
+    QuoteGenerationDocComponent,
+    SalesConvertedListComponent,
+    MeetManagementPopupComponent,
+    SalesConvertStatuEditComponent,
   ],
   imports: [
     CommonModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MarketingRoutingModule,      // Import MarketingRoutingModule
+    MarketingRoutingModule,      
     MatToolbarModule,
     MatIconModule,
     MatTableModule,
@@ -41,7 +55,10 @@ import { MeetmanagementaddComponent } from './components/meet-management-add/mee
     MatInputModule,
     MatSelectModule,
     MatOptionModule,
-    ReactiveFormsModule,         // Import ReactiveFormsModule
+    ReactiveFormsModule, 
+    MatCheckboxModule, 
+    FormsModule,
+           
   ],
 })
 export class MarketingModule { }

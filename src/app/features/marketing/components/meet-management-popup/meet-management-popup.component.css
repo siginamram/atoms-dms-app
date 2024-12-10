@@ -1,0 +1,63 @@
+/* Main Popup Container */
+.popup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+  }
+  
+  /* Popup Card */
+  .popup-card {
+    width: 90%;
+    max-width: 500px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+  }
+  
+  /* Popup Header */
+  .popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Close Button */
+  .close-button {
+    color: #000;
+  }
+  
+  /* Form Styling */
+  .form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  mat-form-field {
+    width: 100%;
+  }
+  
+  .submit-button {
+    display: block;
+    margin: 20px auto 0;
+    padding: 10px 20px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .popup-card {
+      width: 100%;
+      margin: 0 10px;
+    }
+  }
+  

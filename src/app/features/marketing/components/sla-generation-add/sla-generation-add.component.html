@@ -1,0 +1,138 @@
+<div class="sla-form-container">
+  <!-- Toolbar -->
+  <mat-toolbar color="primary" class="toolbar">
+    <span>SLA Generation</span>
+  </mat-toolbar>
+
+  <!-- Form -->
+  <form [formGroup]="slaForm" (ngSubmit)="onSubmit()" class="sla-form">
+    <!-- SLA Generation Fields -->
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Name of Lead</mat-label>
+        <input matInput formControlName="leadName" />
+        <mat-error *ngIf="slaForm.get('leadName')?.hasError('required')">
+          Name of Lead is required.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Domain of Organization</mat-label>
+        <input matInput formControlName="organizationDomain" />
+        <mat-error *ngIf="slaForm.get('organizationDomain')?.hasError('required')">
+          Domain is required.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>City</mat-label>
+        <input matInput formControlName="city" />
+        <mat-error *ngIf="slaForm.get('city')?.hasError('required')">
+          City is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>District</mat-label>
+        <input matInput formControlName="district" />
+        <mat-error *ngIf="slaForm.get('district')?.hasError('required')">
+          District is required.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>State</mat-label>
+        <input matInput formControlName="state" />
+        <mat-error *ngIf="slaForm.get('state')?.hasError('required')">
+          State is required.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Country</mat-label>
+        <input matInput formControlName="country" />
+        <mat-error *ngIf="slaForm.get('country')?.hasError('required')">
+          Country is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Pin Code</mat-label>
+        <input matInput formControlName="pincode" />
+        <mat-error *ngIf="slaForm.get('pincode')?.hasError('required')">
+          Pin Code is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Package Fields -->
+    <h2>Package</h2>
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>No. of Poster Designs</mat-label>
+        <input matInput formControlName="posterDesigns" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>No. of YouTube Videos</mat-label>
+        <input matInput formControlName="youtubeVideos" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>No. of Reels</mat-label>
+        <input matInput formControlName="reels" />
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Add Budget</mat-label>
+        <input matInput formControlName="addBudget" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Shoot Offer</mat-label>
+        <mat-select formControlName="shootOffer">
+          <mat-option value="Offered">Offered</mat-option>
+          <mat-option value="Not Offered">Not Offered</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Shoot Budget</mat-label>
+        <mat-select formControlName="shootBudget">
+          <mat-option value="Yes">Yes</mat-option>
+          <mat-option value="No">No</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Charge Per Visit</mat-label>
+        <input matInput formControlName="chargePerVisit" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Base Package</mat-label>
+        <input matInput formControlName="basePackage" />
+      </mat-form-field>
+    </div>
+
+    <!-- Platforms -->
+    <h2>Platforms</h2>
+    <div class="form-row platforms">
+      <mat-checkbox formControlName="facebook">Facebook</mat-checkbox>
+      <mat-checkbox formControlName="instagram">Instagram</mat-checkbox>
+      <mat-checkbox formControlName="linkedin">LinkedIn</mat-checkbox>
+      <mat-checkbox formControlName="others">Others</mat-checkbox>
+    </div>
+
+    <!-- Submit Button -->
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+  </form>
+</div>

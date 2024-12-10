@@ -6,7 +6,10 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
+  /* Spacer for Toolbar */
+  .spacer {
+    flex: 1 1 auto;
+  }
 /* Tabs */
 .tabs {
   display: flex;

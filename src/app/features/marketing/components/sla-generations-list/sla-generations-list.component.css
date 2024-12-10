@@ -1,0 +1,142 @@
+.sla-container {
+    max-width: 1000px;
+  margin: 10px auto;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+   /* Toolbar Styles */
+   mat-toolbar {
+    margin-bottom: 16px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+  }
+  
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap; /* Allows tabs to wrap on smaller screens */
+  }
+  
+  .tabs button {
+    font-size: 14px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #f5f5f5;
+    color: #333;
+    transition: all 0.3s ease;
+  }
+  
+  .tabs button:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .tabs button.active {
+    font-weight: bold;
+    background-color: #1d2b7f; /* Highlight for active tab */
+    color: white;
+  }
+  
+  .tabs button mat-icon {
+    margin-right: 8px;
+  }
+  
+  /* Table Container */
+  .table-container {
+    width: 100%;
+    overflow-x: auto; /* Enables horizontal scrolling */
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th {
+    background-color: #3f51b5;
+    color: orange;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  td {
+    padding: 10px;
+    text-align: left;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Spacer for Toolbar */
+  .spacer {
+    flex: 1 1 auto;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .leads-container {
+      padding: 16px;
+    }
+  
+    mat-toolbar {
+      font-size: 18px;
+    }
+  
+    .tabs {
+      flex-direction: column; /* Stack tabs vertically */
+      gap: 12px;
+    }
+  
+    .tabs button {
+      width: 100%; /* Full-width buttons on smaller screens */
+      justify-content: center; /* Center-align text and icon */
+    }
+  
+    th,
+    td {
+      font-size: 12px;
+      padding: 8px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .leads-container {
+      padding: 10px;
+    }
+  
+    mat-toolbar {
+      font-size: 16px;
+    }
+  
+    .tabs {
+      gap: 8px;
+    }
+  
+    .tabs button {
+      font-size: 12px;
+      padding: 6px 12px;
+    }
+  
+    th,
+    td {
+      font-size: 10px;
+      padding: 6px 8px;
+    }
+  }
+  

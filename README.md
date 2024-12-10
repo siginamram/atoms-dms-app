@@ -95,3 +95,29 @@ Scalability: Easily add new features without cluttering the codebase.
 Reusability: Shared components, directives, and pipes are centralized.
 Improved Performance: Lazy loading ensures only the necessary modules are loaded, reducing initial load time.
 Maintainability: Clear separation of concerns makes it easier to debug and modify.
+
+# Create employees module
+ng g module features/employees --module app-routing --route employees
+
+# Create marketing module
+ng g module features/marketing --module app-routing --route marketing
+
+# Create dashboard module
+ng g module features/dashboard --module app-routing --route dashboard
+
+# Create auth module
+ng g module features/auth --module app-routing --route auth
+
+# Inside each feature module, create components and services
+ng g component features/employees/components/employees-list
+ng g component features/employees/components/add-employee
+ng g service features/employees/services/employees
+
+ng g component features/marketing/components/lead-management
+ng g service features/marketing/services/marketing
+
+ng g component features/dashboard/components/dashboard-home
+ng g service features/dashboard/services/dashboard
+
+ng g component features/auth/components/login
+ng g service features/auth/services/auth
