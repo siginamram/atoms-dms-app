@@ -1,0 +1,90 @@
+<div class="leads-container">
+    <!-- Toolbar -->
+    <mat-toolbar color="primary" style="border-radius: 10px;">
+      <span>Leads Management</span>
+      <span class="spacer"></span>
+      <button
+      mat-raised-button color="accent"
+        (click)="Register()"
+      ><i class="material-icons">add</i>
+        Register
+      </button>
+    </mat-toolbar>
+  
+    <!-- Tabs -->
+    <div class="tabs">
+      <button
+        mat-raised-button
+        color="primary"
+        [class.active]="activeTab === 'progressive'"
+        (click)="switchTab('progressive')"
+      >
+        <mat-icon>trending_up</mat-icon> Progressive
+      </button>
+      <button
+        mat-raised-button
+        color="default"
+        [class.active]="activeTab === 'rejected'"
+        (click)="switchTab('rejected')"
+      >
+        <mat-icon>block</mat-icon> Rejected
+      </button>
+      <button
+        mat-raised-button
+        color="default"
+        [class.active]="activeTab === 'converted'"
+        (click)="switchTab('converted')"
+      >
+        <mat-icon>check_circle</mat-icon> Converted
+      </button>
+    </div>
+    
+    
+  
+    <!-- Table -->
+    <div class="table-container">
+      <table mat-table [dataSource]="filteredLeads" class="mat-elevation-z8">
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> S.NO </th>
+          <td mat-cell *matCellDef="let lead"> {{ lead.id }} </td>
+        </ng-container>
+  
+        <!-- Organization Column -->
+        <ng-container matColumnDef="organizationName">
+          <th mat-header-cell *matHeaderCellDef> Organization </th>
+          <td mat-cell *matCellDef="let lead"> {{ lead.organizationName }} </td>
+        </ng-container>
+  
+        <!-- Salesperson Column -->
+        <ng-container matColumnDef="salesperson">
+          <th mat-header-cell *matHeaderCellDef> Salesperson </th>
+          <td mat-cell *matCellDef="let lead"> {{ lead.salespersonName }} </td>
+        </ng-container>
+  
+        <!-- Date Column -->
+        <ng-container matColumnDef="reporedDate">
+          <th mat-header-cell *matHeaderCellDef> Reported Date </th>
+          <td mat-cell *matCellDef="let lead"> {{ lead.reporedDate }} </td>
+        </ng-container>
+  
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef> Status </th>
+          <td mat-cell *matCellDef="let lead"> {{ lead.status }} </td>
+        </ng-container>
+  
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let lead">
+            <button mat-button color="primary" (click)="viewLead(lead.id)">Update</button>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </div>
+  

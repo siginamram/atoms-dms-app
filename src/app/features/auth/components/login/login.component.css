@@ -1,0 +1,126 @@
+/* Full-height section */
+.vh-100 {
+    height: 100vh;
+  }
+  
+  /* Container for the login */
+  .container-fluid.h-custom {
+    height: calc(100% - 73px); /* Adjust for header */
+  }
+  
+  /* Image styling */
+  img.img-fluid {
+    max-width: 100%;
+    height: auto;
+  }
+  img.img-fluid1 {
+    max-width: 100%;
+    height: auto;
+  }
+  /* Hide image on mobile screens */
+  @media (max-width: 768px) {
+    img.img-fluid1 {
+      display: block; /* Hide image on mobile screens */
+    }
+    img.img-fluid {
+      display: none; /* Hide image on mobile screens */
+    }
+    .login-logo {
+      margin-bottom: 20px; /* Space between logo and login form */
+    }
+  }
+  /* Hide image on mobile screens */
+  @media (min-width: 769px) {
+    img.img-fluid1 {
+      display: none; /* Hide image on mobile screens */
+    }
+    img.img-fluid {
+      display: block; /* Hide image on mobile screens */
+    }
+    .login-logo {
+      margin-bottom: 20px; /* Space between logo and login form */
+    }
+  }
+  
+  /* Material card */
+  mat-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+    border-radius: 8px;
+    padding: 20px;
+  }
+  
+  /* Login form styling */
+  mat-form-field.full-width {
+    width: 100%; /* Full width for inputs */
+    margin-bottom: 15px;
+  }
+  
+  /* Style for input labels (User Name, Password) */
+  mat-label {
+    font-weight: bold; /* Make label text bold */
+  }
+  
+  /* User Name and Password input fields styling */
+  mat-form-field input {
+    font-weight: 500; /* Make text in input fields bold */
+  }
+  
+  /* Checkbox styling */
+  mat-checkbox {
+    margin-top: 10px;
+  }
+  
+  /* Google Login button styling */
+  .google-login-button {
+    background-color: #fff;
+    color: #4285f4;
+    border: 2px solid #4285f4;
+    border-radius: 4px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .google-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+  
+  .signup-section p {
+    font-size: 14px;
+  }
+  
+  /* Responsive Design for smaller screens */
+  @media (max-width: 768px) {
+    /* Adjusting container-fluid height for small screens */
+    .container-fluid.h-custom {
+      height: 100%;
+    }
+  
+    /* Adjust input width for smaller screens */
+    mat-form-field.full-width {
+      width: 90%; /* 90% width for small screens */
+      margin: 10px auto;
+    }
+  
+    /* Styling for the Google login button */
+    .google-login-button {
+      width: 90%; /* Google button takes 90% of the screen */
+      margin: 10px auto;
+    }
+  
+    /* Adjust text size for smaller screens */
+    .signup-section p {
+      font-size: 12px; /* Smaller font for mobile view */
+    }
+  
+    /* Adjust the left-right margins for mobile devices */
+    .container-fluid {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+  }
+  

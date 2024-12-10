@@ -4,15 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { EmployeesListComponent } from './components/employees/employees-list/employees-list.component';
-import { HomeComponent } from './components/home/home/home.component';
-import { AddEmployeeComponent } from './components/employees/add-employee/add-employee.component';
-import { EditEmployeeComponent } from './components/employees/edit-employee/edit-employee.component';
-import { HeaderComponent } from './components/header/header.component';
-import { LeftMenuComponent } from './components/left-menu/left-menu.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { UserloginComponent } from './components/userlogin/userlogin.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
+
 
 // Import Angular Material modules
 import { MatButtonModule } from '@angular/material/button';
@@ -35,32 +27,19 @@ import { NgIf, NgFor } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { LeadmanagementaddComponent } from './components/marketing/leadmanagementadd/leadmanagementadd.component';
-import { MeetmanagementlistComponent } from './components/marketing/meetmanagementlist/meetmanagementlist.component';
-import { MeetmanagementaddComponent } from './components/marketing/meetmanagementadd/meetmanagementadd.component';
-import { LeadmanagementlistComponent } from './components/marketing/leadmanagementlist/leadmanagementlist.component';
+import { CoreModule } from './core/core.module';
+import { SharedModule } from './shared/shared.module';
+import { FeaturesModule } from './features/features.module';
+import { AdminLayoutModule } from './layouts/admin-layout/admin-layout.module';
+import { UserLayoutModule } from './layouts/user-layout/user-layout.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    EmployeesListComponent,
-    HomeComponent,
-    AddEmployeeComponent,
-    EditEmployeeComponent,
-    HeaderComponent,
-    LeftMenuComponent,
-    FooterComponent,
-    UserloginComponent,
-    DashboardComponent,
-    LeadmanagementlistComponent,
-    LeadmanagementaddComponent,
-    MeetmanagementlistComponent,
-    MeetmanagementaddComponent
   ],
   imports: [
     BrowserModule,
@@ -88,6 +67,11 @@ import { LeadmanagementlistComponent } from './components/marketing/leadmanageme
     NgIf, NgFor,
     MatDatepickerModule,
     MatNativeDateModule,
+    CoreModule,
+    SharedModule,
+    FeaturesModule,
+    AdminLayoutModule,
+    UserLayoutModule,
   ],
   providers: [
     provideAnimationsAsync(), // Ensure async animations support

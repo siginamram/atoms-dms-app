@@ -1,0 +1,88 @@
+<!-- Header or Topbar for mobile toggle button -->
+<header class="header">
+  <button class="sidebar-toggle" (click)="toggleMobileMenu()">☰</button>
+</header>
+
+<!-- Sidebar (Left Menu) -->
+<nav class="sidebar">
+  <!-- Logo at the top of the left menu -->
+  <div class="sidebar-logo">
+    <img src="assets/img/AtomsLogoWhite.png" alt="Logo" class="logo">
+  </div>
+
+  <!-- Sidebar Menu Content -->
+  <nav class="sidebar">
+    <!-- Logo and Sidebar Content -->
+    <div class="sidebar-logo">
+      <img src="assets/img/AtomsLogoWhite.png" alt="Logo" class="logo">
+    </div>
+    <div class="sidebar-content">
+      <ul class="sidebar-list">
+        <li><a routerLink="/home/dashboard" routerLinkActive="active"><i class="material-icons">dashboard</i> Dashboard</a></li>
+            <li>
+      <a [routerLink]="['/home', 'marketing', 'lead-management']" routerLinkActive="active">
+        <i class="material-icons">check_circle</i> Lead Management
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['/home', 'marketing', 'meet-management']" routerLinkActive="active">
+      <i class="material-icons">check_circle</i> Meet Management
+      </a>
+      </li>
+        
+        <!-- <li class="dropdown">
+          <a routerLink="#" (click)="toggleDropdown('task')"><i class="material-icons">check_circle</i> Daily Status</a>
+          <ul class="dropdown-menu">
+            <li><a routerLink="/home/leadmanagement" routerLinkActive="active">Task List</a></li>
+          </ul>
+        </li> -->
+        <!-- <li class="dropdown">
+          <a routerLink="#" (click)="toggleDropdown('employee')"><i class="material-icons">group</i> Employee</a>
+          <ul class="dropdown-menu">
+            <li><a routerLink="/home/leadmanagement" routerLinkActive="active">Employee List</a></li>
+          </ul>
+        </li> -->
+      </ul>
+      <!-- Logout Button -->
+      <div class="logout-btn">
+        <a routerLink="/login">
+          <i class="material-icons">exit_to_app</i> Log Out
+        </a>
+      </div>
+    </div>
+  </nav>
+  
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" [class.active]="isMobileMenuActive">
+  <button class="close-btn" (click)="toggleMobileMenu()">×</button>
+  <ul class="sidebar-list">
+    <li><a routerLink="/home/dashboard" routerLinkActive="active"><i class="material-icons">dashboard</i> Dashboard</a></li>
+    <li>
+<a [routerLink]="['/home', 'marketing', 'lead-management']" routerLinkActive="active">
+<i class="material-icons">check_circle</i> Lead Management
+</a>
+</li>
+<li>
+  <a [routerLink]="['/home', 'marketing', 'meet-management']" routerLinkActive="active">
+  <i class="material-icons">check_circle</i> Meet Management
+  </a>
+  </li>
+    <!-- <li class="dropdown" [class.active]="isDropdownActive['task']" (click)="toggleDropdown('task')">
+      <a ><i class="material-icons">check_circle</i> Daily Status</a>
+      <ul class="dropdown-menu">
+        <li><a routerLink="/home/leadmanagement" routerLinkActive="active">Task List</a></li>
+      </ul>
+    </li>
+    <li class="dropdown" [class.active]="isDropdownActive['employee']" (click)="toggleDropdown('employee')">
+      <a ><i class="material-icons">group</i> Employee</a>
+      <ul class="dropdown-menu">
+        <li><a routerLink="/home/leadmanagement" routerLinkActive="active">Employee List</a></li>
+      </ul>
+    </li> -->
+  </ul>
+  <div class="logout-btn">
+    <a routerLink="/login"><i class="material-icons">group</i>Log Out</a>
+  </div>
+</div>
