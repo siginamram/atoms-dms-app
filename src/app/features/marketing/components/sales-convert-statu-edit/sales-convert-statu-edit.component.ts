@@ -20,8 +20,23 @@ export class SalesConvertStatuEditComponent implements OnInit {
       ktStatus: ['', Validators.required],
       ktDate: ['', Validators.required],
       paymentStatus: ['', Validators.required],
-      advanceDate: ['']
+      advanceDate: [''],
+      posterDesigns: ['', Validators.required],
+      youtubeVideos: ['', Validators.required],
+      reels: ['', Validators.required],
+      addBudget: ['', Validators.required],
+      shootOffer: ['', Validators.required],
+      shootBudget: ['', Validators.required],
+      chargePerVisit: ['', Validators.required],
+      basePackage: ['', Validators.required],
+      slaUpload: [null, Validators.required]
     });
+  }
+
+  onFileSelect(event: any) {
+    const file = event.target.files[0];
+    console.log('Uploaded File:', file);
+    this.progressForm.patchValue({ slaUpload: file });
   }
 
   onSubmit() {

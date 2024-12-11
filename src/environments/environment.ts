@@ -3,9 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: true,
+  production: false,
  // baseApiUrl: 'https://localhost:7200'  // Storing the base url of swagger, from where the swagger generate value 
-  baseApiUrl: 'https://localhost:44385'
+  baseApiUrl: 'https://localhost:44305'
 };
 
 /*

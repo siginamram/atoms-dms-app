@@ -8,7 +8,7 @@ import { Chart } from 'chart.js';
   styleUrl: './dashboard-home.component.css'
 })
 export class DashboardHomeComponent implements OnInit {
-  username: string = "Krish"; // Replace with your actual username
+  username: any = localStorage.getItem('Username'); // Replace with your actual username
   dataSource: MatTableDataSource<any>;
   displayedColumns: string[] = ['position', 'name', 'weight'];
 

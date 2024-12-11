@@ -11,6 +11,7 @@ import { QuoteGenerationDocComponent } from './components/quote-generation-doc/q
 import { SalesConvertedListComponent } from './components/sales-converted-list/sales-converted-list.component';
 import { MeetManagementPopupComponent } from './components/meet-management-popup/meet-management-popup.component';
 import { SalesConvertStatuEditComponent } from './components/sales-convert-statu-edit/sales-convert-statu-edit.component';
+import { LeadManagementEditComponent } from './components/lead-management-edit/lead-management-edit.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,7 @@ const routes: Routes = [
     children: [
       { path: 'lead-management', component: LeadManagementListComponent }, // Child route
       { path: 'add-lead', component: LeadmanagementaddComponent },
+      { path: 'edit-lead', component: LeadManagementEditComponent },
       { path: 'meet-management', component: MeetmanagementlistComponent },
       { path: 'add-meet', component: MeetmanagementaddComponent },
       { path:'meet-popup',component:MeetManagementPopupComponent},
@@ -26,7 +28,7 @@ const routes: Routes = [
       { path:'generate-sla',component:SlaGenerationAddComponent},
       { path:'generate-quote',component:QuoteGenerationDocComponent},
       { path:'sales-converted',component:SalesConvertedListComponent},
-      { path:'sales-convert-status-edit',component:SalesConvertStatuEditComponent},
+      { path:'sales-convert-status-edit/:id',component:SalesConvertStatuEditComponent},
       
       
     ]

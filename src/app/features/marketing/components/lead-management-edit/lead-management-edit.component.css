@@ -1,0 +1,30 @@
+.lead-form-container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .mat-toolbar {
+    margin-bottom: 20px;
+  }
+  
+  .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  mat-form-field {
+    flex: 1 1 calc(33.333% - 20px);
+    min-width: 200px;
+  }
+  
+  button[type='submit'] {
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+  }
+  

@@ -1,92 +1,140 @@
-<div class="progress-container"*ngIf="progressForm" [formGroup]="progressForm">
-    <mat-toolbar color="primary" style="border-radius: 10px;">
-        <span>Sales Converted</span>
-      </mat-toolbar>
-    <!-- Progress Section -->
-    <div class="section">
-      <h3>Progress</h3>
-      <div class="progress-steps">
-        <div class="step">
-          <div class="circle completed"></div>
-          <span>Sale Converted</span>
-        </div>
-        <div class="step">
-          <div class="circle"></div>
-          <span>Operation Manager Assigned</span>
-        </div>
-        <div class="step">
-          <div class="circle"></div>
-          <span>Operation Team Lead Assigned</span>
-        </div>
+<div class="progress-container" *ngIf="progressForm" [formGroup]="progressForm">
+  <mat-toolbar color="primary" style="border-radius: 10px;">
+    <span>Sales Converted</span>
+  </mat-toolbar>
+
+  <!-- Progress Section -->
+  <div class="section">
+    <h3>Progress</h3>
+    <div class="progress-steps">
+      <div class="step">
+        <div class="circle completed"></div>
+        <span>Sale Converted</span>
       </div>
-      <div class="form-row">
-        <mat-form-field appearance="outline">
-          <mat-label>Operations Manager</mat-label>
-          <mat-select formControlName="operationsManager">
-            <mat-option value="manager1">Manager 1</mat-option>
-            <mat-option value="manager2">Manager 2</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Operations Team Lead</mat-label>
-          <mat-select formControlName="operationsLead">
-            <mat-option value="lead1">Lead 1</mat-option>
-            <mat-option value="lead2">Lead 2</mat-option>
-          </mat-select>
-        </mat-form-field>
+      <div class="step">
+        <div class="circle"></div>
+        <span>Operation Manager Assigned</span>
       </div>
-      <div class="form-row">
-        <mat-form-field appearance="outline">
-          <mat-label>Contact Number (Manager)</mat-label>
-          <input matInput formControlName="contactNumberManager" type="text" />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Contact Number (Lead)</mat-label>
-          <input matInput formControlName="contactNumberLead" type="text" />
-        </mat-form-field>
+      <div class="step">
+        <div class="circle"></div>
+        <span>Operation Team Lead Assigned</span>
       </div>
     </div>
-  
-    <!-- Knowledge Transfer Meet -->
-    <div class="section">
-      <h3>Knowledge Transfer Meet</h3>
-      <div class="form-row">
-        <mat-form-field appearance="outline">
-          <mat-label>K.T Status</mat-label>
-          <mat-select formControlName="ktStatus">
-            <mat-option value="yes">Yes</mat-option>
-            <mat-option value="no">No</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Date of K.T</mat-label>
-          <input matInput [matDatepicker]="picker1" formControlName="ktDate" />
-          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-          <mat-datepicker #picker1></mat-datepicker>
-        </mat-form-field>
-      </div>
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Operations Manager</mat-label>
+        <mat-select formControlName="operationsManager">
+          <mat-option value="manager1">Manager 1</mat-option>
+          <mat-option value="manager2">Manager 2</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Operations Team Lead</mat-label>
+        <mat-select formControlName="operationsLead">
+          <mat-option value="lead1">Lead 1</mat-option>
+          <mat-option value="lead2">Lead 2</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
-  
-    <!-- Payment Status -->
-    <div class="section">
-      <h3>Payment Status</h3>
-      <div class="form-row">
-        <mat-form-field appearance="outline">
-          <mat-label>Payment Status</mat-label>
-          <mat-select formControlName="paymentStatus">
-            <mat-option value="paid">Paid</mat-option>
-            <mat-option value="pending">Pending</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Date for Advance</mat-label>
-          <input matInput [matDatepicker]="picker2" formControlName="advanceDate" />
-          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-          <mat-datepicker #picker2></mat-datepicker>
-        </mat-form-field>
-      </div>
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Contact Number (Manager)</mat-label>
+        <input matInput formControlName="contactNumberManager" type="text" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Contact Number (Lead)</mat-label>
+        <input matInput formControlName="contactNumberLead" type="text" />
+      </mat-form-field>
     </div>
-  
-    <button mat-raised-button color="primary" type="submit" (click)="onSubmit()">Submit</button>
   </div>
-  
+
+  <!-- Package Section -->
+  <div class="section">
+    <h3>Package</h3>
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>No. of Poster Designs</mat-label>
+        <input matInput formControlName="posterDesigns" type="text" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>No. of YouTube Videos</mat-label>
+        <input matInput formControlName="youtubeVideos" type="text" />
+      </mat-form-field>
+    </div>
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>No. of Reels</mat-label>
+        <input matInput formControlName="reels" type="text" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Add Budget</mat-label>
+        <input matInput formControlName="addBudget" type="text" />
+      </mat-form-field>
+    </div>
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Shoot Offer</mat-label>
+        <mat-select formControlName="shootOffer">
+          <mat-option value="yes">Yes</mat-option>
+          <mat-option value="no">No</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Base Package</mat-label>
+        <input matInput formControlName="basePackage" type="text" />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Knowledge Transfer Meet -->
+  <div class="section">
+    <h3>Knowledge Transfer Meet</h3>
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>K.T Status</mat-label>
+        <mat-select formControlName="ktStatus">
+          <mat-option value="yes">Yes</mat-option>
+          <mat-option value="no">No</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Date of K.T</mat-label>
+        <input matInput [matDatepicker]="picker1" formControlName="ktDate" />
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Payment Status -->
+  <div class="section">
+    <h3>Payment Status</h3>
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Payment Status</mat-label>
+        <mat-select formControlName="paymentStatus">
+          <mat-option value="paid">Paid</mat-option>
+          <mat-option value="pending">Pending</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Date for Advance</mat-label>
+        <input matInput [matDatepicker]="picker2" formControlName="advanceDate" />
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Document Section -->
+  <div class="section">
+    <h3>Upload SLA Signed Document</h3>
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <input matInput type="file" (change)="onFileSelect($event)" />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <button mat-raised-button color="primary" type="submit" (click)="onSubmit()">Submit</button>
+</div>

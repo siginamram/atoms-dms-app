@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { EmployeesService } from 'src/app/services/employees.service';
+import { AuthService } from '../../../../features/auth/services/auth.service'
 
 @Component({
   selector: 'app-login',
@@ -11,10 +11,8 @@ import { EmployeesService } from 'src/app/services/employees.service';
 export class LoginComponent {
 
   loginObj: any = {
-    "emailId": "",
-    "password": "",
-    "role": "0",
-    "rememberMe": false
+    "UserName": "",
+    "Password": "",
   };
 
   errorMessage: string = '';
@@ -22,7 +20,7 @@ export class LoginComponent {
   constructor(
     private http: HttpClient, 
     private router: Router,
-    private commanApiService: EmployeesService
+    private commanApiService: AuthService
   ) { }
 
   ngOnInit() {
@@ -32,24 +30,43 @@ export class LoginComponent {
 
   onLogin() {
     //debugger;
-    if (this.loginObj.emailId === 'admin' && this.loginObj.password === 'admin123') {
-      console.log('Login successful');
-      this.router.navigateByUrl('/home/dashboard');
-    } else {
-      //this.errorMessage = 'Invalid credentials';
-    }
+       // Example API call logic:
+    // if (this.loginObj.UserName === 'admin' && this.loginObj.Password === 'admin123') {
+    //   console.log('Login successful');
+    //   this.router.navigateByUrl('/home/dashboard');
+    // } else {
+    //   this.errorMessage = 'Invalid credentials';
+    // }
 
-    // Example API call logic:
-    // this.commanApiService.CheckLogin(this.loginObj).subscribe((res: any) => {
-    //   if (res.data.firstName) {
-    //     localStorage.setItem('Username', res.data.firstName);
-    //     localStorage.setItem('userRoles', JSON.stringify(res.data.role));
-    //     this.router.navigateByUrl('/home');
-    //     alert('login Success');
-    //   } else {
-    //     alert("login Failed");
-    //   }
-    // });
+   // Clear localStorage before login
+   localStorage.clear();
+    // Call the API with the login credentials
+  this.commanApiService.UserLogin(this.loginObj).subscribe(
+    (res: any) => {
+      console.log('API Response:', res);
+
+      // Check if the API returned a valid response
+      if (res) {
+        // Save user data in localStorage (or sessionStorage for better security)
+        localStorage.setItem('UserID', res.userID);
+        localStorage.setItem('Username', res.userName);
+        localStorage.setItem('userRoles', JSON.stringify(res.roleName));
+        localStorage.setItem('RoleId', JSON.stringify(res.roleID));
+
+        // Navigate to the dashboard
+        this.router.navigateByUrl('/home/dashboard');
+      } else {
+        // Invalid credentials
+        console.error('Invalid Login Credentials. Please try again.');
+        //alert('Invalid Login Credentials. Please try again.');
+      }
+    },
+    (error) => {
+      // Handle error
+      console.error('Login Error:', error);
+      //alert('Login Failed. Please try again later.');
+    }
+  );
   }
 }
 

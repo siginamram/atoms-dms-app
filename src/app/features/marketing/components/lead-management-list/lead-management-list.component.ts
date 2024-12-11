@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MarketingService } from '../../services/marketing.service';
 
 @Component({
   selector: 'app-lead-management-list',
   templateUrl: './lead-management-list.component.html',
-  styleUrl: './lead-management-list.component.css'
+  styleUrls: ['./lead-management-list.component.css'],
 })
 export class LeadManagementListComponent implements OnInit {
   // Tabs
@@ -16,52 +17,54 @@ export class LeadManagementListComponent implements OnInit {
     'organizationName',
     'salesperson',
     'reporedDate',
-    'status',
-    'actions',
+    'cityName',
+    'pocName',
+    'pocContact',
+    'insight',
   ];
 
-  // Sample Data
-  leads = [
-    {
-      id: 1,
-      organizationName: 'Tech Solutions',
-      salespersonName: 'John Doe',
-      reporedDate: '10-12-2024',
-      status: 'progressive',
-    },
-    {
-      id: 2,
-      organizationName: 'Green Energy',
-      salespersonName: 'Emma Green',
-      reporedDate: '11-12-2024',
-      status: 'rejected',
-    },
-    {
-      id: 3,
-      organizationName: 'Future FinTech',
-      salespersonName: 'Michael Brown',
-      reporedDate: '12-12-2024',
-      status: 'converted',
-    },
-  ];
+  // Leads Data
+  filteredLeads: any[] = [];
 
-  filteredLeads = [...this.leads]; // Copy for filtering
-
-  constructor(private router: Router) {}
+  constructor(private router: Router, private commanApiService: MarketingService) {}
 
   ngOnInit(): void {
-    this.applyFilter(); // Apply default filter for Progressive
+    this.loadLeads(); // Load leads based on the default tab
   }
-
+  getStatusLabel(status: number): string {
+    switch (status) {
+      case 1:
+        return 'Progressive';
+        case 2:
+        return 'Converted';
+      case 3:
+        return 'Rejected';
+      default:
+        return 'Unknown'; // Fallback for unexpected status values
+    }
+  }
+  
   // Tab Switching
   switchTab(tab: string): void {
     this.activeTab = tab;
-    this.applyFilter();
+    this.loadLeads();
   }
 
-  // Apply Filter based on Tab
-  applyFilter(): void {
-    this.filteredLeads = this.leads.filter((lead) => lead.status === this.activeTab);
+  // Load Leads based on the active tab
+  loadLeads(): void {
+    //debugger;
+    const userId = parseInt(localStorage.getItem('UserID') || '0', 10); // Fetch UserID from localStorage
+    const status = this.activeTab === 'progressive' ? 1 : 3; // Map tab to status
+
+    this.commanApiService.getLeadsByStatusAndRole(userId, status).subscribe(
+      (data: any) => {
+        console.log('Fetched Leads:', data);
+        this.filteredLeads = data; // Bind fetched data to the table
+      },
+      (error) => {
+        console.error('Failed to fetch leads:', error);
+      }
+    );
   }
 
   // Navigate to Add Lead Page
@@ -69,9 +72,11 @@ export class LeadManagementListComponent implements OnInit {
     this.router.navigate(['/home/marketing/add-lead']);
   }
 
-  // View Lead Details
-  viewLead(id: number): void {
-    console.log('View lead:', id);
-    // Navigate to detail page or open modal
-  }
+  // View Lead Details (Navigate to Edit Page)
+viewLead(id: number): void {
+  console.log('Edit Lead:', id);
+  // Navigate to the edit page with the lead ID
+  this.router.navigate(['/home/marketing/sales-convert-status-edit', id]);
+}
+
 }

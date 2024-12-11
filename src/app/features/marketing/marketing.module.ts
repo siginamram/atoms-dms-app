@@ -26,6 +26,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SalesConvertedListComponent } from './components/sales-converted-list/sales-converted-list.component';
 import { MeetManagementPopupComponent } from './components/meet-management-popup/meet-management-popup.component';
 import { SalesConvertStatuEditComponent } from './components/sales-convert-statu-edit/sales-convert-statu-edit.component';
+import { LeadManagementEditComponent } from './components/lead-management-edit/lead-management-edit.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { SalesConvertStatuEditComponent } from './components/sales-convert-statu
     SalesConvertedListComponent,
     MeetManagementPopupComponent,
     SalesConvertStatuEditComponent,
+    LeadManagementEditComponent,
   ],
   imports: [
     CommonModule,
