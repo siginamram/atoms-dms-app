@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { MarketingService } from '../../services/marketing.service';
 
 @Component({
@@ -14,7 +15,7 @@ export class LeadmanagementaddComponent implements OnInit {
   filteredDistricts: { id: number; name: string }[] = [];
   filteredCities: { id: number; name: string }[] = [];
 
-  constructor(private fb: FormBuilder, private commanApiService: MarketingService) {
+  constructor(private fb: FormBuilder,private router: Router, private commanApiService: MarketingService) {
     this.leadForm = this.fb.group({
       organizationName: ['', [Validators.required, Validators.minLength(3)]],
       domain: ['', Validators.required],
@@ -140,6 +141,7 @@ onSubmit() {
       (response) => {
         console.log('Lead saved successfully:', response);
         alert('Lead saved successfully!');
+        this.router.navigate(['/home/marketing/lead-management']);
         this.leadForm.reset(); // Reset form after successful submission
       },
       (error) => {
