@@ -41,4 +41,11 @@ export class MarketingService {
     return this.http.get(apiUrl);
 }
 
+updateLeadStatus(payload: { leadID: number; salesPersonID: number; status: number }): Observable<any> {
+  return this.http.post(this.baseApiUrl + '/api/Sales/updateLeadStatus', payload, {
+    responseType: 'text', // Explicitly handle plain text response
+  });
+}
+
+
 }

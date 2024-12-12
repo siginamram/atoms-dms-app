@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MarketingService } from '../../services/marketing.service';
+import { LeadManagementEditComponent } from '../lead-management-edit/lead-management-edit.component';
 
 @Component({
   selector: 'app-lead-management-list',
@@ -8,75 +10,109 @@ import { MarketingService } from '../../services/marketing.service';
   styleUrls: ['./lead-management-list.component.css'],
 })
 export class LeadManagementListComponent implements OnInit {
-  // Tabs
-  activeTab: string = 'progressive';
+  activeTab: string = 'progressive'; // Default tab is Progressive
+  displayedColumns: string[] = [];
+  filteredLeads: any[] = []; // Fetched leads based on the tab
 
-  // Columns
-  displayedColumns: string[] = [
-    'id',
-    'organizationName',
-    'salesperson',
-    'reporedDate',
-    'cityName',
-    'pocName',
-    'pocContact',
-    'insight',
-  ];
-
-  // Leads Data
-  filteredLeads: any[] = [];
-
-  constructor(private router: Router, private commanApiService: MarketingService) {}
+  constructor(
+    private router: Router,
+    private commanApiService: MarketingService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
-    this.loadLeads(); // Load leads based on the default tab
+    this.switchTab(this.activeTab); // Load default tab data
   }
+
+  // Get label for lead status
   getStatusLabel(status: number): string {
     switch (status) {
       case 1:
         return 'Progressive';
-        case 2:
+      case 2:
         return 'Converted';
       case 3:
         return 'Rejected';
       default:
-        return 'Unknown'; // Fallback for unexpected status values
+        return 'Unknown';
     }
   }
-  
-  // Tab Switching
+
+  // Switch tabs and fetch data accordingly
   switchTab(tab: string): void {
     this.activeTab = tab;
-    this.loadLeads();
+    this.updateDisplayedColumns(); // Update columns based on tab
+    this.loadLeads(); // Fetch data for the selected tab
   }
 
-  // Load Leads based on the active tab
+  // Update displayed columns based on the active tab
+  updateDisplayedColumns(): void {
+    if (this.activeTab === 'progressive') {
+      this.displayedColumns = [
+        'id',
+        'organizationName',
+        'salesperson',
+        'reporedDate',
+        'cityName',
+        'pocName',
+        'pocContact',
+        'insight',
+      ];
+    } else if (this.activeTab === 'rejected') {
+      this.displayedColumns = [
+        'id',
+        'organizationName',
+        'salesperson',
+        'reporedDate',
+        'cityName',
+        'pocName',
+        'pocContact',
+        'insight',
+        'actions',
+      ];
+    }
+  }
+
+  // Load leads based on the active tab
   loadLeads(): void {
-    //debugger;
-    const userId = parseInt(localStorage.getItem('UserID') || '0', 10); // Fetch UserID from localStorage
-    const status = this.activeTab === 'progressive' ? 1 : 3; // Map tab to status
+    const userId = parseInt(localStorage.getItem('UserID') || '0', 10);
+    const status = this.activeTab === 'progressive' ? 1 : 3; // Determine status based on the tab
 
     this.commanApiService.getLeadsByStatusAndRole(userId, status).subscribe(
       (data: any) => {
-        console.log('Fetched Leads:', data);
+        console.log(`Fetched Leads for ${this.activeTab} tab:`, data);
         this.filteredLeads = data; // Bind fetched data to the table
       },
       (error) => {
-        console.error('Failed to fetch leads:', error);
+        console.error(`Failed to fetch ${this.activeTab} leads:`, error);
+        this.filteredLeads = []; // Clear the table if there is an error
       }
     );
   }
 
-  // Navigate to Add Lead Page
+  // Navigate to Add Lead page
   Register(): void {
     this.router.navigate(['/home/marketing/add-lead']);
   }
 
-  // View Lead Details (Navigate to Edit Page)
-viewLead(id: number): void {
-  console.log('Edit Lead:', id);
-  // Navigate to the edit page with the lead ID
-  this.router.navigate(['/home/marketing/sales-convert-status-edit', id]);
-}
+  // Navigate to Edit Lead page
+  viewLead(id: number): void {
+    this.router.navigate(['/home/marketing/sales-convert-status-edit', id]);
+  }
 
+  // Move Rejected lead to Progressive
+  moveToProgressive(lead: any): void {
+    if (confirm('Are you sure you want to move this lead to Progressive?')) {
+      const dialogRef = this.dialog.open(LeadManagementEditComponent, {
+        width: '400px',
+        data: { lead }, // Pass the lead object to the dialog
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result === 'updated') {
+          this.loadLeads(); // Reload leads after successful status update
+        }
+      });
+    }
+  }
 }

@@ -27,6 +27,8 @@ import { SalesConvertedListComponent } from './components/sales-converted-list/s
 import { MeetManagementPopupComponent } from './components/meet-management-popup/meet-management-popup.component';
 import { SalesConvertStatuEditComponent } from './components/sales-convert-statu-edit/sales-convert-statu-edit.component';
 import { LeadManagementEditComponent } from './components/lead-management-edit/lead-management-edit.component';
+import { MatDialogModule } from '@angular/material/dialog';
+
 
 @NgModule({
   declarations: [
@@ -60,6 +62,7 @@ import { LeadManagementEditComponent } from './components/lead-management-edit/l
     ReactiveFormsModule, 
     MatCheckboxModule, 
     FormsModule,
+    MatDialogModule,
            
   ],
 })
