@@ -24,20 +24,6 @@ export class LeadManagementListComponent implements OnInit {
     this.switchTab(this.activeTab); // Load default tab data
   }
 
-  // Get label for lead status
-  getStatusLabel(status: number): string {
-    switch (status) {
-      case 1:
-        return 'Progressive';
-      case 2:
-        return 'Converted';
-      case 3:
-        return 'Rejected';
-      default:
-        return 'Unknown';
-    }
-  }
-
   // Switch tabs and fetch data accordingly
   switchTab(tab: string): void {
     this.activeTab = tab;
@@ -47,30 +33,17 @@ export class LeadManagementListComponent implements OnInit {
 
   // Update displayed columns based on the active tab
   updateDisplayedColumns(): void {
-    if (this.activeTab === 'progressive') {
-      this.displayedColumns = [
-        'id',
-        'organizationName',
-        'salesperson',
-        'reporedDate',
-        'cityName',
-        'pocName',
-        'pocContact',
-        'insight',
-      ];
-    } else if (this.activeTab === 'rejected') {
-      this.displayedColumns = [
-        'id',
-        'organizationName',
-        'salesperson',
-        'reporedDate',
-        'cityName',
-        'pocName',
-        'pocContact',
-        'insight',
-        'actions',
-      ];
-    }
+    this.displayedColumns = [
+      'id',
+      'organizationName',
+      'salesperson',
+      'reporedDate',
+      'cityName',
+      'pocName',
+      'pocContact',
+      'insight',
+      'actions', // Actions available in all tabs
+    ];
   }
 
   // Load leads based on the active tab
@@ -95,24 +68,58 @@ export class LeadManagementListComponent implements OnInit {
     this.router.navigate(['/home/marketing/add-lead']);
   }
 
-  // Navigate to Edit Lead page
-  viewLead(id: number): void {
-    this.router.navigate(['/home/marketing/sales-convert-status-edit', id]);
-  }
-
   // Move Rejected lead to Progressive
   moveToProgressive(lead: any): void {
     if (confirm('Are you sure you want to move this lead to Progressive?')) {
-      const dialogRef = this.dialog.open(LeadManagementEditComponent, {
-        width: '400px',
-        data: { lead }, // Pass the lead object to the dialog
-      });
+      // const dialogRef = this.dialog.open(LeadManagementEditComponent, {
+      //   width: '400px',
+      //   data: { lead }, // Pass the lead object to the dialog
+      // });
 
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result === 'updated') {
-          this.loadLeads(); // Reload leads after successful status update
+      // dialogRef.afterClosed().subscribe((result) => {
+      //   if (result === 'updated') {
+      //     this.loadLeads(); // Reload leads after successful status update
+      //   }
+      // });
+
+      const payload = {
+        leadID: lead.leadID,
+        salesPersonID: parseInt(localStorage.getItem('UserID') || '0', 10),
+        status: 1, // Progressive status
+      };
+
+      this.commanApiService.updateLeadStatus(payload).subscribe(
+        () => {
+          alert('Lead marked as Progressive successfully!');
+          this.loadLeads(); // Reload leads after update
+        },
+        (error) => {
+          console.error('Failed to update lead status:', error);
+          alert('Failed to update the lead. Please try again.');
         }
-      });
+      );
+    }
+  }
+
+  // Mark Progressive lead as Rejected
+  rejectLead(lead: any): void {
+    if (confirm('Are you sure you want to mark this lead as Rejected?')) {
+      const payload = {
+        leadID: lead.leadID,
+        salesPersonID: parseInt(localStorage.getItem('UserID') || '0', 10),
+        status: 3, // Rejected status
+      };
+
+      this.commanApiService.updateLeadStatus(payload).subscribe(
+        () => {
+          alert('Lead marked as Rejected successfully!');
+          this.loadLeads(); // Reload leads after update
+        },
+        (error) => {
+          console.error('Failed to update lead status:', error);
+          alert('Failed to update the lead. Please try again.');
+        }
+      );
     }
   }
 }

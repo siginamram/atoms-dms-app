@@ -22,7 +22,7 @@ const routes: Routes = [
       { path: 'add-lead', component: LeadmanagementaddComponent },
       { path: 'edit-lead', component: LeadManagementEditComponent },
       { path: 'meet-management', component: MeetmanagementlistComponent },
-      { path: 'add-meet', component: MeetmanagementaddComponent },
+      { path: 'add-meet/:id', component: MeetmanagementaddComponent },
       { path:'meet-popup',component:MeetManagementPopupComponent},
       { path:'sla-generation',component:SlaGenerationsListComponent},
       { path:'generate-sla',component:SlaGenerationAddComponent},

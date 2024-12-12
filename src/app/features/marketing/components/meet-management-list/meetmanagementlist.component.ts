@@ -1,46 +1,53 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MarketingService } from '../../services/marketing.service';
 
 @Component({
   selector: 'app-meetmanagementlist',
   templateUrl: './meetmanagementlist.component.html',
-  styleUrl: './meetmanagementlist.component.css'
+  styleUrls: ['./meetmanagementlist.component.css'],
 })
-export class MeetmanagementlistComponent {
-  constructor(private router: Router) {}
+export class MeetmanagementlistComponent implements OnInit {
+  constructor(private router: Router, private commanApiService: MarketingService) {}
 
-  // Active Tab
-  activeTab: 'upcoming' | 'tentative' = 'upcoming';
+  activeTab: 'upcoming' | 'tentative' = 'upcoming'; // Default tab is Upcoming
+  displayedColumns: string[] = ['meetID', 'leadName', 'date', 'time', 'insight', 'actions'];
+  upcomingData: any[] = [];
+  tentativeData: any[] = [];
 
-  // Column Definitions
-  displayedColumns: string[] = ['leadName', 'date', 'time', 'insight', 'actions'];
+  ngOnInit(): void {
+    this.loadUpcomingMeetings();
+  }
 
-  // Sample Data for Upcoming
-  upcomingData = [
-    { leadName: 'Tech Solutions', date: '2024-01-10', time: '10:00 AM', insight: 'Initial Meeting' },
-    { leadName: 'Green Energy', date: '2024-01-12', time: '02:00 PM', insight: 'Follow-up' },
-  ];
-
-  // Sample Data for Tentative
-  tentativeData = [
-    { leadName: 'Future FinTech', date: '2024-01-15', time: '11:30 AM', insight: 'Proposal Discussion' },
-    { leadName: 'Solar Innovations', date: '2024-01-18', time: '03:00 PM', insight: 'Feedback Discussion' },
-  ];
+  // Load upcoming meetings from API
+  loadUpcomingMeetings(): void {
+    const userId = parseInt(localStorage.getItem('UserID') || '0', 10);
+    this.commanApiService.getMeetingsByUser(userId).subscribe(
+      (data: any) => {
+        console.log('Fetched Upcoming Meetings:', data);
+        this.upcomingData = data;
+      },
+      (error) => {
+        console.error('Failed to fetch upcoming meetings:', error);
+        this.upcomingData = [];
+      }
+    );
+  }
 
   // Switch Tabs
   switchTab(tab: 'upcoming' | 'tentative') {
     this.activeTab = tab;
   }
 
-  // Navigate to Add Meet Page
+  // Navigate to Schedule Meet page
   Schedule(): void {
     this.router.navigate(['/home/marketing/meet-popup']);
   }
 
-  // Edit Meet
+  // Navigate to Edit Meet page
   editMeet(row: any): void {
     console.log('Editing meet:', row);
-    this.router.navigate(['/home/marketing/add-meet']);
-    //this.router.navigate(['/home/marketing/edit-meet'], { queryParams: { id: row.leadName } });
+    this.router.navigate(['/home/marketing/add-meet'], { queryParams: { id: row.meetID } });
   }
+  
 }

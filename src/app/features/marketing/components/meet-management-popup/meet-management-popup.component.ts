@@ -1,39 +1,98 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MarketingService } from '../../services/marketing.service';
 
 @Component({
   selector: 'app-meet-management-popup',
   templateUrl: './meet-management-popup.component.html',
   styleUrls: ['./meet-management-popup.component.css'],
 })
-export class MeetManagementPopupComponent {
-
+export class MeetManagementPopupComponent implements OnInit {
   meetForm: FormGroup;
-  isPopupVisible = true; // Controls popup visibility
-  leads = ['Tech Solutions', 'Green Energy', 'Future FinTech', 'Solar Innovations'];
+  isPopupVisible = true;
+  leads: any[] = []; // Dynamically loaded leads
 
-  constructor(private fb: FormBuilder,private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private commanApiService: MarketingService
+  ) {
     this.meetForm = this.fb.group({
-      leadName: ['', Validators.required],
-      scheduleDate: ['', Validators.required],
-      scheduleTime: ['', Validators.required],
+      leadName: ['', Validators.required], // leadID
+      scheduleDate: ['', Validators.required], // scheduledDate
+      scheduleTime: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^((0?[1-9]|1[0-2]):([0-5][0-9])\s?(AM|PM))$/i), // Validate hh:mm AM/PM
+        ],
+      ], // scheduledTime
     });
   }
 
-  // Close Popup
-  closePopup() {
+  ngOnInit(): void {
+    this.loadLeads(); // Fetch leads when the component initializes
+  }
+
+  // Prevent past dates in the datepicker
+  filterDates = (date: Date | null): boolean => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set time to midnight
+    return date ? date >= today : false; // Allow only today and future dates
+  };
+
+  // Load leads dynamically
+  loadLeads(): void {
+    const userId = parseInt(localStorage.getItem('UserID') || '0', 10); // Get UserID from localStorage
+    const status = 1; // Default status to progressive
+
+    this.commanApiService.getLeadsByStatusAndRole(userId, status).subscribe(
+      (data: any) => {
+        this.leads = data; // Populate dropdown with leads
+      },
+      (error) => {
+        console.error('Failed to fetch leads:', error);
+        this.leads = [];
+      }
+    );
+  }
+
+  // Close the popup
+  closePopup(): void {
     this.isPopupVisible = false;
     this.router.navigate(['/home/marketing/meet-management']);
   }
 
   // Submit the form
-  onSubmit() {
+  onSubmit(): void {
     if (this.meetForm.valid) {
-      console.log('Form Submitted:', this.meetForm.value);
-      this.closePopup(); // Close popup after submission
+      const userId = parseInt(localStorage.getItem('UserID') || '0', 10); // Get UserID from localStorage
+      const formData = this.meetForm.value;
+
+      const payload = {
+        leadID: formData.leadName, // leadName corresponds to leadID
+        scheduledDate: formData.scheduleDate, // Date in string format
+        scheduledTime: formData.scheduleTime, // Time in string format
+        salesPersonID: userId, // Logged-in user's ID
+      };
+
+      console.log('Payload for API:', payload); // Debug payload
+
+      this.commanApiService.scheduleMeet(payload).subscribe(
+        (response: any) => {
+          console.log('Meeting Scheduled Successfully:', response);
+          alert('Meeting scheduled successfully!');
+          this.router.navigate(['/home/marketing/meet-management']);
+          this.closePopup(); // Close the popup after submission
+        },
+        (error) => {
+          console.error('Failed to schedule the meeting:', error);
+          alert('Failed to schedule the meeting. Please try again.');
+        }
+      );
     } else {
-      console.error('Form is invalid');
+      console.error('Form is invalid:', this.meetForm.errors);
     }
   }
 }

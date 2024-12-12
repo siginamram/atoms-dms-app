@@ -1,43 +1,65 @@
 <div *ngIf="isPopupVisible" class="popup-container">
-    <mat-card class="popup-card">
-      <!-- Header with Close Button -->
-      <div class="popup-header">
-        <h2>Schedule Meet</h2>
-        <button mat-icon-button (click)="closePopup()" class="close-button">
-          <mat-icon>close</mat-icon>
-        </button>
+  <mat-card class="popup-card">
+    <!-- Header with Close Button -->
+    <div class="popup-header">
+      <h2>Schedule Meet</h2>
+      <button mat-icon-button (click)="closePopup()" class="close-button">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <!-- Form -->
+    <form [formGroup]="meetForm" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <!-- Name of the Lead -->
+        <mat-form-field appearance="outline">
+          <mat-label>Name of the Lead</mat-label>
+          <mat-select formControlName="leadName">
+            <mat-option *ngFor="let lead of leads" [value]="lead.leadID">
+              {{ lead.organizationName }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="meetForm.get('leadName')?.hasError('required')">
+            Please select a lead.
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Schedule the Meet -->
+        <mat-form-field appearance="outline">
+          <mat-label>Schedule the Meet</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            formControlName="scheduleDate"
+            [matDatepickerFilter]="filterDates"
+          />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="meetForm.get('scheduleDate')?.hasError('required')">
+            Please select a valid date.
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Schedule Time -->
+        <mat-form-field appearance="outline">
+          <mat-label>Schedule Time</mat-label>
+          <input
+            matInput
+            formControlName="scheduleTime"
+            placeholder="hh:mm AM/PM"
+          />
+          <mat-error *ngIf="meetForm.get('scheduleTime')?.hasError('required')">
+            Please select a valid time.
+          </mat-error>
+          <mat-error *ngIf="meetForm.get('scheduleTime')?.hasError('pattern')">
+            Invalid time format. Use hh:mm AM/PM.
+          </mat-error>
+        </mat-form-field>
       </div>
-  
-      <!-- Form -->
-      <form [formGroup]="meetForm" (ngSubmit)="onSubmit()">
-        <div class="form-row">
-          <!-- Name of the Lead -->
-          <mat-form-field appearance="outline">
-            <mat-label>Name of the Lead</mat-label>
-            <mat-select formControlName="leadName">
-              <mat-option *ngFor="let lead of leads" [value]="lead">
-                {{ lead }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-  
-          <!-- Schedule the Meet -->
-          <mat-form-field appearance="outline">
-            <mat-label>Schedule the Meet</mat-label>
-            <input matInput [matDatepicker]="picker" formControlName="scheduleDate" />
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-  
-          <!-- Schedule Time -->
-          <mat-form-field appearance="outline">
-            <mat-label>Schedule Time</mat-label>
-            <input matInput formControlName="scheduleTime" type="time" />
-          </mat-form-field>
-        </div>
-  
-        <button mat-raised-button color="primary" type="submit" class="submit-button">Submit</button>
-      </form>
-    </mat-card>
-  </div>
-  
+
+      <button mat-raised-button color="primary" type="submit" class="submit-button">
+        Submit
+      </button>
+    </form>
+  </mat-card>
+</div>

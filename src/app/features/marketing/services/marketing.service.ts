@@ -47,5 +47,23 @@ updateLeadStatus(payload: { leadID: number; salesPersonID: number; status: numbe
   });
 }
 
+scheduleMeet(payload: any): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Sales/scheduleMeet`;
+  return this.http.post(apiUrl, payload);
+}
+
+getMeetingsByUser(userId: number): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Sales/scheduleMeetingsByUser/${userId}`;
+  return this.http.get(apiUrl);
+}
+
+getMeetingDetails(meetID: number): Observable<any> {
+  return this.http.get(`${this.baseApiUrl}/api/MeetManagement/getMeetingDetails/${meetID}`);
+}
+
+updateMeeting(meetingData: any): Observable<any> {
+  return this.http.put(`${this.baseApiUrl}/api/MeetManagement/updateMeeting`, meetingData);
+}
+
 
 }
