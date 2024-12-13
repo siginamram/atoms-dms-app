@@ -1,30 +1,36 @@
 import { Component } from '@angular/core';
-import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-quote-generation-doc',
   templateUrl: './quote-generation-doc.component.html',
-  styleUrl: './quote-generation-doc.component.css'
+  styleUrls: ['./quote-generation-doc.component.css'],
 })
 export class QuoteGenerationDocComponent {
   downloadPdf(): void {
-    const doc = new jsPDF();
+    const filePath = 'assets/quotes/Quotation-file.pdf'; // Path to the PDF file in assets folder
+    const fileName = 'quotation.pdf'; // Desired download name
 
-    // Add content to the PDF
-    doc.setFontSize(18);
-    doc.text('Quotation Document', 10, 10);
-
-    doc.setFontSize(12);
-    doc.text('Thank you for considering our services.', 10, 20);
-    doc.text('Here are the details of your quotation:', 10, 30);
-
-    doc.text('1. Service: Example Service', 10, 40);
-    doc.text('2. Price: $1000', 10, 50);
-    doc.text('3. Terms: Payment due within 30 days', 10, 60);
-
-    doc.text('If you have any questions, please contact us.', 10, 80);
-
-    // Save the PDF
-    doc.save('quotation.pdf');
+    // Fetch the PDF file from the assets folder and trigger the download
+    fetch(filePath)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.blob();
+      })
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      })
+      .catch((error) => {
+        console.error('Error downloading PDF:', error);
+        alert('Failed to download the PDF. Please try again later.');
+      });
   }
 }

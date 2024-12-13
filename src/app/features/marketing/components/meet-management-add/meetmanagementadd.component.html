@@ -114,13 +114,19 @@
     <div class="form-row" *ngIf="meetForm.get('requireAnotherMeet')?.value === 1">
       <mat-form-field appearance="outline">
         <mat-label>Next Meet Date</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="nextMeetDate" />
+        <input
+          matInput
+          [matDatepicker]="picker"
+          [min]="minDate"
+          formControlName="nextMeetDate"
+        />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
         <mat-error *ngIf="meetForm.get('nextMeetDate')?.hasError('required')">
           Next meet date is required.
         </mat-error>
       </mat-form-field>
+      
     
       <mat-form-field appearance="outline">
         <mat-label>Next Meet Time</mat-label>

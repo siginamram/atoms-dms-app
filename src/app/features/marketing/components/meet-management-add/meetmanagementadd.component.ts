@@ -13,13 +13,15 @@ export class MeetmanagementaddComponent implements OnInit {
   uploadedImage: string | ArrayBuffer | null = null;
   meetID: number | null = null;
   leadID: number | null = null;
-
+  minDate: Date; // Variable to store today's date
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private commanApiService: MarketingService,
     private Router:Router,
   ) {
+    this.minDate = new Date(); // Set minDate to today's date
+
     this.meetForm = this.fb.group({
       leadName: ['', Validators.required],
       meetingStatus: ['', Validators.required],
