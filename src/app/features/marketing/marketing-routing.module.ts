@@ -24,6 +24,7 @@ const routes: Routes = [
       { path: 'meet-management', component: MeetmanagementlistComponent },
       { path: 'add-meet/:id', component: MeetmanagementaddComponent },
       { path:'meet-popup',component:MeetManagementPopupComponent},
+      { path:'meet-popup/:id',component:MeetManagementPopupComponent},
       { path:'sla-generation',component:SlaGenerationsListComponent},
       { path:'generate-sla',component:SlaGenerationAddComponent},
       { path:'generate-quote',component:QuoteGenerationDocComponent},

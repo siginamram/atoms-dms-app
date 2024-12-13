@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { MarketingService } from '../../services/marketing.service';
+import { ActivatedRoute,Router } from '@angular/router';
 
 @Component({
   selector: 'app-meet-management-popup',
@@ -12,10 +12,11 @@ export class MeetManagementPopupComponent implements OnInit {
   meetForm: FormGroup;
   isPopupVisible = true;
   leads: any[] = []; // Dynamically loaded leads
-
+  meetID: number | null = null;
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private route: ActivatedRoute,
     private commanApiService: MarketingService
   ) {
     this.meetForm = this.fb.group({
@@ -32,6 +33,10 @@ export class MeetManagementPopupComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+      this.meetID = +params['id'];
+    
+    });
     this.loadLeads(); // Fetch leads when the component initializes
   }
 
@@ -75,6 +80,7 @@ export class MeetManagementPopupComponent implements OnInit {
         scheduledDate: formData.scheduleDate, // Date in string format
         scheduledTime: formData.scheduleTime, // Time in string format
         salesPersonID: userId, // Logged-in user's ID
+        meetID: this.meetID == null ? this.meetID : 0,
       };
 
       console.log('Payload for API:', payload); // Debug payload

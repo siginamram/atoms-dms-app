@@ -57,6 +57,11 @@ getMeetingsByUser(userId: number): Observable<any> {
   return this.http.get(apiUrl);
 }
 
+getTentativeMeetingsByUser(userId: number): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Sales/tentativeMeetingsByUser/${userId}`;
+  return this.http.get(apiUrl);
+}
+
 getMeetingDetails(meetID: number): Observable<any> {
   return this.http.get(`${this.baseApiUrl}/api/Sales/scheduleMeetingsByID/${meetID}`);
 }

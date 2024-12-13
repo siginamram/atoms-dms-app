@@ -65,29 +65,42 @@ export class MeetmanagementaddComponent implements OnInit {
     this.commanApiService.getMeetingDetails(meetID).subscribe(
       (data: any) => {
         console.log('Fetched meeting details:', data);
-        this.leadID=data.leadID;
+  
+        this.leadID = data.leadID;
+  
+        // Patch form values
         this.meetForm.patchValue({
           leadName: data.organizationName,
-          meetingStatus: data.meetingStatus.toString(),
+          meetingStatus: data.meetingStatus?.toString(),
           travellingDuration: data.travellingDuration,
           waitingTime: data.waitingTime,
           meetingTime: data.meetingTime,
-          statusOfLead: data.statusOfLead.toString(),
+          statusOfLead: data.statusOfLead?.toString(),
           longitude: data.longitude,
           latitude: data.latitude,
-          requireAnotherMeet: data.requireAnotherMeet === true || data.requireAnotherMeet === 1 ? 1 : 0, // Normalize to 1/0
-          nextMeetDate: data.nextMeetDate !== '0001-01-01T00:00:00' ? new Date(data.nextMeetDate) : null,
+          requireAnotherMeet: data.requireAnotherMeet === true || data.requireAnotherMeet === 1 ? 1 : 0,
           nextMeetTime: data.nextMeetTime,
           insight: data.insight,
           selfie: data.photoUpload,
         });
+  
+        // Handle nextMeetDate separately
+        if (data.nextMeetDate === '1970-01-01' || !data.nextMeetDate || data.nextMeetDate === '0001-01-01T00:00:00') {
+          this.meetForm.patchValue({ nextMeetDate: null });
+        } else {
+          this.meetForm.patchValue({ nextMeetDate: new Date(data.nextMeetDate) });
+        }
       },
       (error) => {
         console.error('Failed to fetch meeting details:', error);
       }
     );
   }
-
+  
+  // Navigate to the specified URL on Cancel
+  onCancel(): void {
+    this.Router.navigate(['/home/marketing/meet-management']);
+  }
   onFileChange(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {

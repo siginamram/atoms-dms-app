@@ -45,18 +45,15 @@ table {
 }
 
 th {
-  background-color: #2f3b80;
+  background-color: #4a4a4a;
   color: orange;
-  padding: 10px;
-  text-align: left;
-  font-size: 14px;
-  border-radius: 8px;
+  font-weight: bold;
 }
 
-td {
+td, th {
   padding: 10px;
   text-align: left;
-  font-size: 14px;
+  border-bottom: 1px solid #ddd;
 }
 
 tr:nth-child(even) {
@@ -65,4 +62,88 @@ tr:nth-child(even) {
 
 tr:hover {
   background-color: #f1f1f1;
+}
+
+/* Wrapper for responsive table */
+.table-responsive {
+  overflow-x: auto; /* Enable horizontal scroll for small screens */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on touch devices */
+  border: 1px solid #ddd; /* Optional border */
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+/* Table styles */
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.custom-header {
+  background: #f5f5f5; /* Light grey background */
+  color: #ff9800; /* Orange text */
+  font-weight: bold;
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.custom-cell {
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #333;
+  text-overflow: ellipsis; /* Handle overflow */
+  overflow: hidden;
+  white-space: nowrap; /* Prevent wrapping */
+}
+
+.custom-cell:nth-child(odd) {
+  background: #fafafa; /* Light grey for odd rows */
+}
+
+.custom-cell:nth-child(even) {
+  background: #fff; /* White for even rows */
+}
+
+/* Action button styles */
+.action-button {
+  color: #1976d2; /* Primary blue */
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 12px;
+  padding: 4px 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .custom-header,
+  .custom-cell {
+    font-size: 12px; /* Smaller font size */
+    padding: 6px 10px; /* Reduced padding */
+  }
+
+  .action-button {
+    font-size: 10px; /* Smaller button size */
+    padding: 2px 6px;
+  }
+
+  .custom-table {
+    border-collapse: separate; /* Enable separation for better view */
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .custom-header,
+  .custom-cell {
+    font-size: 10px; /* Even smaller font size */
+    padding: 4px 8px;
+  }
+
+  .action-button {
+    font-size: 8px;
+    padding: 2px 4px;
+  }
 }

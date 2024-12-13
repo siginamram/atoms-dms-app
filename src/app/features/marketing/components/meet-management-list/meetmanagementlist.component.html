@@ -30,6 +30,7 @@
 
   <!-- Table -->
   <div class="table-container">
+    <!-- Upcoming Tab Table -->
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="activeTab === 'upcoming'">
       <!-- Meet ID Column -->
       <ng-container matColumnDef="meetID">
@@ -74,11 +75,42 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
+    <!-- Tentative Tab Table -->
+    <div class="table-responsive">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 custom-table" *ngIf="activeTab === 'tentative'" style="width: 100%;">
+        <!-- Meet ID Column -->
+        <ng-container matColumnDef="meetID">
+          <th mat-header-cell *matHeaderCellDef class="custom-header" style="width: 10%;"> Meet ID </th>
+          <td mat-cell *matCellDef="let meet" class="custom-cell" style="width: 10%;"> {{ meet.meetID }} </td>
+        </ng-container>
+    
+        <!-- Organization Name Column -->
+        <ng-container matColumnDef="leadName">
+          <th mat-header-cell *matHeaderCellDef class="custom-header" style="width: 20%;"> Organization Name </th>
+          <td mat-cell *matCellDef="let meet" class="custom-cell" style="width: 20%;"> {{ meet.organizationName }} </td>
+        </ng-container>
+    
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="custom-header" style="width: 15%;"> Actions </th>
+          <td mat-cell *matCellDef="let meet" class="custom-cell" style="width: 15%;">
+            <button mat-button color="primary" (click)="editMeetten(meet)" class="action-button">Edit</button>
+          </td>
+        </ng-container>
+    
+        <!-- Header and Rows -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+    
+    
+
     <!-- Paginator -->
     <mat-paginator
       [pageSize]="5"
       [pageSizeOptions]="[5, 10, 20]"
-      aria-label="Select page">
-    </mat-paginator>
+      aria-label="Select page"
+    ></mat-paginator>
   </div>
 </div>

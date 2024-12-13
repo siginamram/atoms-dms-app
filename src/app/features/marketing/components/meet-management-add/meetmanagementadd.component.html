@@ -1,5 +1,5 @@
 <div class="meet-form-container">
-  <mat-toolbar color="primary" style="border-radius: 10px; margin-bottom: 10px;">
+  <mat-toolbar color="primary" style="border-radius: 10px; margin-bottom: 15px;">
     <span>Edit Meet</span>
   </mat-toolbar>
   <form [formGroup]="meetForm" (ngSubmit)="onSubmit()">
@@ -17,47 +17,13 @@
         <mat-label>Status of the Meet</mat-label>
         <mat-select formControlName="meetingStatus">
           <mat-option value=2>Rescheduled</mat-option>
-          <mat-option value=3>Tentative</mat-option>
-          <mat-option value=4>Completed</mat-option>
+          <!-- <mat-option value=3>Tentative</mat-option> -->
+          <mat-option value=3>Completed</mat-option>
         </mat-select>
         <mat-error *ngIf="meetForm.get('meetingStatus')?.hasError('required')">
           Meet status is required.
         </mat-error>
       </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Travelling Duration</mat-label>
-        <input matInput type="text" formControlName="travellingDuration" />
-        <mat-error *ngIf="meetForm.get('travellingDuration')?.hasError('required')">
-          Travelling duration is required.
-        </mat-error>
-        <mat-error *ngIf="meetForm.get('travellingDuration')?.hasError('pattern')">
-          Travelling duration must be a number.
-        </mat-error>
-      </mat-form-field>
-    </div>
-
-    <!-- Row 2 -->
-    <div class="form-row">
-      <mat-form-field appearance="outline">
-        <mat-label>Waiting Time</mat-label>
-        <input matInput type="text" formControlName="waitingTime" />
-        <mat-error *ngIf="meetForm.get('waitingTime')?.hasError('required')">
-          Waiting time is required.
-        </mat-error>
-        <mat-error *ngIf="meetForm.get('waitingTime')?.hasError('pattern')">
-          Waiting time must be a number.
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Meet Time</mat-label>
-        <input matInput type="time" formControlName="meetingTime" />
-        <mat-error *ngIf="meetForm.get('meetingTime')?.hasError('required')">
-          Meet time is required.
-        </mat-error>
-      </mat-form-field>
-
       <mat-form-field appearance="outline">
         <mat-label>Status of the Lead</mat-label>
         <mat-select formControlName="statusOfLead">
@@ -72,30 +38,7 @@
       </mat-form-field>
     </div>
 
-    <!-- Row 3 -->
-    <div class="form-row">
-      <mat-form-field appearance="outline">
-        <mat-label>Longitude</mat-label>
-        <input matInput type="text" formControlName="longitude" />
-        <mat-error *ngIf="meetForm.get('longitude')?.hasError('required')">
-          Longitude is required.
-        </mat-error>
-      </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Latitude</mat-label>
-        <input matInput type="text" formControlName="latitude" />
-        <mat-error *ngIf="meetForm.get('latitude')?.hasError('required')">
-          Latitude is required.
-        </mat-error>
-      </mat-form-field>
-
-      <div class="selfie-upload">
-        <label for="selfieInput">Selfie</label>
-        <input type="file" id="selfieInput" (change)="onFileChange($event)" />
-        <img *ngIf="uploadedImage" [src]="uploadedImage" alt="Selfie Preview" class="selfie-preview" />
-      </div>
-    </div>
 
     <!-- Row 4 -->
     <div class="form-row">
@@ -119,6 +62,7 @@
           [matDatepicker]="picker"
           [min]="minDate"
           formControlName="nextMeetDate"
+          placeholder="Select a date"
         />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
@@ -126,6 +70,7 @@
           Next meet date is required.
         </mat-error>
       </mat-form-field>
+      
       
     
       <mat-form-field appearance="outline">
@@ -137,21 +82,106 @@
       </mat-form-field>
     </div>
     
-
-    <!-- Row 5 -->
+    <!-- Row 2 -->
     <div class="form-row">
-      <mat-form-field appearance="outline" class="full-width">
+      <mat-form-field appearance="outline">
+        <mat-label>Travelling Duration</mat-label>
+        <input matInput type="text" formControlName="travellingDuration" />
+        <mat-error *ngIf="meetForm.get('travellingDuration')?.hasError('required')">
+          Travelling duration is required.
+        </mat-error>
+        <mat-error *ngIf="meetForm.get('travellingDuration')?.hasError('pattern')">
+          Travelling duration must be a number.
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Waiting Time</mat-label>
+        <input matInput type="text" formControlName="waitingTime" />
+        <mat-error *ngIf="meetForm.get('waitingTime')?.hasError('required')">
+          Waiting time is required.
+        </mat-error>
+        <mat-error *ngIf="meetForm.get('waitingTime')?.hasError('pattern')">
+          Waiting time must be a number.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Meet Time</mat-label>
+        <input matInput type="time" formControlName="meetingTime" />
+        <mat-error *ngIf="meetForm.get('meetingTime')?.hasError('required')">
+          Meet time is required.
+        </mat-error>
+      </mat-form-field>
+
+   
+    </div>
+
+    <!-- Row 3 -->
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Longitude</mat-label>
+        <input matInput type="text" formControlName="longitude" />
+        <mat-error *ngIf="meetForm.get('longitude')?.hasError('required')">
+          Longitude is required.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Latitude</mat-label>
+        <input matInput type="text" formControlName="latitude" />
+        <mat-error *ngIf="meetForm.get('latitude')?.hasError('required')">
+          Latitude is required.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" >
         <mat-label>Insight</mat-label>
         <textarea matInput formControlName="insight"></textarea>
         <mat-error *ngIf="meetForm.get('insight')?.hasError('maxlength')">
           Insight cannot exceed 500 characters.
         </mat-error>
       </mat-form-field>
+     
+    </div>
+    <!-- Row 5 -->
+    <div class="form-row">
+      <div class="form-row file-upload-section">
+        <div class="file-input-container">
+          <label for="selfieInput" class="upload-label">
+            <mat-icon>file_upload</mat-icon> Upload Selfie
+          </label>
+          <input
+            type="file"
+            id="selfieInput"
+            (change)="onFileChange($event)"
+            class="hidden-input"
+          />
+        </div>
+      
+        <div class="preview-container">
+          <img
+            *ngIf="uploadedImage"
+            [src]="uploadedImage"
+            alt="Selfie Preview"
+            class="preview-image"
+          />
+          <p *ngIf="!uploadedImage" class="no-preview">No file selected</p>
+        </div>
+      </div>
+      
     </div>
 
-    <!-- Submit Button -->
-    <div class="submit-container">
-      <button mat-raised-button color="primary" type="submit">Update</button>
-    </div>
+ <!-- Submit Button -->
+<div class="submit-container">
+  <button mat-raised-button color="primary" type="submit">Update</button>
+  <button 
+    mat-raised-button 
+    color="accent" 
+    type="button" 
+    (click)="onCancel()">
+    Cancel
+  </button>
+</div>
+
   </form>
 </div>
