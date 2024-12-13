@@ -26,9 +26,9 @@ export class MeetmanagementaddComponent implements OnInit {
       waitingTime: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
       meetingTime: ['', Validators.required],
       statusOfLead: ['', Validators.required],
-      longitudes: ['', Validators.required],
-      latitudes: ['', Validators.required],
-      nextMeetRequired: ['', Validators.required],
+      longitude: ['', Validators.required],
+      latitude: ['', Validators.required],
+      requireAnotherMeet: ['', Validators.required],
       nextMeetDate: [''],
       nextMeetTime: [''],
       insight: ['', Validators.maxLength(500)],
@@ -70,9 +70,9 @@ export class MeetmanagementaddComponent implements OnInit {
           waitingTime: data.waitingTime,
           meetingTime: data.meetingTime,
           statusOfLead: data.statusOfLead.toString(),
-          longitudes: data.longitude,
-          latitudes: data.latitude,
-          nextMeetRequired: data.requireAnotherMeet ? 'Yes' : 'No',
+          longitude: data.longitude,
+          latitude: data.latitude,
+          requireAnotherMeet: data.requireAnotherMeet === true || data.requireAnotherMeet === 1 ? 1 : 0, // Normalize to 1/0
           nextMeetDate: data.nextMeetDate !== '0001-01-01T00:00:00' ? new Date(data.nextMeetDate) : null,
           nextMeetTime: data.nextMeetTime,
           insight: data.insight,
@@ -107,6 +107,7 @@ export class MeetmanagementaddComponent implements OnInit {
         salesPersonId: userId, // Add salesPersonId to the payload
         meetingStatus: parseInt(this.meetForm.value.meetingStatus, 10), // Ensure meetingStatus is an integer
         statusOfLead: parseInt(this.meetForm.value.statusOfLead, 10), // Ensure statusOfLead is an integer
+        requireAnotherMeet: this.meetForm.value.requireAnotherMeet === 1 ? true : false,
       };
   
       this.commanApiService.updateMeeting(payload).subscribe(

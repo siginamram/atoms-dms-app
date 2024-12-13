@@ -75,17 +75,17 @@
     <!-- Row 3 -->
     <div class="form-row">
       <mat-form-field appearance="outline">
-        <mat-label>Longitudes</mat-label>
-        <input matInput type="text" formControlName="longitudes" />
-        <mat-error *ngIf="meetForm.get('longitudes')?.hasError('required')">
+        <mat-label>Longitude</mat-label>
+        <input matInput type="text" formControlName="longitude" />
+        <mat-error *ngIf="meetForm.get('longitude')?.hasError('required')">
           Longitude is required.
         </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Latitudes</mat-label>
-        <input matInput type="text" formControlName="latitudes" />
-        <mat-error *ngIf="meetForm.get('latitudes')?.hasError('required')">
+        <mat-label>Latitude</mat-label>
+        <input matInput type="text" formControlName="latitude" />
+        <mat-error *ngIf="meetForm.get('latitude')?.hasError('required')">
           Latitude is required.
         </mat-error>
       </mat-form-field>
@@ -101,16 +101,18 @@
     <div class="form-row">
       <mat-form-field appearance="outline">
         <mat-label>Requirement of Next Meet</mat-label>
-        <mat-select formControlName="nextMeetRequired">
-          <mat-option value="Yes">Yes</mat-option>
-          <mat-option value="No">No</mat-option>
+        <mat-select formControlName="requireAnotherMeet">
+          <mat-option [value]="1">Yes</mat-option>
+          <mat-option [value]="0">No</mat-option>
         </mat-select>
-        <mat-error *ngIf="meetForm.get('nextMeetRequired')?.hasError('required')">
+        <mat-error *ngIf="meetForm.get('requireAnotherMeet')?.hasError('required')">
           Please specify if the next meet is required.
         </mat-error>
       </mat-form-field>
-
-      <mat-form-field appearance="outline" *ngIf="meetForm.get('nextMeetRequired')?.value === 'Yes'">
+    </div>
+    
+    <div class="form-row" *ngIf="meetForm.get('requireAnotherMeet')?.value === 1">
+      <mat-form-field appearance="outline">
         <mat-label>Next Meet Date</mat-label>
         <input matInput [matDatepicker]="picker" formControlName="nextMeetDate" />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -119,8 +121,8 @@
           Next meet date is required.
         </mat-error>
       </mat-form-field>
-
-      <mat-form-field appearance="outline" *ngIf="meetForm.get('nextMeetRequired')?.value === 'Yes'">
+    
+      <mat-form-field appearance="outline">
         <mat-label>Next Meet Time</mat-label>
         <input matInput type="time" formControlName="nextMeetTime" />
         <mat-error *ngIf="meetForm.get('nextMeetTime')?.hasError('required')">
@@ -128,6 +130,7 @@
         </mat-error>
       </mat-form-field>
     </div>
+    
 
     <!-- Row 5 -->
     <div class="form-row">
