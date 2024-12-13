@@ -29,6 +29,7 @@ import { SalesConvertStatuEditComponent } from './components/sales-convert-statu
 import { LeadManagementEditComponent } from './components/lead-management-edit/lead-management-edit.component';
 import { MatDialogModule } from '@angular/material/dialog';
 
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatCheckboxModule, 
     FormsModule,
     MatDialogModule,
+    MatPaginatorModule,
            
   ],
 })

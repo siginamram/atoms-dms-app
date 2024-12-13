@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild  } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MarketingService } from '../../services/marketing.service';
-import { LeadManagementEditComponent } from '../lead-management-edit/lead-management-edit.component';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-lead-management-list',
@@ -13,7 +14,8 @@ export class LeadManagementListComponent implements OnInit {
   activeTab: string = 'progressive'; // Default tab is Progressive
   displayedColumns: string[] = [];
   filteredLeads: any[] = []; // Fetched leads based on the tab
-
+   dataSource = new MatTableDataSource<any>(); // Data source for Material Table
+  @ViewChild(MatPaginator) paginator!: MatPaginator; // Reference to MatPaginator
   constructor(
     private router: Router,
     private commanApiService: MarketingService,
@@ -23,7 +25,9 @@ export class LeadManagementListComponent implements OnInit {
   ngOnInit(): void {
     this.switchTab(this.activeTab); // Load default tab data
   }
-
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator; // Assign paginator after view initialization
+  }
   // Switch tabs and fetch data accordingly
   switchTab(tab: string): void {
     this.activeTab = tab;
