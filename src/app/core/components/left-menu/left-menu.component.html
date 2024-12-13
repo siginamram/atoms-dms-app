@@ -24,27 +24,27 @@
           </a>
         </li>
         <li>
-          <a [routerLink]="['/home', 'marketing', 'lead-management']" routerLinkActive="active">
+          <a [routerLink]="['/home', 'marketing', 'lead-management']" *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])" routerLinkActive="active">
             <i class="material-icons">supervised_user_circle</i> Lead Management
           </a>
         </li>
         <li>
-          <a [routerLink]="['/home', 'marketing', 'meet-management']" routerLinkActive="active">
+          <a [routerLink]="['/home', 'marketing', 'meet-management']" *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])" routerLinkActive="active">
             <i class="material-icons">event</i> Meet Management
           </a>
         </li>
         <li>
-          <a [routerLink]="['/home', 'marketing', 'generate-quote']" routerLinkActive="active">
+          <a [routerLink]="['/home', 'marketing', 'generate-quote']" *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])" routerLinkActive="active">
             <i class="material-icons">description</i> Quote Generation
           </a>
         </li>
         <li>
-          <a [routerLink]="['/home', 'marketing', 'sla-generation']" routerLinkActive="active">
+          <a [routerLink]="['/home', 'marketing', 'sla-generation']" *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])" routerLinkActive="active">
             <i class="material-icons">receipt</i> SLA Generation
           </a>
         </li>
         <li>
-          <a [routerLink]="['/home', 'marketing', 'sales-converted']" routerLinkActive="active">
+          <a [routerLink]="['/home', 'marketing', 'sales-converted']" *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])" routerLinkActive="active">
             <i class="material-icons">monetization_on</i> Sales Converted
           </a>
         </li>
@@ -71,27 +71,27 @@
       </a>
     </li>
     <li>
-      <a [routerLink]="['/home', 'marketing', 'lead-management']" routerLinkActive="active">
+      <a [routerLink]="['/home', 'marketing', 'lead-management']" *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])" routerLinkActive="active">
         <i class="material-icons">supervised_user_circle</i> Lead Management
       </a>
     </li>
     <li>
-      <a [routerLink]="['/home', 'marketing', 'meet-management']" routerLinkActive="active">
+      <a [routerLink]="['/home', 'marketing', 'meet-management']" *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])" routerLinkActive="active">
         <i class="material-icons">event</i> Meet Management
       </a>
     </li>
     <li>
-      <a [routerLink]="['/home', 'marketing', 'generate-quote']" routerLinkActive="active">
+      <a [routerLink]="['/home', 'marketing', 'generate-quote']" *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])" routerLinkActive="active">
         <i class="material-icons">description</i> Quote Generation
       </a>
     </li>
     <li>
-      <a [routerLink]="['/home', 'marketing', 'sla-generation']" routerLinkActive="active">
+      <a [routerLink]="['/home', 'marketing', 'sla-generation']" *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])" routerLinkActive="active">
         <i class="material-icons">receipt</i> SLA Generation
       </a>
     </li>
     <li>
-      <a [routerLink]="['/home', 'marketing', 'sales-converted']" routerLinkActive="active">
+      <a [routerLink]="['/home', 'marketing', 'sales-converted']" *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])" routerLinkActive="active">
         <i class="material-icons">monetization_on</i> Sales Converted
       </a>
     </li>

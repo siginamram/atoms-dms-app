@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute,Router } from '@angular/router';
 import { MarketingService } from '../../services/marketing.service';
 
 @Component({
@@ -17,7 +17,8 @@ export class MeetmanagementaddComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private commanApiService: MarketingService
+    private commanApiService: MarketingService,
+    private Router:Router,
   ) {
     this.meetForm = this.fb.group({
       leadName: ['', Validators.required],
@@ -113,6 +114,7 @@ export class MeetmanagementaddComponent implements OnInit {
       this.commanApiService.updateMeeting(payload).subscribe(
         (response) => {
           alert('Meet details updated successfully!');
+          this.Router.navigate(['/home/marketing/meet-management']);
         },
         (error) => {
           alert('Failed to update meet details. Please try again.');
