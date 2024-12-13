@@ -58,11 +58,11 @@ getMeetingsByUser(userId: number): Observable<any> {
 }
 
 getMeetingDetails(meetID: number): Observable<any> {
-  return this.http.get(`${this.baseApiUrl}/api/MeetManagement/getMeetingDetails/${meetID}`);
+  return this.http.get(`${this.baseApiUrl}/api/Sales/scheduleMeetingsByID/${meetID}`);
 }
 
 updateMeeting(meetingData: any): Observable<any> {
-  return this.http.put(`${this.baseApiUrl}/api/MeetManagement/updateMeeting`, meetingData);
+  return this.http.post(`${this.baseApiUrl}/api/Sales/updateMeetingStatus`, meetingData);
 }
 
 

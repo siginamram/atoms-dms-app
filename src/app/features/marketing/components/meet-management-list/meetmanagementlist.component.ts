@@ -46,8 +46,10 @@ export class MeetmanagementlistComponent implements OnInit {
 
   // Navigate to Edit Meet page
   editMeet(row: any): void {
-    console.log('Editing meet:', row);
-    this.router.navigate(['/home/marketing/add-meet'], { queryParams: { id: row.meetID } });
+    console.log('Editing meet with ID:', row.meetID);
+    this.router.navigate(['/home/marketing/add-meet', row.meetID]); // Pass the ID as a route parameter
   }
+  
+  
   
 }

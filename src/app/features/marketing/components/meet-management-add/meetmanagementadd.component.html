@@ -1,127 +1,148 @@
 <div class="meet-form-container">
-    <mat-toolbar color="primary" style="border-radius: 10px; margin-bottom: 10px;">
-      <span>Schedule Meet</span>
-    </mat-toolbar>
-    <form [formGroup]="meetForm" (ngSubmit)="onSubmit()">
-      <div class="form-row">
-        <mat-form-field appearance="outline">
-          <mat-label>Name of the Lead</mat-label>
-          <mat-select formControlName="leadName">
-            <mat-option value="Lead1">Lead 1</mat-option>
-            <mat-option value="Lead2">Lead 2</mat-option>
-          </mat-select>
-          <mat-error *ngIf="meetForm.get('leadName')?.hasError('required')">Lead name is required.</mat-error>
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline">
-          <mat-label>Status of the Meet</mat-label>
-          <mat-select formControlName="meetStatus">
-            <mat-option value="Completed">Completed</mat-option>
-            <mat-option value="Pending">Pending</mat-option>
-          </mat-select>
-          <mat-error *ngIf="meetForm.get('meetStatus')?.hasError('required')">Meet status is required.</mat-error>
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline">
-          <mat-label>Travelling Duration</mat-label>
-          <input matInput type="text" formControlName="travellingDuration" />
-          <mat-error *ngIf="meetForm.get('travellingDuration')?.hasError('required')">
-            Travelling duration is required.
-          </mat-error>
-          <mat-error *ngIf="meetForm.get('travellingDuration')?.hasError('pattern')">
-            Travelling duration must be a number.
-          </mat-error>
-        </mat-form-field>
+  <mat-toolbar color="primary" style="border-radius: 10px; margin-bottom: 10px;">
+    <span>Edit Meet</span>
+  </mat-toolbar>
+  <form [formGroup]="meetForm" (ngSubmit)="onSubmit()">
+    <!-- Row 1 -->
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Name of the Lead</mat-label>
+        <input matInput formControlName="leadName" readonly />
+        <mat-error *ngIf="meetForm.get('leadName')?.hasError('required')">
+          Lead name is required.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Status of the Meet</mat-label>
+        <mat-select formControlName="meetingStatus">
+          <mat-option value=2>Rescheduled</mat-option>
+          <mat-option value=3>Tentative</mat-option>
+          <mat-option value=4>Completed</mat-option>
+        </mat-select>
+        <mat-error *ngIf="meetForm.get('meetingStatus')?.hasError('required')">
+          Meet status is required.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Travelling Duration</mat-label>
+        <input matInput type="text" formControlName="travellingDuration" />
+        <mat-error *ngIf="meetForm.get('travellingDuration')?.hasError('required')">
+          Travelling duration is required.
+        </mat-error>
+        <mat-error *ngIf="meetForm.get('travellingDuration')?.hasError('pattern')">
+          Travelling duration must be a number.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Waiting Time</mat-label>
+        <input matInput type="text" formControlName="waitingTime" />
+        <mat-error *ngIf="meetForm.get('waitingTime')?.hasError('required')">
+          Waiting time is required.
+        </mat-error>
+        <mat-error *ngIf="meetForm.get('waitingTime')?.hasError('pattern')">
+          Waiting time must be a number.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Meet Time</mat-label>
+        <input matInput type="time" formControlName="meetingTime" />
+        <mat-error *ngIf="meetForm.get('meetingTime')?.hasError('required')">
+          Meet time is required.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Status of the Lead</mat-label>
+        <mat-select formControlName="statusOfLead">
+          <mat-option value=4>Positive</mat-option>
+          <mat-option value=5>Neutral</mat-option>
+          <mat-option value=2>Converted</mat-option>
+          <mat-option value=3>Rejected</mat-option>
+        </mat-select>
+        <mat-error *ngIf="meetForm.get('statusOfLead')?.hasError('required')">
+          Lead status is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Row 3 -->
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Longitudes</mat-label>
+        <input matInput type="text" formControlName="longitudes" />
+        <mat-error *ngIf="meetForm.get('longitudes')?.hasError('required')">
+          Longitude is required.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Latitudes</mat-label>
+        <input matInput type="text" formControlName="latitudes" />
+        <mat-error *ngIf="meetForm.get('latitudes')?.hasError('required')">
+          Latitude is required.
+        </mat-error>
+      </mat-form-field>
+
+      <div class="selfie-upload">
+        <label for="selfieInput">Selfie</label>
+        <input type="file" id="selfieInput" (change)="onFileChange($event)" />
+        <img *ngIf="uploadedImage" [src]="uploadedImage" alt="Selfie Preview" class="selfie-preview" />
       </div>
-  
-      <div class="form-row">
-        <mat-form-field appearance="outline">
-          <mat-label>Waiting Time</mat-label>
-          <input matInput type="text" formControlName="waitingTime" />
-          <mat-error *ngIf="meetForm.get('waitingTime')?.hasError('required')">Waiting time is required.</mat-error>
-          <mat-error *ngIf="meetForm.get('waitingTime')?.hasError('pattern')">
-            Waiting time must be a number.
-          </mat-error>
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline">
-          <mat-label>Meet Time</mat-label>
-          <input matInput type="time" formControlName="meetTime" />
-          <mat-error *ngIf="meetForm.get('meetTime')?.hasError('required')">Meet time is required.</mat-error>
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline">
-          <mat-label>Status of the Lead</mat-label>
-          <mat-select formControlName="leadStatus">
-            <mat-option value="Positive">Positive</mat-option>
-            <mat-option value="Neutral">Neutral</mat-option>
-            <mat-option value="Negative">Negative</mat-option>
-          </mat-select>
-          <mat-error *ngIf="meetForm.get('leadStatus')?.hasError('required')">Lead status is required.</mat-error>
-        </mat-form-field>
-      </div>
-  
-      <div class="form-row">
-        <mat-form-field appearance="outline">
-          <mat-label>Longitudes</mat-label>
-          <input matInput type="text" formControlName="longitudes" />
-          <mat-error *ngIf="meetForm.get('longitudes')?.hasError('required')">Longitude is required.</mat-error>
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline">
-          <mat-label>Latitudes</mat-label>
-          <input matInput type="text" formControlName="latitudes" />
-          <mat-error *ngIf="meetForm.get('latitudes')?.hasError('required')">Latitude is required.</mat-error>
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline">
-          <mat-label>Requirement of Next Meet</mat-label>
-          <mat-select formControlName="nextMeetRequired">
-            <mat-option value="Yes">Yes</mat-option>
-            <mat-option value="No">No</mat-option>
-          </mat-select>
-          <mat-error *ngIf="meetForm.get('nextMeetRequired')?.hasError('required')">
-            Please specify if the next meet is required.
-          </mat-error>
-        </mat-form-field>
-      </div>
-  
-      <div class="form-row">
-        <mat-form-field appearance="outline">
-          <mat-label>Next Meet Date</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="nextMeetDate" />
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-          <mat-error *ngIf="meetForm.get('nextMeetDate')?.hasError('required')">Next meet date is required.</mat-error>
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline">
-          <mat-label>Next Meet Time</mat-label>
-          <input matInput type="time" formControlName="nextMeetTime" />
-          <mat-error *ngIf="meetForm.get('nextMeetTime')?.hasError('required')">Next meet time is required.</mat-error>
-        </mat-form-field>
-  
-        <div class="selfie-upload">
-          <label for="selfieInput">Selfie</label>
-          <input type="file" id="selfieInput" (change)="onFileChange($event)" />
-          <img *ngIf="uploadedImage" [src]="uploadedImage" alt="Selfie Preview" class="selfie-preview" />
-          <mat-error *ngIf="meetForm.get('selfie')?.hasError('required')">Selfie is required.</mat-error>
-        </div>
-      </div>
-  
-      <div class="form-row">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Insight</mat-label>
-          <textarea matInput formControlName="insight"></textarea>
-          <mat-error *ngIf="meetForm.get('insight')?.hasError('maxlength')">
-            Insight cannot exceed 500 characters.
-          </mat-error>
-        </mat-form-field>
-      </div>
-  
-      <div class="submit-container">
-        <button mat-raised-button color="primary" type="submit">Submit</button>
-      </div>
-    </form>
-  </div>
-  
+    </div>
+
+    <!-- Row 4 -->
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Requirement of Next Meet</mat-label>
+        <mat-select formControlName="nextMeetRequired">
+          <mat-option value="Yes">Yes</mat-option>
+          <mat-option value="No">No</mat-option>
+        </mat-select>
+        <mat-error *ngIf="meetForm.get('nextMeetRequired')?.hasError('required')">
+          Please specify if the next meet is required.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" *ngIf="meetForm.get('nextMeetRequired')?.value === 'Yes'">
+        <mat-label>Next Meet Date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="nextMeetDate" />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="meetForm.get('nextMeetDate')?.hasError('required')">
+          Next meet date is required.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" *ngIf="meetForm.get('nextMeetRequired')?.value === 'Yes'">
+        <mat-label>Next Meet Time</mat-label>
+        <input matInput type="time" formControlName="nextMeetTime" />
+        <mat-error *ngIf="meetForm.get('nextMeetTime')?.hasError('required')">
+          Next meet time is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Row 5 -->
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Insight</mat-label>
+        <textarea matInput formControlName="insight"></textarea>
+        <mat-error *ngIf="meetForm.get('insight')?.hasError('maxlength')">
+          Insight cannot exceed 500 characters.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="submit-container">
+      <button mat-raised-button color="primary" type="submit">Update</button>
+    </div>
+  </form>
+</div>

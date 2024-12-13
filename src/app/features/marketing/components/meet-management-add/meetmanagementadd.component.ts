@@ -1,54 +1,127 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { MarketingService } from '../../services/marketing.service';
 
 @Component({
   selector: 'app-meetmanagementadd',
   templateUrl: './meetmanagementadd.component.html',
   styleUrls: ['./meetmanagementadd.component.css'],
 })
-export class MeetmanagementaddComponent {
+export class MeetmanagementaddComponent implements OnInit {
   meetForm: FormGroup;
-  uploadedImage: string | ArrayBuffer | null = null; // For previewing uploaded image
+  uploadedImage: string | ArrayBuffer | null = null;
+  meetID: number | null = null;
+  leadID: number | null = null;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private commanApiService: MarketingService
+  ) {
     this.meetForm = this.fb.group({
       leadName: ['', Validators.required],
-      meetStatus: ['', Validators.required],
+      meetingStatus: ['', Validators.required],
       travellingDuration: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-      selfie: ['', Validators.required], // Add validation for selfie
       waitingTime: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-      meetTime: ['', Validators.required],
-      leadStatus: ['', Validators.required],
+      meetingTime: ['', Validators.required],
+      statusOfLead: ['', Validators.required],
       longitudes: ['', Validators.required],
       latitudes: ['', Validators.required],
-      nextMeetDate: ['', Validators.required],
-      nextMeetTime: ['', Validators.required],
       nextMeetRequired: ['', Validators.required],
+      nextMeetDate: [''],
+      nextMeetTime: [''],
       insight: ['', Validators.maxLength(500)],
+      selfie: [''],
     });
   }
 
-  // Handle image upload
-  onFileChange(event: Event) {
+  ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+      this.meetID = +params['id'];
+      if (this.meetID) {
+        this.loadMeetingDetails(this.meetID);
+      }
+    });
+
+    // Show/hide next meet fields dynamically
+    this.meetForm.get('nextMeetRequired')?.valueChanges.subscribe((value) => {
+      if (value === 'Yes') {
+        this.meetForm.get('nextMeetDate')?.setValidators(Validators.required);
+        this.meetForm.get('nextMeetTime')?.setValidators(Validators.required);
+      } else {
+        this.meetForm.get('nextMeetDate')?.clearValidators();
+        this.meetForm.get('nextMeetTime')?.clearValidators();
+      }
+      this.meetForm.get('nextMeetDate')?.updateValueAndValidity();
+      this.meetForm.get('nextMeetTime')?.updateValueAndValidity();
+    });
+  }
+
+  loadMeetingDetails(meetID: number): void {
+    this.commanApiService.getMeetingDetails(meetID).subscribe(
+      (data: any) => {
+        console.log('Fetched meeting details:', data);
+        this.leadID=data.leadID;
+        this.meetForm.patchValue({
+          leadName: data.organizationName,
+          meetingStatus: data.meetingStatus.toString(),
+          travellingDuration: data.travellingDuration,
+          waitingTime: data.waitingTime,
+          meetingTime: data.meetingTime,
+          statusOfLead: data.statusOfLead.toString(),
+          longitudes: data.longitude,
+          latitudes: data.latitude,
+          nextMeetRequired: data.requireAnotherMeet ? 'Yes' : 'No',
+          nextMeetDate: data.nextMeetDate !== '0001-01-01T00:00:00' ? new Date(data.nextMeetDate) : null,
+          nextMeetTime: data.nextMeetTime,
+          insight: data.insight,
+          selfie: data.photoUpload,
+        });
+      },
+      (error) => {
+        console.error('Failed to fetch meeting details:', error);
+      }
+    );
+  }
+
+  onFileChange(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        this.uploadedImage = reader.result; // Display the preview
+        this.uploadedImage = reader.result;
       };
       reader.readAsDataURL(file);
-      this.meetForm.patchValue({ selfie: file.name }); // Update the form control
+      this.meetForm.patchValue({ selfie: file.name });
     }
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.meetForm.valid) {
-      console.log('Form Submitted', this.meetForm.value);
-      alert('Meet details saved successfully!');
-      this.meetForm.reset();
-      this.uploadedImage = null; // Clear the image preview
+      const userId = parseInt(localStorage.getItem('UserID') || '0', 10); // Get UserID from localStorage
+      const payload = {
+        ...this.meetForm.value,
+        meetID: this.meetID,
+        leadID: this.leadID,
+        salesPersonId: userId, // Add salesPersonId to the payload
+        meetingStatus: parseInt(this.meetForm.value.meetingStatus, 10), // Ensure meetingStatus is an integer
+        statusOfLead: parseInt(this.meetForm.value.statusOfLead, 10), // Ensure statusOfLead is an integer
+      };
+  
+      this.commanApiService.updateMeeting(payload).subscribe(
+        (response) => {
+          alert('Meet details updated successfully!');
+        },
+        (error) => {
+          alert('Failed to update meet details. Please try again.');
+          console.error('Failed to update meeting:', error);
+        }
+      );
     } else {
       alert('Please fill all required fields correctly.');
     }
   }
+  
+  
 }
