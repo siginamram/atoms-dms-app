@@ -1,40 +1,58 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MarketingService } from '../../services/marketing.service';  // Update with correct service path
 
 @Component({
   selector: 'app-sla-generations-list',
   templateUrl: './sla-generations-list.component.html',
   styleUrls: ['./sla-generations-list.component.css'],
 })
-export class SlaGenerationsListComponent {
-  constructor(private router: Router) {}
-  displayedColumns: string[] = ['id', 'name', 'slaDate', 'city', 'actions'];
-  activeTab: string = 'current'; // Default tab
+export class SlaGenerationsListComponent implements OnInit {
+  constructor(
+    private router: Router,
+    private commanApiService: MarketingService // Ensure correct service is used
+  ) {}
 
-  // Mock data
-  slas = [
-    { id: 1, name: 'Lead A', slaDate: '2024-01-01', city: 'New York' },
-    { id: 2, name: 'Lead B', slaDate: '2024-01-02', city: 'Los Angeles' },
-    { id: 3, name: 'Lead C', slaDate: '2024-01-03', city: 'Chicago' },
+  displayedColumns: string[] = [
+    'id',
+    'organizationName',
+    'salesperson',
+    'reportedDate',
+    'cityName',
+    'pocName',
+    'pocContact',
+    'insight',
+    'actions',
   ];
 
-  filteredSLAs = this.slas;
+  filteredLeads: any[] = []; // Stores the filtered leads fetched from API
 
-  switchTab(tab: string): void {
-    this.activeTab = tab;
-    if (tab === 'current') {
-      this.filteredSLAs = this.slas; // Filter current SLAs
-    } else {
-      this.filteredSLAs = []; // Filter archived SLAs (example)
-    }
+  ngOnInit(): void {
+    this.loadLeads(); // Load leads on component initialization
+  }
+
+  loadLeads(): void {
+    const userId = parseInt(localStorage.getItem('UserID') || '0', 10);
+    const status = 2; // Example status to filter leads
+
+    this.commanApiService.getLeadsByStatusAndRole(userId, status).subscribe(
+      (data: any) => {
+        console.log(`Fetched Leads:`, data);
+        this.filteredLeads = data; // Bind fetched data to the table
+      },
+      (error) => {
+        console.error('Failed to fetch leads:', error);
+        this.filteredLeads = []; // Clear the table if there is an error
+      }
+    );
   }
 
   generateSLA(): void {
-    //alert('Generate SLA clicked!');
-    this.router.navigate(['/home/marketing/generate-sla']);
+    //this.router.navigate(['/home/marketing/generate-sla']);
   }
 
   viewSLA(id: number): void {
-    alert(`Viewing SLA with ID: ${id}`);
+    // Update this to match the actual route in your app
+    this.router.navigate([`/home/marketing/generate-sla/${id}`]);
   }
 }

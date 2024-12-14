@@ -36,6 +36,7 @@ import { SharedModule } from './shared/shared.module';
 import { FeaturesModule } from './features/features.module';
 import { AdminLayoutModule } from './layouts/admin-layout/admin-layout.module';
 import { UserLayoutModule } from './layouts/user-layout/user-layout.module';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { UserLayoutModule } from './layouts/user-layout/user-layout.module';
     FeaturesModule,
     AdminLayoutModule,
     UserLayoutModule,
+    NgxMaterialTimepickerModule,
   ],
   providers: [
     provideAnimationsAsync(), // Ensure async animations support

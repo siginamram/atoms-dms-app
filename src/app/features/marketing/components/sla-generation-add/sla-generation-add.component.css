@@ -41,7 +41,7 @@ mat-form-field {
 
 button {
   margin-top: 20px;
-  align-self: flex-end;
+  align-self: center;
 }
 
 @media (max-width: 768px) {
@@ -52,4 +52,9 @@ button {
   mat-form-field {
     width: 100%;
   }
+}
+.submit-button-container {
+  display: flex;
+  justify-content: center; /* Horizontally centers the button */
+  margin-top: 20px; /* Optional: Adjust space above the button */
 }

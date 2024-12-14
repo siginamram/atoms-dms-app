@@ -1,7 +1,7 @@
 .sla-container {
-    max-width: 1000px;
+  max-width: 1200px;
   margin: 10px auto;
-  padding: 10px;
+  padding-left: 100px;
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

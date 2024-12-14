@@ -26,7 +26,7 @@ const routes: Routes = [
       { path:'meet-popup',component:MeetManagementPopupComponent},
       { path:'meet-popup/:id',component:MeetManagementPopupComponent},
       { path:'sla-generation',component:SlaGenerationsListComponent},
-      { path:'generate-sla',component:SlaGenerationAddComponent},
+      { path:'generate-sla/:id',component:SlaGenerationAddComponent},
       { path:'generate-quote',component:QuoteGenerationDocComponent},
       { path:'sales-converted',component:SalesConvertedListComponent},
       { path:'sales-convert-status-edit/:id',component:SalesConvertStatuEditComponent},

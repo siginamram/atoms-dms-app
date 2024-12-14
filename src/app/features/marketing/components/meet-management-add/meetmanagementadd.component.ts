@@ -14,6 +14,7 @@ export class MeetmanagementaddComponent implements OnInit {
   meetID: number | null = null;
   leadID: number | null = null;
   minDate: Date; // Variable to store today's date
+  startTimeOptions: string[] = [];  // Will hold the generated time options
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -46,6 +47,8 @@ export class MeetmanagementaddComponent implements OnInit {
         this.loadMeetingDetails(this.meetID);
       }
     });
+  // Generate the start time options when the component initializes
+  this.startTimeOptions = this.generateStartTimeOptions();
 
     // Show/hide next meet fields dynamically
     this.meetForm.get('nextMeetRequired')?.valueChanges.subscribe((value) => {
@@ -61,6 +64,24 @@ export class MeetmanagementaddComponent implements OnInit {
     });
   }
 
+    // Function to generate time options in 30-minute intervals
+    generateStartTimeOptions(): string[] {
+      const options: string[] = [];
+      const startHour = 0; // 00:00 (12:00 AM)
+      const endHour = 23; // 23:00 (11:00 PM)
+  
+      for (let hour = startHour; hour <= endHour; hour++) {
+        for (let minute = 0; minute < 60; minute += 30) {
+          const formattedHour = hour === 0 || hour === 12 ? 12 : hour % 12;
+          const period = hour < 12 ? 'AM' : 'PM';
+          const formattedMinute = minute === 0 ? '00' : '30';
+          options.push(`${formattedHour}:${formattedMinute} ${period}`);
+        }
+      }
+  
+      return options;
+    }
+    
   loadMeetingDetails(meetID: number): void {
     this.commanApiService.getMeetingDetails(meetID).subscribe(
       (data: any) => {

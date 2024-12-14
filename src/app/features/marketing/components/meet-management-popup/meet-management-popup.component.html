@@ -1,6 +1,5 @@
 <div *ngIf="isPopupVisible" class="popup-container">
   <mat-card class="popup-card">
-    <!-- Header with Close Button -->
     <div class="popup-header">
       <h2>Schedule Meet</h2>
       <button mat-icon-button (click)="closePopup()" class="close-button">
@@ -8,10 +7,8 @@
       </button>
     </div>
 
-    <!-- Form -->
     <form [formGroup]="meetForm" (ngSubmit)="onSubmit()">
       <div class="form-row">
-        <!-- Name of the Lead -->
         <mat-form-field appearance="outline">
           <mat-label>Name of the Lead</mat-label>
           <mat-select formControlName="leadName">
@@ -24,7 +21,6 @@
           </mat-error>
         </mat-form-field>
 
-        <!-- Schedule the Meet -->
         <mat-form-field appearance="outline">
           <mat-label>Schedule the Meet</mat-label>
           <input
@@ -40,14 +36,14 @@
           </mat-error>
         </mat-form-field>
 
-        <!-- Schedule Time -->
         <mat-form-field appearance="outline">
           <mat-label>Schedule Time</mat-label>
-          <input
-            matInput
-            formControlName="scheduleTime"
-            placeholder="hh:mm AM/PM"
-          />
+          <mat-select formControlName="scheduleTime">
+            <mat-option value="">Select Time</mat-option>
+            <mat-option *ngFor="let time of startTimeOptions" [value]="time">
+              {{ time }}
+            </mat-option>
+          </mat-select>
           <mat-error *ngIf="meetForm.get('scheduleTime')?.hasError('required')">
             Please select a valid time.
           </mat-error>
@@ -57,7 +53,7 @@
         </mat-form-field>
       </div>
 
-      <button mat-raised-button color="primary" type="submit" class="submit-button">
+      <button mat-raised-button color="primary" type="submit">
         Submit
       </button>
     </form>

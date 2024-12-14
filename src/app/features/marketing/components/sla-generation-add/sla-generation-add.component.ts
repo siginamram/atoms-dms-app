@@ -13,11 +13,8 @@ export class SlaGenerationAddComponent {
     this.slaForm = this.fb.group({
       leadName: ['', Validators.required],
       organizationDomain: ['', Validators.required],
-      city: ['', Validators.required],
-      district: ['', Validators.required],
-      state: ['', Validators.required],
-      country: ['', Validators.required],
-      pincode: ['', Validators.required],
+      city: ['', Validators.required],  
+      address: ['', Validators.required],
       posterDesigns: ['', Validators.required],
       youtubeVideos: ['', Validators.required],
       reels: ['', Validators.required],

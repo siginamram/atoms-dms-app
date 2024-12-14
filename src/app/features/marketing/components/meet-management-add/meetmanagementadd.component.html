@@ -71,15 +71,19 @@
         </mat-error>
       </mat-form-field>
       
-      
-    
-      <mat-form-field appearance="outline">
-        <mat-label>Next Meet Time</mat-label>
-        <input matInput type="time" formControlName="nextMeetTime" />
-        <mat-error *ngIf="meetForm.get('nextMeetTime')?.hasError('required')">
-          Next meet time is required.
-        </mat-error>
-      </mat-form-field>
+     <!-- Next Meet Time -->
+<mat-form-field appearance="outline">
+  <mat-label>Next Meet Time</mat-label>
+  <mat-select formControlName="nextMeetTime">
+    <mat-option value="">Select Time</mat-option>
+    <mat-option *ngFor="let time of startTimeOptions" [value]="time">
+      {{ time }}
+    </mat-option>
+  </mat-select>
+  <mat-error *ngIf="meetForm.get('nextMeetTime')?.hasError('required')">
+    Please select a valid time.
+  </mat-error>
+</mat-form-field>
     </div>
     
     <!-- Row 2 -->
@@ -105,13 +109,19 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Meet Time</mat-label>
-        <input matInput type="time" formControlName="meetingTime" />
-        <mat-error *ngIf="meetForm.get('meetingTime')?.hasError('required')">
-          Meet time is required.
-        </mat-error>
-      </mat-form-field>
+    <!-- Meeting Time -->
+<mat-form-field appearance="outline">
+  <mat-label>Meeting Time</mat-label>
+  <mat-select formControlName="meetingTime">
+    <mat-option value="">Select Time</mat-option>
+    <mat-option *ngFor="let time of startTimeOptions" [value]="time">
+      {{ time }}
+    </mat-option>
+  </mat-select>
+  <mat-error *ngIf="meetForm.get('meetingTime')?.hasError('required')">
+    Please select a valid time.
+  </mat-error>
+</mat-form-field>
 
    
     </div>
