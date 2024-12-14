@@ -13,7 +13,9 @@ export class SlaGenerationAddComponent {
     this.slaForm = this.fb.group({
       leadName: ['', Validators.required],
       organizationDomain: ['', Validators.required],
-      city: ['', Validators.required],  
+      clientName: ['', Validators.required],
+      designation: ['', Validators.required],
+      city: ['', Validators.required],
       address: ['', Validators.required],
       posterDesigns: ['', Validators.required],
       youtubeVideos: ['', Validators.required],
@@ -26,7 +28,19 @@ export class SlaGenerationAddComponent {
       facebook: [false],
       instagram: [false],
       linkedin: [false],
+      youtube: [false],
       others: [false],
+      otherPlatforms: [''], // To store the value of the "Other Platforms" field
+    });
+
+    // Update validators dynamically for "otherPlatforms"
+    this.slaForm.get('others')?.valueChanges.subscribe((othersSelected) => {
+      if (othersSelected) {
+        this.slaForm.get('otherPlatforms')?.setValidators(Validators.required);
+      } else {
+        this.slaForm.get('otherPlatforms')?.clearValidators();
+      }
+      this.slaForm.get('otherPlatforms')?.updateValueAndValidity();
     });
   }
 

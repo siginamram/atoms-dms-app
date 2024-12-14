@@ -1,0 +1,23 @@
+.alert-dialog-container {
+    text-align: center;
+    padding: 20px;
+    max-width: 400px;
+  }
+  
+  .alert-dialog-container h2 {
+    margin-bottom: 15px;
+  }
+  
+  .alert-dialog-container p {
+    margin-bottom: 20px;
+    color: #555;
+  }
+  
+  .alert-dialog-container.success {
+    color: #388e3c;
+  }
+  
+  .alert-dialog-container.error {
+    color: #d32f2f;
+  }
+  
