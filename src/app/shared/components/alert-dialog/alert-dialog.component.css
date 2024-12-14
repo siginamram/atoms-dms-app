@@ -1,23 +1,108 @@
 .alert-dialog-container {
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 25px;
+  max-width: 400px;
+  width: 90%;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Icons */
+.dialog-icon {
+  font-size: 60px;
+  margin-bottom: 15px;
+}
+
+.dialog-icon.success {
+  color: #4caf50;
+}
+
+.dialog-icon.error {
+  color: #f44336;
+}
+
+.dialog-icon.warning {
+  color: #ff9800;
+}
+
+/* Title */
+.dialog-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #333333;
+  margin: 10px 0;
+}
+
+/* Message */
+.dialog-message {
+  font-size: 16px;
+  color: #666666;
+  margin: 15px 0 20px;
+  line-height: 1.5;
+}
+
+/* Actions */
+.dialog-actions {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.ok-button {
+  min-width: 120px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  background-color: #3f51b5;
+  color: white;
+  transition: transform 0.2s;
+}
+
+.ok-button:hover {
+  background-color: #303f9f;
+  transform: scale(1.05);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .alert-dialog-container {
     padding: 20px;
-    max-width: 400px;
+    width: 95%;
   }
-  
-  .alert-dialog-container h2 {
-    margin-bottom: 15px;
+
+  .dialog-title {
+    font-size: 20px;
   }
-  
-  .alert-dialog-container p {
-    margin-bottom: 20px;
-    color: #555;
+
+  .dialog-message {
+    font-size: 14px;
   }
-  
-  .alert-dialog-container.success {
-    color: #388e3c;
+
+  .dialog-icon {
+    font-size: 50px;
   }
-  
-  .alert-dialog-container.error {
-    color: #d32f2f;
+
+  .ok-button {
+    font-size: 14px;
+    padding: 8px;
   }
-  
+}

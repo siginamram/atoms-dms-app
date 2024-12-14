@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute,Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MarketingService } from '../../services/marketing.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/alert-dialog.component'; 
 
 @Component({
   selector: 'app-meetmanagementadd',
@@ -14,21 +16,32 @@ export class MeetmanagementaddComponent implements OnInit {
   meetID: number | null = null;
   leadID: number | null = null;
   minDate: Date; // Variable to store today's date
-  startTimeOptions: string[] = [];  // Will hold the generated time options
+  startTimeOptions: string[] = []; // Will hold the generated time options
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private commanApiService: MarketingService,
-    private Router:Router,
+    private Router: Router,
+    private dialog: MatDialog // Inject MatDialog
   ) {
     this.minDate = new Date(); // Set minDate to today's date
 
     this.meetForm = this.fb.group({
       leadName: ['', Validators.required],
       meetingStatus: ['', Validators.required],
-      travellingDuration: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-      waitingTime: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
-      meetingTime: ['', Validators.required],
+      travellingDuration: [
+        '',
+        [Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]{1,2})?$')], // Validates numbers like 2.5 or 1
+      ],
+      waitingTime: [
+        '',
+        [Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]{1,2})?$')], // Validates numbers like 1.30 or 0.5
+      ],
+      meetingTime: [
+        '',
+        [Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]{1,2})?$')], // Validates numbers like 1.30 or 0.5
+      ],
       statusOfLead: ['', Validators.required],
       longitude: ['', Validators.required],
       latitude: ['', Validators.required],
@@ -47,8 +60,8 @@ export class MeetmanagementaddComponent implements OnInit {
         this.loadMeetingDetails(this.meetID);
       }
     });
-  // Generate the start time options when the component initializes
-  this.startTimeOptions = this.generateStartTimeOptions();
+    // Generate the start time options when the component initializes
+    this.startTimeOptions = this.generateStartTimeOptions();
 
     // Show/hide next meet fields dynamically
     this.meetForm.get('nextMeetRequired')?.valueChanges.subscribe((value) => {
@@ -64,31 +77,30 @@ export class MeetmanagementaddComponent implements OnInit {
     });
   }
 
-    // Function to generate time options in 30-minute intervals
-    generateStartTimeOptions(): string[] {
-      const options: string[] = [];
-      const startHour = 0; // 00:00 (12:00 AM)
-      const endHour = 23; // 23:00 (11:00 PM)
-  
-      for (let hour = startHour; hour <= endHour; hour++) {
-        for (let minute = 0; minute < 60; minute += 30) {
-          const formattedHour = hour === 0 || hour === 12 ? 12 : hour % 12;
-          const period = hour < 12 ? 'AM' : 'PM';
-          const formattedMinute = minute === 0 ? '00' : '30';
-          options.push(`${formattedHour}:${formattedMinute} ${period}`);
-        }
+  generateStartTimeOptions(): string[] {
+    const options: string[] = [];
+    const startHour = 0; // 00:00 (12:00 AM)
+    const endHour = 23; // 23:00 (11:00 PM)
+
+    for (let hour = startHour; hour <= endHour; hour++) {
+      for (let minute = 0; minute < 60; minute += 30) {
+        const formattedHour = hour === 0 || hour === 12 ? 12 : hour % 12;
+        const period = hour < 12 ? 'AM' : 'PM';
+        const formattedMinute = minute === 0 ? '00' : '30';
+        options.push(`${formattedHour}:${formattedMinute} ${period}`);
       }
-  
-      return options;
     }
-    
+
+    return options;
+  }
+
   loadMeetingDetails(meetID: number): void {
     this.commanApiService.getMeetingDetails(meetID).subscribe(
       (data: any) => {
         console.log('Fetched meeting details:', data);
-  
+
         this.leadID = data.leadID;
-  
+
         // Patch form values
         this.meetForm.patchValue({
           leadName: data.organizationName,
@@ -104,7 +116,7 @@ export class MeetmanagementaddComponent implements OnInit {
           insight: data.insight,
           selfie: data.photoUpload,
         });
-  
+
         // Handle nextMeetDate separately
         if (data.nextMeetDate === '1970-01-01' || !data.nextMeetDate || data.nextMeetDate === '0001-01-01T00:00:00') {
           this.meetForm.patchValue({ nextMeetDate: null });
@@ -117,11 +129,11 @@ export class MeetmanagementaddComponent implements OnInit {
       }
     );
   }
-  
-  // Navigate to the specified URL on Cancel
+
   onCancel(): void {
     this.Router.navigate(['/home/marketing/meet-management']);
   }
+
   onFileChange(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
@@ -146,21 +158,30 @@ export class MeetmanagementaddComponent implements OnInit {
         statusOfLead: parseInt(this.meetForm.value.statusOfLead, 10), // Ensure statusOfLead is an integer
         requireAnotherMeet: this.meetForm.value.requireAnotherMeet === 1 ? true : false,
       };
-  
+
       this.commanApiService.updateMeeting(payload).subscribe(
         (response) => {
-          alert('Meet details updated successfully!');
+          this.openAlertDialog('Success', 'Meet details updated successfully!');
           this.Router.navigate(['/home/marketing/meet-management']);
         },
         (error) => {
-          alert('Failed to update meet details. Please try again.');
+          this.openAlertDialog('Error', 'Failed to update meet details. Please try again.');
           console.error('Failed to update meeting:', error);
         }
       );
     } else {
-      alert('Please fill all required fields correctly.');
+      this.openAlertDialog('Error', 'Please fill all required fields correctly.');
     }
   }
-  
-  
+
+  openAlertDialog(title: string, message: string): void {
+    this.dialog.open(AlertDialogComponent, {
+      width: '400px',
+      data: {
+        title,
+        message,
+        type: title.toLowerCase(), // success, error, or warning
+      },
+    });
+  }
 }

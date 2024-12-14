@@ -1,6 +1,10 @@
 <div class="alert-dialog-container" [ngClass]="data.type">
-    <h2>{{ data.title }}</h2>
-    <p>{{ data.message }}</p>
-    <button mat-raised-button color="primary" (click)="onClose()">OK</button>
+  <mat-icon class="dialog-icon" *ngIf="data.type === 'success'">check_circle</mat-icon>
+  <mat-icon class="dialog-icon" *ngIf="data.type === 'error'">error</mat-icon>
+  <mat-icon class="dialog-icon" *ngIf="data.type === 'warning'">warning</mat-icon>
+  <h2 class="dialog-title">{{ data.title }}</h2>
+  <p class="dialog-message">{{ data.message }}</p>
+  <div class="dialog-actions">
+    <button mat-raised-button color="primary" class="ok-button" (click)="onClose()">OK</button>
   </div>
-  
+</div>

@@ -70,5 +70,15 @@ updateMeeting(meetingData: any): Observable<any> {
   return this.http.post(`${this.baseApiUrl}/api/Sales/updateMeetingStatus`, meetingData);
 }
 
+ // API to get client details by Lead ID
+ getClientByLeadId(leadId: number): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Client/GetClientByLeadId/${leadId}`;
+  return this.http.get(apiUrl);
+}
+
+addClient(payload: any): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Client/addClient`;
+  return this.http.post(apiUrl, payload);
+}
 
 }

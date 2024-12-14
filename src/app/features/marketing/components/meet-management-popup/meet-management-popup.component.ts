@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MarketingService } from '../../services/marketing.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/alert-dialog.component'; 
 
 @Component({
   selector: 'app-meet-management-popup',
@@ -20,7 +22,8 @@ export class MeetManagementPopupComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private commanApiService: MarketingService
+    private commanApiService: MarketingService,
+    private dialog: MatDialog // Inject MatDialog
   ) {
     this.meetForm = this.fb.group({
       leadName: ['', Validators.required], // leadID
@@ -55,7 +58,7 @@ export class MeetManagementPopupComponent implements OnInit {
 
     for (let hour = startHour; hour <= endHour; hour++) {
       for (let minute = 0; minute < 60; minute += 30) {
-        const formattedHour = hour < 12 ? hour : hour - 12;
+        const formattedHour = hour === 0 ? 12 : hour <= 12 ? hour : hour - 12;
         const period = hour < 12 ? 'AM' : 'PM';
         const formattedMinute = minute === 0 ? '00' : '30';
         options.push(`${formattedHour}:${formattedMinute} ${period}`);
@@ -140,16 +143,28 @@ export class MeetManagementPopupComponent implements OnInit {
       this.commanApiService.scheduleMeet(payload).subscribe(
         (response: any) => {
           console.log('Meeting Scheduled Successfully:', response);
-          alert('Meeting scheduled successfully!');
+          this.openAlertDialog('Success', 'Meeting scheduled successfully!');
           this.closePopup(); // Close the popup after submission
         },
         (error) => {
           console.error('Failed to schedule the meeting:', error);
-          alert('Failed to schedule the meeting. Please try again.');
+          this.openAlertDialog('Error', 'Failed to schedule the meeting. Please try again.');
         }
       );
     } else {
       console.error('Form is invalid:', this.meetForm.errors);
     }
+  }
+
+  // Open a custom alert dialog
+  openAlertDialog(title: string, message: string): void {
+    this.dialog.open(AlertDialogComponent, {
+      width: '400px',
+      data: {
+        title,
+        message,
+        type: title.toLowerCase(), // success, error, warning
+      },
+    });
   }
 }

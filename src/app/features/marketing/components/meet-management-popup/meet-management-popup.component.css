@@ -50,7 +50,8 @@ mat-form-field {
 /* Submit Button */
 .submit-button {
   display: flex;
-  justify-content: center; /* This ensures the button is centered */
+  justify-content: center !important; /* This ensures the button is centered */
+  text-align: center;
   margin-top: 20px;
 }
 

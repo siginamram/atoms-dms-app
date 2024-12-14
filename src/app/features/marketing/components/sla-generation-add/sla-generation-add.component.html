@@ -92,8 +92,8 @@
       <mat-form-field appearance="outline">
         <mat-label>Shoot Offer</mat-label>
         <mat-select formControlName="shootOffer">
-          <mat-option value="Offered">Offered</mat-option>
-          <mat-option value="Not Offered">Not Offered</mat-option>
+          <mat-option [value]="1">Yes</mat-option>
+          <mat-option [value]="0">No</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -102,16 +102,15 @@
       <mat-form-field appearance="outline">
         <mat-label>Shoot Budget</mat-label>
         <mat-select formControlName="shootBudget">
-          <mat-option value="1">Yes</mat-option>
-          <mat-option value="0">No</mat-option>
+          <mat-option [value]="1">Yes</mat-option>
+          <mat-option [value]="0">No</mat-option>
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" *ngIf="slaForm.get('shootBudget')?.value === '1'">
+      <mat-form-field appearance="outline" *ngIf="slaForm.get('shootBudget')?.value === 1">
         <mat-label>Charge Per Visit</mat-label>
         <input matInput formControlName="chargePerVisit" />
       </mat-form-field>
-
  
     </div>
 
