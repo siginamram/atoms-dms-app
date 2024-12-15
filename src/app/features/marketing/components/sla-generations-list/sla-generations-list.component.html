@@ -3,9 +3,9 @@
   <mat-toolbar color="primary" style="border-radius: 10px;">
     <span>Generated SLA List</span>
     <span class="spacer"></span>
-    <button mat-raised-button color="accent" (click)="generateSLA()">
+    <!-- <button mat-raised-button color="accent" (click)="generateSLA()">
       <i class="material-icons">add</i> Generate SLA
-    </button>
+    </button> -->
   </mat-toolbar>
 
   <!-- Responsive Table -->
@@ -70,5 +70,11 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+       <!-- Paginator -->
+       <mat-paginator
+       [pageSize]="5"
+       [pageSizeOptions]="[5, 10, 20]"
+       aria-label="Select page">
+     </mat-paginator>
   </div>
 </div>

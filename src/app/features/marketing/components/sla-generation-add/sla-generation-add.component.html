@@ -24,7 +24,7 @@
 
     <!-- New Client Name and Designation Fields -->
     <div class="form-row">
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" aria-readonly="true">
         <mat-label>Client Name</mat-label>
         <input matInput formControlName="clientName" />
         <mat-error *ngIf="slaForm.get('clientName')?.hasError('required')">
@@ -132,6 +132,10 @@
  
     <div class="submit-button-container">
       <button mat-raised-button color="primary" type="submit">Submit</button>
+      <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+      <button mat-raised-button color="accent"  type="button" (click)="generateSLA()">
+        <i class="material-icons">add</i> Generate SLA
+      </button>
     </div>
   </form>
 </div>

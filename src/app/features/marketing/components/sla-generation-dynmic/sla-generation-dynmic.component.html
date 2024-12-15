@@ -1,0 +1,69 @@
+<div *ngIf="clientData; else loadingTemplate" class="sla-container">
+    <header class="sla-header">
+      <h1 class="sla-title">Service Level Agreement (SLA)</h1>
+    </header>
+  
+    <section class="sla-section">
+      <h2 class="section-title">Client Information</h2>
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Client Name</mat-label>
+          <input matInput [value]="clientData.clientName || ''" readonly />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Organization</mat-label>
+          <input matInput [value]="clientData.organizationName || ''" readonly />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Domain</mat-label>
+          <input matInput [value]="clientData.domain || ''" readonly />
+        </mat-form-field>
+      </div>
+    </section>
+  
+    <section class="sla-section">
+      <h2 class="section-title">Service Details</h2>
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Base Package</mat-label>
+          <input matInput [value]="clientData.package?.basePackage || ''" readonly />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Ad Budget</mat-label>
+          <input matInput [value]="clientData.package?.adBudget || ''" readonly />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>No. of Posters</mat-label>
+          <input matInput [value]="clientData.package?.noOfPosters || ''" readonly />
+        </mat-form-field>
+      </div>
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>No. of Reels</mat-label>
+          <input matInput [value]="clientData.package?.noOfReels || ''" readonly />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>No. of YouTube Videos</mat-label>
+          <input
+            matInput
+            [value]="clientData.package?.noOfYouTubeVideos || ''"
+            readonly
+          />
+        </mat-form-field>
+      </div>
+    </section>
+  
+    <footer class="sla-footer">
+      <button mat-raised-button color="primary" (click)="generateSLADocument()">
+        Download SLA
+      </button>
+    </footer>
+  </div>
+  
+  <ng-template #loadingTemplate>
+    <div class="loading">
+      <mat-spinner></mat-spinner>
+      <p>Loading SLA details...</p>
+    </div>
+  </ng-template>
+  

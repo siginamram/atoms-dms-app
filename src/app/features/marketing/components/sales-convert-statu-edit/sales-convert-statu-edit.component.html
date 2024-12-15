@@ -5,7 +5,7 @@
 
   <!-- Progress Section -->
   <div class="section">
-    <h3>Progress</h3>
+    <!-- <h3>Progress</h3>
     <div class="progress-steps">
       <div class="step">
         <div class="circle completed"></div>
@@ -19,7 +19,7 @@
         <div class="circle"></div>
         <span>Operation Team Lead Assigned</span>
       </div>
-    </div>
+    </div> -->
     <div class="form-row">
       <mat-form-field appearance="outline">
         <mat-label>Operations Manager</mat-label>
@@ -49,7 +49,7 @@
   </div>
 
   <!-- Package Section -->
-  <div class="section">
+  <!-- <div class="section">
     <h3>Package</h3>
     <div class="form-row">
       <mat-form-field appearance="outline">
@@ -84,7 +84,7 @@
         <input matInput formControlName="basePackage" type="text" />
       </mat-form-field>
     </div>
-  </div>
+  </div> -->
 
   <!-- Knowledge Transfer Meet -->
   <div class="section">
@@ -127,14 +127,14 @@
   </div>
 
   <!-- Document Section -->
-  <div class="section">
-    <h3>Upload SLA Signed Document</h3>
-    <div class="form-row">
-      <mat-form-field appearance="outline">
-        <input matInput type="file" (change)="onFileSelect($event)" />
-      </mat-form-field>
+  <div class="form-row">
+    <div>
+      <label for="slaUpload">Upload SLA Document</label>
+      <input id="slaUpload" type="file" (change)="onFileChange($event)" />
     </div>
   </div>
 
-  <button mat-raised-button color="primary" type="submit" (click)="onSubmit()">Submit</button>
+  <div class="submit-section">
+    <button mat-raised-button color="primary" type="submit" (click)="onSubmit()">Submit</button>
+  </div>
 </div>

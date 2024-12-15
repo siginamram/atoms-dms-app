@@ -78,7 +78,7 @@ export class SlaGenerationAddComponent implements OnInit {
           organizationDomain: data.domain || '',
           clientName: data.clientName || '',
           designation: data.clientDesignation || '',
-          city: data.cityID || '',
+          city: data.cityName || '',
           address: data.address || '',
           posterDesigns: data.package?.noOfPosters || '',
           youtubeVideos: data.package?.noOfYouTubeVideos || '',
@@ -101,6 +101,9 @@ export class SlaGenerationAddComponent implements OnInit {
       }
     );
   }
+  generateSLA(): void {
+    this.router.navigate([`/home/marketing/sla-generation/${this.leadID}`]);
+  }
 
   // Handle form submission
   onSubmit(): void {
@@ -115,7 +118,7 @@ export class SlaGenerationAddComponent implements OnInit {
         address: formData.address,
         domain: formData.organizationDomain,
         clientCategory: 1,
-        cityID: parseInt(formData.city, 10),
+        //cityID: parseInt(formData.city, 10),
         leadID: this.leadID || 0,
         createdBy: parseInt(localStorage.getItem('UserID') || '0', 10),
         //onboardedOn: new Date().toISOString(),

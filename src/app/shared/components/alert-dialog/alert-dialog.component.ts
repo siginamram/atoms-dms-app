@@ -24,7 +24,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
         justify-content: center;
         padding: 20px;
         max-width: 400px;
-        width: 90%;
+        width: 100%;
         background-color: #ffffff;
         border-radius: 12px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);

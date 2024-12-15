@@ -30,6 +30,8 @@ import { LeadManagementEditComponent } from './components/lead-management-edit/l
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { SlaGenerationDynamicComponent } from './components/sla-generation-dynmic/sla-generation-dynmic.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MeetManagementPopupComponent,
     SalesConvertStatuEditComponent,
     LeadManagementEditComponent,
+    SlaGenerationDynamicComponent,
   ],
   imports: [
     CommonModule,
@@ -66,6 +69,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatDialogModule,
     MatPaginatorModule,
     NgxMaterialTimepickerModule,
+    MatProgressSpinnerModule
     
            
   ],

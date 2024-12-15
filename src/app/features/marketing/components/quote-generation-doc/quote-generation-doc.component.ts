@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 export class QuoteGenerationDocComponent {
   downloadPdf(): void {
     const filePath = 'assets/quotes/Quotation-file.pdf'; // Path to the PDF file in assets folder
-    const fileName = 'quotation.pdf'; // Desired download name
+    const fileName = 'Atoms_Packages.pdf'; // Desired download name
 
     // Fetch the PDF file from the assets folder and trigger the download
     fetch(filePath)

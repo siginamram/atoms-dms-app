@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatPaginator } from '@angular/material/paginator';
 import { MarketingService } from '../../services/marketing.service';  // Update with correct service path
 
 @Component({
@@ -8,6 +9,7 @@ import { MarketingService } from '../../services/marketing.service';  // Update 
   styleUrls: ['./sla-generations-list.component.css'],
 })
 export class SlaGenerationsListComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator!: MatPaginator; // Reference to MatPaginator
   constructor(
     private router: Router,
     private commanApiService: MarketingService // Ensure correct service is used
@@ -47,9 +49,9 @@ export class SlaGenerationsListComponent implements OnInit {
     );
   }
 
-  generateSLA(): void {
-    //this.router.navigate(['/home/marketing/generate-sla']);
-  }
+  // generateSLA(): void {
+  //   this.router.navigate(['/home/marketing/generate-sla']);
+  // }
 
   viewSLA(id: number): void {
     // Update this to match the actual route in your app

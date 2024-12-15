@@ -12,6 +12,7 @@ import { SalesConvertedListComponent } from './components/sales-converted-list/s
 import { MeetManagementPopupComponent } from './components/meet-management-popup/meet-management-popup.component';
 import { SalesConvertStatuEditComponent } from './components/sales-convert-statu-edit/sales-convert-statu-edit.component';
 import { LeadManagementEditComponent } from './components/lead-management-edit/lead-management-edit.component';
+import { SlaGenerationDynamicComponent } from './components/sla-generation-dynmic/sla-generation-dynmic.component';
 
 const routes: Routes = [
   {
@@ -27,9 +28,10 @@ const routes: Routes = [
       { path:'meet-popup/:id',component:MeetManagementPopupComponent},
       { path:'sla-generation',component:SlaGenerationsListComponent},
       { path:'generate-sla/:id',component:SlaGenerationAddComponent},
+      { path:'sla-generation/:id',component:SlaGenerationDynamicComponent},
       { path:'generate-quote',component:QuoteGenerationDocComponent},
       { path:'sales-converted',component:SalesConvertedListComponent},
-      { path:'sales-convert-status-edit/:id',component:SalesConvertStatuEditComponent},
+      { path:'sales-convert-status-edit',component:SalesConvertStatuEditComponent},
       
       
     ]

@@ -40,8 +40,8 @@ export class SalesConvertedListComponent implements OnInit {
     }
   }
 
-  editRow(row: any) {
-    console.log('Editing row:', row);
+  editRow() {
+    //console.log('Editing row:', row);
     // Implement edit functionality here
     this.router.navigate(['/home/marketing/sales-convert-status-edit']);
   }
