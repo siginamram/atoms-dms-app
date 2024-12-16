@@ -80,5 +80,16 @@ addClient(payload: any): Observable<any> {
   const apiUrl = `${this.baseApiUrl}/api/Client/addClient`;
   return this.http.post(apiUrl, payload);
 }
+// Fetch leads by User ID
+getLeadsByUserId(userId: number): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Sales/leadsByUserId/${userId}`;
+  return this.http.get(apiUrl);
+}
+
+// Fetch meeting history by Lead ID
+getMeetingHistoryByLeadId(leadId: number): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Sales/meetingHistoryByLeadId/${leadId}`;
+  return this.http.get(apiUrl);
+}
 
 }

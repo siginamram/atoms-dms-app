@@ -32,6 +32,8 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { SlaGenerationDynamicComponent } from './components/sla-generation-dynmic/sla-generation-dynmic.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MeetManagementHistoryComponent } from './components/meet-management-history/meet-management-history.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     SalesConvertStatuEditComponent,
     LeadManagementEditComponent,
     SlaGenerationDynamicComponent,
+    MeetManagementHistoryComponent,
+    
   ],
   imports: [
     CommonModule,
@@ -69,8 +73,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatDialogModule,
     MatPaginatorModule,
     NgxMaterialTimepickerModule,
-    MatProgressSpinnerModule
-    
+    MatProgressSpinnerModule,
+    MatAutocompleteModule,
            
   ],
 })

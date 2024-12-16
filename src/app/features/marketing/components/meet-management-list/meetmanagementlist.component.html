@@ -104,7 +104,9 @@
       </table>
     </div>
     
-    
+    <div *ngIf="dataSource.data.length === 0" class="no-data-message">
+      <p>No Records Found...</p>
+    </div>
 
     <!-- Paginator -->
     <mat-paginator
