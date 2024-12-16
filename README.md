@@ -121,3 +121,5 @@ ng g service features/dashboard/services/dashboard
 
 ng g component features/auth/components/login
 ng g service features/auth/services/auth
+
+ng g service features/operations/services/operations
