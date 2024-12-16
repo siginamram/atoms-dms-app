@@ -74,16 +74,16 @@
             <td mat-cell *matCellDef="let row">{{ row.meetingTime }}</td>
         </ng-container>
 
+         <!-- Status -->
+         <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let row">{{ row.statusOfLead }}</td>
+          </ng-container>
+
         <!-- Insight -->
         <ng-container matColumnDef="insight">
           <th mat-header-cell *matHeaderCellDef>Insight</th>
           <td mat-cell *matCellDef="let row">{{ row.insight }}</td>
-        </ng-container>
-  
-        <!-- Status -->
-        <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef>Status</th>
-          <td mat-cell *matCellDef="let row">{{ row.statusOfLead }}</td>
         </ng-container>
   
         <!-- Header and Rows -->

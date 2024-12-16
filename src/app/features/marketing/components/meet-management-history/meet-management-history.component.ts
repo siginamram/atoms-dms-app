@@ -24,8 +24,9 @@ export class MeetManagementHistoryComponent implements OnInit {
     'travellingDuration',
     'waitingTime',
     'meetingTime',
-    'insight',
-    'status'
+    'status',
+    'insight'
+    
   ]; // Columns for the table
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
