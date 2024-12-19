@@ -37,122 +37,140 @@ export class SlaGenerationDynamicComponent implements OnInit {
       }
     );
   }
+  
   generateSLADocument(): void {
     if (!this.clientData) {
-      console.error('Client data is not loaded');
-      return;
+        console.error('Client data is not loaded');
+        return;
     }
-  
+
     const doc = new jsPDF();
-    const logoUrl = '../../../../assets/img/Atoms-Digital.png'; // Path to your logo
-  
-    // Add Logo
-    const addLogo = (doc: any, callback: () => void) => {
-      const img = new Image();
-      img.src = logoUrl;
-      img.onload = () => {
-        doc.addImage(img, 'PNG', 10, 10, 50, 15); // Adjust logo size and position
-        callback();
-      };
+    const letterheadUrl = '../../../../assets/img/atomsletter_header.jpg'; // Full-page letterhead path
+    const currentDate = new Date().toLocaleDateString('en-GB'); // Current Date
+
+    // Function to add letterhead
+    const addLetterhead = (doc: any) => {
+        doc.addImage(letterheadUrl, 'JPEG', 0, 0, 210, 297); // Full-page letterhead
     };
-  
-    addLogo(doc, () => {
-      // Header Section
-      doc.setFontSize(10);
-      doc.text('ATOMS DIGITAL SOLUTIONS PRIVATE LIMITED', 105, 30, {
-        align: 'center',
-      });
-      doc.text(
-        'CIN: U62099AP2023PTC111381 | atomsdigitalsolutions1@gmail.com | +91 91107 43341',
-        105,
-        35,
-        { align: 'center' }
-      );
-  
-      // SLA Title
-      doc.setFontSize(18);
-      doc.setFont('helvetica', 'bold');
-      doc.text('SERVICE LEVEL AGREEMENT (SLA)', 105, 50, { align: 'center' });
-  
-      // Between Section
-      doc.setFontSize(12);
-      doc.setFont('helvetica', 'normal');
-      doc.text(
-        `BETWEEN\n\nATOMS DIGITAL SOLUTIONS AND ${this.clientData.organizationName || 'N/A'}`,
-        105,
-        60,
-        { align: 'center' }
-      );
-  
-      // Scope of Services
-      doc.setFontSize(14);
-      doc.setFont('helvetica', 'bold');
-      doc.text('Scope of Services:', 10, 80);
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(12);
-      doc.text(
-        `Atoms Digital Solutions agrees to provide Digital Marketing Services to ${this.clientData.organizationName || 'N/A'}, Guntur.`,
-        10,
-        90
-      );
-  
-      // Service Deliverables
-      doc.setFontSize(14);
-      doc.setFont('helvetica', 'bold');
-      doc.text('Service Deliverables:', 10, 110);
-      doc.setFont('helvetica', 'normal');
-      const deliverables = [
-        'Optimizing social media handles - Facebook, Instagram, and YouTube',
-        'Content creation for designs',
-        `Upload ${this.clientData.package?.noOfPosters || 'N/A'} posters per month`,
-        `Upload ${this.clientData.package?.noOfReels || 'N/A'} reels per month`,
-        `Upload ${this.clientData.package?.noOfYouTubeVideos || 'N/A'} YouTube videos per month`,
-        'Run sponsored ads on Facebook and Instagram with 10% of the overall budget',
-      ];
-      deliverables.forEach((item, index) => {
-        doc.text(`- ${item}`, 10, 120 + index * 10);
-      });
-  
-      // Data Sharing
-      doc.setFontSize(14);
-      doc.setFont('helvetica', 'bold');
-      doc.text('Data Sharing:', 10, 180);
-      doc.setFont('helvetica', 'normal');
-      const dataSharing = [
-        `${this.clientData.organizationName || 'N/A'} agrees to provide required knowledge transfer sessions to the content writers & graphic designers before onboarding.`,
-        `${this.clientData.organizationName || 'N/A'} agrees to provide required data, content, and information for any additional projects at least FOUR days before the date of requirement.`,
-        `${this.clientData.organizationName || 'N/A'} agrees to provide required feedback to improve the quality of service offered.`,
-        `${this.clientData.organizationName || 'N/A'} agrees to offer time for monthly photo and video shoots with one month payment in advance.`,
-      ];
-      dataSharing.forEach((item, index) => {
-        doc.text(`- ${item}`, 10, 190 + index * 10);
-      });
-  
-      // Payment Terms
-      doc.setFontSize(14);
-      doc.setFont('helvetica', 'bold');
-      doc.text('Payment Terms:', 10, 240);
-      doc.setFont('helvetica', 'normal');
-      doc.text(
-        `${this.clientData.organizationName || 'N/A'} commits to pay Atoms Digital Solutions a total sum of Twenty Five Thousand Rupees only (₹25,000/-) per month for the specified services.`,
-        10,
-        250
-      );
-  
-      // Footer
-      doc.setFontSize(10);
-      doc.setFont('helvetica', 'italic');
-      doc.text(
-        'Atoms Digital Solutions Private Limited, Flat No. 301, Sri Siva Sankari Nilayam, Guntur, Andhra Pradesh',
-        10,
-        280,
-        { align: 'left' }
-      );
-  
-      // Save PDF
-      doc.save('SLA_Document.pdf');
-    });
-  }
-  
-  
+
+    // Function to add section titles
+    const addSectionTitle = (doc: any, title: string, y: number) => {
+        doc.setFont('times', 'bold');
+        doc.setFontSize(12);
+        doc.text(title, 10, y);
+        return y + 10;
+    };
+
+    // Function to add content with page overflow handling
+    const addContent = (doc: any, content: string | string[], y: number) => {
+        doc.setFont('times', 'normal');
+        doc.setFontSize(11);
+        const pageHeight = 297; // A4 Page height in mm
+
+        if (Array.isArray(content)) {
+            content.forEach((item) => {
+                if (y > 270) { // Check for page overflow
+                    doc.addPage();
+                    addLetterhead(doc);
+                    y = 50; // Reset Y for new page
+                }
+                doc.text(`• ${item}`, 12, y);
+                y += 8;
+            });
+        } else {
+            const lines = doc.splitTextToSize(content, 180);
+            lines.forEach((line: string) => {
+                if (y > 270) { // Check for page overflow
+                    doc.addPage();
+                    addLetterhead(doc);
+                    y = 50; // Reset Y for new page
+                }
+                doc.text(line, 12, y);
+                y += 8;
+            });
+        }
+        return y;
+    };
+
+    const renderContent = () => {
+        let currentY = 50; // Initial Y position
+        addLetterhead(doc); // Add letterhead on the first page
+
+        // SLA Title
+        doc.setFont('times', 'bold');
+        doc.setFontSize(14);
+        doc.text('SERVICE LEVEL AGREEMENT (SLA)', 105, currentY, { align: 'center' });
+        currentY += 10;
+        doc.text('BETWEEN', 105, currentY, { align: 'center' });
+        currentY += 10;
+        doc.text(`ATOMS DIGITAL SOLUTIONS AND ${this.clientData.organizationName || 'N/A'}`, 105, currentY, { align: 'center' });
+        currentY += 20;
+
+        // Add sections dynamically
+        currentY = addSectionTitle(doc, 'Scope of Services:', currentY);
+        currentY = addContent(doc, `Atoms Digital Solutions agrees to provide Digital Marketing Services to ${this.clientData.organizationName || 'N/A'}, Guntur.`, currentY);
+
+        currentY = addSectionTitle(doc, 'Service Deliverables:', currentY);
+        currentY = addContent(doc, [
+            'Optimizing social media handles - Facebook, Instagram, and YouTube',
+            'Content creation for designs',
+            `Upload ${this.clientData.package?.noOfPosters || '15'} posters per month`,
+            `Upload ${this.clientData.package?.noOfReels || '12'} reels per month`,
+            `Upload ${this.clientData.package?.noOfYouTubeVideos || '4'} YouTube videos per month`,
+            'Run sponsored ads on Facebook and Instagram with 10% of overall budget'
+        ], currentY);
+
+        currentY = addSectionTitle(doc, 'Payment Terms:', currentY);
+        currentY = addContent(doc, `${this.clientData.organizationName || 'N/A'} commits to pay Atoms Digital Solutions a total sum of ${this.clientData.package?.basePackage || '₹25,000'} per month for the specified services.`, currentY);
+
+        currentY = addSectionTitle(doc, 'Data Sharing:', currentY);
+        currentY = addContent(doc, [
+            'Provide required knowledge transfer sessions to content writers & designers.',
+            'Provide data, content, and information at least FOUR days before requirement.',
+            'Offer time for monthly photo and video shoots with one month payment in advance.',
+            'Provide feedback to improve service quality.'
+        ], currentY);
+
+        currentY = addSectionTitle(doc, 'Confidentiality:', currentY);
+        currentY = addContent(doc, 'Both parties agree to ensure the confidentiality of proprietary information shared during the engagement.', currentY);
+
+        currentY = addSectionTitle(doc, 'Timeline:', currentY);
+        currentY = addContent(doc, 'Services are renewed monthly, and the timeline can be modified upon mutual agreement.', currentY);
+
+        currentY = addSectionTitle(doc, 'Termination Clause:', currentY);
+        currentY = addContent(doc, [
+            'Either party can terminate the agreement with a one-month written notice.',
+            'Services will continue till the end of the paid period in case of advance payments.'
+        ], currentY);
+
+        currentY = addSectionTitle(doc, 'Governing Law:', currentY);
+        currentY = addContent(doc, 'This agreement is governed by the laws of the jurisdiction where Atoms Digital Solutions is headquartered.', currentY);
+
+        // Add Signatures
+        if (currentY > 250) {
+            doc.addPage();
+            addLetterhead(doc);
+            currentY = 50;
+        }
+        currentY += 20;
+        doc.setFont('times', 'bold');
+        doc.text('Signatures:', 10, currentY);
+        currentY += 10;
+        doc.setFont('times', 'normal');
+        doc.text('Mr. Ayyappa Siginam', 10, currentY);
+        doc.text('Chairman and Director, Atoms Digital Solutions', 10, currentY + 8);
+        doc.text(`Date: ${currentDate}`, 10, currentY + 16);
+
+        doc.text(`${this.clientData.clientName || 'Client Name'}`, 120, currentY);
+        doc.text(`${this.clientData.clientDesignation || 'Client Designation'}`, 120, currentY + 8);
+        doc.text(`Date: ${currentDate}`, 120, currentY + 16);
+    };
+
+    renderContent();
+    doc.save('SLA_Document.pdf');
+}
+
+
+
+
 }

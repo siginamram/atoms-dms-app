@@ -1,18 +1,124 @@
-<div class="quote-generation-container">
-  <mat-toolbar color="primary" class="toolbar">
-    <span>Quotation Generation</span>
+<div class="sla-container">
+  <mat-toolbar>Quote Generation View
+    <span class="spacer"></span>
+    <button mat-raised-button color="accent" (click)="AddQuote()">
+      <i class="material-icons">add</i> Generate Quote
+    </button>
   </mat-toolbar>
 
-  <div class="content">
-    <h2>Atoms Digital Solutions</h2>
-    <p>
-      Thank you for choosing Atoms Digital Solutions, your trusted partner in digital marketing. 
-      We are committed to helping your business grow by providing cutting-edge marketing strategies 
-      and innovative solutions tailored to your needs.
-    </p>
-    <p>
-      Click the button below to download your customized quotation for our premium digital marketing services.
-    </p>
-    <button mat-raised-button color="accent" class="download-button" (click)="downloadPdf()">Download Quotation</button>
+  <!-- Filter Dropdown -->
+  <div class="filter-container">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Filter by Lead</mat-label>
+      <input
+        type="text"
+        matInput
+        [matAutocomplete]="auto"
+        placeholder="Search and select a lead"
+        [(ngModel)]="searchTerm"
+        (input)="filterSearch()"
+      />
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="filterLeads($event.option.value)">
+        <mat-option *ngFor="let lead of filteredLeads" [value]="lead.leadID">
+          {{ lead.organizationName }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
   </div>
+
+  <!-- Table -->
+  <div class="table-container" *ngIf="dataSource.data.length > 0">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <!-- Date -->
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let row">{{ row.date }}</td>
+      </ng-container>
+
+      <!-- Lead Details -->
+      <ng-container matColumnDef="leadDetails">
+        <th mat-header-cell *matHeaderCellDef>Lead Details</th>
+        <td mat-cell *matCellDef="let row">{{ row.leadDetails }}</td>
+      </ng-container>
+
+      <!-- Base Package -->
+      <ng-container matColumnDef="basePackage">
+        <th mat-header-cell *matHeaderCellDef>Base Package</th>
+        <td mat-cell *matCellDef="let row">{{ row.basePackage }}</td>
+      </ng-container>
+
+      <!-- Ad Budget -->
+      <ng-container matColumnDef="adBudget">
+        <th mat-header-cell *matHeaderCellDef>Ad Budget</th>
+        <td mat-cell *matCellDef="let row">{{ row.adBudget }}</td>
+      </ng-container>
+
+      <!-- Poster Design -->
+      <ng-container matColumnDef="posterDesign">
+        <th mat-header-cell *matHeaderCellDef>Poster Design</th>
+        <td mat-cell *matCellDef="let row">{{ row.posterDesign }}</td>
+      </ng-container>
+
+      <!-- Graphic Reel -->
+      <ng-container matColumnDef="graphicReel">
+        <th mat-header-cell *matHeaderCellDef>Graphic Reel</th>
+        <td mat-cell *matCellDef="let row">{{ row.graphicReel }}</td>
+      </ng-container>
+
+      <!-- Educational Reel -->
+      <ng-container matColumnDef="educationalReel">
+        <th mat-header-cell *matHeaderCellDef>Educational Reel</th>
+        <td mat-cell *matCellDef="let row">{{ row.educationalReel }}</td>
+      </ng-container>
+
+      <!-- YouTube -->
+      <ng-container matColumnDef="youtube">
+        <th mat-header-cell *matHeaderCellDef>YouTube</th>
+        <td mat-cell *matCellDef="let row">{{ row.youtube }}</td>
+      </ng-container>
+
+      <!-- Shoots -->
+      <ng-container matColumnDef="shoots">
+        <th mat-header-cell *matHeaderCellDef>Shoots</th>
+        <td mat-cell *matCellDef="let row">{{ row.shoots }}</td>
+      </ng-container>
+
+      <!-- Shoot Budget -->
+      <ng-container matColumnDef="shootBudget">
+        <th mat-header-cell *matHeaderCellDef>Shoot Budget</th>
+        <td mat-cell *matCellDef="let row">{{ row.shootBudget }}</td>
+      </ng-container>
+
+      <!-- Total -->
+      <ng-container matColumnDef="total">
+        <th mat-header-cell *matHeaderCellDef>Total</th>
+        <td mat-cell *matCellDef="let row">{{ row.total }}</td>
+      </ng-container>
+
+      <!-- Quote -->
+      <ng-container matColumnDef="quote">
+        <th mat-header-cell *matHeaderCellDef>Quote</th>
+        <td mat-cell *matCellDef="let row">{{ row.quote }}</td>
+      </ng-container>
+
+      <!-- Edit Button -->
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef>Edit</th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-button color="primary" (click)="editRow(row)">Edit</button>
+        </td>
+      </ng-container>
+
+      <!-- Table Rows -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+
+  <div *ngIf="dataSource.data.length === 0" class="no-data-message">
+    <p>No data available.</p>
+  </div>
+
+  <!-- Paginator -->
+  <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" aria-label="Select page"></mat-paginator>
 </div>

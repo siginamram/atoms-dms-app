@@ -34,6 +34,8 @@ import { SlaGenerationDynamicComponent } from './components/sla-generation-dynmi
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MeetManagementHistoryComponent } from './components/meet-management-history/meet-management-history.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { QuoteGenerationAddComponent } from './components/quote-generation-add/quote-generation-add.component';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     LeadManagementEditComponent,
     SlaGenerationDynamicComponent,
     MeetManagementHistoryComponent,
+    QuoteGenerationAddComponent,
     
   ],
   imports: [
@@ -75,6 +78,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     NgxMaterialTimepickerModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
+    MatRadioModule,
            
   ],
 })

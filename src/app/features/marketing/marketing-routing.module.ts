@@ -8,6 +8,7 @@ import { MeetmanagementaddComponent } from './components/meet-management-add/mee
 import { SlaGenerationsListComponent } from './components/sla-generations-list/sla-generations-list.component';
 import { SlaGenerationAddComponent } from './components/sla-generation-add/sla-generation-add.component';
 import { QuoteGenerationDocComponent } from './components/quote-generation-doc/quote-generation-doc.component';
+import { QuoteGenerationAddComponent } from './components/quote-generation-add/quote-generation-add.component';
 import { SalesConvertedListComponent } from './components/sales-converted-list/sales-converted-list.component';
 import { MeetManagementPopupComponent } from './components/meet-management-popup/meet-management-popup.component';
 import { SalesConvertStatuEditComponent } from './components/sales-convert-statu-edit/sales-convert-statu-edit.component';
@@ -32,6 +33,7 @@ const routes: Routes = [
       { path: 'meet-management-histoty', component: MeetManagementHistoryComponent },
          //Quote
       { path:'generate-quote',component:QuoteGenerationDocComponent},
+      { path:'generate-new-quote',component:QuoteGenerationAddComponent},
         //SLA
       { path:'sla-generation',component:SlaGenerationsListComponent},
       { path:'generate-sla/:id',component:SlaGenerationAddComponent},

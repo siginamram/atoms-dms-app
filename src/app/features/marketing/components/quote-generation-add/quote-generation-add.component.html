@@ -1,0 +1,132 @@
+<div class="sla-form-container">
+  <mat-toolbar color="primary" style="border-radius: 10px; margin-bottom: 20px;">
+    <span>Quote Generation Form</span>
+  </mat-toolbar>
+  <form [formGroup]="leadForm" (ngSubmit)="onSubmit()">
+    <!-- Lead and Date -->
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Filter by Lead</mat-label>
+        <input matInput formControlName="leadName" (input)="filterSearch()" [matAutocomplete]="auto" />
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let lead of filteredLeads" [value]="lead.organizationName">
+            {{ lead.organizationName }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Date of Generation</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="dateOfGeneration" />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <!-- Branding Type -->
+    <h2>Branding Type</h2>
+    <mat-radio-group formControlName="brandingType">
+      <mat-radio-button *ngFor="let type of brandingTypes" [value]="type">{{ type }}</mat-radio-button>
+    </mat-radio-group>
+
+    <!-- Services -->
+    <h2>Services</h2>
+    <div formGroupName="services">
+      <mat-checkbox formControlName="socialMediaOptimization">Social Media Optimization</mat-checkbox>
+      <mat-checkbox formControlName="dedicatedRM">Assistance to Dedicated RM</mat-checkbox>
+      <mat-checkbox formControlName="dedicatedDMA">Assistance to Dedicated DMA</mat-checkbox>
+      <mat-checkbox formControlName="performanceTracker">Monthly Performance Tracker</mat-checkbox>
+      <mat-checkbox formControlName="photoVideoShoots">Monthly Photo and Video Shoots</mat-checkbox>
+    </div>
+<!-- Shoot Overview -->
+<h2>Shoot Overview</h2>
+<div formGroupName="shootOverview" class="form-row">
+  <mat-form-field appearance="outline">
+    <mat-label>Shoot Offer</mat-label>
+    <mat-select formControlName="shootOffer">
+      <mat-option *ngFor="let option of shootOfferOptions" [value]="option">{{ option }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" *ngIf="leadForm.get('shootOverview.shootOffer')?.value === 'No'">
+    <mat-label>Shoot Budget</mat-label>
+    <mat-select formControlName="shootBudget">
+      <mat-option *ngFor="let option of shootBudgetOptions" [value]="option">{{ option }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" *ngIf="leadForm.get('shootOverview.shootBudget')?.value === 'Yes'">
+    <mat-label>Charge Per Visit</mat-label>
+    <input matInput type="number" formControlName="chargePerVisit" />
+  </mat-form-field>
+</div>
+    <!-- Marketing Strategies -->
+    <h2>Marketing Strategies</h2>
+    <div formGroupName="marketingStrategies">
+      <mat-radio-group formControlName="level" (change)="onLevelChange()">
+        <mat-radio-button *ngFor="let level of ['No', 'Basic', 'Pro', 'Advanced']" [value]="level">{{ level }}</mat-radio-button>
+      </mat-radio-group>
+      <div formArrayName="strategies" *ngIf="leadForm.get('marketingStrategies.level')?.value !== 'No'">
+        <mat-checkbox *ngFor="let strategy of strategiesByLevel[leadForm.get('marketingStrategies.level')?.value]; let i = index" [formControlName]="i">
+          {{ strategy }}
+        </mat-checkbox>
+      </div>
+    </div>
+      <!-- Base Package -->
+  <h2>Base Package</h2>
+  <mat-form-field appearance="outline">
+    <mat-label>Base Package</mat-label>
+    <input matInput type="number" formControlName="basePackage" />
+  </mat-form-field>
+  <!-- Advanced Assistance -->
+  <h2>Advanced Assistance</h2>
+  <div formArrayName="advancedAssistance" class="form-row">
+    <ng-container *ngFor="let option of advancedAssistanceOptions; let i = index">
+      <mat-checkbox [formControlName]="i">{{ option }}</mat-checkbox>
+    </ng-container>
+  </div>
+ <!-- Social Media Optimization -->
+ <h2>Social Media Optimization</h2>
+ <div formGroupName="socialMediaOptimization">
+   <mat-checkbox formControlName="creation">Creation of Social Media</mat-checkbox>
+   <mat-checkbox formControlName="contentDevelopment">Content Development</mat-checkbox>
+   <mat-checkbox formControlName="graphicDesign">Graphic Design</mat-checkbox>
+ </div>
+
+ <!-- Platforms -->
+ <h4>Platforms</h4>
+ <div class="form-row">
+   <mat-checkbox
+     *ngFor="let platform of platforms"
+     (change)="onPlatformChange(platform, $event)"
+     [checked]="leadForm.get('socialMediaOptimization.platforms')?.value.includes(platform)"
+   >
+     {{ platform }}
+   </mat-checkbox>
+ </div>
+ 
+ <!-- Conditionally show input box when "Others" is selected -->
+ <div *ngIf="leadForm.get('socialMediaOptimization.platforms')?.value.includes('Others')">
+   <mat-form-field appearance="outline">
+     <mat-label>Other Platform</mat-label>
+     <input matInput formControlName="socialMediaOptimization.otherPlatform" placeholder="Specify other platform" />
+   </mat-form-field>
+ </div>
+ 
+    <!-- Monthly Deliverables -->
+    <h2>Monthly Deliverables</h2>
+    <div class="form-row" formGroupName="monthlyDeliverables">
+      <mat-form-field *ngFor="let field of ['posters', 'graphicReels', 'educationalReels', 'youtubeVideos', 'twitterVideos', 'campaignBudget']" appearance="outline">
+        <mat-label>{{ field }}</mat-label>
+        <input matInput type="number" formControlName="{{field}}" />
+      </mat-form-field>
+    </div>
+
+
+  
+    <!-- Submit Button -->
+    <div class="submit-button-container">
+      <button mat-raised-button color="primary" type="submit" [disabled]="!leadForm.valid">Submit</button>
+    </div>
+  </form>
+</div>

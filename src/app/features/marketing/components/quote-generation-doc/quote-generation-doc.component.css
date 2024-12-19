@@ -1,4 +1,4 @@
-.quote-generation-container {
+.sla-container {
   max-width: 1200px;
   margin: 10px auto;
   padding-left: 100px;
@@ -7,81 +7,177 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.toolbar {
-  width: 100%;
-  border-radius: 5px;
-  margin-bottom: 20px;
-}
-
-.content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 20px;
+/* Toolbar Styles */
+mat-toolbar {
+  margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  background-color: #3f51b5;
   border-radius: 8px;
-  background-color: #ffffff;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+/* Spacer for Toolbar */
+.spacer {
+  flex: 1 1 auto;
+}
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
 }
 
-h2 {
-  color: #3f51b5;
-  font-size: 24px;
-  margin-bottom: 15px;
+.tabs button {
+  font-size: 14px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background-color: #f5f5f5;
+  color: #333;
+  transition: all 0.3s ease;
 }
 
-p {
-  font-size: 16px;
-  line-height: 1.6;
+.tabs button:hover {
+  background-color: #e0e0e0;
+}
+
+.tabs button.active {
+  font-weight: bold;
+  background-color: #1d2b7f;
+  color: white;
+}
+
+.tabs button mat-icon {
+  margin-right: 8px;
+}
+
+/* Table Container */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #3f51b5;
+  color: orange;
+  padding: 10px;
+  text-align: left;
+}
+
+td {
+  padding: 10px;
+  text-align: left;
+  font-size: 14px;
+  color: #333;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Filter Section */
+.filter-container {
   margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
-.download-button {
-  margin-top: 20px;
-  font-size: 16px;
-  padding: 10px 20px;
+mat-form-field {
+  width: 300px;
 }
 
+.mat-elevation-z8 {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
-  .quote-generation-container {
-    padding: 15px;
-    margin: 10px;
+  .sla-container {
+    padding: 16px;
   }
 
-  .toolbar {
-    margin-bottom: 15px;
+  mat-toolbar {
+    font-size: 18px;
   }
 
-  h2 {
-    font-size: 20px;
+  .tabs {
+    flex-direction: column;
+    gap: 12px;
   }
 
-  p {
-    font-size: 14px;
+  .tabs button {
+    width: 100%;
+    justify-content: center;
   }
 
-  .download-button {
-    font-size: 14px;
-    padding: 8px 16px;
+  th,
+  td {
+    font-size: 12px;
+    padding: 8px;
   }
 }
 
 @media (max-width: 480px) {
-  .quote-generation-container {
+  .sla-container {
     padding: 10px;
   }
 
-  h2 {
-    font-size: 18px;
+  mat-toolbar {
+    font-size: 16px;
   }
 
-  p {
-    font-size: 12px;
+  .tabs {
+    gap: 8px;
   }
 
-  .download-button {
+  .tabs button {
     font-size: 12px;
     padding: 6px 12px;
   }
+
+  th,
+  td {
+    font-size: 10px;
+    padding: 6px 8px;
+  }
+}
+.full-width {
+  width: 100%;
+}
+
+mat-form-field {
+  margin-bottom: 16px;
+}
+
+.mat-autocomplete-panel {
+  max-height: 200px;
+  overflow-y: auto;
+}
+.no-data-message {
+  display: flex; /* Center alignment */
+  justify-content: center; /* Horizontal center */
+  align-items: center; /* Vertical center */
+  height: 200px; /* Adjust height for alignment */
+  color: #ff5722; /* Add a custom color (e.g., orange-red) */
+  font-size: 18px; /* Adjust font size */
+  font-weight: bold; /* Make the text bold */
+  text-align: center; /* Center-align the text */
+  background-color: #f9f9f9; /* Optional: Light background for contrast */
+  border: 1px solid #ddd; /* Optional: Add a subtle border */
+  border-radius: 8px; /* Optional: Rounded corners */
 }
