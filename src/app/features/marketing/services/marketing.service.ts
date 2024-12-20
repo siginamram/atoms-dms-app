@@ -72,7 +72,7 @@ updateMeeting(meetingData: any): Observable<any> {
 
  // API to get client details by Lead ID
  getClientByLeadId(leadId: number): Observable<any> {
-  const apiUrl = `${this.baseApiUrl}/api/Client/GetClientByLeadId/${leadId}`;
+  const apiUrl = `${this.baseApiUrl}/api/Client/ClientByLeadId/${leadId}`;
   return this.http.get(apiUrl);
 }
 
@@ -101,6 +101,22 @@ getQuoteByLeadId(leadId: number): Observable<any> {
 }
 saveQuote(payload: any): Observable<any> {
   const apiUrl = `${this.baseApiUrl}/api/Sales/saveQuotation`;
+  return this.http.post(apiUrl, payload);
+}
+GetClientKTStatus (userId: number): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Client/clientKTStatus/${userId}`;
+  return this.http.get(apiUrl);
+}
+managerlistByRoleID (roleId: number): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/User/userByRoleID/${roleId}`;
+  return this.http.get(apiUrl);
+}
+teamleadByManager(managerId: number, roleId: number): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/User/teamMembersByManager/${managerId}/${roleId}`;
+  return this.http.get(apiUrl);
+}
+updateClientKTStatus(payload: any): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Client/updateClientKTStatus`;
   return this.http.post(apiUrl, payload);
 }
 

@@ -1,85 +1,104 @@
 <div class="sales-converted-container">
-    <!-- Toolbar -->
-    <mat-toolbar color="primary" class="toolbar">
-      <span>Sales Converted List</span>
-    </mat-toolbar>
-  
-    <!-- Filter Section -->
-   
-    <div class="filter-container">
-      <mat-form-field appearance="outline" >
-        <mat-label>Filter by Client</mat-label>
-        <input
-          type="text"
-          matInput
-          placeholder="Search and select a client"
-          [(ngModel)]="searchTerm"
-          [matAutocomplete]="auto"
-          (input)="filterSearch()"
-        />
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="filterLeads($event.option.value)">
-          <mat-option *ngFor="let lead of filteredLeads" [value]="lead.leadID">
-            {{ lead.organizationName }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-    </div>
-    <!-- Table -->
-    <div class="table-container">
-      <table mat-table [dataSource]="filteredData" class="mat-elevation-z8">
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef>S.No</th>
-          <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
-        </ng-container>
-        <!-- Name Column -->
-        <ng-container matColumnDef="clientName">
-          <th mat-header-cell *matHeaderCellDef> Name of the Client </th>
-          <td mat-cell *matCellDef="let element"> {{ element.clientName }} </td>
-        </ng-container>
-  
-        <!-- Deal Closing Date Column -->
-        <ng-container matColumnDef="dealClosingDate">
-          <th mat-header-cell *matHeaderCellDef> Deal Closing Date </th>
-          <td mat-cell *matCellDef="let element"> {{ element.dealClosingDate | date }} </td>
-        </ng-container>
-  
-        <!-- KT Status Column -->
-        <ng-container matColumnDef="ktStatus">
-          <th mat-header-cell *matHeaderCellDef> K.T Status </th>
-          <td mat-cell *matCellDef="let element"> {{ element.ktStatus }} </td>
-        </ng-container>
-  
-        <!-- KT Date Column -->
-        <ng-container matColumnDef="ktDate">
-          <th mat-header-cell *matHeaderCellDef> K.T Date </th>
-          <td mat-cell *matCellDef="let element"> {{ element.ktDate | date }} </td>
-        </ng-container>
-  
-        <!-- Payment Column -->
-        <ng-container matColumnDef="payment">
-          <th mat-header-cell *matHeaderCellDef> Payment </th>
-          <td mat-cell *matCellDef="let element"> {{ element.payment }} </td>
-        </ng-container>
-  
-        <!-- City Column -->
-        <ng-container matColumnDef="city">
-          <th mat-header-cell *matHeaderCellDef> City </th>
-          <td mat-cell *matCellDef="let element"> {{ element.city }} </td>
-        </ng-container>
-  
-        <!-- Actions Column -->
-        <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef> Actions </th>
-          <td mat-cell *matCellDef="let element">
-            <button mat-button color="accent" (click)="editRow()">Edit</button>
-          </td>
-        </ng-container>
-  
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-          <!-- Paginator -->
-    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" aria-label="Select page"></mat-paginator>
-    </div>
+  <!-- Toolbar -->
+  <mat-toolbar color="primary" class="toolbar">
+    <span>Sales Converted List</span>
+  </mat-toolbar>
+
+  <!-- Filter Section -->
+  <div class="filter-container">
+    <mat-form-field appearance="outline">
+      <mat-label>Filter by Client</mat-label>
+      <input
+        type="text"
+        matInput
+        placeholder="Search and select a client"
+        [(ngModel)]="searchTerm"
+        [matAutocomplete]="auto"
+        (input)="filterSearch()"
+      />
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        (optionSelected)="filterLeads($event.option.value)"
+      >
+        <mat-option
+          *ngFor="let lead of leads"
+          [value]="lead.leadId"
+        >
+          {{ lead.organizationName }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
   </div>
-  
+
+  <!-- Table -->
+  <div class="table-container">
+    <table mat-table [dataSource]="dataSource1" class="mat-elevation-z8">
+      <!-- Serial Number Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>S.No</th>
+        <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+      </ng-container>
+
+      <!-- Organization Name Column -->
+      <ng-container matColumnDef="organizationName">
+        <th mat-header-cell *matHeaderCellDef>Organization Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.organizationName }}</td>
+      </ng-container>
+
+         <!-- City Column -->
+         <ng-container matColumnDef="cityName">
+          <th mat-header-cell *matHeaderCellDef>City</th>
+          <td mat-cell *matCellDef="let element">{{ element.cityName }}</td>
+        </ng-container>
+
+      <!-- KT Status Column -->
+      <ng-container matColumnDef="ktStatus">
+        <th mat-header-cell *matHeaderCellDef>KT Status</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.isKTCompleted ? 'Completed' : 'Pending' }}
+        </td>
+      </ng-container>
+
+      <!-- KT Date Column -->
+      <ng-container matColumnDef="ktDate">
+        <th mat-header-cell *matHeaderCellDef>KT Date</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.ktDate !== '0001-01-01T00:00:00' ? (element.ktDate | date) : '-' }}
+        </td>
+      </ng-container>
+
+      <!-- Payment Column -->
+      <ng-container matColumnDef="payment">
+        <th mat-header-cell *matHeaderCellDef>Payment</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.isAdvReceived ? 'Paid' : 'Pending' }}
+        </td>
+      </ng-container>
+
+      <!-- Deal Closing Date Column -->
+      <!-- <ng-container matColumnDef="ktDate1">
+        <th mat-header-cell *matHeaderCellDef>Payment Date</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.ktDate | date }}
+        </td>
+      </ng-container> -->
+
+ 
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-button color="accent" (click)="editRow(element)">Edit</button>
+        </td>
+      </ng-container>
+
+      <!-- Header and Row Definitions -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <!-- Paginator -->
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+  </div>
+</div>

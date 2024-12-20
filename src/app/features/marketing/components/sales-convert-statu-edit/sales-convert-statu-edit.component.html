@@ -9,27 +9,29 @@
       <mat-form-field appearance="outline">
         <mat-label>Client Category</mat-label>
         <mat-select formControlName="clientCategory">
-          <mat-option value="1">A</mat-option>
-          <mat-option value="2">B</mat-option>
-          <mat-option value="3">C</mat-option>
+          <mat-option [value]="1">A</mat-option>
+          <mat-option [value]="2">B</mat-option>
+          <mat-option [value]="3">C</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
     <h2>Operations Team Allocation(DMS)</h2>
     <div class="form-row">
-     
       <mat-form-field appearance="outline">
         <mat-label>Operations Manager</mat-label>
         <mat-select formControlName="operationsManager">
-          <mat-option value="manager1">Manager 1</mat-option>
-          <mat-option value="manager2">Manager 2</mat-option>
+          <mat-option *ngFor="let manager of operationsManagers" [value]="manager.employeeId">
+            {{ manager.empName }}
+          </mat-option>
         </mat-select>
       </mat-form-field>
+      
       <mat-form-field appearance="outline">
         <mat-label>Operations Team Lead</mat-label>
         <mat-select formControlName="operationsLead">
-          <mat-option value="lead1">Lead 1</mat-option>
-          <mat-option value="lead2">Lead 2</mat-option>
+          <mat-option *ngFor="let lead of operationsLeads" [value]="lead.userId">
+            {{ lead.empName }}
+          </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -51,14 +53,14 @@
       <mat-form-field appearance="outline">
         <mat-label>K.T Status</mat-label>
         <mat-select formControlName="ktStatus">
-          <mat-option value="yes">Yes</mat-option>
-          <mat-option value="no">No</mat-option>
+          <mat-option [value]="1">Yes</mat-option>
+          <mat-option [value]="0">No</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Date of K.T</mat-label>
-        <input matInput [matDatepicker]="picker1" formControlName="ktDate" />
-        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <input matInput [matDatepicker]="picker1"   [min]="minDate" formControlName="ktDate" />
+        <mat-datepicker-toggle matSuffix [for]="picker1" ></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>
       </mat-form-field>
     </div>
@@ -70,14 +72,18 @@
     <div class="form-row">
       <mat-form-field appearance="outline">
         <mat-label>Payment Status</mat-label>
-        <mat-select formControlName="paymentStatus">
-          <mat-option value="paid">Paid</mat-option>
-          <mat-option value="pending">Pending</mat-option>
+        <mat-select formControlName="isAdvReceived">
+          <mat-option [value]="1">Paid</mat-option>
+          <mat-option [value]="0">Pending</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field appearance="outline">
+        <mat-label>Advance Amount</mat-label>
+        <input matInput type="number" formControlName="advAmount" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Date for Advance</mat-label>
-        <input matInput [matDatepicker]="picker2" formControlName="advanceDate" />
+        <input matInput [matDatepicker]="picker2"   [min]="minDate" formControlName="advanceDate" />
         <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
         <mat-datepicker #picker2></mat-datepicker>
       </mat-form-field>
