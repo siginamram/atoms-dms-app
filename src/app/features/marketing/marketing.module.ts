@@ -36,6 +36,7 @@ import { MeetManagementHistoryComponent } from './components/meet-management-his
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { QuoteGenerationAddComponent } from './components/quote-generation-add/quote-generation-add.component';
 import { MatRadioModule } from '@angular/material/radio';
+import { QuoteGenerationDownloadComponent } from './components/quote-generation-download/quote-generation-download.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { MatRadioModule } from '@angular/material/radio';
     SlaGenerationDynamicComponent,
     MeetManagementHistoryComponent,
     QuoteGenerationAddComponent,
+    QuoteGenerationDownloadComponent,
     
   ],
   imports: [

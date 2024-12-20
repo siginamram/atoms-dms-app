@@ -192,6 +192,7 @@ export class QuoteGenerationAddComponent implements OnInit {
   }
 
   fetchLeadData(leadId: number): void {
+    this.getLeads();
     this.marketingService.getQuoteByLeadId(leadId).subscribe({
       next: (data: any) => {
         if (data.leadID === 0) {
@@ -313,6 +314,10 @@ export class QuoteGenerationAddComponent implements OnInit {
     const strategiesArray = this.leadForm.get('marketingStrategies.strategies') as FormArray;
     strategiesArray.clear();
     this.strategiesByLevel[level].forEach(() => strategiesArray.push(this.fb.control(true)));
+  }
+
+  generateQuote(): void {
+    this.Router.navigate([`/home/marketing/generated-quote-download/${this.leadID}`]);
   }
 
   onSubmit(): void {

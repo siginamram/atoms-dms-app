@@ -15,6 +15,7 @@ import { SalesConvertStatuEditComponent } from './components/sales-convert-statu
 import { LeadManagementEditComponent } from './components/lead-management-edit/lead-management-edit.component';
 import { SlaGenerationDynamicComponent } from './components/sla-generation-dynmic/sla-generation-dynmic.component';
 import { MeetManagementHistoryComponent } from './components/meet-management-history/meet-management-history.component';
+import { QuoteGenerationDownloadComponent } from './components/quote-generation-download/quote-generation-download.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,7 @@ const routes: Routes = [
          //Quote
       { path:'generate-quote',component:QuoteGenerationDocComponent},
       { path:'generate-new-quote/:id',component:QuoteGenerationAddComponent},
+      { path:'generated-quote-download/:id',component:QuoteGenerationDownloadComponent},
         //SLA
       { path:'sla-generation',component:SlaGenerationsListComponent},
       { path:'generate-sla/:id',component:SlaGenerationAddComponent},

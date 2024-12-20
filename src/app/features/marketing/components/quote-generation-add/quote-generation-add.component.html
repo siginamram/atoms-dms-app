@@ -125,6 +125,10 @@
     <!-- Submit Button -->
     <div class="submit-button-container">
       <button mat-raised-button color="primary" type="submit" [disabled]="!leadForm.valid">Submit</button>
+      <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+      <button mat-raised-button color="accent"  type="button" (click)="generateQuote()">
+        <i class="material-icons">add</i> Generate Quote
+      </button>
     </div>
   </form>
 </div>
