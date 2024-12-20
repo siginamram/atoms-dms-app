@@ -33,7 +33,7 @@ const routes: Routes = [
       { path: 'meet-management-histoty', component: MeetManagementHistoryComponent },
          //Quote
       { path:'generate-quote',component:QuoteGenerationDocComponent},
-      { path:'generate-new-quote',component:QuoteGenerationAddComponent},
+      { path:'generate-new-quote/:id',component:QuoteGenerationAddComponent},
         //SLA
       { path:'sla-generation',component:SlaGenerationsListComponent},
       { path:'generate-sla/:id',component:SlaGenerationAddComponent},

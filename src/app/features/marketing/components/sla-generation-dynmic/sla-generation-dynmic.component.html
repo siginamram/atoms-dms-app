@@ -1,69 +1,112 @@
-<div *ngIf="clientData; else loadingTemplate" class="sla-container">
-    <header class="sla-header">
-      <h1 class="sla-title">Service Level Agreement (SLA)</h1>
-    </header>
-  
-    <section class="sla-section">
-      <h2 class="section-title">Client Information</h2>
-      <div class="form-row">
-        <mat-form-field appearance="outline">
-          <mat-label>Client Name</mat-label>
-          <input matInput [value]="clientData.clientName || ''" readonly />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Organization</mat-label>
-          <input matInput [value]="clientData.organizationName || ''" readonly />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Domain</mat-label>
-          <input matInput [value]="clientData.domain || ''" readonly />
-        </mat-form-field>
+<!-- Page 1 -->
+<div class="pdf-container" style="background-image: url('../../../../assets/img/atomsletter_header.jpg'); background-size: cover;">
+  <h2>SERVICE LEVEL AGREEMENT (SLA)<br>BETWEEN<br>ATOMS DIGITAL SOLUTIONS AND {{ clientName }}</h2>
+
+  <h4>Scope of Services:</h4>
+  <ul>
+      <li>Atoms Digital Solutions agrees to provide comprehensive Digital Marketing Services to {{ clientName }}, {{ city }}.</li>
+  </ul>
+
+  <h4>Service Deliverables:</h4>
+  <ul>
+      <li>Optimization of the following Social Media Platforms:</li>
+      <ul>
+          <li *ngFor="let platform of platforms">{{ platform }}</li>
+      </ul>
+      <li>Content creation and graphic design</li>
+      <li>Monthly social media deliverables as specified below:</li>
+      <ul>
+          <li>No. of posters per month: {{ deliverables.posters }}</li>
+          <li>No. of graphic reels per month: {{ deliverables.graphicReels }}</li>
+          <li>No. of educational reels per month: {{ deliverables.educationalReels }}</li>
+          <li>No. of YouTube videos per month: {{ deliverables.youtubeVideos }}</li>
+      </ul>
+      <li>Sponsored ad budget: {{ adBudget.amount }} ({{ adBudget.words }})</li>
+      <li>Monthly video shoot for YouTube Videos and Educational Reels:</li>
+      <ul>
+          <li>Shoot: Offered</li>
+          <li>Shoot Charges: Applicable</li>
+          <li>Shoot Budget per visit: INR {{ shootDetails.budgetAmount }} ({{ shootDetails.budgetWords }})</li>
+      </ul>
+  </ul>
+</div>
+<!-- Page 2 -->
+<div class="pdf-container" style="background-image: url('../../../../assets/img/atomsletter_header.jpg'); background-size: cover;">
+  <h4>Roles and Responsibilities:</h4>
+  <h5>Responsibilities of Atoms Digital Solutions:</h5>
+  <ul>
+      <li>Ensure timely delivery of agreed services</li>
+      <li>Maintain the quality of designs, videos, and campaign management</li>
+      <li>Collaborate with the client for special shoots</li>
+      <li>Run sponsored ad campaigns efficiently within the allocated budget</li>
+  </ul>
+
+  <h5>Responsibilities of {{ clientName }}:</h5>
+  <ul>
+      <li>Provide knowledge transfer sessions for the content and design team before onboarding</li>
+      <li>Share required data, content, and additional information at least 4 days prior to project deadlines</li>
+      <li>Allocate time for photographers and team members for monthly video shoots</li>
+      <li>Provide constructive feedback to enhance service quality</li>
+  </ul>
+
+  <h4>Payment Terms:</h4>
+  <ul>
+      <li>Monthly Charges for the services: INR {{ payment.amount }} ({{ payment.words }})</li>
+      <li>Payments to be made on or before the {{ payment.dueDate }} of every month</li>
+      <li>Payments should be made via bank transfer or any agreed-upon payment method</li>
+  </ul>
+
+  <h4>Communication Protocol:</h4>
+  <ul>
+      <li>Both parties commit to maintaining effective and open communication throughout the engagement</li>
+      <li>Communication can take place via Email, Phone, or Scheduled Meetings</li>
+      <li>Both parties agree to assign a point of contact for clear and transparent communication</li>
+  </ul>
+</div>
+<!-- Page 3 -->
+<div class="pdf-container" style="background-image: url('../../../../assets/img/atomsletter_header.jpg'); background-size: cover;">
+  <h4>Confidentiality:</h4>
+  <ul>
+      <li>Both parties agree to maintain the confidentiality of proprietary information shared during the engagement</li>
+      <li>In the event of any misuse or unauthorized sharing of data, the issue will be addressed legally as per the applicable laws</li>
+  </ul>
+
+  <h4>Termination Clause:</h4>
+  <ul>
+      <li>Either party may terminate this agreement with a 30-day written notice</li>
+      <li>If services are terminated midway, {{ clientName }} will pay for the services availed up to the termination date</li>
+  </ul>
+
+  <h4>Governing Law:</h4>
+  <p>This agreement is governed by the laws of India, specifically the jurisdiction of Guntur</p>
+
+  <h4>Term and Renewal:</h4>
+  <ul>
+      <li>This agreement will be valid for a year, and the payment cycle will be on a monthly basis</li>
+      <li>Renewals or modifications to the scope can occur with mutual agreement between both parties</li>
+  </ul>
+
+  <h4>Acceptance:</h4>
+  <p>By signing below, both parties acknowledge and agree to the terms and conditions set forth in this Service Level Agreement</p>
+
+  <div class="signature-section">
+      <div class="signature-box">
+          <ul>
+              <li>Signature:</li>
+              <li>{{ salespersonName }}</li>
+              <li>{{ salespersonDesignation }}</li>
+              <li>Atoms Digital Solutions</li>
+              <li>{{ signingDate }}</li>
+          </ul>
       </div>
-    </section>
-  
-    <section class="sla-section">
-      <h2 class="section-title">Service Details</h2>
-      <div class="form-row">
-        <mat-form-field appearance="outline">
-          <mat-label>Base Package</mat-label>
-          <input matInput [value]="clientData.package?.basePackage || ''" readonly />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>Ad Budget</mat-label>
-          <input matInput [value]="clientData.package?.adBudget || ''" readonly />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>No. of Posters</mat-label>
-          <input matInput [value]="clientData.package?.noOfPosters || ''" readonly />
-        </mat-form-field>
+      <div class="signature-box">
+          <ul>
+              <li>Signature:</li>
+              <li>{{ clientRepresentativeName }}</li>
+              <li>{{ clientRepresentativeDesignation }}</li>
+              <li>{{ clientName }}</li>
+              <li>{{ clientSigningDate }}</li>
+          </ul>
       </div>
-      <div class="form-row">
-        <mat-form-field appearance="outline">
-          <mat-label>No. of Reels</mat-label>
-          <input matInput [value]="clientData.package?.noOfReels || ''" readonly />
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-          <mat-label>No. of YouTube Videos</mat-label>
-          <input
-            matInput
-            [value]="clientData.package?.noOfYouTubeVideos || ''"
-            readonly
-          />
-        </mat-form-field>
-      </div>
-    </section>
-  
-    <footer class="sla-footer">
-      <button mat-raised-button color="primary" (click)="generateSLADocument()">
-        Download SLA
-      </button>
-    </footer>
   </div>
-  
-  <ng-template #loadingTemplate>
-    <div class="loading">
-      <mat-spinner></mat-spinner>
-      <p>Loading SLA details...</p>
-    </div>
-  </ng-template>
-  
+</div>

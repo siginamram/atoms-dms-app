@@ -1,9 +1,9 @@
 <div class="sla-container">
   <mat-toolbar>Quote Generation View
-    <span class="spacer"></span>
+    <!-- <span class="spacer"></span>
     <button mat-raised-button color="accent" (click)="AddQuote()">
       <i class="material-icons">add</i> Generate Quote
-    </button>
+    </button> -->
   </mat-toolbar>
 
   <!-- Filter Dropdown -->
@@ -19,7 +19,7 @@
         (input)="filterSearch()"
       />
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="filterLeads($event.option.value)">
-        <mat-option *ngFor="let lead of filteredLeads" [value]="lead.leadID">
+        <mat-option *ngFor="let lead of filteredLeads" [value]="lead.leadId">
           {{ lead.organizationName }}
         </mat-option>
       </mat-autocomplete>
@@ -32,7 +32,7 @@
       <!-- Date -->
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef>Date</th>
-        <td mat-cell *matCellDef="let row">{{ row.date }}</td>
+        <td mat-cell *matCellDef="let row">{{ row.date | date: 'dd-MM-yyyy'}}</td>
       </ng-container>
 
       <!-- Lead Details -->
@@ -95,17 +95,13 @@
         <td mat-cell *matCellDef="let row">{{ row.total }}</td>
       </ng-container>
 
-      <!-- Quote -->
-      <ng-container matColumnDef="quote">
-        <th mat-header-cell *matHeaderCellDef>Quote</th>
-        <td mat-cell *matCellDef="let row">{{ row.quote }}</td>
-      </ng-container>
+
 
       <!-- Edit Button -->
       <ng-container matColumnDef="edit">
         <th mat-header-cell *matHeaderCellDef>Edit</th>
         <td mat-cell *matCellDef="let row">
-          <button mat-button color="primary" (click)="editRow(row)">Edit</button>
+          <button mat-button color="primary" (click)="editRow(row.leadId)">Edit</button>
         </td>
       </ng-container>
 

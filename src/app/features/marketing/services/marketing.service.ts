@@ -90,6 +90,18 @@ getLeadsByUserId(userId: number): Observable<any> {
 getMeetingHistoryByLeadId(leadId: number): Observable<any> {
   const apiUrl = `${this.baseApiUrl}/api/Sales/meetingHistoryByLeadId/${leadId}`;
   return this.http.get(apiUrl);
+} 
+getQuoteByUserId(userId: number): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Sales/quotationByUser/${userId}`;
+  return this.http.get(apiUrl);
+}
+getQuoteByLeadId(leadId: number): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Sales/quotationByLead/${leadId}`;
+  return this.http.get(apiUrl);
+}
+saveQuote(payload: any): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Sales/saveQuotation`;
+  return this.http.post(apiUrl, payload);
 }
 
 }

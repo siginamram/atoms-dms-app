@@ -13,6 +13,7 @@ export class SalesConvertStatuEditComponent implements OnInit {
 
   ngOnInit() {
     this.progressForm = this.fb.group({
+      clientCategory: ['', Validators.required],
       operationsManager: ['', Validators.required],
       operationsLead: ['', Validators.required],
       contactNumberManager: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
@@ -21,14 +22,6 @@ export class SalesConvertStatuEditComponent implements OnInit {
       ktDate: ['', Validators.required],
       paymentStatus: ['', Validators.required],
       advanceDate: [''],
-      posterDesigns: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
-      youtubeVideos: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
-      reels: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
-      addBudget: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
-      shootOffer: ['', Validators.required],
-      shootBudget: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
-      chargePerVisit: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
-      basePackage: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
       slaUpload: [null, Validators.required],
     });
   }

@@ -5,18 +5,25 @@
     </mat-toolbar>
   
     <!-- Filter Section -->
-    <div class="filter-row">
-      <mat-form-field appearance="outline">
-        <mat-label>City</mat-label>
-        <mat-select [(ngModel)]="cityFilter" (selectionChange)="applyFilter()">
-          <mat-option *ngFor="let city of cities" [value]="city">
-            {{ city }}
+   
+    <div class="filter-container">
+      <mat-form-field appearance="outline" >
+        <mat-label>Filter by Client</mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="Search and select a client"
+          [(ngModel)]="searchTerm"
+          [matAutocomplete]="auto"
+          (input)="filterSearch()"
+        />
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="filterLeads($event.option.value)">
+          <mat-option *ngFor="let lead of filteredLeads" [value]="lead.leadID">
+            {{ lead.organizationName }}
           </mat-option>
-          <mat-option [value]="''">All Cities</mat-option>
-        </mat-select>
+        </mat-autocomplete>
       </mat-form-field>
     </div>
-  
     <!-- Table -->
     <div class="table-container">
       <table mat-table [dataSource]="filteredData" class="mat-elevation-z8">

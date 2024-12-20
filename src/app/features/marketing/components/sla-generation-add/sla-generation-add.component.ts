@@ -13,7 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class SlaGenerationAddComponent implements OnInit {
   slaForm: FormGroup;
   leadID: number | null = null; // Store the current LeadID
-
+  minDate: Date;
   constructor(
     private fb: FormBuilder,
     private commanApiService: MarketingService,
@@ -21,17 +21,20 @@ export class SlaGenerationAddComponent implements OnInit {
     private route: ActivatedRoute,
     private dialog: MatDialog // Correctly initialized MatDialog
   ) {
+    this.minDate = new Date(); // Set minDate to today's date
     // Initialize the form with required validators
     this.slaForm = this.fb.group({
       leadName: ['', Validators.required],
       organizationDomain: ['', Validators.required],
       clientName: ['', Validators.required],
       designation: ['', Validators.required],
+      paymentDuedate:['', Validators.required],
       city: ['', Validators.required],
       address: ['', Validators.required],
       posterDesigns: ['', Validators.required],
       youtubeVideos: ['', Validators.required],
-      reels: ['', Validators.required],
+      graphicReel: ['', Validators.required],
+      educationalReel: ['', Validators.required],
       addBudget: ['', Validators.required],
       shootOffer: ['', Validators.required],
       shootBudget: [null],
@@ -78,11 +81,13 @@ export class SlaGenerationAddComponent implements OnInit {
           organizationDomain: data.domain || '',
           clientName: data.clientName || '',
           designation: data.clientDesignation || '',
+          paymentDuedate:data.paymentDate || '',
           city: data.cityName || '',
           address: data.address || '',
           posterDesigns: data.package?.noOfPosters || '',
           youtubeVideos: data.package?.noOfYouTubeVideos || '',
-          reels: data.package?.noOfReels || '',
+          graphicReel: data.package?.noOfGraphicReels || '',
+          educationalReel: data.package?.noOfEducationalReels || '',
           addBudget: data.package?.adBudget || '',
           shootOffer:  data.package?.shootOffered === true || data.package?.shootOffered === 1 ? 1 : 0,
           shootBudget:  data.package?.shootBudget === true || data.package?.shootBudget === 1 ? 1 : 0,
@@ -114,6 +119,7 @@ export class SlaGenerationAddComponent implements OnInit {
         //clientID: 0,
         clientName: formData.clientName,
         clientDesignation: formData.designation,
+        paymentDate:formData.paymentDuedate,
         organizationName: formData.leadName,
         address: formData.address,
         domain: formData.organizationDomain,
@@ -132,7 +138,8 @@ export class SlaGenerationAddComponent implements OnInit {
           basePackage: parseFloat(formData.basePackage),
           adBudget: parseFloat(formData.addBudget),
           noOfPosters: parseInt(formData.posterDesigns, 10),
-          noOfReels: parseInt(formData.reels, 10),
+          noOfGraphicReels: parseInt(formData.graphicReel, 10),
+          noOfEducationalReels: parseInt(formData.educationalReel, 10),
           noOfYouTubeVideos: parseInt(formData.youtubeVideos, 10),
           shootOffered: this.slaForm.value.shootOffer === 1 ? true : false,
           shootBudget:this.slaForm.value.shootBudget === 1 ? true : false,

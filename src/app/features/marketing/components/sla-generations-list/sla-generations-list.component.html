@@ -1,16 +1,32 @@
 <div class="sla-container">
-  <!-- Toolbar -->
   <mat-toolbar color="primary" style="border-radius: 10px;">
-    <span>Generated SLA List</span>
-    <span class="spacer"></span>
-    <!-- <button mat-raised-button color="accent" (click)="generateSLA()">
-      <i class="material-icons">add</i> Generate SLA
-    </button> -->
+    <span>Generat SLA </span>
   </mat-toolbar>
+
+  <!-- Filter Dropdown -->
+  <div class="filter-container">
+    <mat-form-field appearance="outline" >
+      <mat-label>Filter by Client</mat-label>
+      <input
+        type="text"
+        matInput
+        placeholder="Search and select a client"
+        [(ngModel)]="searchTerm"
+        [matAutocomplete]="auto"
+        (input)="filterSearch()"
+      />
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="filterLeads($event.option.value)">
+        <mat-option *ngFor="let lead of filteredLeads" [value]="lead.leadID">
+          {{ lead.organizationName }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+  
 
   <!-- Responsive Table -->
   <div class="table-container">
-    <table mat-table [dataSource]="filteredLeads" class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <!-- S.NO Column -->
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef> S.NO </th>
@@ -70,11 +86,8 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-       <!-- Paginator -->
-       <mat-paginator
-       [pageSize]="5"
-       [pageSizeOptions]="[5, 10, 20]"
-       aria-label="Select page">
-     </mat-paginator>
+
+    <!-- Paginator -->
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" aria-label="Select page"></mat-paginator>
   </div>
 </div>

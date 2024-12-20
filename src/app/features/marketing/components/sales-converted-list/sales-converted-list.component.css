@@ -60,4 +60,12 @@
       font-size: 14px;
     }
   }
-  
+  .filter-container {
+    margin: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  mat-form-field {
+    width: 300px;
+  }

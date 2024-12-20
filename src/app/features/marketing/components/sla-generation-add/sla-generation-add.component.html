@@ -39,6 +39,13 @@
           Designation is required.
         </mat-error>
       </mat-form-field>
+      
+      <mat-form-field appearance="outline">
+        <mat-label>Payment Date</mat-label>
+        <input matInput [matDatepicker]="picker" [min]="minDate" formControlName="paymentDuedate" />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
     </div>
 
     <!-- Address Fields -->
@@ -80,15 +87,22 @@
 
     <div class="form-row">
       <mat-form-field appearance="outline">
-        <mat-label>No. of Reels</mat-label>
-        <input matInput formControlName="reels" />
+        <mat-label>Graphic Reel</mat-label>
+        <input matInput formControlName="graphicReel" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Educational Reel</mat-label>
+        <input matInput formControlName="educationalReel" />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Add Budget</mat-label>
         <input matInput formControlName="addBudget" />
       </mat-form-field>
+    
+    </div>
 
+    <div class="form-row">
       <mat-form-field appearance="outline">
         <mat-label>Shoot Offer</mat-label>
         <mat-select formControlName="shootOffer">
@@ -96,9 +110,7 @@
           <mat-option [value]="0">No</mat-option>
         </mat-select>
       </mat-form-field>
-    </div>
 
-    <div class="form-row">
       <mat-form-field appearance="outline">
         <mat-label>Shoot Budget</mat-label>
         <mat-select formControlName="shootBudget">
