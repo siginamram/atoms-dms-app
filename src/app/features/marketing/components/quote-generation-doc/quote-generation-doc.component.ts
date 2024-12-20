@@ -19,6 +19,7 @@ export class QuoteGenerationDocComponent implements OnInit {
   dataSource = new MatTableDataSource<any>(this.tableData); // Data source for MatTable
 
   displayedColumns = [
+    'id',
     'date',
     'leadDetails',
     'basePackage',

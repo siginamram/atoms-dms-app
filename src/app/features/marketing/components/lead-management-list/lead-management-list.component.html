@@ -32,9 +32,13 @@
   <div class="table-container">
     <table mat-table [dataSource]="filteredLeads" class="mat-elevation-z8">
       <!-- Lead ID Column -->
-      <ng-container matColumnDef="id">
+      <!-- <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef> Lead ID </th>
         <td mat-cell *matCellDef="let lead"> {{ lead.leadID }} </td>
+      </ng-container> -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>S.No</th>
+        <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
       </ng-container>
 
       <!-- Organization Column -->

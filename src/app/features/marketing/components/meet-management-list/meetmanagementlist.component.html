@@ -33,9 +33,13 @@
     <!-- Upcoming Tab Table -->
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="activeTab === 'upcoming'">
       <!-- Meet ID Column -->
-      <ng-container matColumnDef="meetID">
+      <!-- <ng-container matColumnDef="meetID">
         <th mat-header-cell *matHeaderCellDef> Meet ID </th>
         <td mat-cell *matCellDef="let meet"> {{ meet.meetID }} </td>
+      </ng-container> -->
+      <ng-container matColumnDef="meetID">
+        <th mat-header-cell *matHeaderCellDef>S.No</th>
+        <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
       </ng-container>
 
       <!-- Organization Name Column -->
@@ -79,9 +83,13 @@
     <div class="table-responsive">
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 custom-table" *ngIf="activeTab === 'tentative'" style="width: 100%;">
         <!-- Meet ID Column -->
-        <ng-container matColumnDef="meetID">
+        <!-- <ng-container matColumnDef="meetID">
           <th mat-header-cell *matHeaderCellDef class="custom-header" style="width: 10%;"> Meet ID </th>
           <td mat-cell *matCellDef="let meet" class="custom-cell" style="width: 10%;"> {{ meet.meetID }} </td>
+        </ng-container> -->
+        <ng-container matColumnDef="meetID">
+          <th mat-header-cell *matHeaderCellDef>S.No</th>
+          <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
         </ng-container>
     
         <!-- Organization Name Column -->

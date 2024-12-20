@@ -18,6 +18,7 @@ export class SalesConvertedListComponent implements OnInit {
   constructor(private router: Router,  private commanApiService: MarketingService) {}
   cityFilter: string = '';
   displayedColumns: string[] = [
+    'id',
     'clientName',
     'dealClosingDate',
     'ktStatus',
