@@ -119,5 +119,9 @@ updateClientKTStatus(payload: any): Observable<any> {
   const apiUrl = `${this.baseApiUrl}/api/Client/updateClientKTStatus`;
   return this.http.post(apiUrl, payload);
 }
+GetclientKTStatusByClientId (clientID: number): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Client/clientKTStatusByClientId/${clientID}`;
+  return this.http.get(apiUrl);
+}
 
 }

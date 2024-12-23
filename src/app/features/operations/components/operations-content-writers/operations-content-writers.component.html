@@ -1,0 +1,192 @@
+<div class="content-writers-container">
+    <!-- Toolbar -->
+    <mat-toolbar color="primary" style="border-radius: 10px; margin-bottom: 20px;">
+      <span>Content Writers</span>
+      <span class="spacer"></span>
+      <button mat-raised-button color="accent" (click)="addNewEntry()">+ Add</button>
+    </mat-toolbar>
+  
+    <!-- Filters -->
+    <div class="filters-container">
+      <button mat-icon-button (click)="navigateToPreviousMonth()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <button mat-icon-button (click)="navigateToNextMonth()">
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+  
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Client Filter</mat-label>
+        <mat-select [(value)]="selectedClient" (selectionChange)="filterByClient()">
+          <mat-option *ngFor="let client of clients" [value]="client">{{ client }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Category Filter</mat-label>
+        <mat-select [(value)]="selectedCategory" (selectionChange)="filterByCategory()">
+          <mat-option *ngFor="let category of categories" [value]="category">{{ category }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+    
+    </div>
+     <!-- Dynamic Inputs for Posters and Reels -->
+     <!-- <div class="dynamic-inputs-container">
+        <div class="input-group">
+          <label>No Branding Poster</label>
+          <input matInput type="number" [(ngModel)]="brandingPosterCount" (input)="updateTotals()" />
+        </div>
+        <div class="input-group">
+          <label>No Branding Reel</label>
+          <input matInput type="number" [(ngModel)]="brandingReelCount" (input)="updateTotals()" />
+        </div>
+        <div class="input-group">
+          <label>No Educational Poster</label>
+          <input matInput type="number" [(ngModel)]="educationalPosterCount" (input)="updateTotals()" />
+        </div>
+        <div class="input-group">
+          <label>No Educational Reel</label>
+          <input matInput type="number" [(ngModel)]="educationalReelCount" (input)="updateTotals()" />
+        </div>
+        <div class="input-group">
+          <label>No Meme Poster</label>
+          <input matInput type="number" [(ngModel)]="memePosterCount" (input)="updateTotals()" />
+        </div>
+        <div class="input-group">
+          <label>No Meme Reel</label>
+          <input matInput type="number" [(ngModel)]="memeReelCount" (input)="updateTotals()" />
+        </div>
+      </div> -->
+        <!-- Totals -->
+    <div style="text-align: center; margin-top: 20px;">
+      <h3>Total Posters Per Month: {{ totalPosters }} | Total Reels Per Month: {{ totalReels }}</h3>
+    </div>
+
+      <div style="text-align:center; margin-top: 20px;">
+        <h3>No Branding Poster: 0 | No Branding Reel: 0 | No Educational Poster: 0 | No Meme Poster: 0 | No Meme Reel: 0</h3>
+    </div>
+    
+
+    
+    <!-- Table -->
+    <table mat-table [dataSource]="contentWritersData" class="content-writers-table mat-elevation-z8">
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.date | date: 'dd-MM-yyyy' }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="day">
+        <th mat-header-cell *matHeaderCellDef>Day</th>
+        <td mat-cell *matCellDef="let element">{{ element.day }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="speciality">
+        <th mat-header-cell *matHeaderCellDef>Speciality</th>
+        <td mat-cell *matCellDef="let element">{{ element.speciality }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="promotionType">
+        <th mat-header-cell *matHeaderCellDef>Promotion Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.promotionType }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="language">
+        <th mat-header-cell *matHeaderCellDef>Language</th>
+        <td mat-cell *matCellDef="let element">{{ element.language }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="creativeType">
+        <th mat-header-cell *matHeaderCellDef>Creative Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.creativeType }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef>Edit</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="primary" (click)="editEntry(element)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="approval">
+        <th mat-header-cell *matHeaderCellDef>Approval Status</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-select [(value)]="element.approvalStatus" (selectionChange)="updateApproval(element)">
+            <mat-option value="approved">Approved</mat-option>
+            <mat-option value="pending">Pending</mat-option>
+            <mat-option value="changes_required">Changes Required</mat-option>
+          </mat-select>
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="remarks">
+        <th mat-header-cell *matHeaderCellDef>Remarks</th>
+        <td mat-cell *matCellDef="let element">
+          <textarea matInput [(ngModel)]="element.remarks" (change)="updateRemarks(element)"></textarea>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  
+    <!-- Popup for Add/Edit -->
+    <div class="popup-container" *ngIf="isPopupVisible">
+      <h3>{{ isEditMode ? 'Edit Entry' : 'Add Entry' }}</h3>
+      <form [formGroup]="popupForm">
+        <mat-form-field appearance="outline">
+          <mat-label>Date</mat-label>
+          <input matInput [matDatepicker]="popupPicker" formControlName="date" />
+          <mat-datepicker-toggle matSuffix [for]="popupPicker"></mat-datepicker-toggle>
+          <mat-datepicker #popupPicker></mat-datepicker>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Day</mat-label>
+          <input matInput formControlName="day" />
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Speciality</mat-label>
+          <input matInput formControlName="speciality" />
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Promotion Type</mat-label>
+          <mat-select formControlName="promotionType">
+            <mat-option value="branding">Branding</mat-option>
+            <mat-option value="education">Education</mat-option>
+            <mat-option value="meme">Meme</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Language</mat-label>
+          <mat-select formControlName="language">
+            <mat-option value="english">English</mat-option>
+            <mat-option value="telugu">Telugu</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Creative Type</mat-label>
+          <mat-select formControlName="creativeType">
+            <mat-option value="posters">Posters</mat-option>
+            <mat-option value="graphicReel">Graphic Reel</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Caption</mat-label>
+          <textarea matInput formControlName="caption"></textarea>
+        </mat-form-field>
+      </form>
+      <div class="popup-actions">
+        <button mat-raised-button color="primary" (click)="saveEntry()">Save</button>
+        <button mat-raised-button color="warn" (click)="closePopup()">Cancel</button>
+      </div>
+    </div>
+  </div>
+  

@@ -32,10 +32,44 @@ export class SalesConvertStatuEditComponent implements OnInit {
     // Retrieve clientId from query parameters
     this.route.queryParams.subscribe((params) => {
       this.clientId = +params['clientid'] || 0;
+  
+      if (this.clientId > 0) {
+        this.loadClientData(this.clientId); // Fetch data if clientId exists
+      }
     });
-
+  
     this.initializeForm();
     this.loadOperationsManagers(); // Load managers initially
+  }
+  
+  loadClientData(clientId: number) {
+    this.marketingService.GetclientKTStatusByClientId(clientId).subscribe(
+      (data) => {
+        if (data) {
+          this.progressForm.patchValue({
+            clientCategory: data.clientCategory || '',
+            operationsManager: data.opManagerID || '',
+            operationsLead: data.opLeadID || '',
+            contactNumberManager: data.opManagerNumber || '',
+            contactNumberLead: data.opLeadNumber || '',
+            ktStatus: data.isKTCompleted ? 1 : 0,
+            ktDate: data.ktDate ? new Date(data.ktDate) : '',
+            isAdvReceived: data.isAdvReceived ? 1 : 0,
+            advAmount: data.advAmount || 0,
+            advanceDate: data.advDate ? new Date(data.advDate) : '',
+            slaUpload: data.slaUrl || null,
+          });
+  
+          // Optionally load dependent data if needed
+          if (data.opManagerID) {
+            this.loadOperationsLeads(data.opManagerID);
+          }
+        }
+      },
+      (error) => {
+        console.error('Failed to load client data:', error);
+      }
+    );
   }
 
   initializeForm() {
@@ -148,7 +182,7 @@ export class SalesConvertStatuEditComponent implements OnInit {
         ktDate: this.progressForm.value.ktDate,
         isAdvReceived: this.progressForm.value.isAdvReceived === 1 ? true : false,
         advAmount: this.progressForm.value.advAmount,
-        advDate: this.progressForm.value.advanceDate,
+        advDate: this.progressForm.value.advanceDate ? this.progressForm.value.advanceDate : null,
         clientCategory: parseInt(this.progressForm.value.clientCategory, 10),
         slaUrl: this.uploadedSLAFile ? this.uploadedSLAFile.name : '',
         updatedBy: parseInt(localStorage.getItem('UserID') || '0', 10),

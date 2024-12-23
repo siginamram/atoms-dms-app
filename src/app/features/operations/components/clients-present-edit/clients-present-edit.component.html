@@ -1,0 +1,262 @@
+<div class="form-container">
+    <!-- Toolbar -->
+    <mat-toolbar color="primary" style="border-radius: 10px; margin-bottom: 20px;">
+      <span>Client Edit</span>
+    </mat-toolbar>
+  
+    <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+      <!-- General Section -->
+      <h3>General</h3>
+      <div class="form-row">
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Name of the Client</mat-label>
+          <input matInput formControlName="clientName" />
+        </mat-form-field>
+  
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Deal Closing Date</mat-label>
+          <input matInput [matDatepicker]="picker1" formControlName="dealClosingDate" />
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+  
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Domain</mat-label>
+          <input matInput formControlName="domain" />
+        </mat-form-field>
+  
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Category</mat-label>
+          <mat-select formControlName="category">
+            <mat-option value="A">A</mat-option>
+            <mat-option value="B">B</mat-option>
+            <mat-option value="C">C</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <h3>Resources Allocation</h3>
+      <div class="form-row">
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>S.A Name</mat-label>
+          <mat-select formControlName="saName">
+            <mat-option *ngFor="let option of dropdownOptions.saname" [value]="option">
+              {{ option }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>S.A Number</mat-label>
+          <input matInput formControlName="saNumber" />
+        </mat-form-field>
+  
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Team Leader</mat-label>
+          <mat-select formControlName="teamLeader">
+            <mat-option *ngFor="let option of dropdownOptions.teamLeaders" [value]="option.employeeid">
+              {{ option.empname }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Content Writer</mat-label>
+          <mat-select formControlName="contentWriter">
+            <mat-option *ngFor="let option of dropdownOptions.contentWriters" [value]="option.employeeid">
+              {{ option.empname }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      
+      </div>
+  
+      <div class="form-row">
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Poster Designer</mat-label>
+          <mat-select formControlName="posterDesigner">
+            <mat-option *ngFor="let option of dropdownOptions.posterDesigners" [value]="option.employeeid">
+              {{ option.empname }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Photographer</mat-label>
+        <mat-select formControlName="photographer">
+          <mat-option *ngFor="let option of dropdownOptions.photographers" [value]="option.employeeid">
+            {{ option.empname }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Video Editor</mat-label>
+        <mat-select formControlName="videoEditor1">
+          <mat-option *ngFor="let option of dropdownOptions.videoEditors" [value]="option.employeeid">
+            {{ option.empname }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>DMA</mat-label>
+          <mat-select formControlName="dma">
+            <mat-option *ngFor="let option of dropdownOptions.dmas" [value]="option.employeeid">
+              {{ option.empname }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Login Credentials</mat-label>
+          <mat-select formControlName="loginCredentials">
+            <mat-option value="yes">Yes</mat-option>
+            <mat-option value="no">No</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Service Renewal Date</mat-label>
+          <input matInput [matDatepicker]="picker2" formControlName="serviceRenewalDate" />
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+  
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Payment Renewal Date</mat-label>
+          <input matInput [matDatepicker]="picker3" formControlName="paymentRenewalDate" />
+          <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+          <mat-datepicker #picker3></mat-datepicker>
+        </mat-form-field>
+  
+      
+      </div>
+      <div class="form-row">
+        <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Remarks</mat-label>
+            <textarea matInput formControlName="remarks"></textarea>
+          </mat-form-field>
+      </div>
+      <!-- Package Section -->
+   <!-- Package Section -->
+   <h3>Package</h3>
+   <div class="form-row">
+     <mat-form-field class="form-field" appearance="outline">
+       <mat-label>Base Package</mat-label>
+       <input matInput formControlName="basePackage" />
+     </mat-form-field>
+
+     <mat-form-field class="form-field" appearance="outline">
+       <mat-label>No. of Poster Designs</mat-label>
+       <input matInput formControlName="posterDesigns" type="number" />
+     </mat-form-field>
+
+     <mat-form-field class="form-field" appearance="outline">
+       <mat-label>No. of Graphic Reels</mat-label>
+       <input matInput formControlName="graphicReels" type="number" />
+     </mat-form-field>
+
+     <mat-form-field class="form-field" appearance="outline">
+       <mat-label>No. of Educational Reels</mat-label>
+       <input matInput formControlName="educationalReels" type="number" />
+     </mat-form-field>
+   </div>
+
+   <div class="form-row">
+     <mat-form-field class="form-field" appearance="outline">
+       <mat-label>No. of Testimonials</mat-label>
+       <input matInput formControlName="testimonials" type="number" />
+     </mat-form-field>
+
+     <mat-form-field class="form-field" appearance="outline">
+       <mat-label>No. of YouTube Videos</mat-label>
+       <input matInput formControlName="youtubeVideos" type="number" />
+     </mat-form-field>
+
+     <mat-form-field class="form-field" appearance="outline">
+       <mat-label>Shoot Offer</mat-label>
+       <mat-select formControlName="shootOffer">
+         <mat-option value="offered">Offered</mat-option>
+         <mat-option value="not_offered">Not Offered</mat-option>
+       </mat-select>
+     </mat-form-field>
+
+     <mat-form-field class="form-field" appearance="outline">
+       <mat-label>Shoot Budget</mat-label>
+       <mat-select formControlName="shootBudget">
+         <mat-option value="yes">Yes</mat-option>
+         <mat-option value="no">No</mat-option>
+       </mat-select>
+     </mat-form-field>
+   </div>
+
+   <div class="form-row">
+     <mat-form-field class="form-field" appearance="outline">
+       <mat-label>Days of Telugu Content</mat-label>
+       <input matInput formControlName="teluguContentDays" type="number" />
+     </mat-form-field>
+
+     <mat-form-field class="form-field" appearance="outline">
+       <mat-label>Days of English Content</mat-label>
+       <input matInput formControlName="englishContentDays" type="number" />
+     </mat-form-field>
+
+     <mat-form-field class="form-field" appearance="outline">
+       <mat-label>Monthly Ad Budget</mat-label>
+       <input matInput formControlName="monthlyAdBudget" />
+     </mat-form-field>
+   </div>
+
+   <div class="form-row">
+     <mat-form-field class="form-field" appearance="outline">
+       <mat-label>P.O.C Name</mat-label>
+       <input matInput formControlName="pocName" />
+     </mat-form-field>
+
+     <mat-form-field class="form-field" appearance="outline">
+       <mat-label>P.O.C Designation</mat-label>
+       <input matInput formControlName="pocDesignation" />
+     </mat-form-field>
+    
+   </div>
+  
+      <!-- Other Section -->
+      <h3>Other</h3>
+      <div class="form-row">
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Move to Exit Client</mat-label>
+          <mat-select formControlName="moveToExit">
+            <mat-option value="yes">Yes</mat-option>
+            <mat-option value="no">No</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Last Date of Service</mat-label>
+          <input matInput [matDatepicker]="picker4" formControlName="lastDateOfService" />
+          <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+          <mat-datepicker #picker4></mat-datepicker>
+        </mat-form-field>
+  
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Is there any Pending Amount?</mat-label>
+          <mat-select formControlName="pendingAmountExist">
+            <mat-option value="yes">Yes</mat-option>
+            <mat-option value="no">No</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Pending Amount</mat-label>
+          <input matInput formControlName="pendingAmount" type="number" />
+        </mat-form-field>
+      </div>
+  
+      <!-- Submit Button -->
+      <div class="form-actions">
+        <button mat-raised-button color="primary" type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+  

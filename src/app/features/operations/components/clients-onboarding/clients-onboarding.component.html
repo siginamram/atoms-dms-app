@@ -1,0 +1,229 @@
+<div class="form-container">
+    <!-- Toolbar -->
+    <mat-toolbar color="primary" class="toolbar">
+      <span>Client Onboarding</span>
+    </mat-toolbar>
+  
+    <!-- Form -->
+    <form [formGroup]="onboardingForm" (ngSubmit)="onSubmit()">
+      
+      <!-- General Section -->
+      <h3>General</h3>
+      <div class="form-row">
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Name of the Client</mat-label>
+          <input matInput formControlName="clientName" />
+        </mat-form-field>
+  
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Deal Closing Date</mat-label>
+          <input matInput [matDatepicker]="picker5" [min]="minDate"  formControlName="dealClosingDate" />
+          <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+          <mat-datepicker #picker5></mat-datepicker>
+        </mat-form-field>
+  
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Domain</mat-label>
+          <input matInput formControlName="domain" />
+        </mat-form-field>
+  
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Category</mat-label>
+          <mat-select formControlName="category">
+            <mat-option value="A">A</mat-option>
+            <mat-option value="B">B</mat-option>
+            <mat-option value="C">C</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>K.T Status</mat-label>
+          <mat-select formControlName="ktStatus">
+            <mat-option [value]="1">Yes</mat-option>
+            <mat-option [value]="0">No</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Date of K.T</mat-label>
+          <input matInput [matDatepicker]="picker1"   [min]="minDate" formControlName="ktDate" />
+          <mat-datepicker-toggle matSuffix [for]="picker1" ></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+          <!-- Document Section -->
+  <div class="form-row">
+    <div>
+      <label for="KtDocUpload">Upload Kt Document</label>
+      <input id="KtDocUpload" type="file" (change)="onFileChange($event)" />
+    </div>
+  </div>
+      </div>
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Payment Status</mat-label>
+          <mat-select formControlName="isAdvReceived">
+            <mat-option [value]="1">Paid</mat-option>
+            <mat-option [value]="0">Pending</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Advance Amount</mat-label>
+          <input matInput type="number" formControlName="advAmount" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Date for Advance</mat-label>
+          <input matInput [matDatepicker]="picker2"   [min]="minDate" formControlName="advanceDate" />
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+      </div>
+    
+      <!-- Dropdown Section -->
+      <h3>Resources Allocation</h3>
+      <div class="form-row">
+        <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Team Leader</mat-label>
+            <mat-select formControlName="teamLeader">
+              <mat-option *ngFor="let option of dropdownOptions.teamLeader" [value]="option.employeeid">
+                {{ option.empname }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+      
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Content Writer</mat-label>
+          <mat-select formControlName="contentWriter">
+            <mat-option *ngFor="let option of dropdownOptions.contentWriters" [value]="option.employeeid">
+              {{ option.empname }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Poster Designer</mat-label>
+            <mat-select formControlName="posterDesigner">
+              <mat-option *ngFor="let option of dropdownOptions.posterDesigners" [value]="option.employeeid">
+                {{ option.empname }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Photographer</mat-label>
+          <mat-select formControlName="photographer">
+            <mat-option *ngFor="let option of dropdownOptions.photographers" [value]="option.employeeid">
+              {{ option.empname }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      
+        
+      </div>
+  
+      <div class="form-row">
+        <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Video Editor-1</mat-label>
+            <mat-select formControlName="videoEditor1">
+              <mat-option *ngFor="let option of dropdownOptions.videoEditors" [value]="option.employeeid">
+                {{ option.empname }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Video Editor-2 (Optional)</mat-label>
+            <mat-select formControlName="videoEditor2">
+              <mat-option *ngFor="let option of dropdownOptions.videoEditors" [value]="option.employeeid">
+                {{ option.empname }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label>DMA</mat-label>
+            <mat-select formControlName="dma">
+              <mat-option *ngFor="let option of dropdownOptions.dmas" [value]="option.employeeid">
+                {{ option.empname }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+  
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Login Credentials</mat-label>
+          <mat-select formControlName="loginCredentials">
+            <mat-option value="yes">Yes</mat-option>
+            <mat-option value="no">No</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+  
+      <!-- Other Section -->
+      <h3>Client Status</h3>
+      <div class="form-row">
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Move to Client</mat-label>
+          <mat-select formControlName="moveTostatus">
+            <mat-option value="1">Present</mat-option>
+            <mat-option value="2">Exit</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Monthly Payment Date</mat-label>
+          <input matInput [matDatepicker]="picker4" [min]="minDate"  formControlName="lastDateOfService" />
+          <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+          <mat-datepicker #picker4></mat-datepicker>
+        </mat-form-field>
+      </div>
+  
+      <!-- Deliverables Section -->
+      <div class="deliverables-header">
+        <h3>Deliverables</h3>
+        <button mat-raised-button color="primary" (click)="addDeliverable()" type="button">+ Add Deliverable</button>
+      </div>
+      
+      <div *ngFor="let deliverable of deliverablesArray.controls; let i = index" [formGroup]="deliverable" class="deliverable-row">
+        <div class="form-row">
+          <!-- Promotion Type -->
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Promotion Type</mat-label>
+            <mat-select formControlName="type">
+              <mat-option *ngFor="let type of promotionTypes" [value]="type">{{ type }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+      
+          <!-- Telugu -->
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Telugu</mat-label>
+            <input matInput formControlName="telugu" />
+          </mat-form-field>
+      
+          <!-- English -->
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label>English</mat-label>
+            <input matInput formControlName="english" />
+          </mat-form-field>
+      
+          <!-- Creative Type -->
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Creative Type</mat-label>
+            <mat-select formControlName="creativeType">
+              <mat-option *ngFor="let creative of creativeTypes" [value]="creative">{{ creative }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+      
+          <!-- Remove Button -->
+          <button mat-icon-button color="warn" (click)="removeDeliverable(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+      
+      
+  
+      <!-- Submit -->
+      <div class="form-actions">
+        <button mat-raised-button color="primary" type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+  
