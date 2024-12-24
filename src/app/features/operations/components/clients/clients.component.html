@@ -1,127 +1,201 @@
 <div class="clients-container">
-    <!-- Toolbar -->
-    <mat-toolbar color="primary" style="border-radius: 10px;">
-      <span>Clients Management</span>
-      <span class="spacer"></span>
-    </mat-toolbar>
-  
-    <!-- Tabs -->
-    <div class="tabs">
-      <button
-        mat-raised-button
-        [class.active]="activeTab === 'onboarding'"
-        (click)="switchTab('onboarding')"
-      >
-        <mat-icon>cloud_download</mat-icon> Onboarding
-      </button>
-      <button
-        mat-raised-button
-        [class.active]="activeTab === 'present'"
-        (click)="switchTab('present')"
-      >
-        <mat-icon>check_circle</mat-icon> Present
-      </button>
-      <button
+  <!-- Toolbar -->
+  <mat-toolbar color="primary" style="border-radius: 10px;">
+    <span>Clients Management</span>
+    <span class="spacer"></span>
+  </mat-toolbar>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button
+      mat-raised-button
+      [class.active]="activeTab === 'onboarding'"
+      (click)="switchTab('onboarding')"
+    >
+      <mat-icon>cloud_download</mat-icon> Onboarding
+    </button>
+    <button
+      mat-raised-button
+      [class.active]="activeTab === 'present'"
+      (click)="switchTab('present')"
+    >
+      <mat-icon>check_circle</mat-icon> Present
+    </button>
+    <button
       mat-raised-button
       [class.active]="activeTab === 'exit'"
       (click)="switchTab('exit')"
     >
       <mat-icon>cancel</mat-icon> Exit
     </button>
-    </div>
-  
-    <!-- Onboarding Table -->
-    <div class="table-container" *ngIf="activeTab === 'onboarding'">
-      <table mat-table [dataSource]="onboardingData" class="mat-elevation-z8">
-        <ng-container matColumnDef="clientName">
-          <th mat-header-cell *matHeaderCellDef> Name of the Client </th>
-          <td mat-cell *matCellDef="let element"> {{ element.clientName }} </td>
-        </ng-container>
-  
-        <ng-container matColumnDef="dealClosingDate">
-          <th mat-header-cell *matHeaderCellDef> Deal Closing Date </th>
-          <td mat-cell *matCellDef="let element"> {{ element.dealClosingDate | date: 'dd-MM-yyyy' }} </td>
-        </ng-container>
-  
-        <ng-container matColumnDef="domain">
-          <th mat-header-cell *matHeaderCellDef> Domain </th>
-          <td mat-cell *matCellDef="let element"> {{ element.domain }} </td>
-        </ng-container>
-  
-        <ng-container matColumnDef="category">
-          <th mat-header-cell *matHeaderCellDef> Category </th>
-          <td mat-cell *matCellDef="let element"> {{ element.category }} </td>
-        </ng-container>
-  
-        <ng-container matColumnDef="ktStatus">
-          <th mat-header-cell *matHeaderCellDef> K.T Status </th>
-          <td mat-cell *matCellDef="let element"> {{ element.ktStatus }} </td>
-        </ng-container>
-  
-        <ng-container matColumnDef="city">
-          <th mat-header-cell *matHeaderCellDef> City </th>
-          <td mat-cell *matCellDef="let element"> {{ element.city }} </td>
-        </ng-container>
-  
-        <ng-container matColumnDef="edit">
-          <th mat-header-cell *matHeaderCellDef> Edit </th>
-          <td mat-cell *matCellDef="let element">
-            <button mat-icon-button color="primary" (click)="editClient(element)">
-              <mat-icon>edit</mat-icon>
-            </button>
-          </td>
-        </ng-container>
-  
-        <tr mat-header-row *matHeaderRowDef="onboardingColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: onboardingColumns;"></tr>
-      </table>
-    </div>
-  
-    <!-- Present Table -->
-    <div class="table-container" *ngIf="activeTab === 'present'">
-      <table mat-table [dataSource]="presentData" class="mat-elevation-z8">
-        <ng-container matColumnDef="clientName">
-          <th mat-header-cell *matHeaderCellDef> Name of the Client </th>
-          <td mat-cell *matCellDef="let element"> {{ element.clientName }} </td>
-        </ng-container>
-  
-        <ng-container matColumnDef="domain">
-          <th mat-header-cell *matHeaderCellDef> Domain </th>
-          <td mat-cell *matCellDef="let element"> {{ element.domain }} </td>
-        </ng-container>
-  
-        <ng-container matColumnDef="category">
-          <th mat-header-cell *matHeaderCellDef> Category </th>
-          <td mat-cell *matCellDef="let element"> {{ element.category }} </td>
-        </ng-container>
-  
-        <ng-container matColumnDef="package">
-          <th mat-header-cell *matHeaderCellDef> Package </th>
-          <td mat-cell *matCellDef="let element"> {{ element.package }} </td>
-        </ng-container>
-  
-        <ng-container matColumnDef="ktDocument">
-          <th mat-header-cell *matHeaderCellDef> K.T Document </th>
-          <td mat-cell *matCellDef="let element"> {{ element.ktDocument }} </td>
-        </ng-container>
-  
-        <ng-container matColumnDef="city">
-          <th mat-header-cell *matHeaderCellDef> City </th>
-          <td mat-cell *matCellDef="let element"> {{ element.city }} </td>
-        </ng-container>
+  </div>
 
-        <ng-container matColumnDef="edit">
-          <th mat-header-cell *matHeaderCellDef> Edit </th>
-          <td mat-cell *matCellDef="let element">
-            <button mat-icon-button color="primary" (click)="editPresentClient(element)">
-              <mat-icon>edit</mat-icon>
-            </button>
-          </td>
-        </ng-container>
-  
-        <tr mat-header-row *matHeaderRowDef="presentColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: presentColumns;"></tr>
-      </table>
+  <!-- Onboarding Table -->
+  <div class="table-container" *ngIf="activeTab === 'onboarding'">
+    <table mat-table [dataSource]="onboardingData" class="mat-elevation-z8">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>S.No</th>
+        <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="clientName">
+        <th mat-header-cell *matHeaderCellDef> Name of the Client </th>
+        <td mat-cell *matCellDef="let element"> {{ element.clientName }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dealClosingDate">
+        <th mat-header-cell *matHeaderCellDef> Deal Closing Date </th>
+        <td mat-cell *matCellDef="let element"> {{ element.dealClosingDate | date: 'dd-MM-yyyy' }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="domain">
+        <th mat-header-cell *matHeaderCellDef> Domain </th>
+        <td mat-cell *matCellDef="let element"> {{ element.domain }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef> Category </th>
+        <td mat-cell *matCellDef="let element"> {{ element.category }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="ktStatus">
+        <th mat-header-cell *matHeaderCellDef> K.T Status </th>
+        <td mat-cell *matCellDef="let element"> {{ element.ktStatus }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="city">
+        <th mat-header-cell *matHeaderCellDef> City </th>
+        <td mat-cell *matCellDef="let element"> {{ element.city }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef> Edit </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="primary" (click)="editClient(element.clientId)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="onboardingColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: onboardingColumns;"></tr>
+    </table>
+    <div *ngIf="onboardingData.length === 0" class="no-data-message">
+      <p>No data available.</p>
     </div>
   </div>
-  
+
+  <!-- Present Table -->
+  <div class="table-container" *ngIf="activeTab === 'present'">
+    <table mat-table [dataSource]="presentData" class="mat-elevation-z8">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>S.No</th>
+        <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="clientName">
+        <th mat-header-cell *matHeaderCellDef> Name of the Client </th>
+        <td mat-cell *matCellDef="let element"> {{ element.clientName }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="domain">
+        <th mat-header-cell *matHeaderCellDef> Domain </th>
+        <td mat-cell *matCellDef="let element"> {{ element.domain }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef> Category </th>
+        <td mat-cell *matCellDef="let element"> {{ element.category }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="package">
+        <th mat-header-cell *matHeaderCellDef> Package </th>
+        <td mat-cell *matCellDef="let element"> {{ element.package }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="ktDocument">
+        <th mat-header-cell *matHeaderCellDef> K.T Document </th>
+        <td mat-cell *matCellDef="let element"> {{ element.ktDocument }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="city">
+        <th mat-header-cell *matHeaderCellDef> City </th>
+        <td mat-cell *matCellDef="let element"> {{ element.city }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef> Edit </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="primary" (click)="editPresentClient(element.clientId)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="presentColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: presentColumns;"></tr>
+    </table>
+    <div *ngIf="presentData.length === 0" class="no-data-message">
+      <p>No data available.</p>
+    </div>
+  </div>
+
+  <!-- Exit Table -->
+  <div class="table-container" *ngIf="activeTab === 'exit'">
+    <table mat-table [dataSource]="exitData" class="mat-elevation-z8">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>S.No</th>
+        <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+      </ng-container>
+      
+      <ng-container matColumnDef="clientName">
+        <th mat-header-cell *matHeaderCellDef> Name of the Client </th>
+        <td mat-cell *matCellDef="let element"> {{ element.clientName }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="domain">
+        <th mat-header-cell *matHeaderCellDef> Domain </th>
+        <td mat-cell *matCellDef="let element"> {{ element.domain }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef> Category </th>
+        <td mat-cell *matCellDef="let element"> {{ element.category }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="package">
+        <th mat-header-cell *matHeaderCellDef> Package </th>
+        <td mat-cell *matCellDef="let element"> {{ element.package }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="ktDocument">
+        <th mat-header-cell *matHeaderCellDef> K.T Document </th>
+        <td mat-cell *matCellDef="let element"> {{ element.ktDocument }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="city">
+        <th mat-header-cell *matHeaderCellDef> City </th>
+        <td mat-cell *matCellDef="let element"> {{ element.city }} </td>
+      </ng-container>
+
+      <!-- <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef> Edit </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="primary" (click)="editExitClient(element)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container> -->
+
+      <tr mat-header-row *matHeaderRowDef="exitColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: exitColumns;"></tr>
+    </table>
+    <div *ngIf="exitData.length === 0" class="no-data-message">
+      <p>No data available.</p>
+    </div>
+  </div>
+ 
+    <!-- Paginator -->
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" aria-label="Select page"></mat-paginator>
+
+</div>

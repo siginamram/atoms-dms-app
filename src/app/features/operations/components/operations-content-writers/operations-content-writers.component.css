@@ -6,12 +6,18 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
-  
+  mat-toolbar {
+    margin-bottom: 16px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    border-radius: 8px;
+  }
   .filters-container {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 20px;
+    margin: 20px;
   }
   
   mat-form-field {
@@ -47,5 +53,58 @@
     mat-form-field {
       flex: 100%;
     }
+  }
+  .metric-buttons {
+    display: flex;            /* Enable horizontal layout */
+    flex-wrap: wrap;          /* Allow wrapping for smaller screens */
+    gap: 8px;                 /* Add spacing between buttons */
+    justify-content: center;  /* Center align all buttons */
+    margin-bottom: 16px;      /* Add spacing below buttons */
+  }
+  
+  .metric-button {
+    display: flex;            /* Use Flexbox for alignment */
+    align-items: center;      /* Center items vertically */
+    justify-content: space-between; /* Space out icon and text */
+    gap: 8px;                 /* Add spacing between icon and text */
+    padding: 8px 12px;        /* Reduce padding for button size */
+    font-size: 12px;          /* Adjust font size for compact view */
+    min-width: 150px;         /* Set minimum width for uniformity */
+    border-radius: 5px;       /* Add rounded corners */
+    color: white;             /* Set text color */
+  }
+  
+  .metric-button mat-icon {
+    font-size: 18px;          /* Adjust icon size */
+  }
+  
+  .total-posters {
+    background-color: #101010;
+  }
+  
+  .total-reels {
+    background-color: #101010;
+  }
+  
+  .branding-posters {
+    background-color: #ff9800;
+  }
+  
+  .branding-reels {
+    background-color: #f44336;
+  }
+  
+  .educational-posters {
+    background-color: #9c27b0;
+  }
+  .educational-reels {
+    background-color: #2787b0;
+  }
+  .meme-posters {
+    background-color: #673ab7;
+  }
+  
+  .meme-reels {
+    background-color: #3f51b5;
   }
   

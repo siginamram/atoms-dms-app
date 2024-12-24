@@ -16,7 +16,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { FormsModule } from '@angular/forms'; 
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
-import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+//import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MatPaginatorModule } from '@angular/material/paginator'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -27,7 +27,6 @@ import { ClientsComponent } from './components/clients/clients.component';
 import { ClientsOnboardingComponent } from './components/clients-onboarding/clients-onboarding.component';
 import { ClientsPresentEditComponent } from './components/clients-present-edit/clients-present-edit.component';
 import { OperationsContentWritersComponent } from './components/operations-content-writers/operations-content-writers.component';
-
 
 
 @NgModule({
@@ -57,7 +56,7 @@ import { OperationsContentWritersComponent } from './components/operations-conte
         FormsModule,
         MatDialogModule,
         MatPaginatorModule,
-        NgxMaterialTimepickerModule,
+        //NgxMaterialTimepickerModule,
         MatProgressSpinnerModule,
         MatAutocompleteModule,
         MatRadioModule,

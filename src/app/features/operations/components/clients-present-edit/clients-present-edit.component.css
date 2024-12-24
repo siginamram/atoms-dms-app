@@ -38,6 +38,10 @@
     }
   }
   .form-actions {
-    text-align: center;
-    margin-top: 20px;
+    display: flex;          /* Use flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center;    /* Center vertically (if needed) */
+    margin: 20px;       /* Maintain spacing from other elements */
+    padding-bottom: 20px;
   }
+  
