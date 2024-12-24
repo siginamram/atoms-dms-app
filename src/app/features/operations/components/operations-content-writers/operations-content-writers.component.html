@@ -8,28 +8,23 @@
 
   <!-- Filters -->
   <div class="filters-container">
-    <button mat-icon-button class="filter-icon" (click)="navigateToPreviousMonth()">
-      <mat-icon>arrow_back</mat-icon>
-    </button>
     <mat-form-field class="form-field" appearance="outline">
       <mat-label>Client Filter</mat-label>
-      <mat-select [(value)]="selectedClient" (selectionChange)="filterByClient()">
-        <mat-option *ngFor="let client of clients" [value]="client">{{ client }}</mat-option>
-      </mat-select>
+      <input type="text" matInput [matAutocomplete]="auto" [(ngModel)]="selectedClient" (input)="filterClients()">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let client of filteredClients" [value]="client">{{ client }}</mat-option>
+      </mat-autocomplete>
     </mat-form-field>
+
     <mat-form-field class="form-field" appearance="outline">
-      <mat-label>Category Filter</mat-label>
-      <mat-select [(value)]="selectedCategory" (selectionChange)="filterByCategory()">
-        <mat-option *ngFor="let category of categories" [value]="category">{{ category }}</mat-option>
-      </mat-select>
+      <mat-label>Select Month & Year</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="selectedMonthYear" (dateChange)="filterByMonthYear()">
+      <mat-datepicker #picker startView="multi-year" panelClass="month-picker" [startAt]="startAtDate"></mat-datepicker>
     </mat-form-field>
-    <button mat-icon-button class="filter-icon" (click)="navigateToNextMonth()">
-      <mat-icon>arrow_forward</mat-icon>
-    </button>
   </div>
 
   <!-- Dashboard Cards -->
-   <h2>Monthly deliverables</h2>
+  <h2>Monthly Deliverables</h2>
   <div class="metric-buttons">
     <button mat-raised-button class="metric-button total-posters">
       <mat-icon>insert_drive_file</mat-icon>
@@ -39,8 +34,6 @@
       <mat-icon>movie_creation</mat-icon>
       <span>Total Reels: {{ totalReels }}</span>
     </button>
-    </div>
-    <div class="metric-buttons">
     <button mat-raised-button class="metric-button branding-posters">
       <mat-icon>auto_graph</mat-icon>
       <span>Branding Posters: {{ brandingPosterCount }}</span>
@@ -55,7 +48,7 @@
     </button>
     <button mat-raised-button class="metric-button educational-reels">
       <mat-icon>school</mat-icon>
-      <span>Educational Reels: {{ educationalReelCount  }}</span>
+      <span>Educational Reels: {{ educationalReelCount }}</span>
     </button>
     <button mat-raised-button class="metric-button meme-posters">
       <mat-icon>mood</mat-icon>
@@ -68,7 +61,7 @@
   </div>
 
   <!-- Table -->
-  <table mat-table [dataSource]="contentWritersData" class="content-writers-table mat-elevation-z8">
+  <table mat-table [dataSource]="filteredData" class="content-writers-table mat-elevation-z8">
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef>Date</th>
       <td mat-cell *matCellDef="let element">{{ element.date | date: 'dd-MM-yyyy' }}</td>
@@ -88,6 +81,24 @@
     <ng-container matColumnDef="language">
       <th mat-header-cell *matHeaderCellDef>Language</th>
       <td mat-cell *matCellDef="let element">{{ element.language }}</td>
+    </ng-container>
+    <ng-container matColumnDef="creativeType">
+      <th mat-header-cell *matHeaderCellDef>Creative Type</th>
+      <td mat-cell *matCellDef="let element">{{ element.creativeType }}</td>
+    </ng-container>
+    <ng-container matColumnDef="approval">
+      <th mat-header-cell *matHeaderCellDef>Approval</th>
+      <td mat-cell *matCellDef="let element">
+        <mat-checkbox [(ngModel)]="element.approvalStatus" (change)="updateApproval(element)">
+          {{ element.approvalStatus ? 'Approved' : 'Pending' }}
+        </mat-checkbox>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="remarks">
+      <th mat-header-cell *matHeaderCellDef>Remarks</th>
+      <td mat-cell *matCellDef="let element">
+        <textarea [(ngModel)]="element.remarks" (change)="updateRemarks(element)"></textarea>
+      </td>
     </ng-container>
     <ng-container matColumnDef="edit">
       <th mat-header-cell *matHeaderCellDef>Edit</th>

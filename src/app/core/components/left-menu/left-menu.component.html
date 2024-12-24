@@ -59,7 +59,7 @@
           </a>
         </li>
         <li>
-          <a [routerLink]="['/home', 'operations', 'operations-content-writer']" *ngIf="roleService.hasRole(['Manager', 'Content Writer'])" routerLinkActive="active">
+          <a [routerLink]="['/home', 'operations', 'content-writer-client']" *ngIf="roleService.hasRole(['Manager', 'Content Writer'])" routerLinkActive="active">
             <i class="material-icons">edit</i>Content Writer
           </a>
         </li>
@@ -121,7 +121,7 @@
       </a>
     </li>
     <li>
-      <a [routerLink]="['/home', 'operations', 'operations-content-writer']" *ngIf="roleService.hasRole(['Manager', 'Content Writer'])" routerLinkActive="active">
+      <a [routerLink]="['/home', 'operations', 'content-writer-client']" *ngIf="roleService.hasRole(['Manager', 'Content Writer'])" routerLinkActive="active">
         <i class="material-icons">edit</i>Content Writer
       </a>
     </li>

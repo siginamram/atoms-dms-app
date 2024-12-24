@@ -7,23 +7,49 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./operations-content-writers.component.css'],
 })
 export class OperationsContentWritersComponent {
+  // Data and Filters
   clients = ['Client A', 'Client B', 'Client C']; // Example client list
-  categories = ['Category X', 'Category Y', 'Category Z']; // Example category list
-  totalPosts = 0; // Example total posts
-  totalReels = 0; // Example total reels
+  filteredClients: string[] = [...this.clients];
   selectedClient: string = ''; // Default selected client
-  selectedCategory: string = ''; // Default selected category
-    // Dynamic counts
-    brandingPosterCount = 0;
-    brandingReelCount = 0;
-    educationalPosterCount = 0;
-    educationalReelCount = 0;
-    memePosterCount = 0;
-    memeReelCount = 0;
-  
-    // Totals
-    totalPosters = 0;
-  
+  selectedMonthYear: Date | null = null;
+  startAtDate = new Date();
+
+  // Metrics
+  brandingPosterCount = 0;
+  brandingReelCount = 0;
+  educationalPosterCount = 0;
+  educationalReelCount = 0;
+  memePosterCount = 0;
+  memeReelCount = 0;
+
+  totalPosters = 0;
+  totalReels = 0;
+
+  // Table Data
+  contentWritersData = [
+    {
+      date: '2024-12-20',
+      day: 'Monday',
+      speciality: 'Speciality 1',
+      promotionType: 'Branding',
+      language: 'English',
+      creativeType: 'Poster',
+      approvalStatus: false,
+      remarks: 'Pending review',
+    },
+    {
+      date: '2024-12-21',
+      day: 'Tuesday',
+      speciality: 'Speciality 2',
+      promotionType: 'Education',
+      language: 'Telugu',
+      creativeType: 'Reel',
+      approvalStatus: true,
+      remarks: 'Approved',
+    },
+  ];
+
+  filteredData = this.contentWritersData;
 
   displayedColumns: string[] = [
     'date',
@@ -32,33 +58,12 @@ export class OperationsContentWritersComponent {
     'promotionType',
     'language',
     'creativeType',
-    'edit',
     'approval',
     'remarks',
-  ];
-  contentWritersData: any[] = [
-    {
-      date: '2024-12-20',
-      day: 'Monday',
-      speciality: 'Speciality 1',
-      promotionType: 'Branding',
-      language: 'English',
-      creativeType: 'Poster',
-      approvalStatus: 'approved',
-      remarks: 'Well done',
-    },
-    {
-      date: '2024-12-21',
-      day: 'Tuesday',
-      speciality: 'Speciality 2',
-      promotionType: 'Education',
-      language: 'Telugu',
-      creativeType: 'Graphic Reel',
-      approvalStatus: 'pending',
-      remarks: 'Pending review',
-    },
+    'edit',
   ];
 
+  // Popup Management
   isPopupVisible = false;
   isEditMode = false;
   popupForm: FormGroup;
@@ -71,72 +76,105 @@ export class OperationsContentWritersComponent {
       promotionType: [''],
       language: [''],
       creativeType: [''],
-      caption: [''],
+      approvalStatus: [false],
+      remarks: [''],
     });
   }
 
+  // Filter Clients
+  filterClients() {
+    this.filteredClients = this.clients.filter(client =>
+      client.toLowerCase().includes(this.selectedClient.toLowerCase())
+    );
+  }
+
+  // Filter by Month and Year
+  filterByMonthYear() {
+    if (this.selectedMonthYear) {
+      const month = this.selectedMonthYear.getMonth();
+      const year = this.selectedMonthYear.getFullYear();
+      this.filteredData = this.contentWritersData.filter(data => {
+        const date = new Date(data.date);
+        return date.getMonth() === month && date.getFullYear() === year;
+      });
+    } else {
+      this.filteredData = [...this.contentWritersData];
+    }
+    this.calculateTotals();
+  }
+
+  // Calculate Totals
+  calculateTotals() {
+    this.totalPosters = this.filteredData.filter(item => item.creativeType === 'Poster').length;
+    this.totalReels = this.filteredData.filter(item => item.creativeType === 'Reel').length;
+
+    this.brandingPosterCount = this.filteredData.filter(
+      item => item.promotionType === 'Branding' && item.creativeType === 'Poster'
+    ).length;
+
+    this.brandingReelCount = this.filteredData.filter(
+      item => item.promotionType === 'Branding' && item.creativeType === 'Reel'
+    ).length;
+
+    this.educationalPosterCount = this.filteredData.filter(
+      item => item.promotionType === 'Education' && item.creativeType === 'Poster'
+    ).length;
+
+    this.educationalReelCount = this.filteredData.filter(
+      item => item.promotionType === 'Education' && item.creativeType === 'Reel'
+    ).length;
+
+    this.memePosterCount = this.filteredData.filter(
+      item => item.promotionType === 'Meme' && item.creativeType === 'Poster'
+    ).length;
+
+    this.memeReelCount = this.filteredData.filter(
+      item => item.promotionType === 'Meme' && item.creativeType === 'Reel'
+    ).length;
+  }
+
+  // Add New Entry
   addNewEntry() {
     this.isPopupVisible = true;
     this.isEditMode = false;
     this.popupForm.reset();
   }
 
+  // Edit Entry
   editEntry(element: any) {
     this.isPopupVisible = true;
     this.isEditMode = true;
     this.popupForm.patchValue(element);
   }
 
+  // Save Entry
   saveEntry() {
     if (this.popupForm.valid) {
       if (this.isEditMode) {
         const index = this.contentWritersData.findIndex(
-          (entry) => entry.date === this.popupForm.value.date
+          entry => entry.date === this.popupForm.value.date
         );
         this.contentWritersData[index] = this.popupForm.value;
       } else {
         this.contentWritersData.push(this.popupForm.value);
       }
       this.calculateTotals();
+      this.closePopup();
     }
-    this.closePopup();
   }
 
+  // Close Popup
   closePopup() {
     this.isPopupVisible = false;
   }
 
-  filterByClient() {
-    console.log('Filtering by client:', this.selectedClient);
-  }
-
-  filterByCategory() {
-    console.log('Filtering by category:', this.selectedCategory);
-  }
-
-  navigateToPreviousMonth() {
-    console.log('Navigate to Previous Month');
-  }
-
-  navigateToNextMonth() {
-    console.log('Navigate to Next Month');
-  }
-
+  // Update Approval Status
   updateApproval(element: any) {
-    console.log('Approval Updated:', element);
-    element.approvalStatus = element.approvalStatus || 'pending';
+    element.approvalStatus = !element.approvalStatus;
   }
 
+  // Update Remarks
   updateRemarks(element: any) {
-    console.log('Remarks Updated:', element);
-  }
-
-  calculateTotals() {
-    this.totalPosts = this.contentWritersData.filter(
-      (entry) => entry.creativeType === 'Poster'
-    ).length;
-    this.totalReels = this.contentWritersData.filter(
-      (entry) => entry.creativeType === 'Graphic Reel'
-    ).length;
+    console.log('Updated remarks:', element.remarks);
   }
 }
