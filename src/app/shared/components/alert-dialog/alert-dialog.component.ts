@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-alert-dialog',
+  standalone:false,
   template: `
     <div class="alert-dialog-container" [ngClass]="data.type">
       <mat-icon class="dialog-icon" [ngClass]="data.type">

@@ -7,6 +7,7 @@ import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-meetmanagementlist',
+  standalone:false,
   templateUrl: './meetmanagementlist.component.html',
   styleUrls: ['./meetmanagementlist.component.css'],
 })

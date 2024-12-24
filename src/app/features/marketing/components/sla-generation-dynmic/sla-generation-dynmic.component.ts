@@ -5,6 +5,7 @@ import { jsPDF } from 'jspdf';
 
 @Component({
   selector: 'app-sla-generation-dynamic',
+  standalone:false,
   templateUrl: './sla-generation-dynmic.component.html',
   styleUrls: ['./sla-generation-dynmic.component.css']
 })

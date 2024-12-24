@@ -7,6 +7,7 @@ import { MarketingService } from '../../services/marketing.service';
 
 @Component({
   selector: 'app-leadmanagementadd',
+  standalone:false,
   templateUrl: './leadmanagementadd.component.html',
   styleUrls: ['./leadmanagementadd.component.css'],
 })

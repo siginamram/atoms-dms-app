@@ -13,6 +13,7 @@ export interface Employee {
 
 @Component({
   selector: 'app-clients-onboarding',
+  standalone:false,
   templateUrl: './clients-onboarding.component.html',
   styleUrls: ['./clients-onboarding.component.css'],
 })

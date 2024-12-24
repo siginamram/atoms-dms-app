@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-content-writers-clients',
+  standalone:false,
   templateUrl: './content-writers-clients.component.html',
   styleUrls: ['./content-writers-clients.component.css'],
 })

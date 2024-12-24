@@ -3,6 +3,7 @@ import { RoleService } from 'src/app/services/role.service';
 
 @Component({
   selector: 'app-left-menu',
+  standalone:false,
   templateUrl: './left-menu.component.html',
   styleUrls: ['./left-menu.component.css']
 })

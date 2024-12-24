@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-operations-content-writers',
+  standalone:false,
   templateUrl: './operations-content-writers.component.html',
   styleUrls: ['./operations-content-writers.component.css'],
 })

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-quote-generation-doc',
+  standalone:false,
   templateUrl: './quote-generation-doc.component.html',
   styleUrls: ['./quote-generation-doc.component.css'],
 })

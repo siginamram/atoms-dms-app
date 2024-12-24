@@ -8,6 +8,7 @@ import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/ale
 
 @Component({
   selector: 'app-lead-management-list',
+  standalone:false,
   templateUrl: './lead-management-list.component.html',
   styleUrls: ['./lead-management-list.component.css'],
 })

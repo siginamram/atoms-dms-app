@@ -7,6 +7,7 @@ import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/ale
 
 @Component({
   selector: 'app-meetmanagementadd',
+  standalone:false,
   templateUrl: './meetmanagementadd.component.html',
   styleUrls: ['./meetmanagementadd.component.css'],
 })

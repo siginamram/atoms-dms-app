@@ -7,6 +7,7 @@ import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/ale
 
 @Component({
   selector: 'app-quote-generation-add',
+  standalone:false,
   templateUrl: './quote-generation-add.component.html',
   styleUrls: ['./quote-generation-add.component.css'],
 })

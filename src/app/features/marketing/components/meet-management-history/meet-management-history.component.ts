@@ -5,6 +5,7 @@ import { MarketingService } from '../../services/marketing.service';
 
 @Component({
   selector: 'app-meet-management-history',
+  standalone:false,
   templateUrl: './meet-management-history.component.html',
   styleUrls: ['./meet-management-history.component.css']
 })

@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-sales-converted-list',
+  standalone:false,
   templateUrl: './sales-converted-list.component.html',
   styleUrls: ['./sales-converted-list.component.css'],
 })

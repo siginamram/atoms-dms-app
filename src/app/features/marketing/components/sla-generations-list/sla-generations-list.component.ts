@@ -6,6 +6,7 @@ import { MarketingService } from '../../services/marketing.service'; // Ensure t
 
 @Component({
   selector: 'app-sla-generations-list',
+  standalone:false,
   templateUrl: './sla-generations-list.component.html',
   styleUrls: ['./sla-generations-list.component.css'],
 })

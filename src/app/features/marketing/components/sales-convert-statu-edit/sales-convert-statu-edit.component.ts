@@ -7,6 +7,7 @@ import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/ale
 
 @Component({
   selector: 'app-sales-convert-statu-edit',
+  standalone:false,
   templateUrl: './sales-convert-statu-edit.component.html',
   styleUrls: ['./sales-convert-statu-edit.component.css'],
 })

@@ -14,6 +14,7 @@ export interface Employee {
 
 @Component({
   selector: 'app-clients-present-edit',
+  standalone:false,
   templateUrl: './clients-present-edit.component.html',
   styleUrls: ['./clients-present-edit.component.css'],
 })

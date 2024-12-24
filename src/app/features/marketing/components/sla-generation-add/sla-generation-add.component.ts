@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-sla-generation-add',
+  standalone:false,
   templateUrl: './sla-generation-add.component.html',
   styleUrls: ['./sla-generation-add.component.css'],
 })

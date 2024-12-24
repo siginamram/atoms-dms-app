@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-clients',
+  standalone:false,
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.css'],
 })

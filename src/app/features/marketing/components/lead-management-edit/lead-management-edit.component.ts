@@ -5,6 +5,7 @@ import { MarketingService } from '../../services/marketing.service';
 
 @Component({
   selector: 'app-lead-management-edit',
+  standalone:false,
   templateUrl: './lead-management-edit.component.html',
   styleUrls: ['./lead-management-edit.component.css'],
 })

@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-employees-list',
-  standalone: true,
-  imports: [],
+  standalone:false,
   templateUrl: './employees-list.component.html',
   styleUrl: './employees-list.component.css'
 })
