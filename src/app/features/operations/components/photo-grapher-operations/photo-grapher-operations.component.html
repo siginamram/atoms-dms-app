@@ -1,1 +1,108 @@
-<p>photo-grapher-operations works!</p>
+<div class="content-container">
+    <!-- Toolbar -->
+    <mat-toolbar color="primary" class="toolbar">
+      <span>Video Grapher Operations</span>
+    </mat-toolbar>
+  
+    <!-- Filters Section -->
+    <div class="filters-container">
+      <!-- Client Filter -->
+      <mat-form-field appearance="outline" class="filter-field">
+        <mat-label>Client</mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="Search Client"
+          [(ngModel)]="searchClient"
+          [matAutocomplete]="auto"
+          (input)="filterClients()"
+        />
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectClient($event.option.value)">
+          <mat-option *ngFor="let client of filteredClients" [value]="client">{{ client }}</mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    
+  
+    <!-- Month and Year Picker -->
+    <mat-form-field appearance="outline" class="month-picker-field">
+        <mat-label>Month and Year</mat-label>
+        <input
+          matInput
+          [matDatepicker]="dp"
+          [formControl]="date"
+          placeholder="MM/YYYY"
+          readonly
+        />
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker
+          #dp
+          startView="multi-year"
+          (monthSelected)="setMonthAndYear($event, dp)"
+          panelClass="custom-datepicker-panel"
+        ></mat-datepicker>
+      </mat-form-field>
+    </div>
+  
+    <!-- Table -->
+    <table mat-table [dataSource]="photoData" class="mat-elevation-z8">
+      <!-- Month Column -->
+      <ng-container matColumnDef="month">
+        <th mat-header-cell *matHeaderCellDef>Month</th>
+        <td mat-cell *matCellDef="let element">{{ element.month }}</td>
+      </ng-container>
+  
+      <!-- Client Column -->
+      <ng-container matColumnDef="client">
+        <th mat-header-cell *matHeaderCellDef>Client</th>
+        <td mat-cell *matCellDef="let element">{{ element.client }}</td>
+      </ng-container>
+  
+      <!-- Reels Required Column -->
+      <ng-container matColumnDef="reelsRequired">
+        <th mat-header-cell *matHeaderCellDef>No. of Reels Required</th>
+        <td mat-cell *matCellDef="let element">{{ element.reelsRequired }}</td>
+      </ng-container>
+  
+      <!-- Reels Shot Column -->
+      <ng-container matColumnDef="reelsShot">
+        <th mat-header-cell *matHeaderCellDef>No. of Reels Shot</th>
+        <td mat-cell *matCellDef="let element">{{ element.reelsShot }}</td>
+      </ng-container>
+  
+      <!-- YouTube Videos Required Column -->
+      <ng-container matColumnDef="youtubeVideosRequired">
+        <th mat-header-cell *matHeaderCellDef>No. of YouTube Videos Required</th>
+        <td mat-cell *matCellDef="let element">{{ element.youtubeVideosRequired }}</td>
+      </ng-container>
+  
+      <!-- YouTube Videos Shot Column -->
+      <ng-container matColumnDef="youtubeVideosShot">
+        <th mat-header-cell *matHeaderCellDef>No. of YouTube Videos Shot</th>
+        <td mat-cell *matCellDef="let element">{{ element.youtubeVideosShot }}</td>
+      </ng-container>
+  
+      <!-- Date of Shoot Column -->
+      <ng-container matColumnDef="shootDate">
+        <th mat-header-cell *matHeaderCellDef>Date of Shoot</th>
+        <td mat-cell *matCellDef="let element">{{ element.shootDate }}</td>
+      </ng-container>
+  
+      <!-- Link Column -->
+      <ng-container matColumnDef="link">
+        <th mat-header-cell *matHeaderCellDef>Link</th>
+        <td mat-cell *matCellDef="let element">
+          <a [href]="element.link" target="_blank">View</a>
+        </td>
+      </ng-container>
+  
+      <!-- Remarks Column -->
+      <ng-container matColumnDef="remarks">
+        <th mat-header-cell *matHeaderCellDef>Remarks</th>
+        <td mat-cell *matCellDef="let element">{{ element.remarks }}</td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+  

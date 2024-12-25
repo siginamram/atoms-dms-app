@@ -101,7 +101,6 @@ filterLeads(selectedLeadId: number): void {
   }
 }
 
-
 setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>): void {
   const ctrlValue = this.date.value ?? moment();
   ctrlValue.month(normalizedMonthAndYear.month());
@@ -109,8 +108,6 @@ setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment
   this.date.setValue(ctrlValue);
   datepicker.close();
 }
-
-
 
 onMonthYearSelected(event: moment.Moment, datepicker: any): void {
   if (event && event.isValid && event.isValid()) {
