@@ -28,7 +28,19 @@ import { ClientsOnboardingComponent } from './components/clients-onboarding/clie
 import { ClientsPresentEditComponent } from './components/clients-present-edit/clients-present-edit.component';
 import { OperationsContentWritersComponent } from './components/operations-content-writers/operations-content-writers.component';
 import { ContentWritersClientsComponent } from './components/content-writers-clients/content-writers-clients.component';
-
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+const MY_FORMATS = {
+  parse: {
+    dateInput: 'MM/YYYY',
+  },
+  display: {
+    dateInput: 'MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @NgModule({
   declarations: [
@@ -62,6 +74,11 @@ import { ContentWritersClientsComponent } from './components/content-writers-cli
         MatProgressSpinnerModule,
         MatAutocompleteModule,
         MatRadioModule,
-  ]
+        MatMomentDateModule,
+  ],
+  providers: [
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-US' }, // Set your preferred locale
+  ],
 })
 export class OperationsModule { }

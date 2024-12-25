@@ -26,25 +26,20 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-  
-      <!-- Filter by Month & Year -->
+      
       <mat-form-field appearance="outline">
-        <mat-label>Filter by Month & Year</mat-label>
-        <input
-          matInput
-          [matDatepicker]="picker"
-          placeholder="Select Month & Year"
-          [value]="formattedMonthYear"
-          readonly
-          (click)="picker.open()"
-        />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-label>Month and Year</mat-label>
+        <input matInput [matDatepicker]="dp" [formControl]="date" placeholder="MM/YYYY" readonly>
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
         <mat-datepicker
-          #picker
+          #dp
           startView="multi-year"
-          (monthSelected)="onMonthYearSelected($event, picker)"
-        ></mat-datepicker>
+          (monthSelected)="setMonthAndYear($event, dp)"
+          panelClass="example-month-picker">
+        </mat-datepicker>
       </mat-form-field>
+      
+      
       
     </div>
   
@@ -103,7 +98,7 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let element">
-            <button mat-button color="accent" (click)="editRow(element)">Edit</button>
+            <button mat-button color="accent" (click)="editRow(element.id)">Edit</button>
           </td>
         </ng-container>
   

@@ -38,6 +38,7 @@ import { AdminLayoutModule } from './layouts/admin-layout/admin-layout.module';
 import { UserLayoutModule } from './layouts/user-layout/user-layout.module';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     UserLayoutModule,
     NgxMaterialTimepickerModule,
     MatDialogModule,
+    MatMomentDateModule,
   ],
   providers: [
     provideAnimationsAsync(), // Ensure async animations support

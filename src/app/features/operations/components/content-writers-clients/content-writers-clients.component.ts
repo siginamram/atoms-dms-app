@@ -1,21 +1,42 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatDatepicker } from '@angular/material/datepicker';
+import * as moment from 'moment';
+import { Moment } from 'moment';
+import { FormControl } from '@angular/forms';
+import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
+import { Router } from '@angular/router';
+import { OperationsService } from '../../services/operations.service';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'MM/YYYY',
+  },
+  display: {
+    dateInput: 'MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'app-content-writers-clients',
   standalone:false,
   templateUrl: './content-writers-clients.component.html',
   styleUrls: ['./content-writers-clients.component.css'],
+  providers: [provideMomentDateAdapter(MY_FORMATS)],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContentWritersClientsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
   leads: any[] = [];
   searchTerm: string = '';
-  formattedMonthYear: string = ''; // To store the displayed date
-  selectedMonthYear: { month: number; year: number } | null = null; // For filtering logic
-
+  formattedMonthYear: string = '';
+  readonly date = new FormControl(moment());
+  
   displayedColumns: string[] = [
     'id',
     'organizationName',
@@ -23,8 +44,6 @@ export class ContentWritersClientsComponent implements OnInit {
     'isKTCompleted',
     'noOfReels',
     'reelsPer',
-    'noOfGraphicReels',
-    'graphicReelsPer',
     'actions',
   ];
 
@@ -34,12 +53,8 @@ export class ContentWritersClientsComponent implements OnInit {
       organizationName: 'Client A',
       cityName: 'Hyderabad',
       isKTCompleted: 'Completed',
-      isAdvReceived: '50%',
       noOfReels: 20,
       reelsPer: '75%',
-      noOfGraphicReels: 5,
-      graphicReelsPer: '25%',
-      clientId: 101,
       date: '2024-12-01',
     },
     {
@@ -47,12 +62,8 @@ export class ContentWritersClientsComponent implements OnInit {
       organizationName: 'Client B',
       cityName: 'Bangalore',
       isKTCompleted: 'Pending',
-      isAdvReceived: '30%',
       noOfReels: 15,
       reelsPer: '50%',
-      noOfGraphicReels: 10,
-      graphicReelsPer: '50%',
-      clientId: 102,
       date: '2024-11-10',
     },
     {
@@ -60,74 +71,62 @@ export class ContentWritersClientsComponent implements OnInit {
       organizationName: 'Client C',
       cityName: 'Chennai',
       isKTCompleted: 'Completed',
-      isAdvReceived: '70%',
       noOfReels: 25,
       reelsPer: '85%',
-      noOfGraphicReels: 10,
-      graphicReelsPer: '15%',
-      clientId: 103,
       date: '2024-10-05',
     },
   ]);
 
-  constructor() {}
+  constructor(private cdr: ChangeDetectorRef,private router: Router,private operationsService: OperationsService ) {}
 
   ngOnInit(): void {
     this.dataSource1.paginator = this.paginator; // Attach paginator
   }
+// Filter leads for autocomplete
+filterSearch(): void {
+  const searchTerm = this.searchTerm.toLowerCase();
+  this.leads = this.leads.filter((lead) =>
+    lead.organizationName.toLowerCase().includes(searchTerm)
+  );
+}
 
-  // Filter leads for autocomplete
-  filterSearch(): void {
-    const searchTerm = this.searchTerm.toLowerCase();
-    this.leads = this.leads.filter((lead) =>
-      lead.organizationName.toLowerCase().includes(searchTerm)
-    );
+// Filter leads by selected client ID
+filterLeads(selectedLeadId: number): void {
+  const selectedLead = this.leads.find((lead) => lead.leadId === selectedLeadId);
+  if (selectedLead) {
+    this.searchTerm = selectedLead.organizationName;
+    this.dataSource1.data = [selectedLead];
+  } else {
+    this.dataSource1.data = this.leads;
   }
+}
 
-  // Filter leads by selected client ID
-  filterLeads(selectedLeadId: number): void {
-    const selectedLead = this.leads.find((lead) => lead.leadId === selectedLeadId);
-    if (selectedLead) {
-      this.searchTerm = selectedLead.organizationName;
-      this.dataSource1.data = [selectedLead];
-    } else {
-      this.dataSource1.data = this.leads;
-    }
-  }
 
-  // Handle month selection
-  onMonthYearSelected(event: Date, datepicker: any): void {
-    const selectedMonth = event.getMonth() + 1; // Month is zero-based
-    const selectedYear = event.getFullYear();
+setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>): void {
+  const ctrlValue = this.date.value ?? moment();
+  ctrlValue.month(normalizedMonthAndYear.month());
+  ctrlValue.year(normalizedMonthAndYear.year());
+  this.date.setValue(ctrlValue);
+  datepicker.close();
+}
 
+
+
+onMonthYearSelected(event: moment.Moment, datepicker: any): void {
+  if (event && event.isValid && event.isValid()) {
     // Format the selected date as MM/YYYY
-    this.formattedMonthYear = this.formatMonthYear(selectedMonth, selectedYear);
-
+    this.formattedMonthYear = event.format('MM/YYYY');
     console.log('Selected Month/Year:', this.formattedMonthYear);
 
-    // Filter table data by selected month and year
-    this.filterTableByMonthYear(selectedMonth, selectedYear);
-
-    // Close the datepicker after selection
+    // Close the datepicker
     datepicker.close();
-  }
 
-  // Filter table data by month and year
-  private filterTableByMonthYear(month: number, year: number): void {
-    this.dataSource1.data = this.dataSource1.data.filter((item: any) => {
-      const itemDate = new Date(item.date);
-      return (
-        itemDate.getMonth() + 1 === month && itemDate.getFullYear() === year
-      );
-    });
+    // Trigger Angular change detection
+    this.cdr.detectChanges();
+  } else {
+    console.error('Invalid date selected:', event);
   }
-
-  // Helper function to format month and year
-  private formatMonthYear(month: number, year: number): string {
-    const formattedMonth = month < 10 ? `0${month}` : `${month}`;
-    return `${formattedMonth}/${year}`;
-  }
-
+}
   // Reset table data to the original dataset
   resetTableData(): void {
     this.dataSource1.data = [
@@ -172,9 +171,9 @@ export class ContentWritersClientsComponent implements OnInit {
       },
     ];
   }
-
   // Navigate to edit page
-  editRow(lead: any): void {
-    console.log('Edit:', lead);
+  editRow(client: any): void {
+    this.router.navigate([`/home/operations/operations-content-writer`]);
+    console.log('Edit:', client);
   }
 }
