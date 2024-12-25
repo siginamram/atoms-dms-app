@@ -36,13 +36,17 @@ import { VideoEditorClientsComponent } from './components/video-editor-clients/v
 import { VideoEditorOperationsComponent } from './components/video-editor-operations/video-editor-operations.component';
 import { PhotoGrapherClientsComponent } from './components/photo-grapher-clients/photo-grapher-clients.component';
 import { PhotoGrapherOperationsComponent } from './components/photo-grapher-operations/photo-grapher-operations.component';
+import { SpecialdaysClientsViewComponent } from './components/specialdays-clients-view/specialdays-clients-view.component';
+import { SpecialdaysClientsAddComponent } from './components/specialdays-clients-add/specialdays-clients-add.component';
+import { SharedModule } from 'src/app/shared/shared.module';
+
 
 const MY_FORMATS = {
   parse: {
-    dateInput: 'MM/YYYY',
+      parse: { dateInput: 'DD/MM/YYYY' },
   },
   display: {
-    dateInput: 'MM/YYYY',
+   dateInput: 'DD/MM/YYYY' ,
     monthYearLabel: 'MMM YYYY',
     dateA11yLabel: 'LL',
     monthYearA11yLabel: 'MMMM YYYY',
@@ -63,6 +67,9 @@ const MY_FORMATS = {
     VideoEditorOperationsComponent,
     PhotoGrapherClientsComponent,
     PhotoGrapherOperationsComponent,
+    SpecialdaysClientsViewComponent,
+    SpecialdaysClientsAddComponent,
+    
   ],
   imports: [
     CommonModule,
@@ -88,6 +95,7 @@ const MY_FORMATS = {
         MatAutocompleteModule,
         MatRadioModule,
         MatMomentDateModule,
+        SharedModule,
   ],
   providers: [
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },

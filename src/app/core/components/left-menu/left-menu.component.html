@@ -59,6 +59,13 @@
           </a>
         </li>
         <li>
+          <a [routerLink]="['/home', 'operations', 'specialdays-view']" 
+             *ngIf="roleService.hasRole(['Manager'])" 
+             routerLinkActive="active">
+            <i class="material-icons">event</i>Special Days
+          </a>
+        </li>
+        <li>
           <a [routerLink]="['/home', 'operations', 'content-writer-client']" *ngIf="roleService.hasRole(['Manager', 'Content Writer'])" routerLinkActive="active">
             <i class="material-icons">edit</i>Content Writer
           </a>
@@ -84,7 +91,7 @@
             <i class="material-icons">videocam</i>Videographer
           </a>
         </li>
-        
+     
       </ul>
       
       <!-- Logout Button -->
@@ -143,6 +150,13 @@
       </a>
     </li>
     <li>
+      <a [routerLink]="['/home', 'operations', 'specialdays-view']" 
+         *ngIf="roleService.hasRole(['Manager'])" 
+         routerLinkActive="active">
+        <i class="material-icons">event</i>Special Days
+      </a>
+    </li>
+    <li>
       <a [routerLink]="['/home', 'operations', 'content-writer-client']" *ngIf="roleService.hasRole(['Manager', 'Content Writer'])" routerLinkActive="active">
         <i class="material-icons">edit</i>Content Writer
       </a>
@@ -168,7 +182,7 @@
         <i class="material-icons">videocam</i>Videographer
       </a>
     </li>
-    
+
     <!-- <li class="dropdown" [class.active]="isDropdownActive['task']" (click)="toggleDropdown('task')">
       <a ><i class="material-icons">check_circle</i> Daily Status</a>
       <ul class="dropdown-menu">

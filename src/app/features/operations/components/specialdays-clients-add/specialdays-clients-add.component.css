@@ -1,0 +1,43 @@
+/* General styles for the dialog */
+.dialog-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .dialog-field {
+    width: 100%;
+  }
+  
+  .dialog-title {
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  /* Responsive styles for smaller screens */
+  @media (max-width: 768px) {
+    .dialog-content {
+      padding: 0 8px;
+    }
+  
+    .dialog-title {
+      font-size: 18px;
+    }
+  
+    .dialog-actions {
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+  
+    .dialog-field {
+      width: 100%;
+    }
+  }
+  

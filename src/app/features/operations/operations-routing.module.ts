@@ -12,6 +12,9 @@ import { VideoEditorClientsComponent } from './components/video-editor-clients/v
 import { VideoEditorOperationsComponent } from './components/video-editor-operations/video-editor-operations.component';
 import { PhotoGrapherClientsComponent } from './components/photo-grapher-clients/photo-grapher-clients.component';
 import { PhotoGrapherOperationsComponent } from './components/photo-grapher-operations/photo-grapher-operations.component';
+import { SpecialdaysClientsViewComponent } from './components/specialdays-clients-view/specialdays-clients-view.component';
+import { SpecialdaysClientsAddComponent } from './components/specialdays-clients-add/specialdays-clients-add.component';
+
 
 const routes: Routes = [
   {
@@ -34,6 +37,9 @@ const routes: Routes = [
 
       { path: 'operations-photo-grapher', component: PhotoGrapherOperationsComponent },
       { path: 'photo-grapher-client', component: PhotoGrapherClientsComponent },
+
+      { path: 'specialdays-view', component: SpecialdaysClientsViewComponent },
+      { path: 'specialdays-add', component: SpecialdaysClientsAddComponent },
 
   
     ]

@@ -7,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrl: './operations.component.css'
 })
 export class OperationsComponent {
+  onDateSelected(date: Date): void {
+    console.log('Full date selected:', date);
+  }
 
+  onMonthYearSelected(date: Date): void {
+    console.log('Month and year selected:', date);
+  }
 }

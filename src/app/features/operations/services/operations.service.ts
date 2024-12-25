@@ -34,4 +34,10 @@ export class OperationsService {
     const apiUrl = `${this.baseApiUrl}/api/Client/UpdatePresentClient`;
     return this.http.post(apiUrl, payload);
   }
+
+  getClientsByContentWriter(userId: number, date: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/ClientsByContentWriter/${userId}/${date}`;
+    return this.http.get(apiUrl);
+  }
+  
 }

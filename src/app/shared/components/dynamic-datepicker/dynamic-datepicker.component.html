@@ -1,0 +1,17 @@
+<mat-form-field appearance="outline" class="dialog-field">
+  <mat-label>{{ monthOnly ? 'Month and Year' : 'Date' }}</mat-label>
+  <input
+    matInput
+    [matDatepicker]="picker"
+    [(ngModel)]="selectedDate"
+    (dateChange)="onDateChange($event)"
+    [readonly]="monthOnly"
+  />
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker
+    #picker
+    [startView]="monthOnly ? 'multi-year' : 'month'"
+    [panelClass]="monthOnly ? 'month-picker' : ''"
+    (monthSelected)="onMonthSelected($event, picker)"
+  ></mat-datepicker>
+</mat-form-field>

@@ -1,0 +1,12 @@
+.dialog-field {
+    width: 100%;
+  }
+  
+  .month-picker .mat-calendar {
+    height: auto; /* Adjust calendar height for month/year view */
+  }
+  
+  .month-picker .mat-calendar-body {
+    pointer-events: auto;
+  }
+  
