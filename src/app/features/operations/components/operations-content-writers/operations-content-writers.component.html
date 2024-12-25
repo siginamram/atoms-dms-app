@@ -6,34 +6,47 @@
     <button mat-raised-button color="accent" class="add-button" (click)="addNewEntry()">+ Add</button>
   </mat-toolbar>
 
-  <!-- Filters -->
-  <div class="filters-container">
-    <mat-form-field class="form-field" appearance="outline">
-      <mat-label>Client Filter</mat-label>
-      <input type="text" matInput [matAutocomplete]="auto" [(ngModel)]="selectedClient" (input)="filterClients()">
-      <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let client of filteredClients" [value]="client">{{ client }}</mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-
-    <mat-form-field class="form-field" appearance="outline">
-      <mat-label>Select Month & Year</mat-label>
-      <input matInput [matDatepicker]="picker" [(ngModel)]="selectedMonthYear" (dateChange)="filterByMonthYear()">
-      <mat-datepicker #picker startView="multi-year" panelClass="month-picker" [startAt]="startAtDate"></mat-datepicker>
-    </mat-form-field>
-  </div>
+    <!-- Filter Section -->
+    <div class="filters-container">
+      <!-- Filter by Client -->
+      <mat-form-field appearance="outline">
+        <mat-label>Filter by Client</mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="Search and select a client"
+          [(ngModel)]="searchTerm"
+          [matAutocomplete]="auto"
+          (input)="filterSearch()"
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="filterLeads($event.option.value)"
+        >
+          <mat-option *ngFor="let lead of leads" [value]="lead.leadId">
+            {{ lead.organizationName }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline">
+        <mat-label>Month and Year</mat-label>
+        <input matInput [matDatepicker]="dp" [formControl]="date" placeholder="MM/YYYY" readonly>
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker
+          #dp
+          startView="multi-year"
+          (monthSelected)="setMonthAndYear($event, dp)"
+          panelClass="example-month-picker">
+        </mat-datepicker>
+      </mat-form-field>
+      
+    </div>
 
   <!-- Dashboard Cards -->
   <h2>Monthly Deliverables</h2>
   <div class="metric-buttons">
-    <button mat-raised-button class="metric-button total-posters">
-      <mat-icon>insert_drive_file</mat-icon>
-      <span>Total Posters: {{ totalPosters }}</span>
-    </button>
-    <button mat-raised-button class="metric-button total-reels">
-      <mat-icon>movie_creation</mat-icon>
-      <span>Total Reels: {{ totalReels }}</span>
-    </button>
+ 
     <button mat-raised-button class="metric-button branding-posters">
       <mat-icon>auto_graph</mat-icon>
       <span>Branding Posters: {{ brandingPosterCount }}</span>
@@ -57,6 +70,14 @@
     <button mat-raised-button class="metric-button meme-reels">
       <mat-icon>play_circle</mat-icon>
       <span>Meme Reels: {{ memeReelCount }}</span>
+    </button>
+    <button mat-raised-button class="metric-button total-posters">
+      <mat-icon>insert_drive_file</mat-icon>
+      <span>Total Posters: {{ totalPosters }}</span>
+    </button>
+    <button mat-raised-button class="metric-button total-reels">
+      <mat-icon>movie_creation</mat-icon>
+      <span>Total Reels: {{ totalReels }}</span>
     </button>
   </div>
 

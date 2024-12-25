@@ -1,20 +1,43 @@
-import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatDatepicker } from '@angular/material/datepicker';
+import { FormControl } from '@angular/forms';
+import * as moment from 'moment';
+import { Moment } from 'moment';
+import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
+import { Router } from '@angular/router';
+import { OperationsService } from '../../services/operations.service';
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'MM/YYYY',
+  },
+  display: {
+    dateInput: 'MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'app-operations-content-writers',
-  standalone:false,
+  standalone: false,
   templateUrl: './operations-content-writers.component.html',
   styleUrls: ['./operations-content-writers.component.css'],
+  providers: [provideMomentDateAdapter(MY_FORMATS)],
+  //encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OperationsContentWritersComponent {
   // Data and Filters
-  clients = ['Client A', 'Client B', 'Client C']; // Example client list
-  filteredClients: string[] = [...this.clients];
   selectedClient: string = ''; // Default selected client
   selectedMonthYear: Date | null = null;
   startAtDate = new Date();
-
+  leads: any[] = [];
+  searchTerm: string = '';
+  formattedMonthYear: string = '';
+  readonly date = new FormControl(moment());
   // Metrics
   brandingPosterCount = 0;
   brandingReelCount = 0;
@@ -69,7 +92,7 @@ export class OperationsContentWritersComponent {
   isEditMode = false;
   popupForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef, private router: Router, private operationsService: OperationsService) {
     this.popupForm = this.fb.group({
       date: [''],
       day: [''],
@@ -82,26 +105,48 @@ export class OperationsContentWritersComponent {
     });
   }
 
-  // Filter Clients
-  filterClients() {
-    this.filteredClients = this.clients.filter(client =>
-      client.toLowerCase().includes(this.selectedClient.toLowerCase())
+  // Filter leads for autocomplete
+  filterSearch(): void {
+    const searchTerm = this.searchTerm.toLowerCase();
+    this.leads = this.leads.filter((lead) =>
+      lead.organizationName.toLowerCase().includes(searchTerm)
     );
   }
 
-  // Filter by Month and Year
-  filterByMonthYear() {
-    if (this.selectedMonthYear) {
-      const month = this.selectedMonthYear.getMonth();
-      const year = this.selectedMonthYear.getFullYear();
-      this.filteredData = this.contentWritersData.filter(data => {
-        const date = new Date(data.date);
-        return date.getMonth() === month && date.getFullYear() === year;
-      });
+  // Filter leads by selected client ID
+  filterLeads(selectedLeadId: number): void {
+    const selectedLead = this.leads.find((lead) => lead.leadId === selectedLeadId);
+    if (selectedLead) {
+      this.searchTerm = selectedLead.organizationName;
+      //this.dataSource1.data = [selectedLead];
     } else {
-      this.filteredData = [...this.contentWritersData];
+      //this.dataSource1.data = this.leads;
     }
-    this.calculateTotals();
+  }
+
+
+  setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>): void {
+    const ctrlValue = this.date.value ?? moment();
+    ctrlValue.month(normalizedMonthAndYear.month());
+    ctrlValue.year(normalizedMonthAndYear.year());
+    this.date.setValue(ctrlValue);
+    datepicker.close();
+  }
+
+  onMonthYearSelected(event: moment.Moment, datepicker: any): void {
+    if (event && event.isValid && event.isValid()) {
+      // Format the selected date as MM/YYYY
+      this.formattedMonthYear = event.format('MM/YYYY');
+      console.log('Selected Month/Year:', this.formattedMonthYear);
+
+      // Close the datepicker
+      datepicker.close();
+
+      // Trigger Angular change detection
+      this.cdr.detectChanges();
+    } else {
+      console.error('Invalid date selected:', event);
+    }
   }
 
   // Calculate Totals

@@ -30,6 +30,13 @@ import { OperationsContentWritersComponent } from './components/operations-conte
 import { ContentWritersClientsComponent } from './components/content-writers-clients/content-writers-clients.component';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { PosterDesignerClientsComponent } from './components/poster-designer-clients/poster-designer-clients.component';
+import { PosterDesignerOperationsComponent } from './components/poster-designer-operations/poster-designer-operations.component';
+import { VideoEditorClientsComponent } from './components/video-editor-clients/video-editor-clients.component';
+import { VideoEditorOperationsComponent } from './components/video-editor-operations/video-editor-operations.component';
+import { PhotoGrapherClientsComponent } from './components/photo-grapher-clients/photo-grapher-clients.component';
+import { PhotoGrapherOperationsComponent } from './components/photo-grapher-operations/photo-grapher-operations.component';
+
 const MY_FORMATS = {
   parse: {
     dateInput: 'MM/YYYY',
@@ -50,6 +57,12 @@ const MY_FORMATS = {
     ClientsPresentEditComponent,
     OperationsContentWritersComponent,
     ContentWritersClientsComponent,
+    PosterDesignerClientsComponent,
+    PosterDesignerOperationsComponent,
+    VideoEditorClientsComponent,
+    VideoEditorOperationsComponent,
+    PhotoGrapherClientsComponent,
+    PhotoGrapherOperationsComponent,
   ],
   imports: [
     CommonModule,

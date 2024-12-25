@@ -17,12 +17,12 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    margin: 20px;
+   
   }
   
   mat-form-field {
     flex: 1;
-    min-width: 200px;
+    min-width: 100px;
   }
   
   table {
