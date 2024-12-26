@@ -1,1 +1,27 @@
-<p>content-writers-operations-edit works!</p>
+<div class="popup-container">
+    <form [formGroup]="emergencyRequestForm">
+      <div class="form-grid">
+        <mat-form-field appearance="outline" class="content-field">
+            <mat-label>Caption</mat-label>
+            <textarea matInput formControlName="contentCaption"></textarea>
+          </mat-form-field>
+
+        <mat-form-field appearance="outline" class="content-field">
+          <mat-label>Content In Post</mat-label>
+          <textarea matInput formControlName="contentInPost"></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="content-field">
+            <mat-label>Reference Link</mat-label>
+            <textarea matInput formControlName="referenceDoc"></textarea>
+          </mat-form-field>
+      </div>
+    </form>
+  </div>
+  
+  <div mat-dialog-actions align="end">
+    <button mat-raised-button color="accent" (click)="saveDraft()">Save Draft</button>
+    <button mat-raised-button color="primary" (click)="sendForApproval()">Send To Approval</button>
+    <button mat-raised-button color="warn" (click)="close()">Cancel</button>
+  </div>
+  

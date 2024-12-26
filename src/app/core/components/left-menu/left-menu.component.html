@@ -60,7 +60,7 @@
         </li>
         <li>
           <a [routerLink]="['/home', 'operations', 'specialdays-view']" 
-             *ngIf="roleService.hasRole(['Manager'])" 
+             *ngIf="roleService.hasRole(['Manager','Team Lead','Content Writer'])" 
              routerLinkActive="active">
             <i class="material-icons">event</i>Special Days
           </a>
@@ -151,7 +151,7 @@
     </li>
     <li>
       <a [routerLink]="['/home', 'operations', 'specialdays-view']" 
-         *ngIf="roleService.hasRole(['Manager'])" 
+         *ngIf="roleService.hasRole(['Manager','Team Lead','Content Writer'])" 
          routerLinkActive="active">
         <i class="material-icons">event</i>Special Days
       </a>

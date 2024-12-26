@@ -10,6 +10,7 @@ import { Router,ActivatedRoute } from '@angular/router';
 import { OperationsService } from '../../services/operations.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddClientEmergencyRequestComponent } from '../add-client-emergency-request/add-client-emergency-request.component'; 
+import { ContentWritersOperationsEditComponent } from '../content-writers-operations-edit/content-writers-operations-edit.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -78,10 +79,9 @@ export class OperationsContentWritersComponent implements OnInit {
   ];
 
   filteredData = this.contentWritersData;
-
+  dataSource = new MatTableDataSource<any>();
   displayedColumns: string[] = [
-    'date',
-    'day',
+    'id',
     'speciality',
     'promotionType',
     'language',
@@ -122,6 +122,12 @@ export class OperationsContentWritersComponent implements OnInit {
      this.fetchClientDetails(this.clientId);
       console.log('Client ID:', this.clientId);
       console.log('Selected Date:', this.selecteddate);
+
+      if (this.clientId && this.selecteddate) {
+        this.fetchMonthlyTrackerData(this.clientId, this.selecteddate);
+      } else {
+        console.warn('Client ID or date is missing in the query parameters.');
+      }
     });
   }
   
@@ -141,6 +147,72 @@ export class OperationsContentWritersComponent implements OnInit {
     });
   }
 
+  fetchMonthlyTrackerData(clientId: number, date: string): void {
+    this.operationsService.getMonthlyTrackerData(clientId, date).subscribe({
+      next: (response) => {
+        console.log('Fetched Tracker Data:', response); // Log the API response
+  
+        // Map the response to include necessary computed properties
+        this.dataSource.data = response.map((item:any) => ({
+          ...item,
+          day: new Date(item.date).toLocaleDateString('en-US', { weekday: 'long' }),
+          contentStatusText: this.getStatusText(item.contentStatus),
+        }));
+      },
+      error: (error) => {
+        console.error('Error fetching tracker data:', error);
+      },
+    });
+  }
+  
+  
+  // Helper method to map status numbers to text
+  getStatusText(status: number): string {
+    switch (status) {
+      case 1:
+        return 'Yet to start';
+      case 2:
+        return 'Saved in draft';
+      case 3:
+        return 'Send for approval';
+      case 4:
+        return 'Changes recommended';
+      case 5:
+        return 'Approved';
+      default:
+        return 'Unknown status';
+    }
+  }
+  
+  onEdit(row: any): void {
+    console.log('Edit action for row:', row); // Check if monthlyTrackerId exists
+    if (!row.monthlyTrackerId) {
+      alert('Monthly Tracker ID is missing. Please select a valid entry.');
+      return;
+    }
+  
+    const dialogRef = this.dialog.open(ContentWritersOperationsEditComponent, {
+      width: '600px',
+      data: { 
+        monthlyTrackerId: row.monthlyTrackerId,
+         clientId: row.clientId,
+         contentInPost:row.contentInPost,
+         contentCaption:row.contentCaption,
+         referenceDoc:row.referenceDoc,
+         },
+    });
+  
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log('Popup closed with result:', result);
+        // Optionally refresh data or perform actions based on result
+      } else {
+        console.log('Popup closed without saving changes.');
+      }
+    });
+  }
+  
+
   onMonthYearSelected(event: moment.Moment, datepicker: any): void {
     if (event && event.isValid && event.isValid()) {
       // Format the selected date as MM/YYYY
@@ -156,7 +228,6 @@ export class OperationsContentWritersComponent implements OnInit {
       console.error('Invalid date selected:', event);
     }
   }
-
   // Calculate Totals
   calculateTotals() {
     this.totalPosters = this.filteredData.filter(item => item.creativeType === 'Poster').length;
@@ -186,32 +257,24 @@ export class OperationsContentWritersComponent implements OnInit {
       item => item.promotionType === 'Meme' && item.creativeType === 'Reel'
     ).length;
   }
-
-    // Add New Entry
-    // addNewEntry() {
-    //   this.router.navigate(['/home/operations/emergency-request-add'], {
-    //     queryParams: {clientId:this.clientId },
-    //   });
-    // }
-
-    addNewEntry() {
-      if (!this.clientId) {
-        alert('Client ID is missing. Please select a client.');
-        return;
-      }
-    
-      const dialogRef = this.dialog.open(AddClientEmergencyRequestComponent, {
-        width: '600px',
-        data: { clientId: this.clientId }, // Pass the clientId
-      });
-    
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          console.log('Popup closed with result:', result);
-          // Optionally, refresh data or perform actions based on result
-        } else {
-          console.log('Popup closed without saving changes.');
-        }
-      });
+  addNewEntry() {
+    if (!this.clientId) {
+      alert('Client ID is missing. Please select a client.');
+      return;
     }
+  
+    const dialogRef = this.dialog.open(AddClientEmergencyRequestComponent, {
+      width: '600px',
+      data: { clientId: this.clientId }, // Pass the clientId
+    });
+  
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log('Popup closed with result:', result);
+        // Optionally, refresh data or perform actions based on result
+      } else {
+        console.log('Popup closed without saving changes.');
+      }
+    });
+  }
   }    

@@ -79,7 +79,7 @@ export class ClientsOnboardingComponent implements OnInit {
       photographer: ['', Validators.required],
       posterDesigner: ['', Validators.required],
       videoEditor1: ['', Validators.required],
-      videoEditor2: [''],
+      videoEditor2: ['', Validators.required],
       dma: [''],
       loginCredentials: ['', Validators.required],
       moveTostatus: [''],
