@@ -3,46 +3,18 @@
   <mat-toolbar color="primary" class="toolbar">
     <span>Content Writers Operations</span>
     <span class="spacer"></span>
-    <button mat-raised-button color="accent" class="add-button" (click)="addNewEntry()">+ Add</button>
+    <button mat-raised-button color="accent" class="add-button" (click)="addNewEntry()">+ Add Emergency Request</button>
   </mat-toolbar>
-
-    <!-- Filter Section -->
-    <div class="filters-container">
-      <!-- Filter by Client -->
+   <!-- Filter Section -->
+ 
+    <div [formGroup]="clientForm" class="filters-container">
       <mat-form-field appearance="outline">
-        <mat-label>Filter by Client</mat-label>
-        <input
-          type="text"
-          matInput
-          placeholder="Search and select a client"
-          [(ngModel)]="searchTerm"
-          [matAutocomplete]="auto"
-          (input)="filterSearch()"
-        />
-        <mat-autocomplete
-          #auto="matAutocomplete"
-          (optionSelected)="filterLeads($event.option.value)"
-        >
-          <mat-option *ngFor="let lead of leads" [value]="lead.leadId">
-            {{ lead.organizationName }}
-          </mat-option>
-        </mat-autocomplete>
+        <mat-label>Organization Name</mat-label>
+        <input matInput formControlName="clientName"  readonly/>
       </mat-form-field>
-      
-      <mat-form-field appearance="outline">
-        <mat-label>Month and Year</mat-label>
-        <input matInput [matDatepicker]="dp" [formControl]="date" placeholder="MM/YYYY" readonly>
-        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-        <mat-datepicker
-          #dp
-          startView="multi-year"
-          (monthSelected)="setMonthAndYear($event, dp)"
-          panelClass="example-month-picker">
-        </mat-datepicker>
-      </mat-form-field>
-      
     </div>
-
+    
+ 
   <!-- Dashboard Cards -->
   <h2>Monthly Deliverables</h2>
   <div class="metric-buttons">
@@ -119,7 +91,7 @@
     <ng-container matColumnDef="edit">
       <th mat-header-cell *matHeaderCellDef>Edit</th>
       <td mat-cell *matCellDef="let element">
-        <button mat-icon-button color="primary" (click)="editEntry(element)">
+        <button mat-icon-button color="primary" >
           <mat-icon>edit</mat-icon>
         </button>
       </td>

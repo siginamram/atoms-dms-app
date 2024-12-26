@@ -1,0 +1,69 @@
+/* Main Popup Container */
+.popup-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  overflow-y: auto;
+}
+
+/* Form Grid Styling */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+/* For Fields that Span Two Columns */
+.content-field {
+  grid-column: span 2;
+}
+
+/* Material Form Fields */
+mat-form-field {
+  width: 100%;
+}
+
+/* Dialog Actions for Buttons */
+mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  padding-top: 16px;
+  background: #f9f9f9;
+  padding: 16px 0;
+  border-top: 1px solid #e0e0e0;
+}
+
+/* Buttons Styling */
+button {
+  margin: 0 8px;
+}
+
+button.mat-raised-button {
+  padding: 0 24px;
+  font-size: 14px;
+  line-height: 36px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .popup-container {
+    width: 100%;
+    padding: 16px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .content-field {
+    grid-column: span 1;
+  }
+}

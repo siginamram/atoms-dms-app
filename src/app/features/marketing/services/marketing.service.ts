@@ -32,10 +32,15 @@ export class MarketingService {
   }
 
   //Lead Management
-  addLead(leadData: any): Observable<any> {
-    return this.http.post(this.baseApiUrl + '/api/Sales/addLead', leadData);
+  // addLead(leadData: any): Observable<any> {
+  //   return this.http.post(this.baseApiUrl + '/api/Sales/addLead', leadData);
+  // }
+  addLead(payload: any): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Sales/addLead`;
+    // Correctly specify the responseType in the options object
+    return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
   }
-
+  
   getLeadsByStatusAndRole(userId: number, status: number): Observable<any> {
     const apiUrl = `${this.baseApiUrl}/api/Sales/getLeadsByStatusAndRole/${userId}/${status}`;
     return this.http.get(apiUrl);
@@ -49,7 +54,9 @@ updateLeadStatus(payload: { leadID: number; salesPersonID: number; status: numbe
 
 scheduleMeet(payload: any): Observable<any> {
   const apiUrl = `${this.baseApiUrl}/api/Sales/scheduleMeet`;
-  return this.http.post(apiUrl, payload);
+
+  // Set responseType to 'text' as the backend returns a plain text response
+  return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
 }
 
 getMeetingsByUser(userId: number): Observable<any> {
@@ -66,8 +73,11 @@ getMeetingDetails(meetID: number): Observable<any> {
   return this.http.get(`${this.baseApiUrl}/api/Sales/scheduleMeetingsByID/${meetID}`);
 }
 
+
 updateMeeting(meetingData: any): Observable<any> {
-  return this.http.post(`${this.baseApiUrl}/api/Sales/updateMeetingStatus`, meetingData);
+  const apiUrl = `${this.baseApiUrl}/api/Sales/updateMeetingStatus`;
+  // Set responseType to 'text' as the backend returns plain text response
+  return this.http.post(apiUrl, meetingData, { responseType: 'text' as 'json' });
 }
 
  // API to get client details by Lead ID
@@ -78,8 +88,10 @@ updateMeeting(meetingData: any): Observable<any> {
 
 addClient(payload: any): Observable<any> {
   const apiUrl = `${this.baseApiUrl}/api/Client/addClient`;
-  return this.http.post(apiUrl, payload);
+  // Set responseType to 'text' if the backend returns plain text like "Success"
+  return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
 }
+
 // Fetch leads by User ID
 getLeadsByUserId(userId: number): Observable<any> {
   const apiUrl = `${this.baseApiUrl}/api/Sales/leadsByUserId/${userId}`;
@@ -117,8 +129,10 @@ teamleadByManager(managerId: number, roleId: number): Observable<any> {
 }
 updateClientKTStatus(payload: any): Observable<any> {
   const apiUrl = `${this.baseApiUrl}/api/Client/updateClientKTStatus`;
-  return this.http.post(apiUrl, payload);
+  // Handle cases where the backend may return plain text (e.g., "Success")
+  return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
 }
+
 GetclientKTStatusByClientId (clientID: number): Observable<any> {
   const apiUrl = `${this.baseApiUrl}/api/Client/clientKTStatusByClientId/${clientID}`;
   return this.http.get(apiUrl);

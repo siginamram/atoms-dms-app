@@ -173,39 +173,50 @@ export class SalesConvertStatuEditComponent implements OnInit {
   }
 
   // Submit form data to the API
-  onSubmit() {
+  onSubmit(): void {
     if (this.progressForm.valid) {
       const payload = {
         clientId: this.clientId,
-        opManagerID:this.opManager ,//this.progressForm.value.operationsManager,
+        opManagerID: this.opManager, // Operational Manager ID
         opLeadID: this.progressForm.value.operationsLead,
-        isKTCompleted: this.progressForm.value.ktStatus === 1 ? true : false,
+        isKTCompleted: this.progressForm.value.ktStatus === 1,
         ktDate: this.progressForm.value.ktDate,
-        isAdvReceived: this.progressForm.value.isAdvReceived === 1 ? true : false,
+        isAdvReceived: this.progressForm.value.isAdvReceived === 1,
         advAmount: this.progressForm.value.advAmount,
-        advDate: this.progressForm.value.advanceDate ? this.progressForm.value.advanceDate : null,
+        advDate: this.progressForm.value.advanceDate || null,
         clientCategory: parseInt(this.progressForm.value.clientCategory, 10),
         slaUrl: this.uploadedSLAFile ? this.uploadedSLAFile.name : '',
         updatedBy: parseInt(localStorage.getItem('UserID') || '0', 10),
       };
-
+  
       console.log('Submitting Payload:', payload);
-
+  
       this.marketingService.updateClientKTStatus(payload).subscribe(
-        (response) => {
-          this.openAlertDialog('Success', 'Updated successfully!');
-          this.Router.navigate(['/home/marketing/sales-converted']);
+        (response: string) => {
+          console.log('API Response:', response);
+  
+          // Handle plain text responses like "Success"
+          if (response === 'Success') {
+            this.openAlertDialog('Success', 'Updated successfully!');
+            this.Router.navigate(['/home/marketing/sales-converted']);
+          } else {
+            this.openAlertDialog('Error', response || 'Unexpected server response.');
+          }
         },
-        (error) => {
+        (error: any) => {
           console.error('Submission Failed:', error);
-          // Add logic for error notification
-          this.openAlertDialog('Error', 'Failed to update details. Please try again.');
+  
+          // Handle potential HTTP errors
+          const errorMessage =
+            error?.error?.message || 'An unexpected error occurred. Please try again.';
+          this.openAlertDialog('Error', errorMessage);
         }
       );
     } else {
       this.openAlertDialog('Error', 'Please fill all required fields correctly.');
     }
   }
+  
   openAlertDialog(title: string, message: string): void {
     this.dialog.open(AlertDialogComponent, {
       width: '400px',

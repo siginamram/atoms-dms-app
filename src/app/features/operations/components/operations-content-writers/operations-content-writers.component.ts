@@ -8,6 +8,9 @@ import { Moment } from 'moment';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { Router,ActivatedRoute } from '@angular/router';
 import { OperationsService } from '../../services/operations.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AddClientEmergencyRequestComponent } from '../add-client-emergency-request/add-client-emergency-request.component'; 
+
 export const MY_FORMATS = {
   parse: {
     dateInput: 'MM/YYYY',
@@ -91,56 +94,51 @@ export class OperationsContentWritersComponent implements OnInit {
   // Popup Management
   isPopupVisible = false;
   isEditMode = false;
-  popupForm: FormGroup;
+  clientForm: FormGroup;
 
   constructor(private fb: FormBuilder, 
     private cdr: ChangeDetectorRef, 
     private router: Router, 
     private route: ActivatedRoute,
+    private dialog: MatDialog,
     private operationsService: OperationsService) {
-    this.popupForm = this.fb.group({
-      date: [''],
-      speciality: [''],
-      promotionType: [''],
-      language: [''],
-      creativeType: [''],
-      approvalStatus: [false],
-      remarks: [''],
+    this.clientForm = this.fb.group({
+      clientName: [''],
+ 
     });
   }
   ngOnInit(): void {
-    // Retrieve clientId from query parameters
+    // Retrieve clientId and date from query parameters
     this.route.queryParams.subscribe((params) => {
-      this.clientId = +params['clientid'] || 0;
-      this.selecteddate = +params['date'] || 0;
+      this.clientId = Number(params['clientId']) || 0; // Ensure correct case ('clientId')
+      this.selecteddate = params['date'] ? new Date(params['date']).toISOString() : null;
+  
+      if (!this.clientId) {
+        console.warn('Client ID is missing in the query parameters.');
+        //alert('Client ID is required to proceed.');
+        // Optionally redirect or handle the missing ID case
+      }
+     // Fetch the client details
+     this.fetchClientDetails(this.clientId);
+      console.log('Client ID:', this.clientId);
+      console.log('Selected Date:', this.selecteddate);
     });
   }
-  // Filter leads for autocomplete
-  filterSearch(): void {
-    const searchTerm = this.searchTerm.toLowerCase();
-    this.leads = this.leads.filter((lead) =>
-      lead.organizationName.toLowerCase().includes(searchTerm)
-    );
-  }
+  
+  fetchClientDetails(clientId: number): void {
+    this.operationsService.getclientByClientId(clientId).subscribe({
+      next: (response) => {
+        console.log('Client Details:', response);
 
-  // Filter leads by selected client ID
-  filterLeads(selectedLeadId: number): void {
-    const selectedLead = this.leads.find((lead) => lead.leadId === selectedLeadId);
-    if (selectedLead) {
-      this.searchTerm = selectedLead.organizationName;
-      //this.dataSource1.data = [selectedLead];
-    } else {
-      //this.dataSource1.data = this.leads;
-    }
-  }
-
-
-  setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>): void {
-    const ctrlValue = this.date.value ?? moment();
-    ctrlValue.month(normalizedMonthAndYear.month());
-    ctrlValue.year(normalizedMonthAndYear.year());
-    this.date.setValue(ctrlValue);
-    datepicker.close();
+        // Assuming response contains organizationName
+        if (response?.organizationName) {
+          this.clientForm.patchValue({ clientName: response.organizationName });
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching client details:', error);
+      },
+    });
   }
 
   onMonthYearSelected(event: moment.Moment, datepicker: any): void {
@@ -189,48 +187,31 @@ export class OperationsContentWritersComponent implements OnInit {
     ).length;
   }
 
-  // Add New Entry
-  addNewEntry() {
-    this.isPopupVisible = true;
-    this.isEditMode = false;
-    this.popupForm.reset();
-  }
+    // Add New Entry
+    // addNewEntry() {
+    //   this.router.navigate(['/home/operations/emergency-request-add'], {
+    //     queryParams: {clientId:this.clientId },
+    //   });
+    // }
 
-  // Edit Entry
-  editEntry(element: any) {
-    this.isPopupVisible = true;
-    this.isEditMode = true;
-    this.popupForm.patchValue(element);
-  }
-
-  // Save Entry
-  saveEntry() {
-    if (this.popupForm.valid) {
-      if (this.isEditMode) {
-        const index = this.contentWritersData.findIndex(
-          entry => entry.date === this.popupForm.value.date
-        );
-        this.contentWritersData[index] = this.popupForm.value;
-      } else {
-        this.contentWritersData.push(this.popupForm.value);
+    addNewEntry() {
+      if (!this.clientId) {
+        alert('Client ID is missing. Please select a client.');
+        return;
       }
-      this.calculateTotals();
-      this.closePopup();
+    
+      const dialogRef = this.dialog.open(AddClientEmergencyRequestComponent, {
+        width: '600px',
+        data: { clientId: this.clientId }, // Pass the clientId
+      });
+    
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          console.log('Popup closed with result:', result);
+          // Optionally, refresh data or perform actions based on result
+        } else {
+          console.log('Popup closed without saving changes.');
+        }
+      });
     }
-  }
-
-  // Close Popup
-  closePopup() {
-    this.isPopupVisible = false;
-  }
-
-  // Update Approval Status
-  updateApproval(element: any) {
-    element.approvalStatus = !element.approvalStatus;
-  }
-
-  // Update Remarks
-  updateRemarks(element: any) {
-    console.log('Updated remarks:', element.remarks);
-  }
-}
+  }    

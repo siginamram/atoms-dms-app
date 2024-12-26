@@ -1,1 +1,65 @@
-<p>add-client-emergency-request works!</p>
+<div class="popup-container">
+    <form [formGroup]="emergencyRequestForm">
+      <div class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Date</mat-label>
+          <input matInput formControlName="date" [matDatepicker]="picker" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Speciality</mat-label>
+          <input matInput formControlName="speciality" />
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Promotion Type</mat-label>
+          <mat-select formControlName="promotionId">
+            <mat-option *ngFor="let promo of promotionTypes" [value]="promo.id">
+              {{ promo.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Language</mat-label>
+          <mat-select formControlName="languageId">
+            <mat-option *ngFor="let lang of languages" [value]="lang.id">
+              {{ lang.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Creative Type</mat-label>
+          <mat-select formControlName="creativeTypeId">
+            <mat-option *ngFor="let creative of creativeTypes" [value]="creative.id">
+              {{ creative.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Caption</mat-label>
+            <textarea matInput formControlName="contentCaption"></textarea>
+          </mat-form-field>
+
+        <mat-form-field appearance="outline" class="content-field">
+          <mat-label>Content In Post</mat-label>
+          <textarea matInput formControlName="contentInPost"></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="content-field">
+            <mat-label>Reference Link</mat-label>
+            <textarea matInput formControlName="referenceDoc"></textarea>
+          </mat-form-field>
+      </div>
+    </form>
+  </div>
+  
+  <div mat-dialog-actions align="end">
+    <button mat-raised-button color="accent" (click)="saveDraft()">Save Draft</button>
+    <button mat-raised-button color="primary" (click)="sendForApproval()">Send To Approval</button>
+    <button mat-raised-button color="warn" (click)="close()">Cancel</button>
+  </div>
+  

@@ -159,11 +159,15 @@ export class MeetmanagementaddComponent implements OnInit {
         statusOfLead: parseInt(this.meetForm.value.statusOfLead, 10), // Ensure statusOfLead is an integer
         requireAnotherMeet: this.meetForm.value.requireAnotherMeet === 1 ? true : false,
       };
-
+  
       this.commanApiService.updateMeeting(payload).subscribe(
-        (response) => {
-          this.openAlertDialog('Success', 'Meet details updated successfully!');
-          this.Router.navigate(['/home/marketing/meet-management']);
+        (response: string) => {
+          if (response === 'Success') {
+            this.openAlertDialog('Success', 'Meet details updated successfully!');
+            this.Router.navigate(['/home/marketing/meet-management']);
+          } else {
+            this.openAlertDialog('Error', response || 'Unexpected server response.');
+          }
         },
         (error) => {
           this.openAlertDialog('Error', 'Failed to update meet details. Please try again.');
@@ -174,6 +178,7 @@ export class MeetmanagementaddComponent implements OnInit {
       this.openAlertDialog('Error', 'Please fill all required fields correctly.');
     }
   }
+  
 
   openAlertDialog(title: string, message: string): void {
     this.dialog.open(AlertDialogComponent, {

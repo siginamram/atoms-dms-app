@@ -159,63 +159,67 @@ export class ClientsPresentEditComponent implements OnInit{
       },
     });
   }
-onSubmit() {
-  if (this.editForm.valid) {
-    const formValue = this.editForm.value;
-
-    const payload = {
-      clientID: this.clientId,
-      //clientName: formValue.clientName,
-     // organizationName: formValue.clientName,
-      //domain: formValue.domain,
-      clientCategory: formValue.category,
-      serviceStartDate: formValue.dealClosingDate,
-      paymentDate:formValue.paymentRenewalDate,
-      status: formValue.moveToExit || 2, // Default to "present" status
-      pocName: formValue.pocName,
-      pocDesignation: formValue.pocDesignation,
-      pocContact: formValue.contactNumber,
-      loginCredentials: formValue.loginCredentials === 1,
-      pendingAmount: formValue.pendingAmount,
-      isPendingAmount: formValue.pendingAmountExist === 1,
-      serviceEndDate: formValue.lastDateOfService,
-      package: {
+  onSubmit(): void {
+    if (this.editForm.valid) {
+      const formValue = this.editForm.value;
+  
+      const payload = {
         clientID: this.clientId,
-        basePackage: formValue.basePackage,
-        adBudget: formValue.monthlyAdBudget,
-        noOfPosters: formValue.posterDesigns,
-        noOfGraphicReels: formValue.graphicReels,
-        noOfEducationalReels: formValue.educationalReels,
-        noOfYouTubeVideos: formValue.youtubeVideos,
-        shootOffered: formValue.shootOffer === 1,
-        shootBudget: formValue.shootBudget === 1,
-        chargePerVisit: formValue.chargePerVist,
-      },
-      clientResourceAllocation: {
-        clientId: this.clientId,
-        opLeadID: formValue.teamLeader,
-        opContentWriterID: formValue.contentWriter,
-        opGraphicDesignerID: formValue.posterDesigner,
-        opVideoEditor1ID: formValue.videoEditor1,
-        opVideoEditor2ID: formValue.videoEditor2,
-        opDMAID: formValue.dma,
-        opPhotographerID: formValue.photographer,
-      },
-    };
-
-    this.operationsService.UpdatePresentClient(payload).subscribe({
-      next: (response) => {
-        this.openAlertDialog('Success', 'Client Updated Successfully!');
-          this.Router.navigate(['/home/operations/clients-list']);
-      },
-      error: (error) => {
-        this.openAlertDialog('Error', 'Failed to Client Updated details. Please try again.');
-      },
-    });
-  } else {
-    this.openAlertDialog('Error', 'Please fill all required fields correctly.');
+        clientCategory: formValue.category,
+        serviceStartDate: formValue.dealClosingDate,
+        paymentDate: formValue.paymentRenewalDate,
+        status: formValue.moveToExit || 2, // Default to "present" status
+        pocName: formValue.pocName,
+        pocDesignation: formValue.pocDesignation,
+        pocContact: formValue.contactNumber,
+        loginCredentials: formValue.loginCredentials === 1,
+        pendingAmount: formValue.pendingAmount,
+        isPendingAmount: formValue.pendingAmountExist === 1,
+        serviceEndDate: formValue.lastDateOfService,
+        package: {
+          clientID: this.clientId,
+          basePackage: formValue.basePackage,
+          adBudget: formValue.monthlyAdBudget,
+          noOfPosters: formValue.posterDesigns,
+          noOfGraphicReels: formValue.graphicReels,
+          noOfEducationalReels: formValue.educationalReels,
+          noOfYouTubeVideos: formValue.youtubeVideos,
+          shootOffered: formValue.shootOffer === 1,
+          shootBudget: formValue.shootBudget === 1,
+          chargePerVisit: formValue.chargePerVist,
+        },
+        clientResourceAllocation: {
+          clientId: this.clientId,
+          opLeadID: formValue.teamLeader,
+          opContentWriterID: formValue.contentWriter,
+          opGraphicDesignerID: formValue.posterDesigner,
+          opVideoEditor1ID: formValue.videoEditor1,
+          opVideoEditor2ID: formValue.videoEditor2,
+          opDMAID: formValue.dma,
+          opPhotographerID: formValue.photographer,
+        },
+      };
+  
+      this.operationsService.UpdatePresentClient(payload).subscribe({
+        next: (response: any) => {
+          if (response === 'Success') {
+            this.openAlertDialog('Success', 'Client Updated Successfully!');
+            this.Router.navigate(['/home/operations/clients-list']);
+          } else {
+            this.openAlertDialog('Error', response || 'Unexpected response. Please try again.');
+          }
+        },
+        error: (error: any) => {
+          const errorMessage =
+            error?.error?.message || 'Failed to update client details. Please try again.';
+          this.openAlertDialog('Error', errorMessage);
+        },
+      });
+    } else {
+      this.openAlertDialog('Error', 'Please fill all required fields correctly.');
+    }
   }
-}
+  
 openAlertDialog(title: string, message: string): void {
   this.dialog.open(AlertDialogComponent, {
     width: '400px',

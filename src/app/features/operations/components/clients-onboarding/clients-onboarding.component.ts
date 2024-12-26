@@ -195,22 +195,36 @@ export class ClientsOnboardingComponent implements OnInit {
     }
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.onboardingForm.valid) {
-      const payload = this.preparePayload();
+      const payload = this.preparePayload(); // Prepare payload from form data
+  
       this.operationsService.UpdateOnboardClient(payload).subscribe({
-        next: (response) => {
-          this.openAlertDialog('Success', 'Client Updated Successfully!');
-          this.Router.navigate(['/home/operations/clients-list']);
+        next: (response: any) => {
+          console.log('Update Response:', response);
+  
+          // Check for success response (plain text)
+          if (response === 'Success') {
+            this.openAlertDialog('Success', 'Client Updated Successfully!');
+            this.Router.navigate(['/home/operations/clients-list']);
+          } else {
+            this.openAlertDialog('Error', response || 'Unexpected response. Please try again.');
+          }
         },
-        error: (error) => {
-          this.openAlertDialog('Error', 'Failed to Client Updated details. Please try again.');
+        error: (error: any) => {
+          console.error('Update Error:', error);
+  
+          // Handle error scenarios with fallback message
+          const errorMessage =
+            error?.error?.message || 'Failed to update client details. Please try again.';
+          this.openAlertDialog('Error', errorMessage);
         },
       });
     } else {
       this.openAlertDialog('Error', 'Please fill all required fields correctly.');
     }
   }
+  
 
   private preparePayload(): any {
     const formValue = this.onboardingForm.value;

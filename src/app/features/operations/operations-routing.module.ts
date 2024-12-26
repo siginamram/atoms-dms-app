@@ -14,6 +14,8 @@ import { PhotoGrapherClientsComponent } from './components/photo-grapher-clients
 import { PhotoGrapherOperationsComponent } from './components/photo-grapher-operations/photo-grapher-operations.component';
 import { SpecialdaysClientsViewComponent } from './components/specialdays-clients-view/specialdays-clients-view.component';
 import { SpecialdaysClientsAddComponent } from './components/specialdays-clients-add/specialdays-clients-add.component';
+import { AddClientEmergencyRequestComponent } from './components/add-client-emergency-request/add-client-emergency-request.component';
+
 
 
 const routes: Routes = [
@@ -40,6 +42,7 @@ const routes: Routes = [
 
       { path: 'specialdays-view', component: SpecialdaysClientsViewComponent },
       { path: 'specialdays-add', component: SpecialdaysClientsAddComponent },
+      { path: 'emergency-request-add', component: AddClientEmergencyRequestComponent },
 
   
     ]

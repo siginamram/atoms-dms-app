@@ -112,34 +112,38 @@ export class LeadmanagementaddComponent implements OnInit {
     );
   }
 
-  // Handle form submission
   onSubmit() {
     if (this.leadForm.valid) {
       const userID = parseInt(localStorage.getItem('UserID') || '0', 10);
-      const formValues = this.leadForm.value;
-
+  
       const payload = {
-        OrganizationName: formValues.organizationName,
-        Domain: formValues.domain,
-        Date: formValues.date,
-        CityID: formValues.city,
-        Address: formValues.address,
-        ReferredBy: formValues.referredBy,
-        POCName: formValues.pocName,
-        POCContact: formValues.pocContact,
-        POCDesignation: formValues.pocDesignation,
-        Status: parseInt(formValues.status, 10),
-        Insight: formValues.insight,
+        OrganizationName: this.leadForm.get('organizationName')?.value,
+        Domain: this.leadForm.get('domain')?.value,
+        Date: this.leadForm.get('date')?.value,
+        CityID: this.leadForm.get('city')?.value,
+        Address: this.leadForm.get('address')?.value,
+        ReferredBy: this.leadForm.get('referredBy')?.value,
+        POCName: this.leadForm.get('pocName')?.value,
+        POCContact: this.leadForm.get('pocContact')?.value,
+        POCDesignation: this.leadForm.get('pocDesignation')?.value,
+        Status: parseInt(this.leadForm.get('status')?.value, 10),
+        Insight: this.leadForm.get('insight')?.value,
         SalesPersonID: userID,
       };
-
+  
+      // Call the API and handle plain text response
       this.commanApiService.addLead(payload).subscribe(
-        (response) => {
-          this.openAlertDialog('Success', 'Lead saved successfully!', 'success');
-          this.router.navigate(['/home/marketing/lead-management']);
-          this.leadForm.reset();
+        (response: string) => {
+          if (response === 'Success') {
+            this.openAlertDialog('Success', 'Lead saved successfully!', 'success');
+            this.router.navigate(['/home/marketing/lead-management']);
+            this.leadForm.reset();
+          } else {
+            this.openAlertDialog('Error', 'Unexpected response from server.', 'error');
+          }
         },
         (error) => {
+          console.error('Error saving lead:', error);
           this.openAlertDialog('Error', 'Failed to save lead. Please try again.', 'error');
         }
       );
@@ -147,10 +151,12 @@ export class LeadmanagementaddComponent implements OnInit {
       this.openAlertDialog('Error', 'Please fill all required fields correctly.', 'error');
     }
   }
+  
 
   // Open the alert dialog dynamically
   openAlertDialog(title: string, message: string, type: string): void {
     this.dialog.open(AlertDialogComponent, {
+      width: '400px',
       data: {
         title,
         message,

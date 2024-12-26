@@ -39,6 +39,7 @@ import { PhotoGrapherOperationsComponent } from './components/photo-grapher-oper
 import { SpecialdaysClientsViewComponent } from './components/specialdays-clients-view/specialdays-clients-view.component';
 import { SpecialdaysClientsAddComponent } from './components/specialdays-clients-add/specialdays-clients-add.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { AddClientEmergencyRequestComponent } from './components/add-client-emergency-request/add-client-emergency-request.component';
 
 
 const MY_FORMATS = {
@@ -69,7 +70,7 @@ const MY_FORMATS = {
     PhotoGrapherOperationsComponent,
     SpecialdaysClientsViewComponent,
     SpecialdaysClientsAddComponent,
-    
+    AddClientEmergencyRequestComponent,
   ],
   imports: [
     CommonModule,

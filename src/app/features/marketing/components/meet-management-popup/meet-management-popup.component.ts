@@ -130,7 +130,7 @@ export class MeetManagementPopupComponent implements OnInit {
     if (this.meetForm.valid) {
       const userId = parseInt(localStorage.getItem('UserID') || '0', 10); // Get UserID from localStorage
       const formData = this.meetForm.value;
-
+  
       const payload = {
         leadID: formData.leadName, // leadName corresponds to leadID
         scheduledDate: formData.scheduleDate, // Date in string format
@@ -138,24 +138,37 @@ export class MeetManagementPopupComponent implements OnInit {
         salesPersonID: userId, // Logged-in user's ID
         meetID: this.meetID || 0,
       };
-
+  
       console.log('Payload for API:', payload); // Debug payload
-
+  
       this.commanApiService.scheduleMeet(payload).subscribe(
-        (response: any) => {
-          console.log('Meeting Scheduled Successfully:', response);
-          this.openAlertDialog('Success', 'Meeting scheduled successfully!');
-          this.closePopup(); // Close the popup after submission
+        (response: string) => {
+          console.log('Response from API:', response);
+  
+          // Check if the response is 'Success'
+          if (response === 'Success') {
+            this.openAlertDialog('Success', 'Meeting scheduled successfully!');
+            this.closePopup(); // Close the popup after submission
+          } else {
+            this.openAlertDialog('Error', response || 'Unexpected server response.');
+          }
         },
         (error) => {
           console.error('Failed to schedule the meeting:', error);
-          this.openAlertDialog('Error', 'Failed to schedule the meeting. Please try again.');
+  
+          // Handle error with a fallback message
+          const errorMessage =
+            error?.error?.message ||
+            'An unexpected error occurred while scheduling the meeting.';
+          this.openAlertDialog('Error', errorMessage);
         }
       );
     } else {
       console.error('Form is invalid:', this.meetForm.errors);
+      this.openAlertDialog('Error', 'Please fill in all required fields correctly.');
     }
   }
+  
 
   // Open a custom alert dialog
   openAlertDialog(title: string, message: string): void {

@@ -117,41 +117,32 @@ export class SlaGenerationAddComponent implements OnInit {
       const formData = this.slaForm.value;
   
       const payload = {
-        //clientID: 0,
         clientName: formData.clientName,
         clientDesignation: formData.designation,
-        paymentDate:formData.paymentDuedate,
+        paymentDate: formData.paymentDuedate,
         organizationName: formData.leadName,
         address: formData.address,
         domain: formData.organizationDomain,
         clientCategory: 1,
-        //cityID: parseInt(formData.city, 10),
         leadID: this.leadID || 0,
         createdBy: parseInt(localStorage.getItem('UserID') || '0', 10),
-        //onboardedOn: new Date().toISOString(),
-        //serviceStartDate: new Date().toISOString().split('T')[0],
-        //isKTCompleted: false,
-        //ktDate: new Date().toISOString().split('T')[0],
-        //isAdvReceived: true,
         isActive: true,
         package: {
-          //clientID: 0,
           basePackage: parseFloat(formData.basePackage),
           adBudget: parseFloat(formData.addBudget),
           noOfPosters: parseInt(formData.posterDesigns, 10),
           noOfGraphicReels: parseInt(formData.graphicReel, 10),
           noOfEducationalReels: parseInt(formData.educationalReel, 10),
           noOfYouTubeVideos: parseInt(formData.youtubeVideos, 10),
-          shootOffered: this.slaForm.value.shootOffer === 1 ? true : false,
-          shootBudget:this.slaForm.value.shootBudget === 1 ? true : false,
+          shootOffered: formData.shootOffer === 1,
+          shootBudget: formData.shootBudget === 1,
           chargePerVisit: parseFloat(formData.chargePerVisit),
-          smFaceBook: this.slaForm.value.facebook,
-          smInstagram: this.slaForm.value.instagram,
-          smLinkedin: this.slaForm.value.linkedin,
-          smYoutube: this.slaForm.value.youtube,
-          smOthers: this.slaForm.value.others,
-          smOthersText: this.slaForm.value.otherPlatforms || '',
-          //slaCopy: '',
+          smFaceBook: formData.facebook,
+          smInstagram: formData.instagram,
+          smLinkedin: formData.linkedin,
+          smYoutube: formData.youtube,
+          smOthers: formData.others,
+          smOthersText: formData.otherPlatforms || '',
         },
         advancePaymentStatus: 1,
       };
@@ -159,18 +150,30 @@ export class SlaGenerationAddComponent implements OnInit {
       console.log('Payload:', payload);
   
       this.commanApiService.addClient(payload).subscribe(
-        (response) => {
-          this.openAlertDialog('Success', 'Client added successfully!');
+        (response: string) => {
+          console.log('Response from API:', response);
+  
+          // Handle backend response that sends plain text like "Success"
+          if (response === 'Success') {
+            this.openAlertDialog('Success', 'Client added successfully!');
+          } else {
+            this.openAlertDialog('Error', response || 'Unexpected server response.');
+          }
         },
-        (error) => {
+        (error: any) => {
           console.error('Error adding client:', error);
-          this.openAlertDialog('Error', 'Failed to add client. Please try again.');
+  
+          // Handle potential HTTP error with fallback message
+          const errorMessage =
+            error?.error?.message || 'An unexpected error occurred while adding the client.';
+          this.openAlertDialog('Error', errorMessage);
         }
       );
     } else {
       this.openAlertDialog('Error', 'Please fill all required fields.');
     }
   }
+  
   
   // Open a popup dialog
   openAlertDialog(title: string, message: string): void {

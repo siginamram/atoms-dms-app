@@ -27,17 +27,27 @@ export class OperationsService {
 
   UpdateOnboardClient(payload: any): Observable<any> {
     const apiUrl = `${this.baseApiUrl}/api/Client/UpdateOnboardClient`;
-    return this.http.post(apiUrl, payload);
+    // Sending POST request with payload and expecting a text response
+    return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
   }
-
+  
   UpdatePresentClient(payload: any): Observable<any> {
     const apiUrl = `${this.baseApiUrl}/api/Client/UpdatePresentClient`;
-    return this.http.post(apiUrl, payload);
+    // Sending POST request with payload and expecting a text response
+    return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
   }
+  
 
   getClientsByContentWriter(userId: number, date: string): Observable<any> {
     const apiUrl = `${this.baseApiUrl}/api/Operations/ClientsByContentWriter/${userId}/${date}`;
     return this.http.get(apiUrl);
+  }
+  
+  AddClientEmergencyRequest(payload: any): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/AddClientEmergencyRequest`;
+  
+    // Set responseType to 'text' since the API returns plain text
+    return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
   }
   
 }
