@@ -6,7 +6,7 @@ import { FormControl } from '@angular/forms';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
 import { OperationsService } from '../../services/operations.service';
 export const MY_FORMATS = {
   parse: {
@@ -29,14 +29,15 @@ export const MY_FORMATS = {
   //encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OperationsContentWritersComponent {
+export class OperationsContentWritersComponent implements OnInit {
   // Data and Filters
-  selectedClient: string = ''; // Default selected client
+  selecteddate: any = ''; // Default selected client
   selectedMonthYear: Date | null = null;
   startAtDate = new Date();
   leads: any[] = [];
   searchTerm: string = '';
   formattedMonthYear: string = '';
+  clientId: number = 0;
   readonly date = new FormControl(moment());
   // Metrics
   brandingPosterCount = 0;
@@ -58,7 +59,7 @@ export class OperationsContentWritersComponent {
       promotionType: 'Branding',
       language: 'English',
       creativeType: 'Poster',
-      approvalStatus: false,
+      approvalStatus: 'Pending',
       remarks: 'Pending review',
     },
     {
@@ -68,7 +69,7 @@ export class OperationsContentWritersComponent {
       promotionType: 'Education',
       language: 'Telugu',
       creativeType: 'Reel',
-      approvalStatus: true,
+      approvalStatus: 'Approved',
       remarks: 'Approved',
     },
   ];
@@ -92,10 +93,13 @@ export class OperationsContentWritersComponent {
   isEditMode = false;
   popupForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef, private router: Router, private operationsService: OperationsService) {
+  constructor(private fb: FormBuilder, 
+    private cdr: ChangeDetectorRef, 
+    private router: Router, 
+    private route: ActivatedRoute,
+    private operationsService: OperationsService) {
     this.popupForm = this.fb.group({
       date: [''],
-      day: [''],
       speciality: [''],
       promotionType: [''],
       language: [''],
@@ -104,7 +108,13 @@ export class OperationsContentWritersComponent {
       remarks: [''],
     });
   }
-
+  ngOnInit(): void {
+    // Retrieve clientId from query parameters
+    this.route.queryParams.subscribe((params) => {
+      this.clientId = +params['clientid'] || 0;
+      this.selecteddate = +params['date'] || 0;
+    });
+  }
   // Filter leads for autocomplete
   filterSearch(): void {
     const searchTerm = this.searchTerm.toLowerCase();

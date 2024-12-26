@@ -31,6 +31,7 @@ export class ContentWritersClientsComponent implements OnInit {
   leads: any[] = [];
   filteredClients: any[] = [];
   searchTerm: string = '';
+  selectedDate:any='';
   readonly date = new FormControl(moment());
   userId: number = parseInt(localStorage.getItem('UserID') || '0', 10); // Get UserID from local storage
 
@@ -62,10 +63,10 @@ export class ContentWritersClientsComponent implements OnInit {
 
   // Fetch clients based on selected date and user ID
   fetchClients(): void {
-    const selectedDate = this.date.value?.format('YYYY-MM') + '-01'; // Default day is 01
+    this.selectedDate = this.date.value?.format('YYYY-MM') + '-01'; // Default day is 01
     if (this.userId) {
       this.operationsService
-        .getClientsByContentWriter(this.userId, selectedDate)
+        .getClientsByContentWriter(this.userId, this.selectedDate)
         .subscribe(
           (response: any) => {
             this.dataSource1.data = response; // Bind data to the table
@@ -117,8 +118,14 @@ export class ContentWritersClientsComponent implements OnInit {
   }
 
   // Navigate to edit page
-  editRow(client: any): void {
-    this.router.navigate([`/home/operations/operations-content-writer`]);
-    console.log('Edit:', client);
-  }
+  // editRow(client: any): void {
+  //   this.router.navigate([`/home/operations/operations-content-writer`]);
+  //   console.log('Edit:', client);
+  // }
+
+  editRow(lead: any): void {
+    this.router.navigate(['/home/operations/operations-content-writer'], {
+      queryParams: {date:this.selectedDate,clientId:lead.clientId },
+    });
+} 
 }

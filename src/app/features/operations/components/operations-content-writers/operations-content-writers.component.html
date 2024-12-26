@@ -107,19 +107,14 @@
       <th mat-header-cell *matHeaderCellDef>Creative Type</th>
       <td mat-cell *matCellDef="let element">{{ element.creativeType }}</td>
     </ng-container>
+
     <ng-container matColumnDef="approval">
-      <th mat-header-cell *matHeaderCellDef>Approval</th>
-      <td mat-cell *matCellDef="let element">
-        <mat-checkbox [(ngModel)]="element.approvalStatus" (change)="updateApproval(element)">
-          {{ element.approvalStatus ? 'Approved' : 'Pending' }}
-        </mat-checkbox>
-      </td>
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let element">{{ element.approvalStatus }}</td>
     </ng-container>
     <ng-container matColumnDef="remarks">
       <th mat-header-cell *matHeaderCellDef>Remarks</th>
-      <td mat-cell *matCellDef="let element">
-        <textarea [(ngModel)]="element.remarks" (change)="updateRemarks(element)"></textarea>
-      </td>
+      <td mat-cell *matCellDef="let element">{{ element.remarks }}</td>
     </ng-container>
     <ng-container matColumnDef="edit">
       <th mat-header-cell *matHeaderCellDef>Edit</th>
