@@ -216,6 +216,15 @@ export class OperationsContentWritersComponent implements OnInit {
     });
   }
 
+  setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>): void {
+    const ctrlValue = this.date.value ?? moment();
+    ctrlValue.month(normalizedMonthAndYear.month());
+    ctrlValue.year(normalizedMonthAndYear.year());
+    this.date.setValue(ctrlValue);
+    this.selecteddate = ctrlValue.format('YYYY-MM-DD'); // Update selectedDate
+    datepicker.close();
+    this.fetchMonthlyTrackerData(this.clientId, this.selecteddate);
+  }
   onMonthYearSelected(event: moment.Moment, datepicker: any): void {
     if (event && event.isValid && event.isValid()) {
       // Format the selected date as MM/YYYY

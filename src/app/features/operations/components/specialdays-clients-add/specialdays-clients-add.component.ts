@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OperationsService } from '../../services/operations.service';
+import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/alert-dialog.component'; 
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-specialdays-clients-add',
@@ -18,7 +20,8 @@ export class SpecialdaysClientsAddComponent implements OnInit {
     public dialogRef: MatDialogRef<SpecialdaysClientsAddComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: { clientId: number; date: any; speciality: string; specialDayId: number },
-    private operationsService: OperationsService
+    private operationsService: OperationsService,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -112,15 +115,15 @@ export class SpecialdaysClientsAddComponent implements OnInit {
     this.operationsService.addSpecialDay(payload).subscribe({
       next: (response: string) => {
         if (response === 'Success') {
-          alert('Special day saved successfully!');
+          this.openAlertDialog('Success', 'Special day saved successfully!');
           this.dialogRef.close(true);
         } else {
-          alert('Failed to save special day: ' + response);
+          this.openAlertDialog('Error', 'Failed to save special day: ' + response);
         }
       },
       error: (error) => {
         console.error('Error saving special day:', error);
-        alert('An error occurred while saving the special day.');
+        this.openAlertDialog('Error', 'Please fill all required fields correctly.');
       },
     });
   }
@@ -137,5 +140,15 @@ export class SpecialdaysClientsAddComponent implements OnInit {
   private resolveClientName(clientId: number): string {
     const client = this.allClients.find((client) => client.clientId === clientId);
     return client ? client.organizationName : '';
+  }
+  openAlertDialog(title: string, message: string): void {
+    this.dialog.open(AlertDialogComponent, {
+      width: '400px',
+      data: {
+        title,
+        message,
+        type: title.toLowerCase(), // success, error, or warning
+      },
+    });
   }
 }

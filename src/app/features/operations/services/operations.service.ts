@@ -79,4 +79,19 @@ export class OperationsService {
     // Set responseType to 'text' since the API returns plain text
     return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
   }
+
+  getClientsByGraphicDesigner(userId: number, date: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/ClientsByGraphicDesigner/${userId}/${date}`;
+    return this.http.get(apiUrl);
+  }
+  
+  GraphicDesignerMonthlyTracker(clientId: number, date: string,creativeType:number): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/GraphicDesignerMonthlyTracker/${clientId}/${date}/${creativeType}`;
+    return this.http.get(apiUrl);
+  }
+  updateGraphicDesignLink(payload: any): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/UpdateGraphicDesignLink`;
+    return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+  }
+  
 }

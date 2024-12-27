@@ -12,8 +12,23 @@
         <mat-label>Organization Name</mat-label>
         <input matInput formControlName="clientName"  readonly/>
       </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <input
+          matInput
+          [matDatepicker]="picker"
+          [formControl]="date"
+          placeholder="Select Month and Year"
+          readonly
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker
+          #picker
+          startView="multi-year"
+          (monthSelected)="setMonthAndYear($event, picker)"   readonly
+        ></mat-datepicker>
+      </mat-form-field>
     </div>
-    
  
   <!-- Dashboard Cards -->
   <h2>Monthly Deliverables</h2>

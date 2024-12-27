@@ -1,13 +1,15 @@
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { Component, OnInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDatepicker } from '@angular/material/datepicker';
-import { FormControl } from '@angular/forms';
+import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import * as moment from 'moment';
 import { Moment } from 'moment';
-import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
-import { Router } from '@angular/router';
+import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 import { OperationsService } from '../../services/operations.service';
+import { MatDialog } from '@angular/material/dialog';
+import { PosterDesignerOperationsEditComponent } from '../poster-designer-operations-edit/poster-designer-operations-edit.component';
+
 export const MY_FORMATS = {
   parse: {
     dateInput: 'MM/YYYY',
@@ -26,89 +28,136 @@ export const MY_FORMATS = {
   templateUrl: './poster-designer-operations.component.html',
   styleUrls: ['./poster-designer-operations.component.css'],
     providers: [provideMomentDateAdapter(MY_FORMATS)],
-    //encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PosterDesignerOperationsComponent {
-  // Filters
-  searchClient = '';
-  filteredClients = ['Client A', 'Client B', 'Client C', 'Client D'];
-  categories = ['Posters', 'Videos', 'Reels', 'Others'];
-  internalStatuses = ['Approved', 'Sent for Approval', 'Changes Recommended', 'Sent to Client Approval'];
-  clientStatuses = ['Approved', 'Rejected', 'Changes Recommended', 'Sent for Approval'];
-    formattedMonthYear: string = '';
-    readonly date = new FormControl(moment());
-  // Table Data
-  contentData = [
-    {
-      date: '2024-01-01',
-      client: 'Client A',
-      speciality: 'Cardiology',
-      category: 'Posters',
-      caption: 'Sample Caption',
-      contentLink: 'http://example.com/content',
-      internalApproval: 'Approved',
-      clientApproval: 'Sent for Approval',
-      relatedRemarks: 'Urgent Review Required',
-    },
-    {
-      date: '2024-01-02',
-      client: 'Client B',
-      speciality: 'Neurology',
-      category: 'Videos',
-      caption: 'Another Caption',
-      contentLink: 'http://example.com/content2',
-      internalApproval: 'Sent for Approval',
-      clientApproval: 'Approved',
-      relatedRemarks: 'Good to go',
-    },
-  ];
-
-  displayedColumns = [
-    'date',
-    'client',
+export class PosterDesignerOperationsComponent implements OnInit {
+  clientId: number = 0;
+  selectedDate: string = '';
+  creativeType: number = 1; // Default creativeType
+  clientForm: FormGroup;
+  displayedColumns: string[] = [
+   'id',
     'speciality',
-    'category',
+    'creativeType',
+    'promotionType',
+    'language',
     'caption',
+    'contentInPost',
     'contentLink',
-    'internalApproval',
-    'clientApproval',
+    'status',
     'relatedRemarks',
+    'actions',
   ];
-constructor( private cdr: ChangeDetectorRef,private router: Router, private operationsService: OperationsService){}
-  // Methods
-  filterClients() {
-    const search = this.searchClient.toLowerCase();
-    this.filteredClients = ['Client A', 'Client B', 'Client C', 'Client D'].filter(client =>
-      client.toLowerCase().includes(search)
-    );
+  contentData = new MatTableDataSource<any>([]); // Initialize dataSource
+  date = new FormControl(moment());
+
+  constructor(
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef,
+    private router: Router,
+    private route: ActivatedRoute,
+    private dialog: MatDialog,
+    private operationsService: OperationsService
+  ) {
+    this.clientForm = this.fb.group({
+      clientName: [''],
+    });
   }
 
-  selectClient(client: string) {
-    console.log('Selected Client:', client);
+  ngOnInit(): void {
+    // Retrieve clientId and date from query parameters
+    this.route.queryParams.subscribe((params) => {
+      this.clientId = Number(params['clientId']) || 0;
+      this.selectedDate = params['date']
+        ? moment(params['date']).format('YYYY-MM-DD')
+        : moment().format('YYYY-MM-DD'); // Default to current date
+
+      // Fetch client details and table data
+      this.fetchClientDetails(this.clientId);
+      this.fetchTableData();
+    });
   }
 
-setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>): void {
+  fetchClientDetails(clientId: number): void {
+    this.operationsService.getclientByClientId(clientId).subscribe({
+      next: (response) => {
+        if (response?.organizationName) {
+          this.clientForm.patchValue({ clientName: response.organizationName });
+        }
+      },
+      error: (error) => console.error('Error fetching client details:', error),
+    });
+  }
+
+  fetchTableData(): void {
+    if (!this.clientId || !this.selectedDate) {
+      console.warn('Missing clientId or date for table data');
+      return;
+    }
+
+    this.operationsService
+      .GraphicDesignerMonthlyTracker(this.clientId, this.selectedDate, this.creativeType)
+      .subscribe({
+        next: (response: any[]) => {
+          this.contentData.data = response.map((item) => ({
+            date: moment(item.specialDayDate).format('YYYY-MM-DD'),
+            client: this.clientForm.value.clientName,
+            speciality: item.speciality,
+            promotionType:item.promotionType,
+            creativeType: item.creativeType,
+            language:item.language,
+            caption: item.contentCaption,
+            contentInPost: item.contentInPost,
+            contentLink: item.referenceDoc,
+            status: this.mapGraphicStatus(item.graphicStatus),
+            relatedRemarks: item.graphicRemarks || 'No remarks',
+            monthlyTrackerId:item.monthlyTrackerId,
+          }));
+          this.cdr.markForCheck(); // Trigger change detection
+        },
+        error: (error) => {
+          console.error('Error fetching table data:', error);
+          this.contentData.data = []; // Clear table on error
+        },
+      });
+  }
+
+  mapGraphicStatus(status: number): string {
+    const statusMap: { [key: number]: string } = {
+      1: 'Yet to Start',
+      2: 'Draft Saved',
+      3: 'Sent for Approval',
+      4: 'Changes Recommended',
+      5: 'Approved',
+    };
+    return statusMap[status] || 'Unknown Status';
+  }
+
+  setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>): void {
     const ctrlValue = this.date.value ?? moment();
     ctrlValue.month(normalizedMonthAndYear.month());
     ctrlValue.year(normalizedMonthAndYear.year());
     this.date.setValue(ctrlValue);
+    this.selectedDate = ctrlValue.format('YYYY-MM-DD'); // Update selectedDate
     datepicker.close();
+    this.fetchTableData(); // Fetch table data for the new date
+  }
+  openEditPopup(row: any): void {
+    console.log('edit',row);
+    const dialogRef = this.dialog.open(PosterDesignerOperationsEditComponent, {
+      width: '600px',
+      data: {
+        trackerID: row.monthlyTrackerId,
+        userID: parseInt(localStorage.getItem('UserID') || '0', 10),
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // Refresh data or perform actions after popup close
+        console.log('Popup result:', result);
+      }
+    });
   }
 
-  onMonthYearSelected(event: moment.Moment, datepicker: any): void {
-    if (event && event.isValid && event.isValid()) {
-      // Format the selected date as MM/YYYY
-      this.formattedMonthYear = event.format('MM/YYYY');
-      console.log('Selected Month/Year:', this.formattedMonthYear);
-
-      // Close the datepicker
-      datepicker.close();
-
-      // Trigger Angular change detection
-      this.cdr.detectChanges();
-    } else {
-      console.error('Invalid date selected:', event);
-    }
-  }
 }

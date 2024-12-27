@@ -41,6 +41,7 @@ import { SpecialdaysClientsAddComponent } from './components/specialdays-clients
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AddClientEmergencyRequestComponent } from './components/add-client-emergency-request/add-client-emergency-request.component';
 import { ContentWritersOperationsEditComponent } from './components/content-writers-operations-edit/content-writers-operations-edit.component';
+import { PosterDesignerOperationsEditComponent } from './components/poster-designer-operations-edit/poster-designer-operations-edit.component';
 
 
 const MY_FORMATS = {
@@ -73,6 +74,7 @@ const MY_FORMATS = {
     SpecialdaysClientsAddComponent,
     AddClientEmergencyRequestComponent,
     ContentWritersOperationsEditComponent,
+    PosterDesignerOperationsEditComponent,
   ],
   imports: [
     CommonModule,
