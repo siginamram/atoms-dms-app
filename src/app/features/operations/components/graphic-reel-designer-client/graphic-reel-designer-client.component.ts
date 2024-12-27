@@ -2,10 +2,10 @@ import { Component, OnInit, ViewChild, ChangeDetectorRef, ViewEncapsulation, Cha
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDatepicker } from '@angular/material/datepicker';
+import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import { FormControl } from '@angular/forms';
-import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { Router } from '@angular/router';
 import { OperationsService } from '../../services/operations.service';
 export const MY_FORMATS = {
@@ -19,39 +19,38 @@ export const MY_FORMATS = {
     monthYearA11yLabel: 'MMMM YYYY',
   },
 };
-
 @Component({
-  selector: 'app-video-editor-clients',
+  selector: 'app-graphic-reel-designer-client',
   standalone:false,
-  templateUrl: './video-editor-clients.component.html',
-  styleUrl: './video-editor-clients.component.css',
+  templateUrl: './graphic-reel-designer-client.component.html',
+  styleUrl: './graphic-reel-designer-client.component.css',
    providers: [provideMomentDateAdapter(MY_FORMATS)],
-   changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VideoEditorClientsComponent implements OnInit {
-  selectedDate: any = '';
+export class GraphicReelDesignerClientComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  formattedMonthYear: string = '';
-  readonly date = new FormControl(moment());
-  userId: number = parseInt(localStorage.getItem('UserID') || '0', 10); // Get UserID from local storage
-
+  selectedDate:any='';
+  dataSource1 = new MatTableDataSource<any>([]);
   displayedColumns: string[] = [
     'id',
     'organizationName',
     'cityName',
     'clientCategory',
-    'noOfYouTubeVideos',
-    'noOfEducationalReels',
-    'totYouTubeVideosApprovedCount',
-    'totEducationalReelsApprovedCount',
-    'percentOfYouTubeVideosApproved',
-    'percentOfEducationalReelsApproved',
+    'noOfPosters',
+    'percentOfPosterContentApproved',
+    'percentOfPostersApproved',
     'actions',
   ];
 
-  dataSource1 = new MatTableDataSource<any>([]);
+  readonly date = new FormControl(moment());
+  userId: number = parseInt(localStorage.getItem('UserID') || '0', 10); // Get UserID from local storage
 
-  constructor(private cdr: ChangeDetectorRef, private operationsService: OperationsService, private router: Router) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private router: Router,
+    private operationsService: OperationsService
+  ) {}
 
   ngOnInit(): void {
     this.dataSource1.paginator = this.paginator; // Attach paginator
@@ -65,23 +64,13 @@ export class VideoEditorClientsComponent implements OnInit {
       return;
     }
 
-    this.operationsService.getclientsByVideoEditor(this.userId, this.selectedDate).subscribe({
+    this.operationsService.getClientsByGraphicReelEditor(this.userId, this.selectedDate).subscribe({
       next: (response: any[]) => {
         console.log('Fetched Clients:', response);
         this.dataSource1.data = response.map((client, index) => ({
-          id: index + 1,
-          organizationName: client.organizationName,
-          cityName: client.cityName,
-          clientCategory: this.getCategoryLabel(client.clientCategory),
-          noOfYouTubeVideos: client.noOfYouTubeVideos,
-          noOfEducationalReels: client.noOfEducationalReels,
-          totYouTubeVideosApprovedCount: client.totYouTubeVideosApprovedCount,
-          totEducationalReelsApprovedCount: client.totEducationalReelsApprovedCount,
-          percentOfYouTubeVideosApproved: client.percentOfYouTubeVideosApproved + '%',
-          percentOfEducationalReelsApproved: client.percentOfEducationalReelsApproved + '%',
-          clientId: client.clientId,
+          ...client,
+          id: index + 1, // Add serial number dynamically
         }));
-        this.cdr.markForCheck(); // Trigger change detection
       },
       error: (error) => {
         console.error('Error fetching clients:', error);
@@ -89,7 +78,6 @@ export class VideoEditorClientsComponent implements OnInit {
       },
     });
   }
-
   getCategoryLabel(category: number): string {
     const categoryMap: { [key: number]: string } = {
       1: 'A',
@@ -98,23 +86,19 @@ export class VideoEditorClientsComponent implements OnInit {
     };
     return categoryMap[category] || 'Unknown'; // Default to 'Unknown' for unmapped values
   }
-
-  setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>): void {
-    const ctrlValue = this.date.value || moment(); // Use moment() as fallback
+  setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
+    const ctrlValue = this.date.value ?? moment();
     ctrlValue.month(normalizedMonthAndYear.month());
     ctrlValue.year(normalizedMonthAndYear.year());
     this.date.setValue(ctrlValue);
     datepicker.close();
-    this.fetchClients(); // Fetch clients for the selected month and year
+    this.fetchClients(); // Fetch data for the selected month/year
   }
-  
-  
 
   editRow(client: any): void {
-    this.router.navigate(['/home/operations/operations-video-editor'], {
-      queryParams: { date: this.selectedDate, clientId: client.clientId },
+    this.router.navigate(['/home/operations/operations-graphicreels-designer'], {
+      queryParams: {date:this.selectedDate,clientId:client.clientId },
     });
-  }
 }
-
+}
 

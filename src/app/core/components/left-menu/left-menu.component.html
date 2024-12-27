@@ -86,9 +86,16 @@
         </li>
         <li>
           <a [routerLink]="['/home', 'operations', 'photo-grapher-client']" 
-             *ngIf="roleService.hasRole(['Manager', 'Videographer'])" 
+             *ngIf="roleService.hasRole(['Videographer'])" 
              routerLinkActive="active">
             <i class="material-icons">videocam</i>Videographer
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/home', 'operations', 'graphicreels-designer-client']" 
+             *ngIf="roleService.hasRole([ 'Video Editor'])" 
+             routerLinkActive="active">
+            <i class="material-icons">movie_creation</i>Graphic Reel Editor
           </a>
         </li>
      
@@ -180,6 +187,13 @@
          *ngIf="roleService.hasRole(['Manager', 'Videographer'])" 
          routerLinkActive="active">
         <i class="material-icons">videocam</i>Videographer
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['/home', 'operations', 'graphicreels-designer-client']" 
+         *ngIf="roleService.hasRole([ 'Video Editor'])" 
+         routerLinkActive="active">
+        <i class="material-icons">movie_creation</i>Graphic Reel Editor
       </a>
     </li>
 

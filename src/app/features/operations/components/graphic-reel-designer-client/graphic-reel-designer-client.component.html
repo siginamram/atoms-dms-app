@@ -1,0 +1,83 @@
+<div class="poster-designer-container">
+    <!-- Toolbar -->
+    <mat-toolbar color="primary" class="toolbar" style="border-radius: 10px;">
+      <span>Graphic Reels Designer Client List</span>
+    </mat-toolbar>
+  
+    <!-- Filter Section -->
+    <div class="filter-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Month and Year</mat-label>
+        <input matInput [matDatepicker]="dp" [formControl]="date" placeholder="MM/YYYY" readonly>
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker
+          #dp
+          startView="multi-year"
+          (monthSelected)="setMonthAndYear($event, dp)"
+          panelClass="example-month-picker">
+        </mat-datepicker>
+      </mat-form-field>
+    </div>
+  
+    <!-- Table -->
+    <div class="table-container">
+      <table mat-table [dataSource]="dataSource1" class="mat-elevation-z8">
+        <!-- Serial Number Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>S.No</th>
+          <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+        </ng-container>
+  
+        <!-- Organization Name Column -->
+        <ng-container matColumnDef="organizationName">
+          <th mat-header-cell *matHeaderCellDef>Organization Name</th>
+          <td mat-cell *matCellDef="let row">{{ row.organizationName }}</td>
+        </ng-container>
+  
+        <!-- City Name Column -->
+        <ng-container matColumnDef="cityName">
+          <th mat-header-cell *matHeaderCellDef>City</th>
+          <td mat-cell *matCellDef="let row">{{ row.cityName }}</td>
+        </ng-container>
+  
+        <!-- Client Category Column -->
+        <ng-container matColumnDef="clientCategory">
+          <th mat-header-cell *matHeaderCellDef>Client Category</th>
+          <td mat-cell *matCellDef="let row">{{ getCategoryLabel(row.clientCategory) }}</td>
+        </ng-container>
+  
+        <!-- No Of Posters Column -->
+        <ng-container matColumnDef="noOfPosters">
+          <th mat-header-cell *matHeaderCellDef>No Of Reels</th>
+          <td mat-cell *matCellDef="let row">{{ row.noOfReels }}</td>
+        </ng-container>
+  
+        <!-- Poster Content Approved (%) Column -->
+        <ng-container matColumnDef="percentOfPosterContentApproved">
+          <th mat-header-cell *matHeaderCellDef>Reels Approved</th>
+          <td mat-cell *matCellDef="let row">{{ row.percentOfReelsContentApproved }}</td>
+        </ng-container>
+  
+        <!-- Posters Approved (%) Column -->
+        <ng-container matColumnDef="percentOfPostersApproved">
+          <th mat-header-cell *matHeaderCellDef>Posters Approved (%)</th>
+          <td mat-cell *matCellDef="let row">{{ row.percentOfReelsApproved }}%</td>
+        </ng-container>
+  
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-button color="accent" (click)="editRow(row)">Edit</button>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+  
+      <!-- Paginator -->
+      <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+    </div>
+  </div>
+  

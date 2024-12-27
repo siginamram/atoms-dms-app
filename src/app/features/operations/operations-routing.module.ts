@@ -15,8 +15,8 @@ import { PhotoGrapherOperationsComponent } from './components/photo-grapher-oper
 import { SpecialdaysClientsViewComponent } from './components/specialdays-clients-view/specialdays-clients-view.component';
 import { SpecialdaysClientsAddComponent } from './components/specialdays-clients-add/specialdays-clients-add.component';
 import { AddClientEmergencyRequestComponent } from './components/add-client-emergency-request/add-client-emergency-request.component';
-
-
+import { GraphicReelDesignerClientComponent } from './components/graphic-reel-designer-client/graphic-reel-designer-client.component';
+import { GraphicReelDesignerOperationsComponent } from './components/graphic-reel-designer-operations/graphic-reel-designer-operations.component';
 
 const routes: Routes = [
   {
@@ -44,6 +44,8 @@ const routes: Routes = [
       { path: 'specialdays-add', component: SpecialdaysClientsAddComponent },
       { path: 'emergency-request-add', component: AddClientEmergencyRequestComponent },
 
+      { path: 'operations-graphicreels-designer', component: GraphicReelDesignerOperationsComponent },
+      { path: 'graphicreels-designer-client', component: GraphicReelDesignerClientComponent },
   
     ]
   }

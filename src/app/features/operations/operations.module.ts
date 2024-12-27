@@ -42,6 +42,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { AddClientEmergencyRequestComponent } from './components/add-client-emergency-request/add-client-emergency-request.component';
 import { ContentWritersOperationsEditComponent } from './components/content-writers-operations-edit/content-writers-operations-edit.component';
 import { PosterDesignerOperationsEditComponent } from './components/poster-designer-operations-edit/poster-designer-operations-edit.component';
+import { GraphicReelDesignerClientComponent } from './components/graphic-reel-designer-client/graphic-reel-designer-client.component';
+import { GraphicReelDesignerOperationsComponent } from './components/graphic-reel-designer-operations/graphic-reel-designer-operations.component';
+import { GraphicReelDesignerOperationsEditComponent } from './components/graphic-reel-designer-operations-edit/graphic-reel-designer-operations-edit.component';
+import { VideoEditorOperationsEditComponent } from './components/video-editor-operations-edit/video-editor-operations-edit.component';
 
 
 const MY_FORMATS = {
@@ -75,6 +79,10 @@ const MY_FORMATS = {
     AddClientEmergencyRequestComponent,
     ContentWritersOperationsEditComponent,
     PosterDesignerOperationsEditComponent,
+    GraphicReelDesignerClientComponent,
+    GraphicReelDesignerOperationsComponent,
+    GraphicReelDesignerOperationsEditComponent,
+    VideoEditorOperationsEditComponent,
   ],
   imports: [
     CommonModule,

@@ -8,6 +8,7 @@ import { Moment } from 'moment';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { Router } from '@angular/router';
 import { OperationsService } from '../../services/operations.service';
+import { VideoEditorOperationsEditComponent } from '../video-editor-operations-edit/video-editor-operations-edit.component';
 export const MY_FORMATS = {
   parse: {
     dateInput: 'MM/YYYY',

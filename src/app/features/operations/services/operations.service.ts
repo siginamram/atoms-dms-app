@@ -93,5 +93,25 @@ export class OperationsService {
     const apiUrl = `${this.baseApiUrl}/api/Operations/UpdateGraphicDesignLink`;
     return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
   }
+
+  getClientsByGraphicReelEditor(userId: number, date: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/ClientsByGraphicReelEditor/${userId}/${date}`;
+    return this.http.get(apiUrl);
+  }
   
+  getclientsByVideoEditor(userId: number, date: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/clientsByVideoEditor/${userId}/${date}`;
+    return this.http.get(apiUrl);
+  }
+
+  videoEditorMonthlyTracker(clientId: number, date: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/videoEditorMonthlyTracker/${clientId}/${date}`;
+    return this.http.get(apiUrl);
+  }
+  
+  UpdateClientMonthlyVideoURL(payload: any): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/UpdateClientMonthlyVideoURL`;
+    return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+  }
+
 }
