@@ -58,5 +58,25 @@ export class OperationsService {
     const apiUrl = `${this.baseApiUrl}/api/Operations/contentWriterMonthlyTracker/${clientId}/${date}`;
     return this.http.get(apiUrl);
   }
+
+  getclientDeliverablesAndPackages (clientId: number): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/clientDeliverablesAndPackages/${clientId}`;
+    return this.http.get(apiUrl);
+  }
   
+  getAllActiveClients(): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Client/AllActiveClients`;
+    return this.http.get(apiUrl);
+  }
+
+  getSpecialDaysByClient(clientId: number, year: number): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Client/specialDaysByClient/${clientId}/${year}`;
+    return this.http.get(apiUrl);
+  }
+  
+  addSpecialDay(payload: any): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Client/addSpecialDay`;
+    // Set responseType to 'text' since the API returns plain text
+    return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+  }
 }

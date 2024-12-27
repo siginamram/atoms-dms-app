@@ -1,73 +1,82 @@
 <div class="content-container">
-    <!-- Toolbar -->
-    <mat-toolbar color="primary" class="toolbar" style="border-radius: 10px;">
-      <span>Special Days</span>
-      <span class="spacer"></span>
-      <button mat-raised-button color="accent" (click)="openDialog()">+ Add</button>
-    </mat-toolbar>
-  
-    <!-- Filters -->
-    <div class="filters-container">
-      <!-- Client Autocomplete -->
-      <mat-form-field appearance="outline" class="filter-field">
-        <mat-label>Client</mat-label>
-        <input
-          type="text"
-          matInput
-          placeholder="Search Client"
-          [(ngModel)]="selectedClient"
-          [matAutocomplete]="auto"
-          (input)="filterClients()"
-        />
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="applyFilters()">
-          <mat-option *ngFor="let client of filteredClients" [value]="client">{{ client }}</mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-  
-      <!-- Year Filter -->
-      <mat-form-field appearance="outline" class="filter-field">
-        <mat-label>Year</mat-label>
-        <mat-select [(ngModel)]="selectedYear" (selectionChange)="applyFilters()">
-          <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-  
-    <!-- Table -->
-    <table mat-table [dataSource]="filteredData" class="mat-elevation-z8">
-      <!-- Date Column -->
-      <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef>Date</th>
-        <td mat-cell *matCellDef="let element">{{ element.date }}</td>
-      </ng-container>
-  
-      <!-- Special Day Column -->
-      <ng-container matColumnDef="specialDay">
-        <th mat-header-cell *matHeaderCellDef>Special Day</th>
-        <td mat-cell *matCellDef="let element">{{ element.specialDay }}</td>
-      </ng-container>
-  
-      <!-- Client Column -->
-      <ng-container matColumnDef="client">
-        <th mat-header-cell *matHeaderCellDef>Client</th>
-        <td mat-cell *matCellDef="let element">{{ element.client }}</td>
-      </ng-container>
-  
-      <!-- Actions Column -->
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-icon-button color="primary" (click)="openDialog(element)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <!-- <button mat-icon-button color="warn" (click)="deleteEntry(element)">
-            <mat-icon>delete</mat-icon>
-          </button> -->
-        </td>
-      </ng-container>
-  
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+  <!-- Toolbar -->
+  <mat-toolbar color="primary" class="toolbar" style="border-radius: 10px;">
+    <span>Special Days</span>
+    <span class="spacer"></span>
+    <button mat-raised-button color="accent" (click)="openDialog()">+ Add</button>
+  </mat-toolbar>
+
+  <!-- Filters -->
+  <div class="filters-container">
+    <!-- Client Autocomplete -->
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Client</mat-label>
+      <input
+        type="text"
+        matInput
+        placeholder="Search Client"
+        [(ngModel)]="selectedClientName"
+        [matAutocomplete]="auto"
+        (input)="filterClients($event)"
+      />
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        (optionSelected)="onClientSelected($event)"
+      >
+        <mat-option
+          *ngFor="let client of filteredClients"
+          [value]="client.organizationName"
+        >
+          {{ client.organizationName }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    
+
+    <!-- Year Selector -->
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Year</mat-label>
+      <mat-select [(value)]="selectedYear" (selectionChange)="fetchSpecialDays()">
+        <mat-option *ngFor="let year of availableYears" [value]="year">{{ year }}</mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
-  
+
+  <!-- Table -->
+  <table mat-table [dataSource]="filteredData" class="mat-elevation-z8">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>S.No</th>
+      <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+    </ng-container>
+    <!-- Date Column -->
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef>Date</th>
+      <td mat-cell *matCellDef="let element">{{ element.date }}</td>
+    </ng-container>
+
+    <!-- Special Day Column -->
+    <ng-container matColumnDef="specialDay">
+      <th mat-header-cell *matHeaderCellDef>Special Day</th>
+      <td mat-cell *matCellDef="let element">{{ element.specialDay }}</td>
+    </ng-container>
+
+    <!-- Client Column -->
+    <!-- <ng-container matColumnDef="client">
+      <th mat-header-cell *matHeaderCellDef>Client</th>
+      <td mat-cell *matCellDef="let element">{{ element.client }}</td>
+    </ng-container> -->
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button color="primary" (click)="openDialog(element)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

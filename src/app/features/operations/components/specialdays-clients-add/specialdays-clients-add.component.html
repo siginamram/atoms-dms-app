@@ -1,41 +1,41 @@
 <h1 mat-dialog-title class="dialog-title">
-    {{ data.date ? 'Edit Special Day' : 'Add Special Day' }}
-  </h1>
-  <div mat-dialog-content class="dialog-content">
-    <!-- Client Field -->
-    <mat-form-field appearance="outline" class="dialog-field">
-      <mat-label>Client</mat-label>
-      <input
-        type="text"
-        matInput
-        placeholder="Search Client"
-        [(ngModel)]="data.client"
-        [matAutocomplete]="auto"
-        [readonly]="!!data.date"
-      />
-      <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let client of filteredClients" [value]="client">
-          {{ client }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-  
-    <mat-form-field appearance="outline" class="dialog-field">
-        <mat-label>Date</mat-label>
-        <input matInput [matDatepicker]="picker" [(ngModel)]="data.date" />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-      
-  
-    <!-- Special Day Field -->
-    <mat-form-field appearance="outline" class="dialog-field">
-      <mat-label>Special Day</mat-label>
-      <input matInput [(ngModel)]="data.specialDay" />
-    </mat-form-field>
-  </div>
-  <div mat-dialog-actions class="dialog-actions">
-    <button mat-button (click)="onCancel()">Cancel</button>
-    <button mat-raised-button color="primary" (click)="onSave()">Save</button>
-  </div>
-  
+  {{ data.date ? 'Edit Special Day' : 'Add Special Day' }}
+</h1>
+<div mat-dialog-content class="dialog-content">
+  <!-- Client Field -->
+  <mat-form-field appearance="outline" class="dialog-field">
+    <mat-label>Client</mat-label>
+    <input
+      type="text"
+      matInput
+      placeholder="Search Client"
+      [(ngModel)]="selectedClientName"
+      [matAutocomplete]="auto"
+      (input)="filterClients($event)"
+      [readonly]="!!data.date"
+    />
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onClientSelected($event)">
+      <mat-option *ngFor="let client of filteredClients" [value]="client.organizationName">
+        {{ client.organizationName }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <!-- Date Field -->
+  <mat-form-field appearance="outline" class="dialog-field">
+    <mat-label>Date</mat-label>
+    <input matInput [matDatepicker]="picker" [(ngModel)]="data.date" />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <!-- Special Day Field -->
+  <mat-form-field appearance="outline" class="dialog-field">
+    <mat-label>Special Day</mat-label>
+    <input matInput [(ngModel)]="data.speciality" />
+  </mat-form-field>
+</div>
+<div mat-dialog-actions class="dialog-actions">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+</div>

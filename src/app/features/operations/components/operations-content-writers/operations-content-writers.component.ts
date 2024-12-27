@@ -53,32 +53,7 @@ export class OperationsContentWritersComponent implements OnInit {
 
   totalPosters = 0;
   totalReels = 0;
-
-  // Table Data
-  contentWritersData = [
-    {
-      date: '2024-12-20',
-      day: 'Monday',
-      speciality: 'Speciality 1',
-      promotionType: 'Branding',
-      language: 'English',
-      creativeType: 'Poster',
-      approvalStatus: 'Pending',
-      remarks: 'Pending review',
-    },
-    {
-      date: '2024-12-21',
-      day: 'Tuesday',
-      speciality: 'Speciality 2',
-      promotionType: 'Education',
-      language: 'Telugu',
-      creativeType: 'Reel',
-      approvalStatus: 'Approved',
-      remarks: 'Approved',
-    },
-  ];
-
-  filteredData = this.contentWritersData;
+ 
   dataSource = new MatTableDataSource<any>();
   displayedColumns: string[] = [
     'id',
@@ -122,7 +97,7 @@ export class OperationsContentWritersComponent implements OnInit {
      this.fetchClientDetails(this.clientId);
       console.log('Client ID:', this.clientId);
       console.log('Selected Date:', this.selecteddate);
-
+      this.fetchClientDeliverablesAndPackages(this.clientId);
       if (this.clientId && this.selecteddate) {
         this.fetchMonthlyTrackerData(this.clientId, this.selecteddate);
       } else {
@@ -165,7 +140,36 @@ export class OperationsContentWritersComponent implements OnInit {
     });
   }
   
-  
+  fetchClientDeliverablesAndPackages(clientId: number): void {
+    this.operationsService.getclientDeliverablesAndPackages(clientId).subscribe({
+      next: (response: any) => {
+        console.log('Deliverables and Packages:', response);
+        if (response && response.length > 0) {
+          const deliverables = response[0];
+          this.brandingPosterCount = deliverables.noOfBandingPosters || 0;
+          this.brandingReelCount = deliverables.noOfBandingReels || 0;
+          this.educationalPosterCount = deliverables.noOfEducationalPosters || 0;
+          this.educationalReelCount = deliverables.noOfEducationalGraphicReels || 0;
+          this.memePosterCount = deliverables.noOfMemePosters || 0;
+          this.memeReelCount = deliverables.noOfMemeReels || 0;
+
+          // Calculate total posters and reels
+          this.totalPosters =
+            this.brandingPosterCount +
+            this.educationalPosterCount +
+            this.memePosterCount;
+
+          this.totalReels =
+            this.brandingReelCount +
+            this.educationalReelCount +
+            this.memeReelCount;
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching client deliverables:', err);
+      },
+    });
+  }
   // Helper method to map status numbers to text
   getStatusText(status: number): string {
     switch (status) {
@@ -211,7 +215,6 @@ export class OperationsContentWritersComponent implements OnInit {
       }
     });
   }
-  
 
   onMonthYearSelected(event: moment.Moment, datepicker: any): void {
     if (event && event.isValid && event.isValid()) {
@@ -228,35 +231,7 @@ export class OperationsContentWritersComponent implements OnInit {
       console.error('Invalid date selected:', event);
     }
   }
-  // Calculate Totals
-  calculateTotals() {
-    this.totalPosters = this.filteredData.filter(item => item.creativeType === 'Poster').length;
-    this.totalReels = this.filteredData.filter(item => item.creativeType === 'Reel').length;
 
-    this.brandingPosterCount = this.filteredData.filter(
-      item => item.promotionType === 'Branding' && item.creativeType === 'Poster'
-    ).length;
-
-    this.brandingReelCount = this.filteredData.filter(
-      item => item.promotionType === 'Branding' && item.creativeType === 'Reel'
-    ).length;
-
-    this.educationalPosterCount = this.filteredData.filter(
-      item => item.promotionType === 'Education' && item.creativeType === 'Poster'
-    ).length;
-
-    this.educationalReelCount = this.filteredData.filter(
-      item => item.promotionType === 'Education' && item.creativeType === 'Reel'
-    ).length;
-
-    this.memePosterCount = this.filteredData.filter(
-      item => item.promotionType === 'Meme' && item.creativeType === 'Poster'
-    ).length;
-
-    this.memeReelCount = this.filteredData.filter(
-      item => item.promotionType === 'Meme' && item.creativeType === 'Reel'
-    ).length;
-  }
   addNewEntry() {
     if (!this.clientId) {
       alert('Client ID is missing. Please select a client.');

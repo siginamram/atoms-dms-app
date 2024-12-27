@@ -1,48 +1,141 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { OperationsService } from '../../services/operations.service';
 
 @Component({
   selector: 'app-specialdays-clients-add',
-  standalone:false,
+  standalone: false,
   templateUrl: './specialdays-clients-add.component.html',
   styleUrls: ['./specialdays-clients-add.component.css'],
 })
 export class SpecialdaysClientsAddComponent implements OnInit {
-  allClients = ['Client A', 'Client B', 'Client C', 'Client D']; // Full list of clients
-  filteredClients: string[] = []; // Clients displayed in the autocomplete
-  //data = { date: null }; // Initialize date as null
+  allClients: any[] = []; // Full list of clients
+  filteredClients: any[] = []; // Clients displayed in the autocomplete
+  selectedClientName: string = ''; // Selected client name for display
+  isEditMode: boolean = false; // Determine if we are in edit mode
+
   constructor(
     public dialogRef: MatDialogRef<SpecialdaysClientsAddComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { client: string; date: any; specialDay: string }
+    public data: { clientId: number; date: any; speciality: string; specialDayId: number },
+    private operationsService: OperationsService
   ) {}
 
   ngOnInit(): void {
-    if (this.data.date) {
-      // If editing, show only the specific client
-      this.filteredClients = [this.data.client];
-    } else {
-      // If adding, show all clients
-      this.filteredClients = [...this.allClients];
+    this.fetchAllClients();
+
+    // Check if we are in edit mode
+    this.isEditMode = !!this.data.specialDayId;
+       console.log('specialDayId',this.data.date);
+    if (this.isEditMode) {
+      // Pre-fill client name, date, and speciality
+      this.selectedClientName = this.resolveClientName(this.data.clientId);
+      this.data.date = this.data.date ;
+      this.data.speciality = this.data.speciality || '';
     }
   }
-// Handle Date Change
-onDateSelected(event: any): void {
-  if (event instanceof Date) {
-    this.data.date = event; // Assign full date
-  } else if (event._isAMomentObject) {
-    this.data.date = event.toDate(); // Convert Moment.js object to Date
+
+  fetchAllClients(): void {
+    this.operationsService.getAllActiveClients().subscribe({
+      next: (response: any[]) => {
+        this.allClients = response;
+        this.filteredClients = response; // Initially show all clients
+
+        // If editing, set the selected client name
+        if (this.isEditMode) {
+          this.selectedClientName = this.resolveClientName(this.data.clientId);
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching active clients:', error);
+      },
+    });
   }
-  console.log('Selected Full Date:', this.data.date); // Debugging
-}
 
+  filterClients(event: Event): void {
+    const input = (event.target as HTMLInputElement).value.toLowerCase();
+    this.filteredClients = this.allClients.filter((client) =>
+      client.organizationName.toLowerCase().includes(input)
+    );
+  }
 
+  onClientSelected(event: any): void {
+    const selectedClient = this.allClients.find(
+      (client) => client.organizationName === event.option.value
+    );
+    if (selectedClient) {
+      this.data.clientId = selectedClient.clientId; // Set clientId based on selection
+    }
+  }
 
   onCancel(): void {
     this.dialogRef.close();
   }
 
   onSave(): void {
-    this.dialogRef.close(this.data);
+    if (!this.data.date || !this.data.speciality || !this.data.clientId) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+  
+    let selectedDate: Date;
+  
+    try {
+      // Ensure that data.date is a valid Date object
+      selectedDate =
+        this.data.date instanceof Date
+          ? this.data.date
+          : new Date(this.data.date);
+  
+      if (isNaN(selectedDate.getTime())) {
+        throw new Error('Invalid date');
+      }
+    } catch (error) {
+      console.error('Invalid date provided:', this.data.date);
+      alert('Invalid date selected. Please select a valid date.');
+      return;
+    }
+  
+    const formattedDate = this.formatDate(selectedDate);
+  
+    // Prepare the payload
+    const payload = {
+      specialDayId: this.data.specialDayId || 0, // Use existing ID for edit or 0 for new
+      specialDayDate: formattedDate,
+      speciality: this.data.speciality,
+      clientId: this.data.clientId,
+      createdBy: parseInt(localStorage.getItem('UserID') || '0', 10),
+    };
+  
+    console.log('Payload for saving special day:', payload);
+  
+    this.operationsService.addSpecialDay(payload).subscribe({
+      next: (response: string) => {
+        if (response === 'Success') {
+          alert('Special day saved successfully!');
+          this.dialogRef.close(true);
+        } else {
+          alert('Failed to save special day: ' + response);
+        }
+      },
+      error: (error) => {
+        console.error('Error saving special day:', error);
+        alert('An error occurred while saving the special day.');
+      },
+    });
+  }
+  
+  // Utility function to format date as YYYY-MM-DD
+  private formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  // Utility function to resolve client name from clientId
+  private resolveClientName(clientId: number): string {
+    const client = this.allClients.find((client) => client.clientId === clientId);
+    return client ? client.organizationName : '';
   }
 }
