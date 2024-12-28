@@ -5,6 +5,7 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import { FormControl } from '@angular/forms';
 import * as moment from 'moment';
 import { Moment } from 'moment';
+import { MatPaginator } from '@angular/material/paginator';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { Router,ActivatedRoute } from '@angular/router';
 import { OperationsService } from '../../services/operations.service';
@@ -34,6 +35,7 @@ export const MY_FORMATS = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OperationsContentWritersComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   // Data and Filters
   selecteddate: any = ''; // Default selected client
   selectedMonthYear: Date | null = null;
@@ -105,7 +107,9 @@ export class OperationsContentWritersComponent implements OnInit {
       }
     });
   }
-  
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator; // Assign paginator after view initialization
+  }
   fetchClientDetails(clientId: number): void {
     this.operationsService.getclientByClientId(clientId).subscribe({
       next: (response) => {

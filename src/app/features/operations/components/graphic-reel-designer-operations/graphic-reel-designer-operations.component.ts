@@ -4,6 +4,7 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import * as moment from 'moment';
 import { Moment } from 'moment';
+import { MatPaginator } from '@angular/material/paginator';
 import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { OperationsService } from '../../services/operations.service';
@@ -29,6 +30,7 @@ export const MY_FORMATS = {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GraphicReelDesignerOperationsComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   clientId: number = 0;
   selectedDate: string = '';
   creativeType: number = 2; // Default creativeType
@@ -75,7 +77,9 @@ export class GraphicReelDesignerOperationsComponent implements OnInit {
       this.fetchTableData();
     });
   }
-
+  ngAfterViewInit(): void {
+    this.contentData.paginator = this.paginator; // Assign paginator after view initialization
+  }
   fetchClientDetails(clientId: number): void {
     this.operationsService.getclientByClientId(clientId).subscribe({
       next: (response) => {

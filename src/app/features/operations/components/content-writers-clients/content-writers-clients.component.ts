@@ -60,7 +60,9 @@ export class ContentWritersClientsComponent implements OnInit {
   ngOnInit(): void {
     this.fetchClients();
   }
-
+  ngAfterViewInit(): void {
+    this.dataSource1.paginator = this.paginator; // Assign paginator after view initialization
+  }
   // Fetch clients based on selected date and user ID
   fetchClients(): void {
     this.selectedDate = this.date.value?.format('YYYY-MM') + '-01'; // Default day is 01

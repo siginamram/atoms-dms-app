@@ -1,1 +1,35 @@
-<p>video-editor-operations-edit works!</p>
+<div class="popup-container">
+    <mat-toolbar color="primary" style="border-radius: 10px; margin-bottom: 20px;">
+      <span>Update Video Details</span>
+    </mat-toolbar>
+    <form [formGroup]="emergencyRequestForm">
+      <div class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Video Link</mat-label>
+          <input matInput formControlName="editorLink" />
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Title</mat-label>
+          <input matInput formControlName="title" />
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Thumbnail</mat-label>
+          <input matInput formControlName="thumbNail" />
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="caption-field">
+          <mat-label>Caption/Description</mat-label>
+          <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+  
+  <div mat-dialog-actions align="end">
+    <button mat-raised-button color="warn" (click)="close()">Cancel</button>
+    <button mat-raised-button color="accent" (click)="saveDraft()">Save Draft</button>
+    <button mat-raised-button color="primary" (click)="sendForApproval()">Send To Approval</button>
+  </div>
+  

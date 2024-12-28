@@ -9,6 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { OperationsService } from '../../services/operations.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PosterDesignerOperationsEditComponent } from '../poster-designer-operations-edit/poster-designer-operations-edit.component';
+import { MatPaginator } from '@angular/material/paginator';
 
 export const MY_FORMATS = {
   parse: {
@@ -31,6 +32,7 @@ export const MY_FORMATS = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PosterDesignerOperationsComponent implements OnInit {
+    @ViewChild(MatPaginator) paginator!: MatPaginator;
   clientId: number = 0;
   selectedDate: string = '';
   creativeType: number = 1; // Default creativeType
@@ -77,7 +79,9 @@ export class PosterDesignerOperationsComponent implements OnInit {
       this.fetchTableData();
     });
   }
-
+  ngAfterViewInit(): void {
+    this.contentData.paginator = this.paginator; // Assign paginator after view initialization
+  }
   fetchClientDetails(clientId: number): void {
     this.operationsService.getclientByClientId(clientId).subscribe({
       next: (response) => {
