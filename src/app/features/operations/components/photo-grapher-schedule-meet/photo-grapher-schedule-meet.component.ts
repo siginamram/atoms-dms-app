@@ -60,7 +60,6 @@ export class PhotoGrapherScheduleMeetComponent implements OnInit {
         'time',
         'noOfYTVideos',
         'noOfEDReels',
-        'shootLink',
         'meetingStatus',
         'remarks',
         'actions',

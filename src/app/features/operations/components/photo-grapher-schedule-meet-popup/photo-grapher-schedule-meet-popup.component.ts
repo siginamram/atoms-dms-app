@@ -3,6 +3,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OperationsService } from '../../services/operations.service';
 import * as moment from 'moment';
+import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/alert-dialog.component'; 
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-photo-grapher-schedule-meet-popup',
@@ -20,6 +22,7 @@ export class PhotoGrapherScheduleMeetPopupComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private dialog: MatDialog, // Inject MatDialog
     private dialogRef: MatDialogRef<PhotoGrapherScheduleMeetPopupComponent>,
     private operationsService: OperationsService,
     @Inject(MAT_DIALOG_DATA) public data: { isEdit: boolean; meetingData: any }
@@ -142,16 +145,19 @@ export class PhotoGrapherScheduleMeetPopupComponent implements OnInit {
       apiCall.subscribe({
         next: (response: string) => {
           console.log('Save Response:', response);
+          this.openAlertDialog('Success', 'Saved Successfully!');
           this.dialogRef.close({ success: true, message: response });
         },
         error: (error: any) => {
           console.error('Error saving meeting:', error);
-          this.dialogRef.close({ success: false, message: 'Failed to save meeting' });
+          //this.dialogRef.close({ success: false, message: 'Failed to save meeting' });
+          this.openAlertDialog('Error', 'Unexpected response. Please try again.');
         },
       });
     } else {
       console.error('Form is invalid');
-      this.dialogRef.close({ success: false, message: 'Invalid form data' });
+      this.openAlertDialog('Error', 'Please fill all required fields correctly.');
+      //this.dialogRef.close({ success: false, message: 'Invalid form data' });
     }
   }
   
@@ -159,4 +165,15 @@ export class PhotoGrapherScheduleMeetPopupComponent implements OnInit {
   cancel(): void {
     this.dialogRef.close(null);
   }
+
+    openAlertDialog(title: string, message: string): void {
+      this.dialog.open(AlertDialogComponent, {
+        width: '400px',
+        data: {
+          title,
+          message,
+          type: title.toLowerCase(), // success, error, or warning
+        },
+      });
+    }
 }
