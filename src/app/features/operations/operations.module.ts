@@ -46,6 +46,8 @@ import { GraphicReelDesignerClientComponent } from './components/graphic-reel-de
 import { GraphicReelDesignerOperationsComponent } from './components/graphic-reel-designer-operations/graphic-reel-designer-operations.component';
 import { GraphicReelDesignerOperationsEditComponent } from './components/graphic-reel-designer-operations-edit/graphic-reel-designer-operations-edit.component';
 import { VideoEditorOperationsEditComponent } from './components/video-editor-operations-edit/video-editor-operations-edit.component';
+import { PhotoGrapherScheduleMeetComponent } from './components/photo-grapher-schedule-meet/photo-grapher-schedule-meet.component';
+import { PhotoGrapherScheduleMeetPopupComponent } from './components/photo-grapher-schedule-meet-popup/photo-grapher-schedule-meet-popup.component';
 
 
 const MY_FORMATS = {
@@ -83,6 +85,8 @@ const MY_FORMATS = {
     GraphicReelDesignerOperationsComponent,
     GraphicReelDesignerOperationsEditComponent,
     VideoEditorOperationsEditComponent,
+    PhotoGrapherScheduleMeetComponent,
+    PhotoGrapherScheduleMeetPopupComponent,
   ],
   imports: [
     CommonModule,

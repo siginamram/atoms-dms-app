@@ -113,8 +113,10 @@ getQuoteByLeadId(leadId: number): Observable<any> {
 }
 saveQuote(payload: any): Observable<any> {
   const apiUrl = `${this.baseApiUrl}/api/Sales/saveQuotation`;
-  return this.http.post(apiUrl, payload);
+   // Handle cases where the backend may return plain text (e.g., "Success")
+   return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
 }
+
 GetClientKTStatus (userId: number): Observable<any> {
   const apiUrl = `${this.baseApiUrl}/api/Client/clientKTStatus/${userId}`;
   return this.http.get(apiUrl);
