@@ -114,4 +114,27 @@ export class OperationsService {
     return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
   }
 
+  ShootHistoryByMonth(date: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/ShootHistoryByMonth/${date}`;
+    return this.http.get(apiUrl);
+  }
+
+  scheduleMeetingForShoot(type: number): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/scheduleMeetingForShoot/${type}`;
+    return this.http.get(apiUrl);
+  }
+
+  photoGrapherScheduleMeet(payload: any): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/photoGrapherScheduleMeet`;
+    return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+  }
+
+  photoGrapherRescheduleMeet(payload: any): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/photoGrapherRescheduleMeet`;
+    return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+  }
+  photoGrapherCompleteMeet(payload: any): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/photoGrapherCompleteMeet`;
+    return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+  }
 }

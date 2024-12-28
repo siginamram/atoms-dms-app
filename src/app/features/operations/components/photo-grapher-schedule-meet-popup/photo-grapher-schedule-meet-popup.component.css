@@ -1,0 +1,53 @@
+.popup-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  overflow-y: auto;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.full-width {
+  grid-column: span 2;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  padding-top: 16px;
+  background: #f9f9f9;
+  padding: 16px 0;
+  border-top: 1px solid #e0e0e0;
+}
+
+button.mat-raised-button {
+  padding: 0 24px;
+  font-size: 14px;
+  line-height: 36px;
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full-width {
+    grid-column: span 1;
+  }
+}

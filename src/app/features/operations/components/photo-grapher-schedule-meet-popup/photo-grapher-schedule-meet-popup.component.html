@@ -1,1 +1,92 @@
-<p>photo-grapher-schedule-meet-popup works!</p>
+<div class="popup-container">
+  <h2 mat-dialog-title>{{ data.isEdit ? 'Edit Meeting' : 'Schedule Meeting' }}</h2>
+  <form [formGroup]="meetingForm" class="form-grid">
+    <mat-form-field appearance="outline">
+      <mat-label>Organization Name</mat-label>
+      <input
+        matInput
+        formControlName="organizationName"
+        placeholder="Search Organization"
+        (input)="filterClients($event)"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        (optionSelected)="onClientSelected($event)"
+      >
+        <mat-option
+          *ngFor="let client of filteredClients"
+          [value]="client.organizationName"
+        >
+          {{ client.organizationName }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Status of the Meet</mat-label>
+      <mat-select
+        formControlName="meetingStatus"
+        [disabled]="!data.isEdit || disableStatus"
+        (selectionChange)="onStatusChange($event.value)"
+      >
+        <mat-option *ngIf="!data.isEdit" [value]="1">Scheduled</mat-option>
+        <mat-option *ngIf="data.isEdit" [value]="2">Rescheduled</mat-option>
+        <mat-option *ngIf="data.isEdit" [value]="3">Completed</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Schedule Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Schedule Time</mat-label>
+      <mat-select formControlName="time">
+        <mat-option *ngFor="let time of startTimeOptions" [value]="time">
+          {{ time }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Additional Fields Shown for 'Completed' -->
+ 
+      <mat-form-field appearance="outline" *ngIf="showAdditionalFields">
+        <mat-label>Required YT Videos</mat-label>
+        <input matInput formControlName="requirednoOfYTVideos" type="number" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" *ngIf="showAdditionalFields">
+        <mat-label>Required ED Reels</mat-label>
+        <input matInput formControlName="requirednoOfEDReels" type="number" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" *ngIf="showAdditionalFields">
+        <mat-label>No. of YT Videos</mat-label>
+        <input matInput formControlName="noOfYTVideos" type="number" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" *ngIf="showAdditionalFields">
+        <mat-label>No. of ED Reels</mat-label>
+        <input matInput formControlName="noOfEDReels" type="number" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" *ngIf="showAdditionalFields">
+        <mat-label>Shoot Link</mat-label>
+        <input matInput formControlName="shootLink" />
+      </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Remarks</mat-label>
+      <textarea matInput formControlName="remarks"></textarea>
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-raised-button color="warn" (click)="cancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="save()">Save</button>
+</div>

@@ -1,7 +1,7 @@
 <div class="meets-container">
     <!-- Toolbar -->
     <mat-toolbar color="primary" style="border-radius: 10px;">
-      <span>Video Grapher Schedule Meet Management</span>
+      <span>Meet Management</span>
       <span class="spacer"></span>
       <button mat-raised-button color="accent" (click)="Schedule()">
         <i class="material-icons">add</i> Schedule Meet
@@ -28,144 +28,134 @@
       </button>
     </div>
   
-    <!-- Table -->
-    <div class="table-container">
-      <!-- Upcoming Tab Table -->
-      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="activeTab === 'upcoming'">
-      
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef>S.No</th>
-          <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
-        </ng-container>
+ <!-- Table for Upcoming Tab -->
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="activeTab === 'upcoming'">
+    <!-- Serial Number Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>S.No</th>
+      <td mat-cell *matCellDef="let row; let i = index">{{ row.id }}</td>
+    </ng-container>
   
-        <!-- Organization Name Column -->
-        <ng-container matColumnDef="organizationName">
-          <th mat-header-cell *matHeaderCellDef> Organization Name </th>
-          <td mat-cell *matCellDef="let meet"> {{ meet.organizationName }} </td>
-        </ng-container>
+    <!-- Organization Name Column -->
+    <ng-container matColumnDef="organizationName">
+      <th mat-header-cell *matHeaderCellDef>Organization Name</th>
+      <td mat-cell *matCellDef="let row">{{ row.organizationName }}</td>
+    </ng-container>
   
-        <!-- Date Column -->
-        <ng-container matColumnDef="date">
-          <th mat-header-cell *matHeaderCellDef> Schedule Date </th>
-          <td mat-cell *matCellDef="let meet"> {{ meet.date | date: 'dd-MM-yyyy' }} </td>
-        </ng-container>
+    <!-- Date Column -->
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef>Schedule Date</th>
+      <td mat-cell *matCellDef="let row">{{ row.date }}</td>
+    </ng-container>
   
-        <!-- Time Column -->
-        <ng-container matColumnDef="time">
-          <th mat-header-cell *matHeaderCellDef> Schedule Time </th>
-          <td mat-cell *matCellDef="let meet"> {{ meet.time }} </td>
-        </ng-container>
-    <!-- Insight Column -->
+    <!-- Time Column -->
+    <ng-container matColumnDef="time">
+      <th mat-header-cell *matHeaderCellDef>Schedule Time</th>
+      <td mat-cell *matCellDef="let row">{{ row.time }}</td>
+    </ng-container>
+  
+    <!-- No. of YT Videos Column -->
     <ng-container matColumnDef="noOfYTVideos">
-        <th mat-header-cell *matHeaderCellDef> No.Of YT Videos </th>
-        <td mat-cell *matCellDef="let meet"> {{ meet.noOfYTVideos }} </td>
-      </ng-container>
-        <!-- Insight Column -->
-        <ng-container matColumnDef="noOfEDReels">
-            <th mat-header-cell *matHeaderCellDef> No.Of ED Reels </th>
-            <td mat-cell *matCellDef="let meet"> {{ meet.noOfEDReels }} </td>
-          </ng-container>
-            <!-- Insight Column -->
-        <ng-container matColumnDef="shootLink">
-            <th mat-header-cell *matHeaderCellDef> ShootLink </th>
-            <td mat-cell *matCellDef="let meet"> {{ meet.shootLink }} </td>
-          </ng-container>
-        <!-- Insight Column -->
-        <ng-container matColumnDef="meetingStatus">
-          <th mat-header-cell *matHeaderCellDef> Status</th>
-          <td mat-cell *matCellDef="let meet"> {{ meet.meetingStatus }} </td>
-        </ng-container>
-      <!-- Insight Column -->
-      <ng-container matColumnDef="remarks">
-        <th mat-header-cell *matHeaderCellDef> Insight </th>
-        <td mat-cell *matCellDef="let meet"> {{ meet.remarks }} </td>
-      </ng-container>
-      <!-- Actions Column -->
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef class="custom-header" style="width: 15%;"> Actions </th>
-        <td mat-cell *matCellDef="let meet" class="custom-cell" style="width: 15%;">
-          <button mat-button color="primary" (click)="editMeetten(meet)" class="action-button">Edit</button>
-        </td>
-      </ng-container>
+      <th mat-header-cell *matHeaderCellDef>No. of YT Videos</th>
+      <td mat-cell *matCellDef="let row">{{ row.noOfYouTubeVideos }}</td>
+    </ng-container>
   
-        <!-- Header and Rows -->
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
+    <!-- No. of ED Reels Column -->
+    <ng-container matColumnDef="noOfEDReels">
+      <th mat-header-cell *matHeaderCellDef>No. of ED Reels</th>
+      <td mat-cell *matCellDef="let row">{{ row.noOfEducationalReels }}</td>
+    </ng-container>
   
-      <!-- Tentative Tab Table -->
-      <div class="table-responsive">
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 custom-table" *ngIf="activeTab === 'tentative'" style="width: 100%;">
-            <ng-container matColumnDef="id">
-                <th mat-header-cell *matHeaderCellDef>S.No</th>
-                <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
-              </ng-container>
-        
-              <!-- Organization Name Column -->
-              <ng-container matColumnDef="organizationName">
-                <th mat-header-cell *matHeaderCellDef> Organization Name </th>
-                <td mat-cell *matCellDef="let meet"> {{ meet.organizationName }} </td>
-              </ng-container>
-        
-              <!-- Date Column -->
-              <ng-container matColumnDef="date">
-                <th mat-header-cell *matHeaderCellDef> Schedule Date </th>
-                <td mat-cell *matCellDef="let meet"> {{ meet.date | date: 'dd-MM-yyyy' }} </td>
-              </ng-container>
-        
-              <!-- Time Column -->
-              <ng-container matColumnDef="time">
-                <th mat-header-cell *matHeaderCellDef> Schedule Time </th>
-                <td mat-cell *matCellDef="let meet"> {{ meet.time }} </td>
-              </ng-container>
-          <!-- Insight Column -->
-          <ng-container matColumnDef="noOfYTVideos">
-              <th mat-header-cell *matHeaderCellDef> No.Of YT Videos </th>
-              <td mat-cell *matCellDef="let meet"> {{ meet.noOfYTVideos }} </td>
-            </ng-container>
-              <!-- Insight Column -->
-              <ng-container matColumnDef="noOfEDReels">
-                  <th mat-header-cell *matHeaderCellDef> No.Of ED Reels </th>
-                  <td mat-cell *matCellDef="let meet"> {{ meet.noOfEDReels }} </td>
-                </ng-container>
-                  <!-- Insight Column -->
-              <ng-container matColumnDef="shootLink">
-                  <th mat-header-cell *matHeaderCellDef> ShootLink </th>
-                  <td mat-cell *matCellDef="let meet"> {{ meet.shootLink }} </td>
-                </ng-container>
-              <!-- Insight Column -->
-              <ng-container matColumnDef="meetingStatus">
-                <th mat-header-cell *matHeaderCellDef> Status</th>
-                <td mat-cell *matCellDef="let meet"> {{ meet.meetingStatus }} </td>
-              </ng-container>
-            <!-- Insight Column -->
-            <ng-container matColumnDef="remarks">
-              <th mat-header-cell *matHeaderCellDef> Insight </th>
-              <td mat-cell *matCellDef="let meet"> {{ meet.remarks }} </td>
-            </ng-container>
-            <!-- Actions Column -->
-            <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef class="custom-header" style="width: 15%;"> Actions </th>
-              <td mat-cell *matCellDef="let meet" class="custom-cell" style="width: 15%;">
-                <button mat-button color="primary" (click)="editMeetten(meet)" class="action-button">Edit</button>
-              </td>
-            </ng-container>
-          <!-- Header and Rows -->
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-      </div>
-      
-      <div *ngIf="dataSource.data.length === 0" class="no-data-message">
-        <p>No Records Found...</p>
-      </div>
+    <!-- Shoot Link Column -->
+    <ng-container matColumnDef="shootLink">
+      <th mat-header-cell *matHeaderCellDef>Shoot Link</th>
+      <td mat-cell *matCellDef="let row">
+        <a [href]="row.shootLink" target="_blank">View Link</a>
+      </td>
+    </ng-container>
   
-      <!-- Paginator -->
-      <mat-paginator
-        [pageSize]="5"
-        [pageSizeOptions]="[5, 10, 20]"
-        aria-label="Select page"
-      ></mat-paginator>
-    </div>
+    <!-- Status Column -->
+    <ng-container matColumnDef="meetingStatus">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let row">{{ row.meetingStatus }}</td>
+    </ng-container>
+  
+    <!-- Remarks Column -->
+    <ng-container matColumnDef="remarks">
+      <th mat-header-cell *matHeaderCellDef>Remarks</th>
+      <td mat-cell *matCellDef="let row">{{ row.remarks }}</td>
+    </ng-container>
+  
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let row">
+        <button mat-button color="primary" (click)="editMeetten(row)">Edit</button>
+      </td>
+    </ng-container>
+  
+    <!-- Header and Row Definitions -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  
+  <!-- Table for Tentative Tab -->
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="activeTab === 'tentative'">
+    <!-- Serial Number Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>S.No</th>
+      <td mat-cell *matCellDef="let row; let i = index">{{ row.id }}</td>
+    </ng-container>
+  
+    <!-- Organization Name Column -->
+    <ng-container matColumnDef="organizationName">
+      <th mat-header-cell *matHeaderCellDef>Organization Name</th>
+      <td mat-cell *matCellDef="let row">{{ row.organizationName }}</td>
+    </ng-container>
+  
+    <!-- Date Column -->
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef>Schedule Date</th>
+      <td mat-cell *matCellDef="let row">{{ row.date }}</td>
+    </ng-container>
+  
+    <!-- Time Column -->
+    <ng-container matColumnDef="time">
+      <th mat-header-cell *matHeaderCellDef>Schedule Time</th>
+      <td mat-cell *matCellDef="let row">{{ row.time }}</td>
+    </ng-container>
+  
+    <!-- No. of YouTube Videos Column -->
+    <ng-container matColumnDef="noOfYouTubeVideos">
+      <th mat-header-cell *matHeaderCellDef>No. of YouTube Videos</th>
+      <td mat-cell *matCellDef="let row">{{ row.noOfYouTubeVideos }}</td>
+    </ng-container>
+  
+    <!-- No. of Educational Reels Column -->
+    <ng-container matColumnDef="noOfEducationalReels">
+      <th mat-header-cell *matHeaderCellDef>No. of Educational Reels</th>
+      <td mat-cell *matCellDef="let row">{{ row.noOfEducationalReels }}</td>
+    </ng-container>
+  
+    <!-- Remarks Column -->
+    <!-- <ng-container matColumnDef="remarks">
+      <th mat-header-cell *matHeaderCellDef>Remarks</th>
+      <td mat-cell *matCellDef="let row">{{ row.remarks }}</td>
+    </ng-container> -->
+  
+    <!-- Actions Column -->
+    <!-- <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let row">
+        <button mat-button color="primary" (click)="editMeetten(row)">Edit</button>
+      </td>
+    </ng-container> -->
+  
+    <!-- Header and Row Definitions -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+       <!-- Paginator -->
+       <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
   </div>
   
