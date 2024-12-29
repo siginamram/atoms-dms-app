@@ -1,84 +1,124 @@
 .content-writer-container {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding-left: 100px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-left: 250px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px; /* Added padding for better spacing */
+}
+
+.toolbar {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center; /* Center align toolbar title for better appearance on small screens */
+}
+
+.filter-row {
+  margin: 20px 0;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap; /* Allow filters to wrap on smaller screens */
+  gap: 15px; /* Add space between filters */
+}
+
+mat-form-field {
+  width: 300px;
+}
+
+.table-container {
+  overflow-x: auto;
+  margin-top: 20px; /* Add space above the table */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background-color: #4a4a4a;
+  color: orange;
+  font-weight: bold;
+}
+
+td,
+th {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .content-writer-container {
+    margin-left: 0; /* Remove left margin for mobile screens */
+    padding: 10px; /* Reduce padding for smaller screens */
   }
-  
-  .toolbar {
-    font-size: 20px;
-    font-weight: bold;
-  }
-  
+
   .filter-row {
-    margin: 20px;
-    display: flex;
-    justify-content: flex-start;
+    justify-content: center; /* Center-align filters */
+    gap: 10px; /* Reduce gap between filters */
   }
-  
+
   mat-form-field {
-    width: 300px;
+    width: 100%; /* Full width for filters on smaller screens */
   }
-  
-  .table-container {
-    overflow-x: auto;
-  }
-  
+
   table {
-    width: 100%;
-    border-collapse: collapse;
+    font-size: 14px; /* Reduce font size for better fit */
   }
-  
-  th {
-    background-color: #4a4a4a;
-    color: orange;
-    font-weight: bold;
+
+  th,
+  td {
+    padding: 8px; /* Adjust padding for smaller screens */
   }
-  
-  td, th {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+
+  .toolbar {
+    font-size: 18px; /* Slightly smaller font size for mobile */
   }
-  
-  button {
-    cursor: pointer;
+}
+
+@media (max-width: 576px) {
+  .filter-row {
+    flex-direction: column; /* Stack filters vertically */
+    align-items: center; /* Center-align the filters */
+    gap: 10px; /* Add small gaps between stacked filters */
   }
-  
-  @media (max-width: 768px) {
-    .filter-row {
-      justify-content: center;
-    }
-  
-    mat-form-field {
-      width: 100%;
-    }
-  
-    table {
-      font-size: 14px;
-    }
+
+  .table-container {
+    margin-top: 10px; /* Adjust spacing above table */
   }
-  .filter-container {
-    margin: 20px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
+
+  table {
+    font-size: 12px; /* Smaller font size for extra small screens */
   }
-  mat-form-field {
-    width: 300px;
-  }
-  .no-data-message {
-    display: flex; /* Center alignment */
-    justify-content: center; /* Horizontal center */
-    align-items: center; /* Vertical center */
-    height: 200px; /* Adjust height for alignment */
-    color: #ff5722; /* Add a custom color (e.g., orange-red) */
-    font-size: 18px; /* Adjust font size */
-    font-weight: bold; /* Make the text bold */
-    text-align: center; /* Center-align the text */
-    background-color: #f9f9f9; /* Optional: Light background for contrast */
-    border: 1px solid #ddd; /* Optional: Add a subtle border */
-    border-radius: 8px; /* Optional: Rounded corners */
-  }
+}
+
+.no-data-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  color: #ff5722;
+  font-size: 16px; /* Reduced font size for smaller screens */
+  font-weight: bold;
+  text-align: center;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.filter-container {
+  margin: 20px 0;
+  display: flex;
+  flex-wrap: wrap; /* Allow filters to wrap */
+  gap: 15px; /* Add spacing between filters */
+  justify-content: center; /* Center filters for smaller screens */
+}
+
+mat-form-field {
+  width: 100%; /* Full width for filters on smaller screens */
+}

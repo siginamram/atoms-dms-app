@@ -10,8 +10,6 @@ import { PosterDesignerClientsComponent } from './components/poster-designer-cli
 import { PosterDesignerOperationsComponent } from './components/poster-designer-operations/poster-designer-operations.component';
 import { VideoEditorClientsComponent } from './components/video-editor-clients/video-editor-clients.component';
 import { VideoEditorOperationsComponent } from './components/video-editor-operations/video-editor-operations.component';
-import { PhotoGrapherClientsComponent } from './components/photo-grapher-clients/photo-grapher-clients.component';
-import { PhotoGrapherOperationsComponent } from './components/photo-grapher-operations/photo-grapher-operations.component';
 import { SpecialdaysClientsViewComponent } from './components/specialdays-clients-view/specialdays-clients-view.component';
 import { SpecialdaysClientsAddComponent } from './components/specialdays-clients-add/specialdays-clients-add.component';
 import { AddClientEmergencyRequestComponent } from './components/add-client-emergency-request/add-client-emergency-request.component';
@@ -39,7 +37,6 @@ const routes: Routes = [
       { path: 'operations-video-editor', component: VideoEditorOperationsComponent },
       { path: 'video-editor-client', component: VideoEditorClientsComponent },
 
-      { path: 'operations-photo-grapher', component: PhotoGrapherOperationsComponent },
       { path: 'photo-grapher-client', component: PhotoGrapherScheduleMeetComponent },
 
       { path: 'specialdays-view', component: SpecialdaysClientsViewComponent },

@@ -101,7 +101,7 @@ export class OperationsContentWritersComponent implements OnInit {
       console.log('Selected Date:', this.selecteddate);
       this.fetchClientDeliverablesAndPackages(this.clientId);
       if (this.clientId && this.selecteddate) {
-        this.fetchMonthlyTrackerData(this.clientId, this.selecteddate);
+        this.fetchMonthlyTrackerData();
       } else {
         console.warn('Client ID or date is missing in the query parameters.');
       }
@@ -125,20 +125,20 @@ export class OperationsContentWritersComponent implements OnInit {
       },
     });
   }
-
-  fetchMonthlyTrackerData(clientId: number, date: string): void {
-    this.operationsService.getMonthlyTrackerData(clientId, date).subscribe({
+  fetchMonthlyTrackerData(): void {
+    //this.isLoading = true; // Start loading indicator
+    this.operationsService.getMonthlyTrackerData(this.clientId, this.selecteddate).subscribe({
       next: (response) => {
-        console.log('Fetched Tracker Data:', response); // Log the API response
-  
-        // Map the response to include necessary computed properties
-        this.dataSource.data = response.map((item:any) => ({
+       // this.isLoading = false; // Stop loading indicator
+        this.dataSource.data = response.map((item: any) => ({
           ...item,
           day: new Date(item.date).toLocaleDateString('en-US', { weekday: 'long' }),
           contentStatusText: this.getStatusText(item.contentStatus),
         }));
+        this.dataSource.paginator = this.paginator; // Reassign paginator
       },
       error: (error) => {
+        //this.isLoading = false; // Stop loading indicator
         console.error('Error fetching tracker data:', error);
       },
     });
@@ -212,11 +212,8 @@ export class OperationsContentWritersComponent implements OnInit {
   
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.fetchMonthlyTrackerData(this.clientId, this.selecteddate);
-        console.log('Popup closed with result:', result);
-        // Optionally refresh data or perform actions based on result
-      } else {
-        console.log('Popup closed without saving changes.');
+        console.log('Operation Successful:', result);
+        this.fetchMonthlyTrackerData(); // Refresh the table after edit or save
       }
     });
   }
@@ -228,7 +225,7 @@ export class OperationsContentWritersComponent implements OnInit {
     this.date.setValue(ctrlValue);
     this.selecteddate = ctrlValue.format('YYYY-MM-DD'); // Update selectedDate
     datepicker.close();
-    this.fetchMonthlyTrackerData(this.clientId, this.selecteddate);
+    this.fetchMonthlyTrackerData();
   }
   onMonthYearSelected(event: moment.Moment, datepicker: any): void {
     if (event && event.isValid && event.isValid()) {
@@ -257,13 +254,11 @@ export class OperationsContentWritersComponent implements OnInit {
       data: { clientId: this.clientId }, // Pass the clientId
     });
   
+  
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.fetchMonthlyTrackerData(this.clientId, this.selecteddate);
-        console.log('Popup closed with result:', result);
-        // Optionally, refresh data or perform actions based on result
-      } else {
-        console.log('Popup closed without saving changes.');
+        console.log('Operation Successful:', result);
+        this.fetchMonthlyTrackerData(); // Refresh the table after edit or save
       }
     });
   }

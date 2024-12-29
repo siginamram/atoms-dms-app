@@ -34,8 +34,6 @@ import { PosterDesignerClientsComponent } from './components/poster-designer-cli
 import { PosterDesignerOperationsComponent } from './components/poster-designer-operations/poster-designer-operations.component';
 import { VideoEditorClientsComponent } from './components/video-editor-clients/video-editor-clients.component';
 import { VideoEditorOperationsComponent } from './components/video-editor-operations/video-editor-operations.component';
-import { PhotoGrapherClientsComponent } from './components/photo-grapher-clients/photo-grapher-clients.component';
-import { PhotoGrapherOperationsComponent } from './components/photo-grapher-operations/photo-grapher-operations.component';
 import { SpecialdaysClientsViewComponent } from './components/specialdays-clients-view/specialdays-clients-view.component';
 import { SpecialdaysClientsAddComponent } from './components/specialdays-clients-add/specialdays-clients-add.component';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -76,8 +74,6 @@ const MY_FORMATS = {
     PosterDesignerOperationsComponent,
     VideoEditorClientsComponent,
     VideoEditorOperationsComponent,
-    PhotoGrapherClientsComponent,
-    PhotoGrapherOperationsComponent,
     SpecialdaysClientsViewComponent,
     SpecialdaysClientsAddComponent,
     AddClientEmergencyRequestComponent,

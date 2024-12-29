@@ -1,84 +1,123 @@
 .video-editor-container {
-    max-width: 1100px;
-    margin: 20px auto;
-    padding-left: 60px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .toolbar {
-    font-size: 20px;
-    font-weight: bold;
-  }
-  
+  max-width: 1050px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.toolbar {
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+.filter-row {
+  margin: 20px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+mat-form-field {
+  width: 300px;
+}
+
+.table-container {
+  overflow-x: auto; /* Ensure horizontal scrolling on smaller screens */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background-color: #4a4a4a;
+  color: orange;
+  font-weight: bold;
+}
+
+td, th {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+button {
+  cursor: pointer;
+}
+
+.filter-container {
+  margin: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.no-data-message {
+  display: flex; /* Center alignment */
+  justify-content: center; /* Horizontal center */
+  align-items: center; /* Vertical center */
+  height: 200px; /* Adjust height for alignment */
+  color: #ff5722; /* Add a custom color (e.g., orange-red) */
+  font-size: 18px; /* Adjust font size */
+  font-weight: bold; /* Make the text bold */
+  text-align: center; /* Center-align the text */
+  background-color: #f9f9f9; /* Optional: Light background for contrast */
+  border: 1px solid #ddd; /* Optional: Add a subtle border */
+  border-radius: 8px; /* Optional: Rounded corners */
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
   .filter-row {
-    margin: 20px;
-    display: flex;
-    justify-content: flex-start;
+    flex-wrap: wrap; /* Stack filters on smaller screens */
+    gap: 15px;
   }
-  
+
   mat-form-field {
-    width: 300px;
+    width: 100%; /* Full width for filters */
   }
-  
-  .table-container {
-    overflow-x: auto;
+
+  table th,
+  table td {
+    font-size: 14px; /* Adjust font size */
+    padding: 8px; /* Adjust padding for better spacing */
   }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
+}
+
+@media (max-width: 768px) {
+  .filter-row {
+    justify-content: center; /* Center-align filters */
   }
-  
-  th {
-    background-color: #4a4a4a;
-    color: orange;
-    font-weight: bold;
-  }
-  
-  td, th {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  button {
-    cursor: pointer;
-  }
-  
-  @media (max-width: 768px) {
-    .filter-row {
-      justify-content: center;
-    }
-  
-    mat-form-field {
-      width: 100%;
-    }
-  
-    table {
-      font-size: 14px;
-    }
-  }
-  .filter-container {
-    margin: 20px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
+
   mat-form-field {
-    width: 300px;
+    width: 100%; /* Full width for filters */
   }
+
+  table th,
+  table td {
+    font-size: 12px; /* Reduce font size */
+    padding: 6px 8px;
+  }
+}
+
+@media (max-width: 576px) {
+  .filter-row {
+    flex-direction: column; /* Stack filters vertically */
+    gap: 10px; /* Reduce gap */
+  }
+
+  table th,
+  table td {
+    font-size: 10px; /* Further reduce font size */
+    padding: 5px 6px;
+  }
+
   .no-data-message {
-    display: flex; /* Center alignment */
-    justify-content: center; /* Horizontal center */
-    align-items: center; /* Vertical center */
-    height: 200px; /* Adjust height for alignment */
-    color: #ff5722; /* Add a custom color (e.g., orange-red) */
-    font-size: 18px; /* Adjust font size */
-    font-weight: bold; /* Make the text bold */
-    text-align: center; /* Center-align the text */
-    background-color: #f9f9f9; /* Optional: Light background for contrast */
-    border: 1px solid #ddd; /* Optional: Add a subtle border */
-    border-radius: 8px; /* Optional: Rounded corners */
+    font-size: 14px; /* Adjust font size for smaller screens */
+    height: 150px; /* Adjust height */
   }
+}
