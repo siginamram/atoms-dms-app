@@ -137,4 +137,19 @@ export class OperationsService {
     const apiUrl = `${this.baseApiUrl}/api/Operations/photoGrapherCompleteMeet`;
     return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
   }
+
+  DMAMonthlyTracker(clientId: number, date: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/DMAMonthlyTracker/${clientId}/${date}`;
+    return this.http.get(apiUrl);
+  }
+
+  UpdatePostScheduleDate(payload: any): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/UpdatePostScheduleDate`;
+    return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+  }
+
+  UpdatePostStatus(payload: any): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/UpdatePostStatus`;
+    return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+  }
 }

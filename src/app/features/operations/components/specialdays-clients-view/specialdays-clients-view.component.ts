@@ -18,7 +18,7 @@ export class SpecialdaysClientsViewComponent implements OnInit {
   filteredData: any[] = [];
   availableYears: string[] = ['2024', '2025']; // Update years as needed
 
-  displayedColumns = ['id','date', 'specialDay', 'actions'];
+  displayedColumns = ['id','date', 'specialDay', 'language','actions'];
 
   constructor(private dialog: MatDialog, private operationsService: OperationsService) {}
 
@@ -76,6 +76,8 @@ export class SpecialdaysClientsViewComponent implements OnInit {
               date: new Date(item.specialDayDate).toLocaleDateString(),
               specialDay: item.speciality,
               specialDayId:item.specialDayId,
+              languageId:item.languageId,
+              language:this.getStatusText(item.languageId),
               client:
                 this.clients.find((client) => client.clientId === item.clientId)?.organizationName ||
                 'Unknown',
@@ -89,7 +91,16 @@ export class SpecialdaysClientsViewComponent implements OnInit {
       this.filteredData = [];
     }
   }
-
+  getStatusText(status: number): string {
+    switch (status) {
+      case 1:
+        return 'English';
+      case 2:
+        return 'Telugu';
+      default:
+        return 'Unknown';
+    }
+  }
   openDialog(editData: any = null): void {
     console.log('Edit Data:', editData);
     const dialogRef = this.dialog.open(SpecialdaysClientsAddComponent, {
@@ -100,6 +111,7 @@ export class SpecialdaysClientsViewComponent implements OnInit {
             speciality: editData.specialDay || '',
             specialDayId:editData.specialDayId || '',
             clientId:  this.selectedClientId || '',
+            languageId:editData.languageId || '',
           }
         : { date: '', specialDay: '', client: '' }, // Default for adding new
     });

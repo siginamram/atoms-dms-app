@@ -212,6 +212,7 @@ export class OperationsContentWritersComponent implements OnInit {
   
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        this.fetchMonthlyTrackerData(this.clientId, this.selecteddate);
         console.log('Popup closed with result:', result);
         // Optionally refresh data or perform actions based on result
       } else {
@@ -258,6 +259,7 @@ export class OperationsContentWritersComponent implements OnInit {
   
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        this.fetchMonthlyTrackerData(this.clientId, this.selecteddate);
         console.log('Popup closed with result:', result);
         // Optionally, refresh data or perform actions based on result
       } else {

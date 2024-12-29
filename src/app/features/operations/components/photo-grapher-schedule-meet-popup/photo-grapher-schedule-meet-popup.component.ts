@@ -111,7 +111,7 @@ export class PhotoGrapherScheduleMeetPopupComponent implements OnInit {
         clientId: this.clients.find(
           (client) => client.organizationName === formData.organizationName
         )?.clientId || 0,
-        date: formData.date,
+        date:this.formatDate(new Date(formData.date)),
         time: formData.time,
         remarks: formData.remarks,
         createdBy: userId,
@@ -161,6 +161,13 @@ export class PhotoGrapherScheduleMeetPopupComponent implements OnInit {
     }
   }
   
+  // Utility function to format date as YYYY-MM-DD
+  private formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
 
   cancel(): void {
     this.dialogRef.close(null);

@@ -1,0 +1,27 @@
+.dma-edit-container {
+    padding: 16px;
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  .edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  mat-form-field {
+    width: 100%;
+  }
+  
+  mat-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+  }
+  
+  button {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+  

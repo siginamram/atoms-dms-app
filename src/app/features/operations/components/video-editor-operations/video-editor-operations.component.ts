@@ -168,6 +168,7 @@ export class VideoEditorOperationsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        this.fetchTableData();
         // Refresh data or perform actions after popup close
         console.log('Popup result:', result);
       }

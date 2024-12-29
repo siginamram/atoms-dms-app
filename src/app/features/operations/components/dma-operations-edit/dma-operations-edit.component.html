@@ -1,0 +1,44 @@
+<div class="dma-edit-container">
+    <h2 mat-dialog-title>{{ isFirstCase ? 'Add Schedule' : 'Edit Post' }}</h2>
+  
+    <form [formGroup]="editForm" class="edit-form">
+      <!-- Schedule Date (only for First Case) -->
+      <mat-form-field appearance="outline" *ngIf="isFirstCase">
+        <mat-label>Schedule Date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="scheduleDate" />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+  
+      <!-- Status Dropdown -->
+      <mat-form-field appearance="outline" *ngIf="!isFirstCase">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status">
+          <mat-option *ngFor="let option of statusOptions" [value]="option.value">
+            {{ option.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <!-- Posted On (only for Second Case) -->
+      <mat-form-field appearance="outline" *ngIf="!isFirstCase">
+        <mat-label>Posted On</mat-label>
+        <input matInput [matDatepicker]="postedPicker" formControlName="postedOn" />
+        <mat-datepicker-toggle matSuffix [for]="postedPicker"></mat-datepicker-toggle>
+        <mat-datepicker #postedPicker></mat-datepicker>
+      </mat-form-field>
+  
+      <!-- Remarks (only for Second Case) -->
+      <mat-form-field appearance="outline" *ngIf="!isFirstCase">
+        <mat-label>Remarks</mat-label>
+        <textarea matInput formControlName="remarks"></textarea>
+      </mat-form-field>
+    </form>
+  
+    <!-- Dialog Actions -->
+    <div mat-dialog-actions>
+      <button mat-button color="warn" (click)="cancel()">Cancel</button>
+      <button mat-raised-button color="primary" [disabled]="editForm.invalid" (click)="save()">Save</button>
+    </div>
+  </div>
+  

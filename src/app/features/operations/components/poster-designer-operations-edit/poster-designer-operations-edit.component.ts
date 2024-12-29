@@ -24,7 +24,7 @@ export class PosterDesignerOperationsEditComponent implements OnInit {
 
   onSave(action: 'draft' | 'approval'): void {
     if (!this.data.link ) {
-      alert('Please fill in all required fields.');
+      //alert('Please fill in all required fields.');
       this.openAlertDialog('Error', 'Please fill in all required fields.');
       return;
     }

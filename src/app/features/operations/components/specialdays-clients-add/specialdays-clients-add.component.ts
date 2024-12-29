@@ -19,24 +19,27 @@ export class SpecialdaysClientsAddComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<SpecialdaysClientsAddComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { clientId: number; date: any; speciality: string; specialDayId: number },
+    public data: { clientId: number; date: any; speciality: string; specialDayId: number, languageId:number},
     private operationsService: OperationsService,
     private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
     this.fetchAllClients();
-
+  
     // Check if we are in edit mode
     this.isEditMode = !!this.data.specialDayId;
-       console.log('specialDayId',this.data.date);
+  
     if (this.isEditMode) {
-      // Pre-fill client name, date, and speciality
+      // Pre-fill client name, date, speciality, and language
       this.selectedClientName = this.resolveClientName(this.data.clientId);
-      this.data.date = this.data.date ;
-      this.data.speciality = this.data.speciality || '';
+      this.data.languageId = this.data.languageId || 1; // Default to English if not provided
+    } else {
+      // Set default values for Add mode
+      this.data.languageId = 1; // Default language is English
     }
   }
+  
 
   fetchAllClients(): void {
     this.operationsService.getAllActiveClients().subscribe({
@@ -76,41 +79,19 @@ export class SpecialdaysClientsAddComponent implements OnInit {
   }
 
   onSave(): void {
-    if (!this.data.date || !this.data.speciality || !this.data.clientId) {
+    if (!this.data.date || !this.data.speciality || !this.data.clientId || !this.data.languageId) {
       alert('Please fill in all required fields.');
       return;
     }
   
-    let selectedDate: Date;
-  
-    try {
-      // Ensure that data.date is a valid Date object
-      selectedDate =
-        this.data.date instanceof Date
-          ? this.data.date
-          : new Date(this.data.date);
-  
-      if (isNaN(selectedDate.getTime())) {
-        throw new Error('Invalid date');
-      }
-    } catch (error) {
-      console.error('Invalid date provided:', this.data.date);
-      alert('Invalid date selected. Please select a valid date.');
-      return;
-    }
-  
-    const formattedDate = this.formatDate(selectedDate);
-  
-    // Prepare the payload
     const payload = {
-      specialDayId: this.data.specialDayId || 0, // Use existing ID for edit or 0 for new
-      specialDayDate: formattedDate,
+      specialDayId: this.data.specialDayId || 0,
+      specialDayDate: this.formatDate(new Date(this.data.date)),
       speciality: this.data.speciality,
       clientId: this.data.clientId,
+      languageId: this.data.languageId, // Include languageId in payload
       createdBy: parseInt(localStorage.getItem('UserID') || '0', 10),
     };
-  
-    console.log('Payload for saving special day:', payload);
   
     this.operationsService.addSpecialDay(payload).subscribe({
       next: (response: string) => {
@@ -127,6 +108,8 @@ export class SpecialdaysClientsAddComponent implements OnInit {
       },
     });
   }
+  
+  
   
   // Utility function to format date as YYYY-MM-DD
   private formatDate(date: Date): string {

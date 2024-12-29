@@ -18,6 +18,7 @@ import { AddClientEmergencyRequestComponent } from './components/add-client-emer
 import { GraphicReelDesignerClientComponent } from './components/graphic-reel-designer-client/graphic-reel-designer-client.component';
 import { GraphicReelDesignerOperationsComponent } from './components/graphic-reel-designer-operations/graphic-reel-designer-operations.component';
 import { PhotoGrapherScheduleMeetComponent } from './components/photo-grapher-schedule-meet/photo-grapher-schedule-meet.component';
+import { DmaOperationsComponent } from './components/dma-operations/dma-operations.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,8 @@ const routes: Routes = [
 
       { path: 'operations-graphicreels-designer', component: GraphicReelDesignerOperationsComponent },
       { path: 'graphicreels-designer-client', component: GraphicReelDesignerClientComponent },
+
+      { path: 'operations-dma', component: DmaOperationsComponent },
   
     ]
   }

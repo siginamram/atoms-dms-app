@@ -1,7 +1,7 @@
 <div class="content-writers-container">
     <!-- Toolbar -->
     <mat-toolbar color="primary" class="toolbar">
-      <span>Video Editor Operations</span>
+      <span>Video Editor Tracker</span>
     </mat-toolbar>
   
     <!-- Filters Section -->
@@ -41,21 +41,24 @@
       <td mat-cell *matCellDef="let video">{{ video.creativeType }}</td>
     </ng-container>
 
-    <!-- Shoot Link Column -->
-    <ng-container matColumnDef="shootLink">
-      <th mat-header-cell *matHeaderCellDef>Shoot Link</th>
-      <td mat-cell *matCellDef="let video">
-        <a [href]="video.shootLink" target="_blank">View Shoot</a>
-      </td>
-    </ng-container>
+      <!-- Shoot Link Column -->
+      <ng-container matColumnDef="shootLink">
+        <th mat-header-cell *matHeaderCellDef>Shoot Link</th>
+        <td mat-cell *matCellDef="let video">
+          <a *ngIf="video.shootLink" [href]="video.shootLink" target="_blank">View Shoot</a>
+          <span *ngIf="!video.shootLink">N/A</span>
+        </td>
+      </ng-container>
 
-    <!-- Editor Link Column -->
-    <ng-container matColumnDef="editorLink">
-      <th mat-header-cell *matHeaderCellDef>Editor Link</th>
-      <td mat-cell *matCellDef="let video">
-        <a [href]="video.editorLink" target="_blank">View Editor</a>
-      </td>
-    </ng-container>
+      <!-- Editor Link Column -->
+      <ng-container matColumnDef="editorLink">
+        <th mat-header-cell *matHeaderCellDef>Editor Link</th>
+        <td mat-cell *matCellDef="let video">
+          <a *ngIf="video.editorLink" [href]="video.editorLink" target="_blank">View Editor</a>
+          <span *ngIf="!video.editorLink">N/A</span>
+        </td>
+      </ng-container>
+
 
     <!-- Title Column -->
     <ng-container matColumnDef="title">
