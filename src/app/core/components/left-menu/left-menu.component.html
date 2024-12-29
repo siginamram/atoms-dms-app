@@ -102,7 +102,7 @@
           <a [routerLink]="['/home', 'operations', 'operations-dma']" 
              *ngIf="roleService.hasRole([ 'DMA'])" 
              routerLinkActive="active">
-            <i class="material-icons">movie_creation</i>DMA
+            <i class="material-icons">upload_file</i>DMA
           </a>
         </li>
       </ul>
@@ -206,7 +206,7 @@
       <a [routerLink]="['/home', 'operations', 'operations-dma']" 
          *ngIf="roleService.hasRole([ 'DMA'])" 
          routerLinkActive="active">
-        <i class="material-icons">movie_creation</i>DMA
+        <i class="material-icons">upload_file</i>DMA
       </a>
     </li>
     <!-- <li class="dropdown" [class.active]="isDropdownActive['task']" (click)="toggleDropdown('task')">
