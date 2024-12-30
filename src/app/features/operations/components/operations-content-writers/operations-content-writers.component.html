@@ -69,52 +69,79 @@
   </div>
 
   <!-- Table -->
-  <table mat-table [dataSource]="dataSource" class="content-writers-table mat-elevation-z8">
-    <!-- <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef>Date</th>
-      <td mat-cell *matCellDef="let element">{{ element.date | date: 'dd-MM-yyyy' }}</td>
-    </ng-container>
-    <ng-container matColumnDef="day">
-      <th mat-header-cell *matHeaderCellDef>Day</th>
-      <td mat-cell *matCellDef="let element">{{ element.day }}</td>
-    </ng-container> -->
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- ID Column -->
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>S.No</th>
       <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="speciality">
-      <th mat-header-cell *matHeaderCellDef>Speciality</th>
-      <td mat-cell *matCellDef="let element">{{ element.speciality }}</td>
-    </ng-container>
-    <ng-container matColumnDef="promotionType">
-      <th mat-header-cell *matHeaderCellDef>Promotion Type</th>
-      <td mat-cell *matCellDef="let element">{{ element.promotionType }}</td>
-    </ng-container>
-    <ng-container matColumnDef="language">
-      <th mat-header-cell *matHeaderCellDef>Language</th>
-      <td mat-cell *matCellDef="let element">{{ element.language }}</td>
-    </ng-container>
-    <ng-container matColumnDef="creativeType">
-      <th mat-header-cell *matHeaderCellDef>Creative Type</th>
-      <td mat-cell *matCellDef="let element">{{ element.creativeType }}</td>
-    </ng-container>
-    <ng-container matColumnDef="approval">
+ <!-- Speciality Column -->
+ <ng-container matColumnDef="speciality">
+  <th mat-header-cell *matHeaderCellDef>
+    Speciality
+    <!-- <mat-form-field class="column-filter">
+      <input matInput [formControl]="specialityFilter" placeholder="Filter" />
+    </mat-form-field> -->
+  </th>
+  <td mat-cell *matCellDef="let row">{{ row.speciality }}</td>
+</ng-container>
+
+<!-- Promotion Type Column -->
+<ng-container matColumnDef="promotionType">
+  <th mat-header-cell *matHeaderCellDef>
+    Promotion Type
+    <mat-form-field class="column-filter">
+      <input matInput [formControl]="promotionTypeFilter" placeholder="Filter" />
+    </mat-form-field>
+  </th>
+  <td mat-cell *matCellDef="let row">{{ row.promotionType }}</td>
+</ng-container>
+
+<!-- Language Column -->
+<ng-container matColumnDef="language">
+  <th mat-header-cell *matHeaderCellDef>
+    Language
+    <mat-form-field class="column-filter">
+      <input matInput [formControl]="languageFilter" placeholder="Filter" />
+    </mat-form-field>
+  </th>
+  <td mat-cell *matCellDef="let row">{{ row.language }}</td>
+</ng-container>
+
+<!-- Creative Type Column -->
+<ng-container matColumnDef="creativeType">
+  <th mat-header-cell *matHeaderCellDef>
+    Creative Type
+    <mat-form-field class="column-filter">
+      <input matInput [formControl]="creativeTypeFilter" placeholder="Filter" />
+    </mat-form-field>
+  </th>
+  <td mat-cell *matCellDef="let row">{{ row.creativeType }}</td>
+</ng-container>
+
+    <!-- Approval Column -->
+    <ng-container matColumnDef="contentStatus">
       <th mat-header-cell *matHeaderCellDef>Status</th>
-      <td mat-cell *matCellDef="let element">{{ element.contentStatusText }}</td>
+      <td mat-cell *matCellDef="let element">{{ element.contentStatus }}</td>
     </ng-container>
+
+    <!-- Remarks Column -->
     <ng-container matColumnDef="remarks">
       <th mat-header-cell *matHeaderCellDef>Remarks</th>
       <td mat-cell *matCellDef="let element">{{ element.contentRemarks }}</td>
     </ng-container>
+
+    <!-- Action Column -->
     <ng-container matColumnDef="edit">
       <th mat-header-cell *matHeaderCellDef>Action</th>
       <td mat-cell *matCellDef="let element">
-        <button mat-icon-button color="primary" (click)="onEdit(element)"  [disabled]="element.contentStatusText === 'Approved'">
+        <button mat-icon-button color="primary" (click)="onEdit(element)" [disabled]="element.contentStatus === 'Approved'">
           <mat-icon>edit</mat-icon>
         </button>
       </td>
     </ng-container>
+
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>

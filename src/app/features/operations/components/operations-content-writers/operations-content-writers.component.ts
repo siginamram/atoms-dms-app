@@ -55,15 +55,20 @@ export class OperationsContentWritersComponent implements OnInit {
 
   totalPosters = 0;
   totalReels = 0;
- 
+   // Column Filters
+   specialityFilter = new FormControl('');
+   promotionTypeFilter = new FormControl('');
+   languageFilter = new FormControl('');
+   creativeTypeFilter = new FormControl('');
+
   dataSource = new MatTableDataSource<any>();
   displayedColumns: string[] = [
     'id',
     'speciality',
     'promotionType',
-    'language',
     'creativeType',
-    'approval',
+    'language',
+    'contentStatus',
     'remarks',
     'edit',
   ];
@@ -106,6 +111,11 @@ export class OperationsContentWritersComponent implements OnInit {
         console.warn('Client ID or date is missing in the query parameters.');
       }
     });
+      // Apply filters dynamically
+      this.specialityFilter.valueChanges.subscribe(() => this.applyFilter());
+      this.promotionTypeFilter.valueChanges.subscribe(() => this.applyFilter());
+      this.languageFilter.valueChanges.subscribe(() => this.applyFilter());
+      this.creativeTypeFilter.valueChanges.subscribe(() => this.applyFilter());
   }
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator; // Assign paginator after view initialization
@@ -133,7 +143,7 @@ export class OperationsContentWritersComponent implements OnInit {
         this.dataSource.data = response.map((item: any) => ({
           ...item,
           day: new Date(item.date).toLocaleDateString('en-US', { weekday: 'long' }),
-          contentStatusText: this.getStatusText(item.contentStatus),
+          contentStatus: this.getStatusText(item.contentStatus),
         }));
         this.dataSource.paginator = this.paginator; // Reassign paginator
       },
@@ -261,5 +271,19 @@ export class OperationsContentWritersComponent implements OnInit {
         this.fetchMonthlyTrackerData(); // Refresh the table after edit or save
       }
     });
+  }
+  applyFilter(): void {
+    const speciality = this.specialityFilter.value?.toLowerCase() || '';
+    const promotionType = this.promotionTypeFilter.value?.toLowerCase() || '';
+    const language = this.languageFilter.value?.toLowerCase() || '';
+    const creativeType = this.creativeTypeFilter.value?.toLowerCase() || '';
+
+    this.dataSource.filterPredicate = (data: any) =>
+      (!speciality || data.speciality?.toLowerCase().includes(speciality)) &&
+      (!promotionType || data.promotionType?.toLowerCase().includes(promotionType)) &&
+      (!language || data.language?.toLowerCase().includes(language)) &&
+      (!creativeType || data.creativeType?.toLowerCase().includes(creativeType));
+
+    this.dataSource.filter = Math.random().toString(); // Trigger filter update
   }
   }    

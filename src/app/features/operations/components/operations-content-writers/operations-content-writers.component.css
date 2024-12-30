@@ -207,3 +207,40 @@ table td {
     min-width: 80px;
   }
 }
+/* Adjust table headers */
+table th {
+  padding: 6px; /* Reduce padding inside headers */
+  vertical-align: top; /* Align filter inputs properly */
+}
+
+/* Adjust column filter input fields */
+.column-filter {
+  width: 80%; /* Reduce width of filter inputs */
+  margin: 0 auto; /* Center-align the filter inputs */
+  padding: 2px; /* Reduce padding inside inputs */
+  font-size: 12px; /* Smaller font size */
+  box-sizing: border-box; /* Ensure proper alignment */
+}
+
+/* Remove extra spacing between filters */
+.column-filter + .column-filter {
+  margin-top: 0; /* Remove top margin between filters */
+}
+
+/* Table container for responsiveness */
+.table-container {
+  overflow-x: auto;
+}
+
+/* Adjust for smaller screens */
+@media (max-width: 768px) {
+  .column-filter {
+    font-size: 10px; /* Adjust font size for smaller screens */
+    padding: 1px; /* Reduce padding for compact size */
+    width: 70%; /* Further reduce width */
+  }
+
+  table th {
+    padding: 4px; /* Adjust padding for smaller screens */
+  }
+}

@@ -54,7 +54,7 @@ export class ContentWritersOperationsEditComponent implements OnInit {
             } else {
               this.openAlertDialog('Error', response || 'Unexpected response. Please try again.');
             }
-            this.dialogRef.close(); // Close the popup
+            this.dialogRef.close(true); // Close the popup
           },
           (error: any) => {
             console.error('Error Saving Draft:', error);
@@ -87,7 +87,7 @@ export class ContentWritersOperationsEditComponent implements OnInit {
             } else {
               this.openAlertDialog('Error', response || 'Unexpected response. Please try again.');
             }
-            this.dialogRef.close(); // Close the popup
+            this.dialogRef.close(true); // Close the popup
           },
           (error: any) => {
             console.error('Error Sending for Approval:', error);
