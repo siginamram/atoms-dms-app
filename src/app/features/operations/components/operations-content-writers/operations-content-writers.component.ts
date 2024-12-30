@@ -7,10 +7,10 @@ import * as moment from 'moment';
 import { Moment } from 'moment';
 import { MatPaginator } from '@angular/material/paginator';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
-import { Router,ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { OperationsService } from '../../services/operations.service';
 import { MatDialog } from '@angular/material/dialog';
-import { AddClientEmergencyRequestComponent } from '../add-client-emergency-request/add-client-emergency-request.component'; 
+import { AddClientEmergencyRequestComponent } from '../add-client-emergency-request/add-client-emergency-request.component';
 import { ContentWritersOperationsEditComponent } from '../content-writers-operations-edit/content-writers-operations-edit.component';
 
 export const MY_FORMATS = {
@@ -37,6 +37,7 @@ export const MY_FORMATS = {
 export class OperationsContentWritersComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   // Data and Filters
+  isLoading = false; // Initially set to true
   selecteddate: any = ''; // Default selected client
   selectedMonthYear: Date | null = null;
   startAtDate = new Date();
@@ -55,12 +56,13 @@ export class OperationsContentWritersComponent implements OnInit {
 
   totalPosters = 0;
   totalReels = 0;
-   // Column Filters
-   specialityFilter = new FormControl('');
-   promotionTypeFilter = new FormControl('');
-   languageFilter = new FormControl('');
-   creativeTypeFilter = new FormControl('');
-
+  // Column Filters
+  specialityFilter = new FormControl('');
+  promotionTypeFilter = new FormControl('');
+  languageFilter = new FormControl('');
+  creativeTypeFilter = new FormControl('');
+  contentStatusFilter = new FormControl('');
+  activeFilter: string | null = null; // To track the currently active filter
   dataSource = new MatTableDataSource<any>();
   displayedColumns: string[] = [
     'id',
@@ -78,44 +80,51 @@ export class OperationsContentWritersComponent implements OnInit {
   isEditMode = false;
   clientForm: FormGroup;
 
-  constructor(private fb: FormBuilder, 
-    private cdr: ChangeDetectorRef, 
-    private router: Router, 
+  constructor(private fb: FormBuilder,
+    private cdr: ChangeDetectorRef,
+    private router: Router,
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private operationsService: OperationsService) {
     this.clientForm = this.fb.group({
       clientName: [''],
- 
+
     });
+  }
+  toggleFilter(column: string, event?: MouseEvent): void {
+    // Check if the clicked element is part of the filter input
+    if (
+      event?.target instanceof HTMLElement &&
+      event.target.closest('.column-filter-container') &&
+      this.activeFilter === column
+    ) {
+      return; // Do nothing if clicking inside the filter container
+    }
+
+    // Toggle the filter visibility for the clicked column
+    this.activeFilter = this.activeFilter === column ? null : column;
   }
   ngOnInit(): void {
     // Retrieve clientId and date from query parameters
     this.route.queryParams.subscribe((params) => {
       this.clientId = Number(params['clientId']) || 0; // Ensure correct case ('clientId')
       this.selecteddate = params['date'] ? new Date(params['date']).toISOString() : null;
-  
-      if (!this.clientId) {
-        console.warn('Client ID is missing in the query parameters.');
-        //alert('Client ID is required to proceed.');
-        // Optionally redirect or handle the missing ID case
-      }
-     // Fetch the client details
-     this.fetchClientDetails(this.clientId);
+
+      // Fetch the client details
+      this.fetchClientDetails(this.clientId);
       console.log('Client ID:', this.clientId);
       console.log('Selected Date:', this.selecteddate);
       this.fetchClientDeliverablesAndPackages(this.clientId);
-      if (this.clientId && this.selecteddate) {
-        this.fetchMonthlyTrackerData();
-      } else {
-        console.warn('Client ID or date is missing in the query parameters.');
-      }
+
+      this.fetchMonthlyTrackerData();
+
     });
-      // Apply filters dynamically
-      this.specialityFilter.valueChanges.subscribe(() => this.applyFilter());
-      this.promotionTypeFilter.valueChanges.subscribe(() => this.applyFilter());
-      this.languageFilter.valueChanges.subscribe(() => this.applyFilter());
-      this.creativeTypeFilter.valueChanges.subscribe(() => this.applyFilter());
+    // Apply filters dynamically
+    this.specialityFilter.valueChanges.subscribe(() => this.applyFilter());
+    this.promotionTypeFilter.valueChanges.subscribe(() => this.applyFilter());
+    this.languageFilter.valueChanges.subscribe(() => this.applyFilter());
+    this.creativeTypeFilter.valueChanges.subscribe(() => this.applyFilter());
+    this.contentStatusFilter.valueChanges.subscribe(() => this.applyFilter());
   }
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator; // Assign paginator after view initialization
@@ -136,29 +145,32 @@ export class OperationsContentWritersComponent implements OnInit {
     });
   }
   fetchMonthlyTrackerData(): void {
-    //this.isLoading = true; // Start loading indicator
+    this.isLoading = true; // Start loading indicator
     this.operationsService.getMonthlyTrackerData(this.clientId, this.selecteddate).subscribe({
       next: (response) => {
-       // this.isLoading = false; // Stop loading indicator
+
         this.dataSource.data = response.map((item: any) => ({
           ...item,
           day: new Date(item.date).toLocaleDateString('en-US', { weekday: 'long' }),
           contentStatus: this.getStatusText(item.contentStatus),
         }));
+        this.isLoading = false; // Stop loading indicator
         this.dataSource.paginator = this.paginator; // Reassign paginator
       },
       error: (error) => {
-        //this.isLoading = false; // Stop loading indicator
+        this.isLoading = false; // Stop loading indicator
         console.error('Error fetching tracker data:', error);
       },
     });
   }
-  
+
   fetchClientDeliverablesAndPackages(clientId: number): void {
+    this.isLoading = true;
     this.operationsService.getclientDeliverablesAndPackages(clientId).subscribe({
       next: (response: any) => {
         console.log('Deliverables and Packages:', response);
         if (response && response.length > 0) {
+          this.isLoading = false; // Stop loading indicator
           const deliverables = response[0];
           this.brandingPosterCount = deliverables.noOfBandingPosters || 0;
           this.brandingReelCount = deliverables.noOfBandingReels || 0;
@@ -201,25 +213,25 @@ export class OperationsContentWritersComponent implements OnInit {
         return 'Unknown status';
     }
   }
-  
+
   onEdit(row: any): void {
     console.log('Edit action for row:', row); // Check if monthlyTrackerId exists
     if (!row.monthlyTrackerId) {
       alert('Monthly Tracker ID is missing. Please select a valid entry.');
       return;
     }
-  
+
     const dialogRef = this.dialog.open(ContentWritersOperationsEditComponent, {
       width: '600px',
-      data: { 
+      data: {
         monthlyTrackerId: row.monthlyTrackerId,
-         clientId: row.clientId,
-         contentInPost:row.contentInPost,
-         contentCaption:row.contentCaption,
-         referenceDoc:row.referenceDoc,
-         },
+        clientId: row.clientId,
+        contentInPost: row.contentInPost,
+        contentCaption: row.contentCaption,
+        referenceDoc: row.referenceDoc,
+      },
     });
-  
+
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         console.log('Operation Successful:', result);
@@ -258,13 +270,13 @@ export class OperationsContentWritersComponent implements OnInit {
       alert('Client ID is missing. Please select a client.');
       return;
     }
-  
+
     const dialogRef = this.dialog.open(AddClientEmergencyRequestComponent, {
       width: '600px',
       data: { clientId: this.clientId }, // Pass the clientId
     });
-  
-  
+
+
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         console.log('Operation Successful:', result);
@@ -277,13 +289,13 @@ export class OperationsContentWritersComponent implements OnInit {
     const promotionType = this.promotionTypeFilter.value?.toLowerCase() || '';
     const language = this.languageFilter.value?.toLowerCase() || '';
     const creativeType = this.creativeTypeFilter.value?.toLowerCase() || '';
-
+    const contentStatus = this.contentStatusFilter.value?.toLowerCase() || '';
     this.dataSource.filterPredicate = (data: any) =>
       (!speciality || data.speciality?.toLowerCase().includes(speciality)) &&
       (!promotionType || data.promotionType?.toLowerCase().includes(promotionType)) &&
       (!language || data.language?.toLowerCase().includes(language)) &&
-      (!creativeType || data.creativeType?.toLowerCase().includes(creativeType));
-
+      (!creativeType || data.creativeType?.toLowerCase().includes(creativeType)) &&
+      (!contentStatus || data.contentStatus?.toLowerCase().includes(contentStatus));
     this.dataSource.filter = Math.random().toString(); // Trigger filter update
   }
-  }    
+}    
