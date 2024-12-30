@@ -66,20 +66,20 @@
           </a>
         </li>
         <li>
-          <a [routerLink]="['/home', 'operations', 'content-writer-client']" *ngIf="roleService.hasRole(['Manager', 'Content Writer'])" routerLinkActive="active">
+          <a [routerLink]="['/home', 'operations', 'content-writer-client']" *ngIf="roleService.hasRole(['Content Writer'])" routerLinkActive="active">
             <i class="material-icons">edit</i>Content Writer
           </a>
         </li>
         <li>
           <a [routerLink]="['/home', 'operations', 'poster-designer-client']" 
-             *ngIf="roleService.hasRole(['Manager', 'Poster Designer'])" 
+             *ngIf="roleService.hasRole(['Poster Designer'])" 
              routerLinkActive="active">
             <i class="material-icons">design_services</i>Poster Designer
           </a>
         </li>
         <li>
           <a [routerLink]="['/home', 'operations', 'video-editor-client']" 
-             *ngIf="roleService.hasRole(['Manager', 'Video Editor'])" 
+             *ngIf="roleService.hasRole([ 'Video Editor'])" 
              routerLinkActive="active">
             <i class="material-icons">movie_creation</i>Video Editor
           </a>
@@ -170,27 +170,27 @@
       </a>
     </li>
     <li>
-      <a [routerLink]="['/home', 'operations', 'content-writer-client']" *ngIf="roleService.hasRole(['Manager', 'Content Writer'])" routerLinkActive="active">
+      <a [routerLink]="['/home', 'operations', 'content-writer-client']" *ngIf="roleService.hasRole([ 'Content Writer'])" routerLinkActive="active">
         <i class="material-icons">edit</i>Content Writer
       </a>
     </li>
     <li>
       <a [routerLink]="['/home', 'operations', 'poster-designer-client']" 
-         *ngIf="roleService.hasRole(['Manager', 'Poster Designer'])" 
+         *ngIf="roleService.hasRole([ 'Poster Designer'])" 
          routerLinkActive="active">
         <i class="material-icons">design_services</i>Poster Designer
       </a>
     </li>
     <li>
       <a [routerLink]="['/home', 'operations', 'video-editor-client']" 
-         *ngIf="roleService.hasRole(['Manager', 'Video Editor'])" 
+         *ngIf="roleService.hasRole(['Video Editor'])" 
          routerLinkActive="active">
         <i class="material-icons">movie_creation</i>Video Editor
       </a>
     </li>
     <li>
       <a [routerLink]="['/home', 'operations', 'photo-grapher-client']" 
-         *ngIf="roleService.hasRole(['Manager', 'Videographer'])" 
+         *ngIf="roleService.hasRole([ 'Videographer'])" 
          routerLinkActive="active">
         <i class="material-icons">videocam</i>Videographer
       </a>
