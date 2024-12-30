@@ -17,6 +17,7 @@ import { GraphicReelDesignerClientComponent } from './components/graphic-reel-de
 import { GraphicReelDesignerOperationsComponent } from './components/graphic-reel-designer-operations/graphic-reel-designer-operations.component';
 import { PhotoGrapherScheduleMeetComponent } from './components/photo-grapher-schedule-meet/photo-grapher-schedule-meet.component';
 import { DmaOperationsComponent } from './components/dma-operations/dma-operations.component';
+import { PhotoGrapherCompleteHistoryComponent } from './components/photo-grapher-complete-history/photo-grapher-complete-history.component';
 
 const routes: Routes = [
   {
@@ -38,6 +39,7 @@ const routes: Routes = [
       { path: 'video-editor-client', component: VideoEditorClientsComponent },
 
       { path: 'photo-grapher-client', component: PhotoGrapherScheduleMeetComponent },
+      { path: 'photo-grapher-history', component: PhotoGrapherCompleteHistoryComponent },
 
       { path: 'specialdays-view', component: SpecialdaysClientsViewComponent },
       { path: 'specialdays-add', component: SpecialdaysClientsAddComponent },

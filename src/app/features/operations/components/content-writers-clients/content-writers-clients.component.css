@@ -116,9 +116,9 @@ button {
   display: flex;
   flex-wrap: wrap; /* Allow filters to wrap */
   gap: 15px; /* Add spacing between filters */
-  justify-content: center; /* Center filters for smaller screens */
+  justify-content: left; /* Center filters for smaller screens */
 }
 
 mat-form-field {
-  width: 100%; /* Full width for filters on smaller screens */
+  width: 20%; /* Full width for filters on smaller screens */
 }

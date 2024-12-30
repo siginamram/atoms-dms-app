@@ -182,7 +182,7 @@ export class OperationsContentWritersComponent implements OnInit {
       case 2:
         return 'Saved in draft';
       case 3:
-        return 'Send for approval';
+        return 'Sent for approval';
       case 4:
         return 'Changes recommended';
       case 5:

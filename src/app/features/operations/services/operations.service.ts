@@ -152,4 +152,5 @@ export class OperationsService {
     const apiUrl = `${this.baseApiUrl}/api/Operations/UpdatePostStatus`;
     return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
   }
+
 }

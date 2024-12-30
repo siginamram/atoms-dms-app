@@ -48,6 +48,7 @@ import { PhotoGrapherScheduleMeetComponent } from './components/photo-grapher-sc
 import { PhotoGrapherScheduleMeetPopupComponent } from './components/photo-grapher-schedule-meet-popup/photo-grapher-schedule-meet-popup.component';
 import { DmaOperationsComponent } from './components/dma-operations/dma-operations.component';
 import { DmaOperationsEditComponent } from './components/dma-operations-edit/dma-operations-edit.component';
+import { PhotoGrapherCompleteHistoryComponent } from './components/photo-grapher-complete-history/photo-grapher-complete-history.component';
 
 
 const MY_FORMATS = {
@@ -87,6 +88,7 @@ const MY_FORMATS = {
     PhotoGrapherScheduleMeetPopupComponent,
     DmaOperationsComponent,
     DmaOperationsEditComponent,
+    PhotoGrapherCompleteHistoryComponent,
   ],
   imports: [
     CommonModule,

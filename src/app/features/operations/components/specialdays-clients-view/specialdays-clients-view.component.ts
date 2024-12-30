@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { OperationsService } from '../../services/operations.service';
 import { SpecialdaysClientsAddComponent } from '../specialdays-clients-add/specialdays-clients-add.component';
 
 @Component({
   selector: 'app-specialdays-clients-view',
-  standalone:false,
+  standalone: false,
   templateUrl: './specialdays-clients-view.component.html',
   styleUrls: ['./specialdays-clients-view.component.css'],
 })
@@ -14,17 +16,22 @@ export class SpecialdaysClientsViewComponent implements OnInit {
   filteredClients: any[] = [];
   selectedClientId: number | null = null;
   selectedYear: string = '';
-  selectedClientName: string = ''; // Add this line to declare selectedClientName
-  filteredData: any[] = [];
+  selectedClientName: string = '';
   availableYears: string[] = ['2024', '2025']; // Update years as needed
 
-  displayedColumns = ['id','date', 'specialDay', 'language','actions'];
+  displayedColumns = ['id', 'date', 'specialDay', 'language', 'actions'];
+  dataSource = new MatTableDataSource<any>(); // Use MatTableDataSource for pagination
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private dialog: MatDialog, private operationsService: OperationsService) {}
 
   ngOnInit(): void {
     this.fetchAllClients();
     this.setDefaultYear();
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator; // Assign paginator to MatTableDataSource
   }
 
   setDefaultYear(): void {
@@ -51,20 +58,19 @@ export class SpecialdaysClientsViewComponent implements OnInit {
       client.organizationName.toLowerCase().includes(search)
     );
   }
-  
+
   onClientSelected(event: any): void {
     const selectedOrganizationName = event.option.value;
     const selectedClient = this.clients.find(
       (client) => client.organizationName === selectedOrganizationName
     );
-  
+
     if (selectedClient) {
       this.selectedClientId = selectedClient.clientId;
-      this.selectedClientName = selectedClient.organizationName; // Update the displayed name
+      this.selectedClientName = selectedClient.organizationName;
       this.fetchSpecialDays(); // Fetch data after client selection
     }
   }
-  
 
   fetchSpecialDays(): void {
     if (this.selectedClientId && this.selectedYear) {
@@ -72,25 +78,27 @@ export class SpecialdaysClientsViewComponent implements OnInit {
         .getSpecialDaysByClient(this.selectedClientId, parseInt(this.selectedYear, 10))
         .subscribe({
           next: (response: any[]) => {
-            this.filteredData = response.map((item) => ({
+            const mappedData = response.map((item) => ({
+              id: item.specialDayId,
               date: new Date(item.specialDayDate).toLocaleDateString(),
               specialDay: item.speciality,
-              specialDayId:item.specialDayId,
-              languageId:item.languageId,
-              language:this.getStatusText(item.languageId),
+              languageId: item.languageId,
+              language: this.getStatusText(item.languageId),
               client:
                 this.clients.find((client) => client.clientId === item.clientId)?.organizationName ||
                 'Unknown',
             }));
+            this.dataSource.data = mappedData; // Update the table data
           },
           error: (error) => {
             console.error('Error fetching special days:', error);
           },
         });
     } else {
-      this.filteredData = [];
+      this.dataSource.data = []; // Clear data if no client/year selected
     }
   }
+
   getStatusText(status: number): string {
     switch (status) {
       case 1:
@@ -101,26 +109,25 @@ export class SpecialdaysClientsViewComponent implements OnInit {
         return 'Unknown';
     }
   }
+
   openDialog(editData: any = null): void {
-    console.log('Edit Data:', editData);
     const dialogRef = this.dialog.open(SpecialdaysClientsAddComponent, {
       width: '400px',
       data: editData
-        ? { 
+        ? {
             date: editData.date ? new Date(editData.date) : '', // Ensure the date is a valid Date object
             speciality: editData.specialDay || '',
-            specialDayId:editData.specialDayId || '',
-            clientId:  this.selectedClientId || '',
-            languageId:editData.languageId || '',
+            specialDayId: editData.id || '',
+            clientId: this.selectedClientId || '',
+            languageId: editData.languageId || '',
           }
-        : { date: '', specialDay: '', client: '' }, // Default for adding new
+        : { date: '', specialDay: '', client: '', languageId: '' }, // Default for adding new
     });
-  
+
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.fetchSpecialDays(); // Refresh data after adding/editing
       }
     });
   }
-  
 }

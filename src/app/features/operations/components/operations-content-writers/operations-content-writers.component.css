@@ -16,14 +16,13 @@ mat-toolbar {
 
 .filters-container {
   display: flex;
-  align-items: center;
+  align-items: left;
   gap: 10px;
   flex-wrap: wrap; /* Ensure wrapping on smaller screens */
 }
 
 mat-form-field {
-  flex: 1;
-  min-width: 150px; /* Adjust minimum width for filters */
+  min-width: 40px; /* Adjust minimum width for filters */
 }
 
 table {

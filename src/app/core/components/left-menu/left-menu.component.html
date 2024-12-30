@@ -92,6 +92,13 @@
           </a>
         </li>
         <li>
+          <a [routerLink]="['/home', 'operations', 'photo-grapher-history']" 
+             *ngIf="roleService.hasRole(['Videographer'])" 
+             routerLinkActive="active">
+            <i class="material-icons">history</i>Videographer clients history
+          </a>
+        </li>
+        <li>
           <a [routerLink]="['/home', 'operations', 'graphicreels-designer-client']" 
              *ngIf="roleService.hasRole([ 'Video Editor'])" 
              routerLinkActive="active">
@@ -193,6 +200,13 @@
          *ngIf="roleService.hasRole([ 'Videographer'])" 
          routerLinkActive="active">
         <i class="material-icons">videocam</i>Videographer
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['/home', 'operations', 'photo-grapher-history']" 
+         *ngIf="roleService.hasRole(['Videographer'])" 
+         routerLinkActive="active">
+        <i class="material-icons">history</i>Videographer clients history
       </a>
     </li>
     <li>

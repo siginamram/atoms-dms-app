@@ -72,6 +72,7 @@ export class PhotoGrapherScheduleMeetComponent implements OnInit {
         'time',
         'noOfYouTubeVideos',
         'noOfEducationalReels',
+        'actions',
     
       ];
     }

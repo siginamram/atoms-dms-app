@@ -23,8 +23,7 @@ mat-toolbar {
 }
 
 mat-form-field {
-  flex: 1;
-  min-width: 200px;
+  min-width: 40px;
 }
 
 .table-container {

@@ -24,7 +24,7 @@ export class ContentWritersOperationsEditComponent implements OnInit {
     this.emergencyRequestForm = this.fb.group({
       contentInPost: ['', Validators.required],
       contentCaption: ['', Validators.required],
-      referenceDoc: ['', Validators.required],
+      referenceDoc: [''],
       contentStatus: [2], // Default to draft
     });
   }

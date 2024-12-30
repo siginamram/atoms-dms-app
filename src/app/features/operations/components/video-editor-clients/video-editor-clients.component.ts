@@ -41,10 +41,10 @@ export class VideoEditorClientsComponent implements OnInit {
     'cityName',
     'clientCategory',
     'noOfYouTubeVideos',
-    'noOfEducationalReels',
-    'totYouTubeVideosApprovedCount',
-    'totEducationalReelsApprovedCount',
+     'totYouTubeVideosApprovedCount',
     'percentOfYouTubeVideosApproved',
+    'noOfEducationalReels',
+    'totEducationalReelsApprovedCount',
     'percentOfEducationalReelsApproved',
     'actions',
   ];
