@@ -54,9 +54,15 @@
 
       <!-- Poster Content Approved (%) Column -->
       <ng-container matColumnDef="percentOfPosterContentApproved">
-        <th mat-header-cell *matHeaderCellDef>Posters Approved</th>
-        <td mat-cell *matCellDef="let row">{{ row.percentOfPosterContentApproved }}</td>
+        <th mat-header-cell *matHeaderCellDef>Content Approved</th>
+        <td mat-cell *matCellDef="let row">{{ row.totPosterContentApprovedCount }}</td>
       </ng-container>
+
+            <!-- Poster Content Approved (%) Column -->
+            <ng-container matColumnDef="totPostersApprovedCount">
+              <th mat-header-cell *matHeaderCellDef>Posters Approved</th>
+              <td mat-cell *matCellDef="let row">{{ row.totPostersApprovedCount }}</td>
+            </ng-container>
 
       <!-- Posters Approved (%) Column -->
       <ng-container matColumnDef="percentOfPostersApproved">

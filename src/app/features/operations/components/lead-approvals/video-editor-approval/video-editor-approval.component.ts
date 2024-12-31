@@ -40,10 +40,12 @@ export class VideoEditorApprovalComponent implements OnInit {
     'sNo',
     'organizationName',
     'resourceName',
-    'language',
-    'link',
-    'postStatus',
-    'postRemarks',
+    'title',
+    'description',
+    'thumbNail',
+    'editorLink',
+    'status',
+    'remarks',
     'action',
   ];
 
@@ -75,10 +77,10 @@ export class VideoEditorApprovalComponent implements OnInit {
       next: (response) => {
         this.dataSource.data = response.map((item: any) => ({
           ...item,
-          graphicStatus: this.getPostStatusText(item.graphicStatus), // Map postStatus to text
+          status: this.getPostStatusText(item.status), // Map postStatus to text
           monthlyTrackerId: item.monthlyTrackerId,
           userId: userId,
-          type: 'graphic',
+          type: 'video',
         }));
         this.dataSource.paginator = this.paginator;
       },

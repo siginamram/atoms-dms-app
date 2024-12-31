@@ -41,6 +41,7 @@ export class PosterDesignerClientsComponent implements OnInit {
     'clientCategory',
     'noOfPosters',
     'percentOfPosterContentApproved',
+    'totPostersApprovedCount',
     'percentOfPostersApproved',
     'actions',
   ];

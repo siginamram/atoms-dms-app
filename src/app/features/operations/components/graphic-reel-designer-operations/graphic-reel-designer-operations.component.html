@@ -74,10 +74,10 @@
       </ng-container>
   
       <ng-container matColumnDef="contentLink">
-        <th mat-header-cell *matHeaderCellDef>Content Link</th>
+        <th mat-header-cell *matHeaderCellDef>Reels Link</th>
         <td mat-cell *matCellDef="let element">
-          <a [href]="element.contentLink" target="_blank">View Content</a>
-          <span *ngIf="!element.link">N/A</span>
+          <a [href]="element.link" target="_blank">View Content</a>
+          <!-- <span *ngIf="!element.link">N/A</span> -->
         </td>
       </ng-container>
   

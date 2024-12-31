@@ -119,7 +119,7 @@ export class LeadmanagementaddComponent implements OnInit {
       const payload = {
         OrganizationName: this.leadForm.get('organizationName')?.value,
         Domain: this.leadForm.get('domain')?.value,
-        Date: this.leadForm.get('date')?.value,
+        Date: this.formatDate(new Date(this.leadForm.get('date')?.value)),
         CityID: this.leadForm.get('city')?.value,
         Address: this.leadForm.get('address')?.value,
         ReferredBy: this.leadForm.get('referredBy')?.value,
@@ -151,7 +151,13 @@ export class LeadmanagementaddComponent implements OnInit {
       this.openAlertDialog('Error', 'Please fill all required fields correctly.', 'error');
     }
   }
-  
+    // Utility function to format date as YYYY-MM-DD
+    private formatDate(date: Date): string {
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const day = date.getDate().toString().padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
 
   // Open the alert dialog dynamically
   openAlertDialog(title: string, message: string, type: string): void {

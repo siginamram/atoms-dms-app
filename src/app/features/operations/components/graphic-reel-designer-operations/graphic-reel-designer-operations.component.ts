@@ -41,8 +41,8 @@ export class GraphicReelDesignerOperationsComponent implements OnInit {
     'creativeType',
     'promotionType',
     'language',
-    'caption',
     'contentInPost',
+    'caption',
     'contentLink',
     'status',
     'relatedRemarks',
@@ -110,7 +110,7 @@ export class GraphicReelDesignerOperationsComponent implements OnInit {
             language:item.language,
             caption: item.contentCaption,
             contentInPost: item.contentInPost,
-            contentLink: item.referenceDoc,
+            link: item.link,
             status: this.mapGraphicStatus(item.graphicStatus),
             relatedRemarks: item.graphicRemarks || 'No remarks',
             monthlyTrackerId:item.monthlyTrackerId,
@@ -156,6 +156,7 @@ export class GraphicReelDesignerOperationsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        this.fetchTableData();
         // Refresh data or perform actions after popup close
         console.log('Popup result:', result);
       }

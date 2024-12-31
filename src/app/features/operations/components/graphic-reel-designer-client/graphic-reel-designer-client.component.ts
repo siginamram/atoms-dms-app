@@ -37,9 +37,10 @@ export class GraphicReelDesignerClientComponent implements OnInit {
     'organizationName',
     'cityName',
     'clientCategory',
-    'noOfPosters',
-    'percentOfPosterContentApproved',
-    'percentOfPostersApproved',
+    'noOfGraphicReels',
+    'totGraphicReelContentApprovedCount',
+    'totGraphicReelsApprovedCount',
+    'percentOfGraphicReelsApproved',
     'actions',
   ];
 
