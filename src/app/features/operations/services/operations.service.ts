@@ -153,4 +153,23 @@ export class OperationsService {
     return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
   }
 
+  contentApprovalRequests(userId: number, date: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/contentApprovalRequests/${userId}/${date}`;
+    return this.http.get(apiUrl);
+  }
+
+  graphicApprovalRequests(userId: number, date: string,creativeType:number): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/graphicApprovalRequests/${userId}/${date}/${creativeType}`;
+    return this.http.get(apiUrl);
+  }
+
+  UpdateApprovalStatus(payload: any): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/UpdateApprovalStatus`;
+    return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+  }
+  
+  videoEditorApprovalRequests(userId: number, date: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/videoEditorApprovalRequests/${userId}/${date}`;
+    return this.http.get(apiUrl);
+  }
 }

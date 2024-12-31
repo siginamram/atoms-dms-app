@@ -18,6 +18,7 @@ import { GraphicReelDesignerOperationsComponent } from './components/graphic-ree
 import { PhotoGrapherScheduleMeetComponent } from './components/photo-grapher-schedule-meet/photo-grapher-schedule-meet.component';
 import { DmaOperationsComponent } from './components/dma-operations/dma-operations.component';
 import { PhotoGrapherCompleteHistoryComponent } from './components/photo-grapher-complete-history/photo-grapher-complete-history.component';
+import { LeadApprovalsComponent } from './components/lead-approvals/lead-approvals/lead-approvals.component';
 
 const routes: Routes = [
   {
@@ -49,6 +50,7 @@ const routes: Routes = [
       { path: 'graphicreels-designer-client', component: GraphicReelDesignerClientComponent },
 
       { path: 'operations-dma', component: DmaOperationsComponent },
+      { path: 'lead-approvals', component: LeadApprovalsComponent },
   
     ]
   }

@@ -158,6 +158,7 @@ export class MeetmanagementaddComponent implements OnInit {
         meetingStatus: parseInt(this.meetForm.value.meetingStatus, 10), // Ensure meetingStatus is an integer
         statusOfLead: parseInt(this.meetForm.value.statusOfLead, 10), // Ensure statusOfLead is an integer
         requireAnotherMeet: this.meetForm.value.requireAnotherMeet === 1 ? true : false,
+        nextMeetDate: this.formatDate(new Date(this.meetForm.value.nextMeetDate)),
       };
   
       this.commanApiService.updateMeeting(payload).subscribe(
@@ -179,7 +180,13 @@ export class MeetmanagementaddComponent implements OnInit {
     }
   }
   
-
+  // Utility function to format date as YYYY-MM-DD
+  private formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
   openAlertDialog(title: string, message: string): void {
     this.dialog.open(AlertDialogComponent, {
       width: '400px',

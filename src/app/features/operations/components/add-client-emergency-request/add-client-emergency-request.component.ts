@@ -43,7 +43,7 @@ export class AddClientEmergencyRequestComponent implements OnInit {
       speciality: [''],
       contentInPost: ['', Validators.required],
       contentCaption: ['', Validators.required],
-      referenceDoc: ['', Validators.required],
+      referenceDoc: [''],
       contentStatus: [2], // Default to draft
     });
   }

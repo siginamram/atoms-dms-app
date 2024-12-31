@@ -1,0 +1,101 @@
+.content-writer-container {
+   
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  .toolbar {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .filter-row {
+    margin: 20px 0;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  
+  mat-form-field {
+    width: 200;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+    margin-top: 20px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th {
+    background-color: #4a4a4a;
+    color: orange;
+    font-weight: bold;
+  }
+  
+  td,
+  th {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  button {
+    cursor: pointer;
+  }
+  
+  @media (max-width: 768px) {
+    .content-writer-container {
+      margin-left: 0;
+      padding: 10px;
+    }
+  
+    .filter-row {
+      justify-content: center;
+      gap: 10px;
+    }
+  
+    mat-form-field {
+      width: 100%;
+    }
+  
+    table {
+      font-size: 14px;
+    }
+  
+    th,
+    td {
+      padding: 8px;
+    }
+  
+    .toolbar {
+      font-size: 18px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .filter-row {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+  
+    .table-container {
+      margin-top: 10px;
+    }
+  
+    table {
+      font-size: 12px;
+    }
+    .column-filter-container {
+      margin-top: 5px; /* Add spacing below column name */
+    }
+  }
+  

@@ -49,7 +49,13 @@ import { PhotoGrapherScheduleMeetPopupComponent } from './components/photo-graph
 import { DmaOperationsComponent } from './components/dma-operations/dma-operations.component';
 import { DmaOperationsEditComponent } from './components/dma-operations-edit/dma-operations-edit.component';
 import { PhotoGrapherCompleteHistoryComponent } from './components/photo-grapher-complete-history/photo-grapher-complete-history.component';
-
+import { ContentWritersApprovalComponent } from './components/lead-approvals/content-writers-approval/content-writers-approval.component';
+import { LeadApprovalsComponent } from './components/lead-approvals/lead-approvals/lead-approvals.component';
+import { GraphicReelsDesignerApprovalComponent } from './components/lead-approvals/graphic-reels-designer-approval/graphic-reels-designer-approval.component';
+import { PosterDesignerApprovalComponent } from './components/lead-approvals/poster-designer-approval/poster-designer-approval.component';
+import { VideoEditorApprovalComponent } from './components/lead-approvals/video-editor-approval/video-editor-approval.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { EditStatusApprovalsComponent } from './components/lead-approvals/edit-status-approvals/edit-status-approvals.component';
 
 const MY_FORMATS = {
   parse: {
@@ -89,6 +95,12 @@ const MY_FORMATS = {
     DmaOperationsComponent,
     DmaOperationsEditComponent,
     PhotoGrapherCompleteHistoryComponent,
+    ContentWritersApprovalComponent,
+    LeadApprovalsComponent,
+    GraphicReelsDesignerApprovalComponent,
+    PosterDesignerApprovalComponent,
+    VideoEditorApprovalComponent,
+    EditStatusApprovalsComponent,
   ],
   imports: [
     CommonModule,
@@ -115,6 +127,7 @@ const MY_FORMATS = {
         MatRadioModule,
         MatMomentDateModule,
         SharedModule,
+        MatTabsModule,
   ],
   providers: [
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },

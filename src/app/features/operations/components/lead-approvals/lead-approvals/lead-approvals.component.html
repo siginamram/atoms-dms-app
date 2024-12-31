@@ -1,0 +1,34 @@
+<div class="approvals-container">
+      <!-- Toolbar -->
+  <mat-toolbar color="primary" class="toolbar">
+    <span>Lead Approvals</span>
+  </mat-toolbar>
+    <div class="tabs">
+      <button  [class.active]="activeTab === 'content'" (click)="activeTab = 'content'">
+        <mat-icon>text_snippet</mat-icon>Content Writers
+      </button>
+      <button [class.active]="activeTab === 'poster'" (click)="activeTab = 'poster'">
+        <mat-icon>palette</mat-icon>Poster Designers
+      </button>
+      <button [class.active]="activeTab === 'graphic'" (click)="activeTab = 'graphic'">
+        <mat-icon>movie</mat-icon>Graphic Reels Designers
+      </button>
+      <button [class.active]="activeTab === 'video'" (click)="activeTab = 'video'">
+        <mat-icon>video_library</mat-icon>Video Editors
+      </button>
+    </div>
+  
+    <div *ngIf="activeTab === 'content'">
+      <app-content-writers-approval></app-content-writers-approval>
+    </div>
+    <div *ngIf="activeTab === 'poster'">
+      <app-poster-designer-approval></app-poster-designer-approval>
+    </div>
+    <div *ngIf="activeTab === 'graphic'">
+      <app-graphic-reels-designer-approval></app-graphic-reels-designer-approval>
+    </div>
+    <div *ngIf="activeTab === 'video'">
+      <app-video-editor-approval></app-video-editor-approval>
+    </div>
+  </div>
+  

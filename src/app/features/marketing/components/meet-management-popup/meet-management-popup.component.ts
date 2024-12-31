@@ -133,7 +133,7 @@ export class MeetManagementPopupComponent implements OnInit {
   
       const payload = {
         leadID: formData.leadName, // leadName corresponds to leadID
-        scheduledDate: formData.scheduleDate, // Date in string format
+        scheduledDate: this.formatDate(new Date(formData.scheduleDate)), // Date in string format
         scheduledTime: formData.scheduleTime, // Time in string format
         salesPersonID: userId, // Logged-in user's ID
         meetID: this.meetID || 0,
@@ -169,6 +169,13 @@ export class MeetManagementPopupComponent implements OnInit {
     }
   }
   
+  // Utility function to format date as YYYY-MM-DD
+  private formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
 
   // Open a custom alert dialog
   openAlertDialog(title: string, message: string): void {

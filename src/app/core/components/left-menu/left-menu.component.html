@@ -66,6 +66,13 @@
           </a>
         </li>
         <li>
+          <a [routerLink]="['/home', 'operations', 'lead-approvals']" 
+             *ngIf="roleService.hasRole(['Manager','Team Lead'])" 
+             routerLinkActive="active">
+            <i class="material-icons">event</i>Approvals
+          </a>
+        </li>
+        <li>
           <a [routerLink]="['/home', 'operations', 'content-writer-client']" *ngIf="roleService.hasRole(['Content Writer'])" routerLinkActive="active">
             <i class="material-icons">edit</i>Content Writer
           </a>
@@ -221,6 +228,13 @@
          *ngIf="roleService.hasRole([ 'DMA'])" 
          routerLinkActive="active">
         <i class="material-icons">upload_file</i>DMA
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['/home', 'operations', 'lead-approvals']" 
+         *ngIf="roleService.hasRole(['Manager','Team Lead'])" 
+         routerLinkActive="active">
+        <i class="material-icons">event</i>Approvals
       </a>
     </li>
     <!-- <li class="dropdown" [class.active]="isDropdownActive['task']" (click)="toggleDropdown('task')">
