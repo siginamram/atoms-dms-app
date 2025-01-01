@@ -83,4 +83,41 @@ export class SlaGenerationsListComponent implements OnInit {
   viewSLA(id: number): void {
     this.router.navigate([`/home/marketing/generate-sla/${id}`]);
   }
+
+  downloadSLA(leadId:any){
+    this.commanApiService.getClientByLeadId(leadId).subscribe(
+      (data: any) => {
+        console.log(data)
+        const payload = {
+          clientName: data.clientName || '',
+          clientDesignation: data.clientDesignation || '',
+          paymentDate: data.paymentDate || '',
+          organizationName: data.organizationName || '',
+          address: data.address || '',
+          package: {
+            basePackage: data.package?.basePackage || 0,
+            adBudget: data.package?.adBudget || 0,
+            noOfPosters: data.package?.noOfPosters || 0,
+            noOfGraphicReels: data.package?.noOfGraphicReels || 0,
+            noOfEducationalReels: data.package?.noOfEducationalReels || 0,
+            noOfYouTubeVideos: data.package?.noOfYouTubeVideos || 0,
+            shootOffered: data.package?.shootOffered ,
+            shootBudget: data.package?.shootBudget,
+            chargePerVisit: data.package?.chargePerVisit || 0,
+            smFaceBook: data.package?.smFacebook,
+            smInstagram: data.package?.smInstagram,
+            smLinkedin: data.package?.smLinkedin,
+            smYoutube: data.package?.smYoutube,
+            smGoogle : data.package?.smGoogle,
+            smOthers: data.package?.Others,
+            smOthersText: data.package?.smOthersText || '',
+          },
+          salesPersonDesignation: data.salesPersonDesignation,
+          salesPersonName: data.salesPersonName
+        };
+        console.log(payload)
+        const encodedObject = btoa(JSON.stringify(payload))
+        this.router.navigate([`/home/marketing/sla-download`],{ queryParams: { data: encodedObject } });
+      })
+  }
 }

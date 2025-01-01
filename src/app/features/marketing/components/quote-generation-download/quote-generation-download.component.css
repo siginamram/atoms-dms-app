@@ -1,0 +1,58 @@
+    /* A4 Container Settings */
+    #pdf-container1, #pdf-container2 {
+        width: 804px;
+        /* A4 width */
+        height: 1153px;
+        /* A4 height */
+        margin: 20px auto;
+        /* Center the container */
+        padding: 50px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-size: cover;
+        /* Perfectly fit the container */
+        background-position: center;
+        background-repeat: no-repeat;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        line-height: 2.0;
+        box-sizing: border-box;
+        /* Ensures padding does not affect width/height */
+        background-color: #fff;
+        font-family: 'Times New Roman' !important;
+    }
+
+    label,
+    input {
+        font-size: 16px;
+    }
+
+    h4,
+    h5 {
+        font-family: 'Times New Roman' !important;
+        font-weight: 700;
+    }
+
+    h3 {
+        font-family: 'Times New Roman' !important;
+        font-size: larger;
+        font-weight: 700;
+        margin-bottom: 0;
+    }
+
+    li,
+    p {
+        margin-bottom: 0;
+    }
+
+    ul{
+        margin-bottom: 10px !important; 
+    }
+    li {
+        text-indent: 10px !important; 
+        font-family: 'Times New Roman' !important;
+       /* Align text closer to the bullet */
+      }
+
+li::marker{
+    font-size: larger;
+}

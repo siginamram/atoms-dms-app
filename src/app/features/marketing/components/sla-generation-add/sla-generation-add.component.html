@@ -67,10 +67,26 @@
       </mat-form-field>
     </div>
 
+    <h2>Platforms</h2>
+    <div class="form-row platforms">
+      <mat-checkbox formControlName="facebook">Facebook</mat-checkbox>
+      <mat-checkbox formControlName="instagram">Instagram</mat-checkbox>
+      <mat-checkbox formControlName="linkedin">LinkedIn</mat-checkbox>
+      <mat-checkbox formControlName="youtube">YouTube</mat-checkbox>
+      <mat-checkbox formControlName="google">Google My Business</mat-checkbox>
+      <mat-checkbox formControlName="others">Others</mat-checkbox>
+         <!-- Textbox for 'Others' -->
+    <mat-form-field appearance="outline" *ngIf="slaForm.get('others')?.value">
+      <mat-label>Specify Other Platforms</mat-label>
+      <input matInput formControlName="otherPlatforms" />
+    </mat-form-field>
+
+    </div>
+
     <h2>Package</h2>
     <div class="form-row">
       <mat-form-field appearance="outline">
-        <mat-label>Base Package</mat-label>
+        <mat-label>Base Package Amount</mat-label>
         <input matInput formControlName="basePackage" />
       </mat-form-field>
       <mat-form-field appearance="outline">
@@ -78,9 +94,12 @@
         <input matInput formControlName="posterDesigns" />
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" *ngIf="slaForm.get('youtube')?.value == true">
         <mat-label>No. of YouTube Videos</mat-label>
         <input matInput formControlName="youtubeVideos" />
+        <mat-error *ngIf="slaForm.get('youtubeVideos')?.value == 0">
+          Please select a status.
+        </mat-error>
       </mat-form-field>
 
     </div>
@@ -111,7 +130,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" *ngIf="slaForm.get('shootOffer')?.value === 1">
         <mat-label>Shoot Budget</mat-label>
         <mat-select formControlName="shootBudget">
           <mat-option [value]="1">Yes</mat-option>
@@ -126,28 +145,31 @@
  
     </div>
 
-    <h2>Platforms</h2>
-    <div class="form-row platforms">
-      <mat-checkbox formControlName="facebook">Facebook</mat-checkbox>
-      <mat-checkbox formControlName="instagram">Instagram</mat-checkbox>
-      <mat-checkbox formControlName="linkedin">LinkedIn</mat-checkbox>
-      <mat-checkbox formControlName="youtube">YouTube</mat-checkbox>
-      <mat-checkbox formControlName="others">Others</mat-checkbox>
-         <!-- Textbox for 'Others' -->
-    <mat-form-field appearance="outline" *ngIf="slaForm.get('others')?.value">
-      <mat-label>Specify Other Platforms</mat-label>
-      <input matInput formControlName="otherPlatforms" />
-    </mat-form-field>
-
-    </div>
+    
 
  
     <div class="submit-button-container">
-      <button mat-raised-button color="primary" type="submit">Submit</button>
-      <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-      <button mat-raised-button color="accent"  type="button" (click)="generateSLA()">
-        <i class="material-icons">add</i> Generate SLA
-      </button>
+      <button mat-raised-button color="primary" type="submit">Submit & Generate SLA</button>
     </div>
   </form>
+</div>
+
+<button type="button" style="display: none;" #modalButton id="ModalButton" data-bs-toggle="modal" data-bs-target="#success">demo
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="success" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="d-flex justify-content-center gap-3">
+          <b>Client added successfully!</b>
+        </div>
+        <div class="d-flex justify-content-center gap-3">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="redirect()">OK</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="generateSLA()">Generate SLA</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

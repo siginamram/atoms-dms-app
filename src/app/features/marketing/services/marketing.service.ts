@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { environment } from 'src/environments/environment';
 
@@ -8,6 +9,8 @@ import { environment } from 'src/environments/environment';
 })
 export class MarketingService {
   baseApiUrl: string = environment.baseApiUrl;   // retrieve the base URL from environmet.ts
+  private triggerDocument = new Subject<any>();
+  data$ = this.triggerDocument.asObservable();
   constructor(private http: HttpClient) { }
 
   //Masters
@@ -142,6 +145,10 @@ GetclientKTStatusByClientId (clientID: number): Observable<any> {
 getemployeesByRoleID (roleId: number): Observable<any> {
   const apiUrl = `${this.baseApiUrl}/api/User/userByRoleID/${roleId}`;
   return this.http.get(apiUrl);
+}
+
+generateQuotationDocument(data:any){
+  this.triggerDocument.next(data);
 }
 
 }

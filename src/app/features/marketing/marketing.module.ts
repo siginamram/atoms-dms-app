@@ -12,8 +12,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatOptionModule } from '@angular/material/core';
-import { ReactiveFormsModule } from '@angular/forms'; 
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatOptionModule } from '@angular/material/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MeetmanagementlistComponent } from './components/meet-management-list/meetmanagementlist.component';
@@ -21,7 +21,7 @@ import { MeetmanagementaddComponent } from './components/meet-management-add/mee
 import { SlaGenerationAddComponent } from './components/sla-generation-add/sla-generation-add.component';
 import { SlaGenerationsListComponent } from './components/sla-generations-list/sla-generations-list.component';
 import { QuoteGenerationDocComponent } from './components/quote-generation-doc/quote-generation-doc.component';
-import { FormsModule } from '@angular/forms'; 
+import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SalesConvertedListComponent } from './components/sales-converted-list/sales-converted-list.component';
 import { MeetManagementPopupComponent } from './components/meet-management-popup/meet-management-popup.component';
@@ -37,12 +37,26 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { QuoteGenerationAddComponent } from './components/quote-generation-add/quote-generation-add.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { QuoteGenerationDownloadComponent } from './components/quote-generation-download/quote-generation-download.component';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+
+
+const MY_FORMATS = {
+  parse: {
+    dateInput: 'DD/MM/YYYY' ,
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @NgModule({
   declarations: [
     MarketingComponent,
-    LeadManagementListComponent, 
-    LeadmanagementaddComponent,  
+    LeadManagementListComponent,
+    LeadmanagementaddComponent,
     MeetmanagementlistComponent,
     MeetmanagementaddComponent,
     SlaGenerationAddComponent,
@@ -56,13 +70,13 @@ import { QuoteGenerationDownloadComponent } from './components/quote-generation-
     MeetManagementHistoryComponent,
     QuoteGenerationAddComponent,
     QuoteGenerationDownloadComponent,
-    
+
   ],
   imports: [
     CommonModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MarketingRoutingModule,      
+    MarketingRoutingModule,
     MatToolbarModule,
     MatIconModule,
     MatTableModule,
@@ -72,8 +86,8 @@ import { QuoteGenerationDownloadComponent } from './components/quote-generation-
     MatInputModule,
     MatSelectModule,
     MatOptionModule,
-    ReactiveFormsModule, 
-    MatCheckboxModule, 
+    ReactiveFormsModule,
+    MatCheckboxModule,
     FormsModule,
     MatDialogModule,
     MatPaginatorModule,
@@ -81,7 +95,11 @@ import { QuoteGenerationDownloadComponent } from './components/quote-generation-
     MatProgressSpinnerModule,
     MatAutocompleteModule,
     MatRadioModule,
-           
+
   ],
+  providers: [
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-IN' },
+  ]
 })
 export class MarketingModule { }

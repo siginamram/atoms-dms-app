@@ -5,12 +5,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/alert-dialog.component';
 import { MarketingService } from '../../services/marketing.service';
 
+
+
 @Component({
   selector: 'app-leadmanagementadd',
   standalone:false,
   templateUrl: './leadmanagementadd.component.html',
   styleUrls: ['./leadmanagementadd.component.css'],
 })
+
 export class LeadmanagementaddComponent implements OnInit {
   leadForm: FormGroup;
   countries: { id: number; name: string }[] = [];
@@ -36,7 +39,7 @@ export class LeadmanagementaddComponent implements OnInit {
       pocName: ['', Validators.required],
       pocContact: ['', [Validators.required, Validators.pattern('^\\d{10}$')]],
       pocDesignation: ['', Validators.required],
-      referredBy: ['', Validators.required],
+      referredBy: [''],
       status: ['', Validators.required],
       insight: [''],
     });
@@ -144,7 +147,7 @@ export class LeadmanagementaddComponent implements OnInit {
         },
         (error) => {
           console.error('Error saving lead:', error);
-          this.openAlertDialog('Error', 'Failed to save lead. Please try again.', 'error');
+          this.openAlertDialog('Error', `Failed to save lead. Please try again. \n ${error?.error}`,'error');
         }
       );
     } else {

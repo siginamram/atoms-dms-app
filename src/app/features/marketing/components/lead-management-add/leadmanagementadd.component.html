@@ -7,7 +7,7 @@
     <!-- First Row -->
     <div class="form-row">
       <mat-form-field class="form-field" appearance="outline">
-        <mat-label>Name of Organization*</mat-label>
+        <mat-label>Name of Organization</mat-label>
         <input matInput formControlName="organizationName" aria-label="Organization Name" />
         <mat-error *ngIf="leadForm.get('organizationName')?.hasError('required')">
           Organization name is required.
@@ -15,7 +15,7 @@
       </mat-form-field>
 
       <mat-form-field class="form-field" appearance="outline">
-        <mat-label>Domain of Organization*</mat-label>
+        <mat-label>Domain of Organization</mat-label>
         <input matInput formControlName="domain" aria-label="Domain of Organization" />
         <mat-error *ngIf="leadForm.get('domain')?.hasError('required')">
           Domain is required.
@@ -23,7 +23,7 @@
       </mat-form-field>
 
       <mat-form-field class="form-field" appearance="outline">
-        <mat-label>Date*</mat-label>
+        <mat-label>Date</mat-label>
         <input matInput [matDatepicker]="picker" formControlName="date" aria-label="Date" />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
@@ -36,7 +36,7 @@
     <!-- Second Row -->
     <div class="form-row">
       <mat-form-field class="form-field" appearance="outline">
-        <mat-label>Country*</mat-label>
+        <mat-label>Country</mat-label>
         <mat-select formControlName="country" (selectionChange)="onCountryChange($event.value)" aria-label="Country">
           <mat-option [value]="" disabled>Select a country</mat-option>
           <mat-option *ngFor="let country of countries" [value]="country.id">
@@ -49,7 +49,7 @@
       </mat-form-field>
 
       <mat-form-field class="form-field" appearance="outline">
-        <mat-label>State*</mat-label>
+        <mat-label>State</mat-label>
         <mat-select formControlName="state" (selectionChange)="onStateChange($event.value)" aria-label="State">
           <mat-option [value]="" disabled>Select a state</mat-option>
           <mat-option *ngFor="let state of filteredStates" [value]="state.id">
@@ -62,7 +62,7 @@
       </mat-form-field>
 
       <mat-form-field class="form-field" appearance="outline">
-        <mat-label>District*</mat-label>
+        <mat-label>District</mat-label>
         <mat-select formControlName="district" (selectionChange)="onDistrictChange($event.value)" aria-label="District">
           <mat-option [value]="" disabled>Select a district</mat-option>
           <mat-option *ngFor="let district of filteredDistricts" [value]="district.id">
@@ -78,7 +78,7 @@
     <!-- Third Row -->
     <div class="form-row">
       <mat-form-field class="form-field" appearance="outline">
-        <mat-label>City*</mat-label>
+        <mat-label>City</mat-label>
         <mat-select formControlName="city" aria-label="City">
           <mat-option [value]="" disabled>Select a city</mat-option>
           <mat-option *ngFor="let city of filteredCities" [value]="city.id">
@@ -91,7 +91,7 @@
       </mat-form-field>
 
       <mat-form-field class="form-field" appearance="outline">
-        <mat-label>Address*</mat-label>
+        <mat-label>Address</mat-label>
         <textarea matInput formControlName="address" aria-label="Address"></textarea>
         <mat-error *ngIf="leadForm.get('address')?.hasError('required')">
           Address is required.
@@ -99,18 +99,15 @@
       </mat-form-field>
 
       <mat-form-field class="form-field" appearance="outline">
-        <mat-label>Referred By*</mat-label>
+        <mat-label>Referred By</mat-label>
         <input matInput formControlName="referredBy" aria-label="Referred By" />
-        <mat-error *ngIf="leadForm.get('referredBy')?.hasError('required')">
-          Referred By is required.
-        </mat-error>
       </mat-form-field>
     </div>
 
     <!-- Fourth Row -->
     <div class="form-row">
       <mat-form-field class="form-field" appearance="outline">
-        <mat-label>P.O.C Name*</mat-label>
+        <mat-label>P.O.C Name</mat-label>
         <input matInput formControlName="pocName" aria-label="Point of Contact Name" />
         <mat-error *ngIf="leadForm.get('pocName')?.hasError('required')">
           P.O.C Name is required.
@@ -118,7 +115,7 @@
       </mat-form-field>
 
       <mat-form-field class="form-field" appearance="outline">
-        <mat-label>P.O.C Contact*</mat-label>
+        <mat-label>P.O.C Contact</mat-label>
         <input matInput formControlName="pocContact" aria-label="Point of Contact Phone" />
         <mat-error *ngIf="leadForm.get('pocContact')?.hasError('required')">
           P.O.C Contact is required.
@@ -126,7 +123,7 @@
       </mat-form-field>
 
       <mat-form-field class="form-field" appearance="outline">
-        <mat-label>P.O.C Designation*</mat-label>
+        <mat-label>P.O.C Designation</mat-label>
         <input matInput formControlName="pocDesignation" aria-label="Point of Contact Designation" />
         <mat-error *ngIf="leadForm.get('pocDesignation')?.hasError('required')">
           P.O.C Designation is required.
@@ -137,7 +134,7 @@
     <!-- Fifth Row -->
     <div class="form-row">
       <mat-form-field class="form-field" appearance="outline">
-        <mat-label>Status*</mat-label>
+        <mat-label>Status</mat-label>
         <mat-select formControlName="status" aria-label="Status">
           <mat-option value=1>Progressive</mat-option>
           <mat-option value=2>Converted</mat-option>

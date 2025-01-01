@@ -1,112 +1,143 @@
-<!-- Page 1 -->
-<div class="pdf-container" style="background-image: url('../../../../assets/img/atomsletter_header.jpg'); background-size: cover;">
-  <h2>SERVICE LEVEL AGREEMENT (SLA)<br>BETWEEN<br>ATOMS DIGITAL SOLUTIONS AND {{ clientName }}</h2>
-
-  <h4>Scope of Services:</h4>
-  <ul>
-      <li>Atoms Digital Solutions agrees to provide comprehensive Digital Marketing Services to {{ clientName }}, {{ city }}.</li>
-  </ul>
-
-  <h4>Service Deliverables:</h4>
-  <ul>
-      <li>Optimization of the following Social Media Platforms:</li>
-      <ul>
-          <li *ngFor="let platform of platforms">{{ platform }}</li>
-      </ul>
-      <li>Content creation and graphic design</li>
-      <li>Monthly social media deliverables as specified below:</li>
-      <ul>
-          <li>No. of posters per month: {{ deliverables.posters }}</li>
-          <li>No. of graphic reels per month: {{ deliverables.graphicReels }}</li>
-          <li>No. of educational reels per month: {{ deliverables.educationalReels }}</li>
-          <li>No. of YouTube videos per month: {{ deliverables.youtubeVideos }}</li>
-      </ul>
-      <li>Sponsored ad budget: {{ adBudget.amount }} ({{ adBudget.words }})</li>
-      <li>Monthly video shoot for YouTube Videos and Educational Reels:</li>
-      <ul>
-          <li>Shoot: Offered</li>
-          <li>Shoot Charges: Applicable</li>
-          <li>Shoot Budget per visit: INR {{ shootDetails.budgetAmount }} ({{ shootDetails.budgetWords }})</li>
-      </ul>
-  </ul>
+<div class ="d-flex justify-content-center gap-3">
+    <button (click)="generatePDF()" class="btn btn-primary">Download</button>
 </div>
-<!-- Page 2 -->
-<div class="pdf-container" style="background-image: url('../../../../assets/img/atomsletter_header.jpg'); background-size: cover;">
-  <h4>Roles and Responsibilities:</h4>
-  <h5>Responsibilities of Atoms Digital Solutions:</h5>
-  <ul>
-      <li>Ensure timely delivery of agreed services</li>
-      <li>Maintain the quality of designs, videos, and campaign management</li>
-      <li>Collaborate with the client for special shoots</li>
-      <li>Run sponsored ad campaigns efficiently within the allocated budget</li>
-  </ul>
 
-  <h5>Responsibilities of {{ clientName }}:</h5>
-  <ul>
-      <li>Provide knowledge transfer sessions for the content and design team before onboarding</li>
-      <li>Share required data, content, and additional information at least 4 days prior to project deadlines</li>
-      <li>Allocate time for photographers and team members for monthly video shoots</li>
-      <li>Provide constructive feedback to enhance service quality</li>
-  </ul>
+<body>
+    <!-- First Page -->
+    <div class="pdf-container" id="pdf-container1" style="background-image: url('../../../../assets/img/atomsletter_header.jpg');">
+        <h4 style="margin-top: 90px;margin-bottom: 0px;height: 22px;">SERVICE LEVEL AGREEMENT (SLA)</h4>
+        <h4 style="margin: 0px;height: 22px;">BETWEEN</h4>
+        <h4 style="margin: 0px;height: 22px;">ATOMS DIGITAL SOLUTIONS AND {{clientName | uppercase}}</h4>
 
-  <h4>Payment Terms:</h4>
-  <ul>
-      <li>Monthly Charges for the services: INR {{ payment.amount }} ({{ payment.words }})</li>
-      <li>Payments to be made on or before the {{ payment.dueDate }} of every month</li>
-      <li>Payments should be made via bank transfer or any agreed-upon payment method</li>
-  </ul>
+        <h5>Scope of Services:</h5>
+        <ul>
+            <li>Atoms Digital Solutions agrees to provide comprehensive Digital Marketing Services to {{clientName}}, {{city}}.</li>
+        </ul>
 
-  <h4>Communication Protocol:</h4>
-  <ul>
-      <li>Both parties commit to maintaining effective and open communication throughout the engagement</li>
-      <li>Communication can take place via Email, Phone, or Scheduled Meetings</li>
-      <li>Both parties agree to assign a point of contact for clear and transparent communication</li>
-  </ul>
-</div>
-<!-- Page 3 -->
-<div class="pdf-container" style="background-image: url('../../../../assets/img/atomsletter_header.jpg'); background-size: cover;">
-  <h4>Confidentiality:</h4>
-  <ul>
-      <li>Both parties agree to maintain the confidentiality of proprietary information shared during the engagement</li>
-      <li>In the event of any misuse or unauthorized sharing of data, the issue will be addressed legally as per the applicable laws</li>
-  </ul>
+        <h5>Service Deliverables:</h5>
+        <ul>
+            <li>Atoms Digital Solutions commits to the following deliverables on a monthly basis:</li>
+            <ul>
+                <li>Optimization of the below Social Media Platforms </li>
+                <ul class="shoot">
+                    <li *ngIf="packageDetails?.smFaceBook">Facebook</li>
+                    <li *ngIf="packageDetails?.smInstagram">Instagram</li>
+                    <li *ngIf="packageDetails?.smLinkedin">Linkedln</li>
+                    <li *ngIf="packageDetails?.smYoutube">Youtube</li>
+                    <li *ngIf="packageDetails?.smGoogle">Google My Business</li>
+                    <li *ngIf="packageDetails?.smOthers">{{packageDetails?.smOthersText}}</li>
+                </ul>
+                <li>Content creation and graphic design</li>
+                <li>Monthly social media deliverables as specified below</li>
+                <ul>
+                    <li>No. of posters per month: <b>{{packageDetails?.noOfPosters}}</b></li>
+                    <li>No. of graphic reels per month: <b>{{packageDetails?.noOfGraphicReels}}</b> (A Graphic reel is defined as a video that is 9:16 ratio designed with graphic elements such as images, vectors, 3D graphic elements and text overlay with a duration of up to ninety seconds)</li>
+                    <li>No. of educational reels per month: <b>{{packageDetails?.noOfEducationalReels}}</b> (An educational reel is defined as a video in 9:16 ratio with a person describing or explaining anything that they feel matters to their target audience and lies in a duration of up to ninety seconds)</li>
+                    <li>No. of YouTube videos per month: <b>{{packageDetails?.noOfYouTubeVideos}}</b> (A YouTube video is defined as a video that is 16:9 ratio with a person describing or explaining anything that they feel matters to their target audience and lies in a duration of up to ten minutes)</li>
+                </ul>
+                <li>Sponsored ad budget: INR <b>{{adBudget}}</b>/- ({{adBudgetInWords}}) (A sponsored ad is defined as an ad campaign that will be running on social media platforms)</li>
+                <li *ngIf="packageDetails?.shootOffered">Monthly video shoot for YouTube Videos and Educational Reels</li>
+                <ul *ngIf="packageDetails?.shootOffered">
+                    <li  *ngIf="packageDetails?.shootBudget">Shoot Charges: Applicable</li>
+                    <li  *ngIf="!packageDetails?.shootBudget">Shoot Charges: Not Applicable</li>
+                    <li  *ngIf="packageDetails?.shootBudget">Shoot Budget per visit: INR <b>{{shootBudget}}</b>/- ({{shootBudgetInWords}})
+                </ul>
+            </ul>
+           
+        </ul>
+        
+    </div>
 
-  <h4>Termination Clause:</h4>
-  <ul>
-      <li>Either party may terminate this agreement with a 30-day written notice</li>
-      <li>If services are terminated midway, {{ clientName }} will pay for the services availed up to the termination date</li>
-  </ul>
+    <!-- Second Page -->
+    <div class="pdf-container" id="pdf-container2" style="background-image: url('../../../../assets/img/atomsletter_header.jpg');">
+        <h5 style="margin-top: 90px;">Roles and Responsibilities:</h5>
+        <ul>
+            <li><b>Responsibilities of Atoms Digital Solutions</b></li>
+            <ul>
+                <li>Ensure timely delivery of agreed services. </li>
+                <li>Maintain the quality of designs, videos, and campaign management. </li>
+                <li>Collaborate with the client for special shoots. </li>
+                <li>Run sponsored ad campaigns efficiently within the allocated budget. </li>
+            </ul>
+            <li><b>Responsibilities of {{clientName}}</b></li>
+            <ul>
+                <li>Provide knowledge transfer sessions for the content and design team before onboarding.</li>
+                <li>Share required data, content, and additional information <b> at least 4 days </b> prior to project deadlines.</li>
+                <li *ngIf="packageDetails?.shootOffered">Allocate time for photographers and team members for monthly video shoots.</li>
+                <li>Provide constructive feedback to enhance service quality.</li>
+            </ul>
+        </ul>
+        <h5>Payment Terms</h5>
+        <ul>
+            <li>Monthly Charges for the services: INR <b>{{totalBudget}}</b>/- ({{totalBudgetInWords}}). <b> (Including GST and Excluding Shoot) </b></li>
+            <li>Payments to be made on or before the <b>{{paymentDate}}<sup>{{suffix}}</sup></b>  of every month.</li>
+            <li>Payments should be made via bank transfer or any agreed-upon payment method.</li>
+        </ul>
+        <h5>Communication Protocol</h5>
+        <ul>
+            <li>Both parties commit to maintaining effective and open communication throughout the engagement</li>
+            <li>Communication can take place via Email, Phone, or Scheduled Meetings</li>
+            <li>Both the parties agree to assign a point of contact for clear and transparent communication</li>
+        </ul>
+        <h5>Confidentiality</h5>
+        <ul>
+            <li>Both parties agree to maintain the confidentiality of proprietary information shared during the engagement.
+            </li>
+            <li>In the event of any misuse or unauthorized sharing of data, the issue will be addressed legally as per the applicable laws.
+            </li>
+        </ul>
+        
+    </div>
 
-  <h4>Governing Law:</h4>
-  <p>This agreement is governed by the laws of India, specifically the jurisdiction of Guntur</p>
+    <!-- Third Page -->
+    <div class="pdf-container" id="pdf-container3"  style="background-image: url('../../../../assets/img/atomsletter_header.jpg');">
+        <h5  style="margin-top: 90px;">Termination Clause</h5>
+        <ul>
+            <li>Either party may terminate this agreement with a 30-day written notice.</li>
+            <li>If services are terminated midway, {{clientName}} will pay for the services availed up to the termination date.</li>
+            <li>In the event of advance payments, Atoms Digital Solutions will continue services until the payment period concludes.</li>
+        </ul>
+        
+        <h5>Governing Law:</h5>
+        <ul>
+            <li>This MOU shall be governed by and construed in accordance with the laws of India, specifically the jurisdiction of Guntur.</li>
+        </ul>
 
-  <h4>Term and Renewal:</h4>
-  <ul>
-      <li>This agreement will be valid for a year, and the payment cycle will be on a monthly basis</li>
-      <li>Renewals or modifications to the scope can occur with mutual agreement between both parties</li>
-  </ul>
+        <h5>Term and Renewal</h5>
+        <ul>
+            <li>This agreement will be valid for a year and the payment cycle will be on a monthly basis
+            </li>
+            <li>
+                Renewals or modifications to the scope can occur with mutual agreement between both parties.
+            </li>
+        </ul>
 
-  <h4>Acceptance:</h4>
-  <p>By signing below, both parties acknowledge and agree to the terms and conditions set forth in this Service Level Agreement</p>
+        <h5>Acceptance:</h5>
+        <ul>
+            <li>By signing below, both parties acknowledge and agree to the terms and conditions set forth in this Service Level Agreement.
+            </li>
+        </ul>
+        <!-- Signature Section -->
+        <div class="signature-section">
+            <div class="signature-box shoot">
+                <ul>
+                    <li>Signature</li>
+                    <li>{{salesPersonName}}</li>
+                    <li>{{salesPersonDesignation}}</li>
+                    <li>Atoms Digital Solutions</li>
+                    <li>{{signingDate | date:'MMMM d, yyyy' }}</li>
+                </ul>
+            </div>
+            <div class="signature-box shoot">
+                <ul style="margin-bottom: 0px; text-align: right;">
+                    <li>Signature</li>
+                    <li>{{clientRepresentativeName}}</li>
+                    <li>{{clientRepresentativeDesignation}}</li>
+                    <li>{{clientName}}</li>
+                    <li>{{signingDate | date:'MMMM d, yyyy'  }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
 
-  <div class="signature-section">
-      <div class="signature-box">
-          <ul>
-              <li>Signature:</li>
-              <li>{{ salespersonName }}</li>
-              <li>{{ salespersonDesignation }}</li>
-              <li>Atoms Digital Solutions</li>
-              <li>{{ signingDate }}</li>
-          </ul>
-      </div>
-      <div class="signature-box">
-          <ul>
-              <li>Signature:</li>
-              <li>{{ clientRepresentativeName }}</li>
-              <li>{{ clientRepresentativeDesignation }}</li>
-              <li>{{ clientName }}</li>
-              <li>{{ clientSigningDate }}</li>
-          </ul>
-      </div>
-  </div>
-</div>

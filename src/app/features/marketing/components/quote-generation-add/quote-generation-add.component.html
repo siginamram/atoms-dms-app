@@ -12,7 +12,7 @@
 
         <mat-form-field appearance="outline">
           <mat-label>Date of Generation</mat-label>
-          <input matInput [matDatepicker]="picker" [min]="minDate" formControlName="dateOfGeneration" />
+          <input matInput [matDatepicker]="picker"  formControlName="dateOfGeneration" />
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
@@ -31,20 +31,15 @@
       <mat-checkbox formControlName="socialMediaOptimization">Social Media Optimization</mat-checkbox>
       <mat-checkbox formControlName="dedicatedRM">Assistance to Dedicated RM</mat-checkbox>
       <mat-checkbox formControlName="dedicatedDMA">Assistance to Dedicated DMA</mat-checkbox>
+      <mat-checkbox formControlName="addCampaignManagement">Ad Campaign Management</mat-checkbox>
       <mat-checkbox formControlName="performanceTracker">Monthly Performance Tracker</mat-checkbox>
       <mat-checkbox formControlName="photoVideoShoots">Monthly Photo and Video Shoots</mat-checkbox>
     </div>
 <!-- Shoot Overview -->
+ <div *ngIf="leadForm.get('services.photoVideoShoots')?.value">
 <h2>Shoot Overview</h2>
-<div formGroupName="shootOverview" class="form-row">
+<div formGroupName="shootOverview" class="form-row" *ngIf="leadForm.get('services.photoVideoShoots')?.value">
   <mat-form-field appearance="outline">
-    <mat-label>Shoot Offer</mat-label>
-    <mat-select formControlName="shootOffer">
-      <mat-option *ngFor="let option of shootOfferOptions" [value]="option">{{ option }}</mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <mat-form-field appearance="outline" *ngIf="leadForm.get('shootOverview.shootOffer')?.value === 'No'">
     <mat-label>Shoot Budget</mat-label>
     <mat-select formControlName="shootBudget">
       <mat-option *ngFor="let option of shootBudgetOptions" [value]="option">{{ option }}</mat-option>
@@ -53,8 +48,9 @@
 
   <mat-form-field appearance="outline" *ngIf="leadForm.get('shootOverview.shootBudget')?.value === 'Yes'">
     <mat-label>Charge Per Visit</mat-label>
-    <input matInput type="number" formControlName="chargePerVisit" />
+    <input matInput type="number" formControlName="chargePerVisit"/>
   </mat-form-field>
+</div>
 </div>
     <!-- Marketing Strategies -->
     <h2>Marketing Strategies</h2>
@@ -62,11 +58,20 @@
       <mat-radio-group formControlName="level" (change)="onLevelChange()">
         <mat-radio-button *ngFor="let level of ['Stater', 'Basic', 'Pro', 'Advanced','Gold']" [value]="level">{{ level }}</mat-radio-button>
       </mat-radio-group>
-      <div formArrayName="strategies" *ngIf="leadForm.get('marketingStrategies.level')?.value !== 'No'">
-        <mat-checkbox *ngFor="let strategy of strategiesByLevel[leadForm.get('marketingStrategies.level')?.value]; let i = index" [formControlName]="i">
-          {{ strategy }}
-        </mat-checkbox>
-      </div>
+      <div>
+      <mat-checkbox formControlName="googleMyBusiness">Google My Business Management</mat-checkbox>
+      <mat-checkbox formControlName="seo">Search Engine Optimization</mat-checkbox>
+      <mat-checkbox formControlName="podcast">Podcast</mat-checkbox>
+      <mat-checkbox formControlName="competitorAnalysis">Competitor Analysis</mat-checkbox>
+      <mat-checkbox formControlName="recommendingContentStratagy">Recommendation of content strategy</mat-checkbox>
+      <mat-checkbox formControlName="skeletonChangeBasedOnPerson">Frequent content skeleton changes</mat-checkbox>
+      <mat-checkbox formControlName="trainingOnEdVideos">Training on educational videos and templates</mat-checkbox>
+      <mat-checkbox formControlName="adShoots">Ad Shoots</mat-checkbox>
+      <mat-checkbox formControlName="conceptShhots">Concept Shoots</mat-checkbox>
+      <mat-checkbox formControlName="onlineQAInteracts">Online Q&A interactions</mat-checkbox>
+      <mat-checkbox formControlName="behindScenes">Behind the Scenes</mat-checkbox>
+      <mat-checkbox formControlName="respondingToEvents">Responding to Current Events</mat-checkbox>
+    </div>
     </div>
       <!-- Base Package -->
   <h2>Base Package</h2>
@@ -84,20 +89,21 @@
  <!-- Social Media Optimization -->
  <h2>Social Media Optimization</h2>
 <div formGroupName="socialMediaOptimization">
-  <mat-checkbox formControlName="creation">Creation of Social Media</mat-checkbox>
+  <mat-checkbox formControlName="creation">Designing Social Media Calendar</mat-checkbox>
   <mat-checkbox formControlName="contentDevelopment">Content Development</mat-checkbox>
   <mat-checkbox formControlName="graphicDesign">Graphic Design</mat-checkbox>
 </div>
 
 <!-- Platforms -->
 <!-- Platforms -->
-<h4>Platforms</h4>
+<h2>Platforms</h2>
 <div formGroupName="socialMediaOptimization">
   <div class="form-row platforms">
     <mat-checkbox formControlName="facebook">Facebook</mat-checkbox>
     <mat-checkbox formControlName="instagram">Instagram</mat-checkbox>
     <mat-checkbox formControlName="linkedin">LinkedIn</mat-checkbox>
-    <mat-checkbox formControlName="youtube">YouTube</mat-checkbox>
+    <mat-checkbox formControlName="youtube" (change)="onCheckboxChange($event)">YouTube</mat-checkbox>
+    <mat-checkbox formControlName="google">Google My Business</mat-checkbox>
     <mat-checkbox formControlName="others">Others</mat-checkbox>
 
     <!-- Textbox for 'Others' -->
@@ -114,21 +120,47 @@
     <!-- Monthly Deliverables -->
     <h2>Monthly Deliverables</h2>
     <div class="form-row" formGroupName="monthlyDeliverables">
-      <mat-form-field *ngFor="let field of ['posters', 'graphicReels', 'educationalReels', 'youtubeVideos',  'campaignBudget']" appearance="outline">
+      <mat-form-field *ngFor="let field of deliverables" appearance="outline">
         <mat-label>{{ field }}</mat-label>
         <input matInput type="number" formControlName="{{field}}" />
       </mat-form-field>
     </div>
 
+    <div class="form-row">
+      <mat-checkbox formControlName="requiredToDedicateAdditionalAdBudget">You have to dedicate additional budget for the ads to reach your target audience in inorganic methods.</mat-checkbox>
+      <mat-form-field appearance="outline" >
+        <mat-label>Max Add Budget Amount</mat-label>
+        <input matInput type="number" formControlName="noSCForAdCMUpto" />
+      </mat-form-field>
+    </div>
+    <P  class="form-row">We will not apply an additional service charge for the mentioned ad budget.</P>
+
 
   
     <!-- Submit Button -->
     <div class="submit-button-container">
-      <button mat-raised-button color="primary" type="submit" [disabled]="!leadForm.valid">Submit</button>
-      <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-      <button mat-raised-button color="accent"  type="button" (click)="generateQuote()">
-        <i class="material-icons">add</i> Generate Quote
-      </button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!leadForm.valid">Submit &  Generate Quote</button>
     </div>
   </form>
+</div>
+
+
+<button type="button" style="display: none;" #modalButton id="ModalButton" data-bs-toggle="modal" data-bs-target="#success">demo
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="success" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="d-flex justify-content-center gap-3">
+          <b>Changes Updated Successfully</b>
+        </div>
+        <div class="d-flex justify-content-center gap-3">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="redirect()">Cancel</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="generateQuote()">Generate Quotation</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

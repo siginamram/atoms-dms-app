@@ -26,11 +26,11 @@
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Status of the Lead</mat-label>
-        <mat-select formControlName="statusOfLead">
+        <mat-select formControlName="statusOfLead" (selectionChange)="changeStatusValue($event)">
           <mat-option value=4>Positive</mat-option>
           <mat-option value=5>Neutral</mat-option>
-          <mat-option value=2>Converted</mat-option>
-          <mat-option value=3>Rejected</mat-option>
+          <mat-option value=2 *ngIf="meetForm.get('meetingStatus')?.value=='3'">Converted</mat-option>
+          <mat-option value=3 *ngIf="meetForm.get('meetingStatus')?.value=='3'">Rejected</mat-option>
         </mat-select>
         <mat-error *ngIf="meetForm.get('statusOfLead')?.hasError('required')">
           Lead status is required.
@@ -42,7 +42,7 @@
       <mat-form-field appearance="outline">
         <mat-label>Requirement of Next Meet</mat-label>
         <mat-select formControlName="requireAnotherMeet">
-          <mat-option [value]="1">Yes</mat-option>
+          <mat-option [value]="1" >Yes</mat-option>
           <mat-option [value]="0">No</mat-option>
         </mat-select>
         <mat-error *ngIf="meetForm.get('requireAnotherMeet')?.hasError('required')">
@@ -86,36 +86,36 @@
    <!-- Row 2 -->
 <div class="form-row">
   <mat-form-field appearance="outline">
-    <mat-label>Travelling Duration (in k.m (e.g., 2.5))</mat-label>
+    <mat-label>Travelling Duration (in min)</mat-label>
     <input matInput type="text" formControlName="travellingDuration" />
     <mat-error *ngIf="meetForm.get('travellingDuration')?.hasError('required')">
       Travelling duration is required.
     </mat-error>
     <mat-error *ngIf="meetForm.get('travellingDuration')?.hasError('pattern')">
-      Travelling duration must be in a valid format (e.g., 2.5).
+      Travelling duration must be in a valid format (e.g., 250).
     </mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="outline">
-    <mat-label>Waiting Time Duration (in hr (e.g., 1.30))</mat-label>
+    <mat-label>Waiting Time Duration (in min)</mat-label>
     <input matInput type="text" formControlName="waitingTime" />
     <mat-error *ngIf="meetForm.get('waitingTime')?.hasError('required')">
       Waiting time is required.
     </mat-error>
     <mat-error *ngIf="meetForm.get('waitingTime')?.hasError('pattern')">
-      Waiting time must be in a valid format (e.g., 1.30).
+      Waiting time must be in a valid format (e.g., 130).
     </mat-error>
   </mat-form-field>
 
   <!-- Meeting Time -->
   <mat-form-field appearance="outline">
-    <mat-label>Meeting Time Duration (in hr)</mat-label>
+    <mat-label>Meeting Time Duration (in min)</mat-label>
     <input matInput type="text" formControlName="meetingTime" />
     <mat-error *ngIf="meetForm.get('meetingTime')?.hasError('required')">
       Meeting time duration is required.
     </mat-error>
     <mat-error *ngIf="meetForm.get('meetingTime')?.hasError('pattern')">
-      Meeting time duration must be in a valid format (e.g., 1.30).
+      Meeting time duration must be in a valid format (e.g., 1s30).
     </mat-error>
   </mat-form-field>
 </div>

@@ -158,7 +158,7 @@ export class MeetManagementPopupComponent implements OnInit {
   
           // Handle error with a fallback message
           const errorMessage =
-            error?.error?.message ||
+            error?.error ||
             'An unexpected error occurred while scheduling the meeting.';
           this.openAlertDialog('Error', errorMessage);
         }

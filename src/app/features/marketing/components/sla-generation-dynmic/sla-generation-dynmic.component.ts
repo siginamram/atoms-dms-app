@@ -1,32 +1,115 @@
 import { Component, OnInit } from '@angular/core';
-import { MarketingService } from '../../services/marketing.service';
 import { ActivatedRoute } from '@angular/router';
-import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import { ToWords } from 'to-words';
+
 
 @Component({
   selector: 'app-sla-generation-dynamic',
-  standalone:false,
+  standalone: false,
   templateUrl: './sla-generation-dynmic.component.html',
   styleUrls: ['./sla-generation-dynmic.component.css']
 })
 export class SlaGenerationDynamicComponent {
-  letterheadUrl = '../../../../assets/img/atomsletter_header.jpg';
-  clientName = 'Narendra Ortho and Spine';
-  city = 'Guntur';
-  platforms = ['Facebook', 'Instagram', 'LinkedIn'];
-  deliverables = {
-    posters: '16',
-    graphicReels: '4',
-    educationalReels: '2',
-    youtubeVideos: '1',
-  };
-  adBudget = { amount: '50000', words: 'Fifty Thousand Only' };
-  shootDetails = { budgetAmount: '5000', budgetWords: 'Five Thousand Only' };
-  payment = { amount: '15000', words: 'Fifteen Thousand Only', dueDate: '10th of Every Month' };
-  salespersonName = 'Mr. Ayyappa Siginam';
-  salespersonDesignation = 'Chairman and Director';
-  clientRepresentativeName = 'Dr. Narendra Reddy Medagam';
-  clientRepresentativeDesignation = 'MS (Ortho), DNB, FNB (Spine)';
-  signingDate = '12 July 2024';
-  clientSigningDate = '12 July 2024';
+  clientName: string = '';
+  city: string = '';
+  clientRepresentativeName = '';
+  clientRepresentativeDesignation = '';
+  signingDate = new Date();
+  slaData: any;
+  packageDetails: any;
+  shootBudget: any;
+  shootBudgetInWords: any;
+  adBudget: any;
+  adBudgetInWords: any;
+  totalBudget: any;
+  totalBudgetInWords: any;
+  dateSuffix = ["", "st", "nd", "rd", "rth", "th"];
+  paymentDate: any;
+  suffix: string = '';
+  salesPersonDesignation:any;
+  salesPersonName: any;
+
+  toWords = new ToWords();
+  constructor(private route: ActivatedRoute) { }
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.slaData = JSON.parse(atob(params['data']));
+      console.log(this.slaData)
+      this.salesPersonName = this.slaData?.salesPersonName;
+      this.salesPersonDesignation = this.slaData?.salesPersonDesignation;
+      this.clientName = this.slaData?.organizationName;
+      this.clientRepresentativeName = this.slaData?.clientName;
+      this.clientRepresentativeDesignation = this.slaData?.clientDesignation;
+      this.city = this.slaData?.address;
+      this.packageDetails = this.slaData?.package;
+      this.shootBudget = this.packageDetails?.chargePerVisit.toLocaleString('en-IN');
+      this.adBudget = this.packageDetails?.adBudget.toLocaleString('en-IN');
+      let budget = this.calculateTotalBudget()
+      this.totalBudget = budget.toLocaleString('en-IN');
+      this.paymentDate = new Date(this.slaData?.paymentDate).getDate();
+      this.suffix = this.prepareRenewalDate();
+      this.adBudgetInWords = this.toWords.convert(this.packageDetails?.adBudget,{currency: true, ignoreDecimal: true })
+      this.shootBudgetInWords = this.toWords.convert(this.packageDetails?.chargePerVisit,{currency: true,ignoreDecimal: true})
+      this.totalBudgetInWords = this.toWords.convert(budget,{currency: true,ignoreDecimal: true})
+    })
+  }
+  calculateTotalBudget() {
+    let budget = this.packageDetails?.adBudget + this.packageDetails?.basePackage;
+    return (budget + budget * 0.18);
+  }
+
+  prepareRenewalDate() {
+    let dateString = this.paymentDate.toString()
+    let date = this.paymentDate
+    if ((date >= 5 && date <= 20) || (date >= 25 && date <= 30)) {
+      return 'th'
+    }
+    else if (dateString[1]) {
+      let index = parseInt(dateString[1], 10);
+      return this.dateSuffix[index];
+    }else{
+      let index = parseInt(dateString[0], 10);
+      return this.dateSuffix[index];
+    }
+  }
+
+  async generatePDF() {
+    const pdf = new jsPDF('p', 'mm', 'a4'); // Create PDF in A4 size
+
+    const element1 = document.getElementById('pdf-container1');
+    const element2 = document.getElementById('pdf-container2');
+    const element3 = document.getElementById('pdf-container3');
+
+    if (element1 && element2 && element3) {
+      // Capture element1
+      const canvas1 = await html2canvas(element1, { scale: 2 });
+      const imgData1 = canvas1.toDataURL('image/png');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas1.height * pdfWidth) / canvas1.width;
+
+      pdf.addImage(imgData1, 'PNG', 0, 0, pdfWidth, pdfHeight); // Add element1 to the first page
+
+      // Capture element2
+      const canvas2 = await html2canvas(element2, { scale: 2 });
+      const imgData2 = canvas2.toDataURL('image/png');
+      const pdfHeight2 = (canvas2.height * pdfWidth) / canvas2.width;
+
+      pdf.addPage(); // Add a new page
+      pdf.addImage(imgData2, 'PNG', 0, 0, pdfWidth, pdfHeight2); // Add element2 to the new page
+
+      // Capture element3
+      const canvas3 = await html2canvas(element3, { scale: 2 });
+      const imgData3 = canvas3.toDataURL('image/png');
+      const pdfHeight3 = (canvas3.height * pdfWidth) / canvas3.width;
+
+      pdf.addPage(); // Add a new page
+      pdf.addImage(imgData3, 'PNG', 0, 0, pdfWidth, pdfHeight3); // Add element2 to the new page
+
+      // Save the PDF
+      pdf.save(`${this.clientName}_SLA.pdf`);
+    }
+  }
+
 }

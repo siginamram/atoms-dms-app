@@ -35,11 +35,11 @@ const routes: Routes = [
          //Quote
       { path:'generate-quote',component:QuoteGenerationDocComponent},
       { path:'generate-new-quote/:id',component:QuoteGenerationAddComponent},
-      { path:'generated-quote-download/:id',component:QuoteGenerationDownloadComponent},
+      { path:'generated-quote-download',component:QuoteGenerationDownloadComponent},
         //SLA
       { path:'sla-generation',component:SlaGenerationsListComponent},
       { path:'generate-sla/:id',component:SlaGenerationAddComponent},
-      { path:'sla-generation/:id',component:SlaGenerationDynamicComponent},
+      { path:'sla-download',component:SlaGenerationDynamicComponent},
       { path:'sales-converted',component:SalesConvertedListComponent},
       { path:'sales-convert-status-edit',component:SalesConvertStatuEditComponent},
       

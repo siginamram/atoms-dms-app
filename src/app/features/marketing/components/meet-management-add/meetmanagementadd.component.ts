@@ -46,7 +46,7 @@ export class MeetmanagementaddComponent implements OnInit {
       statusOfLead: ['', Validators.required],
       longitude: ['', Validators.required],
       latitude: ['', Validators.required],
-      requireAnotherMeet: ['', Validators.required],
+      requireAnotherMeet: [{value :'', disabled: true}, Validators.required],
       nextMeetDate: [''],
       nextMeetTime: [''],
       insight: ['', Validators.maxLength(500)],
@@ -95,6 +95,14 @@ export class MeetmanagementaddComponent implements OnInit {
     return options;
   }
 
+  changeStatusValue(event:any){
+    if(event.value == 2 || event.value == 3){
+      this.meetForm.patchValue({requireAnotherMeet: 0})
+    }else{
+      this.meetForm.patchValue({requireAnotherMeet: 1})
+    }
+  }
+
   loadMeetingDetails(meetID: number): void {
     this.commanApiService.getMeetingDetails(meetID).subscribe(
       (data: any) => {
@@ -106,14 +114,14 @@ export class MeetmanagementaddComponent implements OnInit {
         this.meetForm.patchValue({
           leadName: data.organizationName,
           meetingStatus: data.meetingStatus?.toString(),
-          travellingDuration: data.travellingDuration,
-          waitingTime: data.waitingTime,
-          meetingTime: data.meetingTime,
+          travellingDuration: data.travellingDuration || '',
+          waitingTime: data.waitingTime || '',
+          meetingTime: data.meetingTime || '',
           statusOfLead: data.statusOfLead?.toString(),
           longitude: data.longitude,
           latitude: data.latitude,
           requireAnotherMeet: data.requireAnotherMeet === true || data.requireAnotherMeet === 1 ? 1 : 0,
-          nextMeetTime: data.nextMeetTime,
+          nextMeetTime: data.nextMeetTime || '',
           insight: data.insight,
           selfie: data.photoUpload,
         });
@@ -149,6 +157,7 @@ export class MeetmanagementaddComponent implements OnInit {
 
   onSubmit(): void {
     if (this.meetForm.valid) {
+      console.log()
       const userId = parseInt(localStorage.getItem('UserID') || '0', 10); // Get UserID from localStorage
       const payload = {
         ...this.meetForm.value,
@@ -157,7 +166,7 @@ export class MeetmanagementaddComponent implements OnInit {
         salesPersonId: userId, // Add salesPersonId to the payload
         meetingStatus: parseInt(this.meetForm.value.meetingStatus, 10), // Ensure meetingStatus is an integer
         statusOfLead: parseInt(this.meetForm.value.statusOfLead, 10), // Ensure statusOfLead is an integer
-        requireAnotherMeet: this.meetForm.value.requireAnotherMeet === 1 ? true : false,
+        requireAnotherMeet:this.meetForm.get('requireAnotherMeet')?.value ? true : false,
         nextMeetDate: this.formatDate(new Date(this.meetForm.value.nextMeetDate)),
       };
   

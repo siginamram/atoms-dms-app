@@ -82,9 +82,10 @@
 
       <!-- Actions Column -->
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Actions </th>
         <td mat-cell *matCellDef="let lead">
-          <button mat-button color="primary" (click)="viewSLA(lead.leadID)">Edit</button>
+          <button mat-button color="primary" (click)="viewSLA(lead.leadID)" style="margin-left: 20px;">Edit</button>      
+          <button mat-button color="accent" (click)="downloadSLA(lead.leadID)" style="margin-left: 20px;" [disabled]="lead.basePackage == 0">Download</button>
         </td>
       </ng-container>
 

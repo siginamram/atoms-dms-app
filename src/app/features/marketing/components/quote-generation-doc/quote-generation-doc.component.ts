@@ -75,7 +75,8 @@ export class QuoteGenerationDocComponent implements OnInit {
       next: (response) => {
         this.originalTableData = response.map((item: any) => ({
           leadId: item.leadId, // Ensure this is part of the mapped data
-          date: item.date, // Add date dynamically
+          date: item.date && item.date  !== '0001-01-01T00:00:00' ? new Date(item.date) : ''
+          , // Add date dynamically  
           leadDetails: item.organizationName,
           basePackage: item.basePackage,
           adBudget: item.adBudget,
@@ -141,6 +142,19 @@ editRow(leadId: number): void {
   if (leadId) {
     this.router.navigate([`/home/marketing/generate-new-quote/${leadId}`]);
     console.log('Edit Row with leadId:', leadId);
+  } else {
+    console.error('Invalid leadId:', leadId);
+  }
+}
+
+downloadQuotation(leadId: any){
+  if (leadId) {
+    this.marketingService.getQuoteByLeadId(leadId).subscribe({
+      next: (data: any) => {
+        const encodedObject = btoa(JSON.stringify(data))
+        this.router.navigate([`/home/marketing/generated-quote-download`],{ queryParams: { data: encodedObject } });
+      },
+    });
   } else {
     console.error('Invalid leadId:', leadId);
   }
