@@ -180,7 +180,7 @@ export class MeetmanagementaddComponent implements OnInit {
           }
         },
         (error) => {
-          this.openAlertDialog('Error', 'Failed to update meet details. Please try again.');
+          this.openAlertDialog('Error', error.error ||   'Failed to update meet details. Please try again.');
           console.error('Failed to update meeting:', error);
         }
       );
