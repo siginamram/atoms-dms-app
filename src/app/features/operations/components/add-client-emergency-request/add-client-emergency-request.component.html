@@ -42,19 +42,27 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Caption</mat-label>
-            <textarea matInput formControlName="contentCaption"></textarea>
-          </mat-form-field>
 
+        <mat-form-field appearance="outline">
+          <mat-label>Emergency Type</mat-label>
+          <mat-select formControlName="emergencyType">
+            <mat-option *ngFor="let emergency of emergencyType" [value]="emergency.id">
+              {{ emergency.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
         <mat-form-field appearance="outline" class="content-field">
           <mat-label>Content In Post</mat-label>
           <textarea matInput formControlName="contentInPost"></textarea>
         </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Caption</mat-label>
+          <input matInput formControlName="contentCaption"/>
+        </mat-form-field>
 
-        <mat-form-field appearance="outline" class="content-field">
+        <mat-form-field appearance="outline">
             <mat-label>Reference Link</mat-label>
-            <textarea matInput formControlName="referenceDoc"></textarea>
+            <input matInput formControlName="referenceDoc"/>
           </mat-form-field>
       </div>
     </form>

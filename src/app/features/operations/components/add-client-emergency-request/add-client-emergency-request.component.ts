@@ -15,9 +15,7 @@ export class AddClientEmergencyRequestComponent implements OnInit {
   emergencyRequestForm: FormGroup;
   userId: number = parseInt(localStorage.getItem('UserID') || '0', 10);
   promotionTypes = [
-    { id: 1, name: 'Branding' },
-    { id: 2, name: 'Educational' },
-    { id: 3, name: 'Meme' },
+    { id: 4, name: 'Emergency' },
   ];
   languages = [
     { id: 1, name: 'English' },
@@ -28,6 +26,10 @@ export class AddClientEmergencyRequestComponent implements OnInit {
     { id: 2, name: 'Graphic Reel' },
   ];
 
+  emergencyType = [
+    { id: 1, name: 'Add' },
+    { id: 2, name: 'Replace' },
+  ];
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog, // Inject MatDialog
@@ -41,6 +43,7 @@ export class AddClientEmergencyRequestComponent implements OnInit {
       promotionId: ['', Validators.required],
       languageId: ['', Validators.required],
       speciality: [''],
+      emergencyType:['',Validators.required],
       contentInPost: ['', Validators.required],
       contentCaption: ['', Validators.required],
       referenceDoc: [''],

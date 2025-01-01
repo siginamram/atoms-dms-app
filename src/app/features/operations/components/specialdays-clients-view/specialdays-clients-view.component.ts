@@ -19,7 +19,7 @@ export class SpecialdaysClientsViewComponent implements OnInit {
   selectedClientName: string = '';
   availableYears: string[] = ['2024', '2025']; // Update years as needed
 
-  displayedColumns = ['id', 'date', 'specialDay', 'language', 'actions'];
+  displayedColumns = ['id', 'date', 'specialDay', 'language','type', 'actions'];
   dataSource = new MatTableDataSource<any>(); // Use MatTableDataSource for pagination
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -83,6 +83,7 @@ export class SpecialdaysClientsViewComponent implements OnInit {
               date: new Date(item.specialDayDate).toLocaleDateString(),
               specialDay: item.speciality,
               languageId: item.languageId,
+              type:this.getTypeText(item.type),
               language: this.getStatusText(item.languageId),
               client:
                 this.clients.find((client) => client.clientId === item.clientId)?.organizationName ||
@@ -110,6 +111,17 @@ export class SpecialdaysClientsViewComponent implements OnInit {
     }
   }
 
+  getTypeText(status: number): string {
+    switch (status) {
+      case 1:
+        return 'Add';
+      case 2:
+        return 'Replace';
+      default:
+        return 'Unknown';
+    }
+  }
+
   openDialog(editData: any = null): void {
     const dialogRef = this.dialog.open(SpecialdaysClientsAddComponent, {
       width: '400px',
@@ -120,8 +132,9 @@ export class SpecialdaysClientsViewComponent implements OnInit {
             specialDayId: editData.id || '',
             clientId: this.selectedClientId || '',
             languageId: editData.languageId || '',
+            type:editData.type || '',
           }
-        : { date: '', specialDay: '', client: '', languageId: '' }, // Default for adding new
+        : { date: '', specialDay: '', client: '', languageId: '',type:'' }, // Default for adding new
     });
 
     dialogRef.afterClosed().subscribe((result) => {

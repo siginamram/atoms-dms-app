@@ -30,6 +30,11 @@ export class ClientsOnboardingComponent implements OnInit {
     { value: 1, text: 'Poster' },
     { value: 2, text: 'Graphic Reel' },
   ];
+
+  creativeTypes1 = [
+    { value: 3, text: 'YouTube' },
+    { value: 4, text: 'Educational' },
+  ];
   
   language = [
     { value: 2, text: 'Telugu' },
@@ -101,6 +106,7 @@ export class ClientsOnboardingComponent implements OnInit {
       moveTostatus: [''],
       lastDateOfService: [''],
       deliverables: this.fb.array([]),
+      videodeliverables: this.fb.array([]),
     });
   }
 
@@ -180,6 +186,10 @@ export class ClientsOnboardingComponent implements OnInit {
           this.addDeliverable(deliverable);
         });
 
+        data.clientVideoDeliverables.forEach((videodeliverable: any) => {
+          this.addVideoDeliverable(videodeliverable);
+        });
+
         console.log('Loaded Client Data:', this.onboardingForm.value);
       },
       error: (error) => {
@@ -216,6 +226,27 @@ export class ClientsOnboardingComponent implements OnInit {
     if (index >= 0 && index < this.deliverablesArray.length) {
       this.deliverablesArray.removeAt(index);
       console.log('Deliverable Removed:', this.deliverablesArray.value);
+    }
+  }
+
+  addVideoDeliverable(videodeliverable: any = {  creativeType: '' , primaryDay:'' , secondaryDay:'', tertiaryDay:''}) {
+    const newRow = this.fb.group({
+      creativeType: [videodeliverable.creativeType, Validators.required],
+      primaryDay:[videodeliverable.primaryDay,Validators.required],
+      secondaryDay:[videodeliverable.secondaryDay,Validators.required],
+      tertiaryDay:[videodeliverable.tertiaryDay,Validators.required],
+    });
+    this.videodeliverablesArray.push(newRow);
+  }
+
+  get videodeliverablesArray(): FormArray<FormGroup> {
+    return this.onboardingForm.get('videodeliverables') as FormArray<FormGroup>;
+  }
+
+  removeVideoDeliverable(index: number): void {
+    if (index >= 0 && index < this.videodeliverablesArray.length) {
+      this.videodeliverablesArray.removeAt(index);
+      console.log('Deliverable Removed:', this.videodeliverablesArray.value);
     }
   }
 
@@ -272,6 +303,13 @@ export class ClientsOnboardingComponent implements OnInit {
         promotionType: deliverable.promotionType,
         language:deliverable.language,
         count:deliverable.count,
+        creativeType: deliverable.creativeType,
+        primaryDay:deliverable.primaryDay,
+        secondaryDay:deliverable.secondaryDay,
+        TertiaryDay:deliverable.tertiaryDay,
+
+      })),
+      clientVideoDeliverables: this.videodeliverablesArray.value.map((deliverable: any) => ({
         creativeType: deliverable.creativeType,
         primaryDay:deliverable.primaryDay,
         secondaryDay:deliverable.secondaryDay,

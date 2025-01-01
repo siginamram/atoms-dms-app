@@ -19,7 +19,7 @@ export class SpecialdaysClientsAddComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<SpecialdaysClientsAddComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { clientId: number; date: any; speciality: string; specialDayId: number, languageId:number},
+    public data: { clientId: number; date: any; speciality: string; specialDayId: number, languageId:number,type:any},
     private operationsService: OperationsService,
     private dialog: MatDialog,
   ) {}
@@ -79,7 +79,7 @@ export class SpecialdaysClientsAddComponent implements OnInit {
   }
 
   onSave(): void {
-    if (!this.data.date || !this.data.speciality || !this.data.clientId || !this.data.languageId) {
+    if (!this.data.date || !this.data.speciality || !this.data.clientId || !this.data.languageId || !this.data.type) {
       alert('Please fill in all required fields.');
       return;
     }
@@ -90,6 +90,7 @@ export class SpecialdaysClientsAddComponent implements OnInit {
       speciality: this.data.speciality,
       clientId: this.data.clientId,
       languageId: this.data.languageId, // Include languageId in payload
+      type:this.data.type,
       createdBy: parseInt(localStorage.getItem('UserID') || '0', 10),
     };
   

@@ -43,6 +43,14 @@
       <mat-option [value]="2">Telugu</mat-option>
     </mat-select>
   </mat-form-field>
+
+  <mat-form-field appearance="outline" class="dialog-field">
+    <mat-label>Type</mat-label>
+    <mat-select [(ngModel)]="data.type" required>
+      <mat-option [value]="1">Add</mat-option>
+      <mat-option [value]="2">Replace</mat-option>
+    </mat-select>
+  </mat-form-field>
 </div>
 <div mat-dialog-actions class="dialog-actions">
   <button mat-button (click)="onCancel()">Cancel</button>

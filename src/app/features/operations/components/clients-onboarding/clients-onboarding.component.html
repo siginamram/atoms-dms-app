@@ -206,7 +206,51 @@
       </mat-form-field>
     </div>
     
+  <!--Video Deliverables Section -->
+  <div class="deliverables-header" *ngIf="onboardingForm.get('shootOffer')?.value === 1">
+    <h3>Video Deliverables</h3>
+    <button mat-raised-button color="primary" (click)="addVideoDeliverable()" type="button">+ Add Video Deliverable</button>
+  </div>
+  
+  <div *ngFor="let videodeliverables of videodeliverablesArray.controls; let i = index" [formGroup]="videodeliverables" class="deliverable-row">
+    <div class="form-row">
+  
+        <!-- Creative Type -->
+        <mat-form-field class="form-field1" appearance="outline">
+          <mat-label>Creative Type</mat-label>
+          <mat-select formControlName="creativeType">
+            <mat-option *ngFor="let creative of creativeTypes1" [value]="creative.value">{{ creative.text }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+    
+      <!-- Telugu -->
+      <mat-form-field class="form-field1" appearance="outline">
+        <mat-label>1st Priority Day</mat-label>
+        <mat-select formControlName="primaryDay">
+          <mat-option *ngFor="let dayNames of dayNames" [value]="dayNames.value">{{ dayNames.text }}</mat-option>
+        </mat-select>
+      </mat-form-field>
 
+      <mat-form-field class="form-field1" appearance="outline">
+        <mat-label>2nd Priority Day</mat-label>
+        <mat-select formControlName="secondaryDay">
+          <mat-option *ngFor="let dayNames of dayNames" [value]="dayNames.value">{{ dayNames.text }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="form-field1" appearance="outline">
+        <mat-label>3rd Priority Day</mat-label>
+        <mat-select formControlName="tertiaryDay">
+          <mat-option *ngFor="let dayNames of dayNames" [value]="dayNames.value">{{ dayNames.text }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <!-- Remove Button -->
+      <button mat-icon-button color="warn" (click)="removeVideoDeliverable(i)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
       <!-- Deliverables Section -->
       <div class="deliverables-header">
         <h3>Deliverables</h3>
