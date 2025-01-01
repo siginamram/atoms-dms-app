@@ -139,5 +139,9 @@ GetclientKTStatusByClientId (clientID: number): Observable<any> {
   const apiUrl = `${this.baseApiUrl}/api/Client/clientKTStatusByClientId/${clientID}`;
   return this.http.get(apiUrl);
 }
+getemployeesByRoleID (roleId: number): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/User/userByRoleID/${roleId}`;
+  return this.http.get(apiUrl);
+}
 
 }

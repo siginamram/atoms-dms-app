@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute,Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MarketingService } from '../../services/marketing.service';
 import { MatDialog } from '@angular/material/dialog';
-import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/alert-dialog.component'; 
+import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/alert-dialog.component';
 
 @Component({
   selector: 'app-sales-convert-statu-edit',
@@ -17,54 +17,66 @@ export class SalesConvertStatuEditComponent implements OnInit {
   uploadedSLAFile: File | null = null;
   operationsManagers: any[] = [];
   operationsLeads: any[] = [];
-  minDate: Date; // Variable to store today's date
-  opManager:any;
+
+  maxDate: Date; // Maximum date for the datepicker
+
   constructor(
     private fb: FormBuilder,
     private marketingService: MarketingService,
     private route: ActivatedRoute,
-    private Router: Router,
-    private dialog: MatDialog // Inject MatDialog
+    private router: Router,
+    private dialog: MatDialog
   ) {
-    this.minDate = new Date(); // Set minDate to today's date
+    this.maxDate = new Date(); // Set minDate to today's date
   }
 
   ngOnInit() {
     // Retrieve clientId from query parameters
     this.route.queryParams.subscribe((params) => {
       this.clientId = +params['clientid'] || 0;
-  
       if (this.clientId > 0) {
         this.loadClientData(this.clientId); // Fetch data if clientId exists
       }
     });
-  
+
     this.initializeForm();
     this.loadOperationsManagers(); // Load managers initially
+    this.loadOperationsLeads(); // Load leads initially
   }
-  
+
   loadClientData(clientId: number) {
     this.marketingService.GetclientKTStatusByClientId(clientId).subscribe(
       (data) => {
         if (data) {
+          console.log('Fetched Client Data:', data);
+  
           this.progressForm.patchValue({
             clientCategory: data.clientCategory || '',
-            operationsManager: data.opManagerID || '',
-            operationsLead: data.opLeadID || '',
-            contactNumberManager: data.opManagerNumber || '',
-            contactNumberLead: data.opLeadNumber || '',
+            operationsManager: data.opManagerID || '', // Bind opManagerID
+            operationsLead: data.opLeadID || '', // Bind opLeadID
+            contactNumberManager: data.opManagerNumber || '', // Bind opManagerNumber directly
+            contactNumberLead: data.opLeadNumber || '', // Bind opLeadNumber directly
             ktStatus: data.isKTCompleted ? 1 : 0,
-            ktDate: data.ktDate ? new Date(data.ktDate) : '',
+            ktDate:
+              data.ktDate &&
+              data.ktDate !== '0001-01-01T00:00:00' &&
+              !isNaN(new Date(data.ktDate).getTime())
+                ? new Date(data.ktDate)
+                : '',
             isAdvReceived: data.isAdvReceived ? 1 : 0,
             advAmount: data.advAmount || 0,
-            advanceDate: data.advDate ? new Date(data.advDate) : '',
+            advanceDate:
+              data.advDate &&
+              data.advDate !== '0001-01-01T00:00:00' &&
+              !isNaN(new Date(data.advDate).getTime())
+                ? new Date(data.advDate)
+                : '',
             slaUpload: data.slaUrl || null,
           });
   
-          // Optionally load dependent data if needed
-          if (data.opManagerID) {
-            this.loadOperationsLeads(data.opManagerID);
-          }
+          // Optional: Log data for debugging
+          console.log('Manager Contact:', data.opManagerNumber);
+          console.log('Lead Contact:', data.opLeadNumber);
         }
       },
       (error) => {
@@ -72,6 +84,7 @@ export class SalesConvertStatuEditComponent implements OnInit {
       }
     );
   }
+  
 
   initializeForm() {
     this.progressForm = this.fb.group({
@@ -88,10 +101,9 @@ export class SalesConvertStatuEditComponent implements OnInit {
       slaUpload: [null],
     });
 
-    this.progressForm.get('operationsManager')?.valueChanges.subscribe((managerEmployeeId) => {
-      if (managerEmployeeId) {
-        this.loadOperationsLeads(managerEmployeeId);
-        this.setManagerContact(managerEmployeeId);
+    this.progressForm.get('operationsManager')?.valueChanges.subscribe((managerUserId) => {
+      if (managerUserId) {
+        this.setManagerContact(managerUserId);
       } else {
         this.clearManagerFields();
       }
@@ -105,6 +117,7 @@ export class SalesConvertStatuEditComponent implements OnInit {
       }
     });
   }
+
   onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -115,8 +128,9 @@ export class SalesConvertStatuEditComponent implements OnInit {
       console.log('No file selected');
     }
   }
+
   loadOperationsManagers() {
-    this.marketingService.managerlistByRoleID(2).subscribe(
+    this.marketingService.getemployeesByRoleID(2).subscribe(
       (data: any[]) => {
         this.operationsManagers = data || [];
       },
@@ -127,8 +141,8 @@ export class SalesConvertStatuEditComponent implements OnInit {
     );
   }
 
-  loadOperationsLeads(managerEmployeeId: number) {
-    this.marketingService.teamleadByManager(managerEmployeeId, 3).subscribe(
+  loadOperationsLeads() {
+    this.marketingService.getemployeesByRoleID(3).subscribe(
       (data: any[]) => {
         this.operationsLeads = data || [];
       },
@@ -139,48 +153,37 @@ export class SalesConvertStatuEditComponent implements OnInit {
     );
   }
 
-  setManagerContact(managerEmployeeId: number) {
-    const manager = this.operationsManagers.find((m) => m.employeeId === managerEmployeeId);
-    if (manager) {
-      this.opManager=manager.userId;
-      console.log('manager',this.opManager);
-      this.progressForm.patchValue({ contactNumberManager: manager.primaryContactNumber });
-    } else {
-      this.clearManagerFields();
-    }
+  setManagerContact(managerUserId: number) {
+    const manager = this.operationsManagers.find((m) => m.userId === managerUserId);
+    this.progressForm.patchValue({ contactNumberManager: manager?.primaryContactNumber || '' });
   }
-
+  
   setLeadContact(leadUserId: number) {
     const lead = this.operationsLeads.find((l) => l.userId === leadUserId);
-    if (lead) {
-      this.progressForm.patchValue({ contactNumberLead: lead.primaryContactNumber });
-    } else {
-      this.clearLeadFields();
-    }
+    this.progressForm.patchValue({ contactNumberLead: lead?.primaryContactNumber || '' });
   }
+  
 
   clearManagerFields() {
     this.progressForm.patchValue({
       contactNumberManager: '',
-      operationsLead: '',
-      contactNumberLead: '',
     });
-    this.operationsLeads = [];
   }
 
   clearLeadFields() {
     this.progressForm.patchValue({ contactNumberLead: '' });
   }
 
-  // Submit form data to the API
   onSubmit(): void {
     if (this.progressForm.valid) {
       const payload = {
         clientId: this.clientId,
-        opManagerID: this.opManager, // Operational Manager ID
-        opLeadID: this.progressForm.value.operationsLead,
+        opManagerID: this.progressForm.value.operationsManager, // Use userId for manager
+        opLeadID: this.progressForm.value.operationsLead, // Use userId for lead
+        opManagerNumber: this.progressForm.value.contactNumberManager,
+        opLeadNumber: this.progressForm.value.contactNumberLead,
         isKTCompleted: this.progressForm.value.ktStatus === 1,
-        ktDate: this.progressForm.value.ktDate,
+        ktDate: this.progressForm.value.ktDate || null,
         isAdvReceived: this.progressForm.value.isAdvReceived === 1,
         advAmount: this.progressForm.value.advAmount,
         advDate: this.progressForm.value.advanceDate || null,
@@ -188,25 +191,22 @@ export class SalesConvertStatuEditComponent implements OnInit {
         slaUrl: this.uploadedSLAFile ? this.uploadedSLAFile.name : '',
         updatedBy: parseInt(localStorage.getItem('UserID') || '0', 10),
       };
-  
+
       console.log('Submitting Payload:', payload);
-  
+
       this.marketingService.updateClientKTStatus(payload).subscribe(
         (response: string) => {
           console.log('API Response:', response);
-  
-          // Handle plain text responses like "Success"
+
           if (response === 'Success') {
             this.openAlertDialog('Success', 'Updated successfully!');
-            this.Router.navigate(['/home/marketing/sales-converted']);
+            this.router.navigate(['/home/marketing/sales-converted']);
           } else {
             this.openAlertDialog('Error', response || 'Unexpected server response.');
           }
         },
         (error: any) => {
           console.error('Submission Failed:', error);
-  
-          // Handle potential HTTP errors
           const errorMessage =
             error?.error?.message || 'An unexpected error occurred. Please try again.';
           this.openAlertDialog('Error', errorMessage);
@@ -216,7 +216,7 @@ export class SalesConvertStatuEditComponent implements OnInit {
       this.openAlertDialog('Error', 'Please fill all required fields correctly.');
     }
   }
-  
+
   openAlertDialog(title: string, message: string): void {
     this.dialog.open(AlertDialogComponent, {
       width: '400px',

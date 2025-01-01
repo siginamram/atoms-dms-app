@@ -20,7 +20,7 @@
       <mat-form-field appearance="outline">
         <mat-label>Operations Manager</mat-label>
         <mat-select formControlName="operationsManager">
-          <mat-option *ngFor="let manager of operationsManagers" [value]="manager.employeeId">
+          <mat-option *ngFor="let manager of operationsManagers" [value]="manager.userId">
             {{ manager.empName }}
           </mat-option>
         </mat-select>
@@ -53,8 +53,8 @@
       <mat-form-field appearance="outline">
         <mat-label>K.T Status</mat-label>
         <mat-select formControlName="ktStatus">
-          <mat-option [value]="1">Yes</mat-option>
-          <mat-option [value]="0">No</mat-option>
+          <mat-option [value]="1">Completed</mat-option>
+          <mat-option [value]="0">Pending</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field appearance="outline">
@@ -83,10 +83,16 @@
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Date for Advance</mat-label>
-        <input matInput [matDatepicker]="picker2"   [min]="minDate" formControlName="advanceDate" />
+        <input
+          matInput
+          [matDatepicker]="picker2"
+          [max]="maxDate" 
+          formControlName="advanceDate"
+        />
         <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
         <mat-datepicker #picker2></mat-datepicker>
       </mat-form-field>
+      
     </div>
   </div>
 
