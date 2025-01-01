@@ -22,7 +22,7 @@ h3 {
 
 mat-form-field {
   flex: 1;
-  min-width: 240px; /* Minimum width for fields */
+  min-width: 40px; /* Minimum width for fields */
 }
 
 .deliverables-header {

@@ -29,13 +29,24 @@ export class ClientsOnboardingComponent implements OnInit {
   creativeTypes = [
     { value: 1, text: 'Poster' },
     { value: 2, text: 'Graphic Reel' },
-    { value: 3, text: 'Video' },
   ];
   
   language = [
     { value: 2, text: 'Telugu' },
     { value: 1, text: 'English' },
   ];
+
+  dayNames = [
+    { value: 1, text: 'Sunday' },
+    { value: 2, text: 'Monday' },
+    { value: 3, text: 'Tuesday' },
+    { value: 4, text: 'Wednesday' },
+    { value: 5, text: 'Thursday' },
+    { value: 6, text: 'Friday' },
+    { value: 7, text: 'Saturday' },
+  
+  ];
+  
   
   minDate: Date;
   KtDocUpload: File | null = null;
@@ -82,6 +93,11 @@ export class ClientsOnboardingComponent implements OnInit {
       videoEditor2: ['', Validators.required],
       dma: [''],
       loginCredentials: ['', Validators.required],
+      posterDesigns: [''],
+      graphicReels: [''],
+      educationalReels: [''],
+      youtubeVideos: [''],
+      shootOffer: [''],
       moveTostatus: [''],
       lastDateOfService: [''],
       deliverables: this.fb.array([]),
@@ -151,6 +167,11 @@ export class ClientsOnboardingComponent implements OnInit {
           videoEditor2: data.clientResourceAllocation.opVideoEditor2ID,
           dma: data.clientResourceAllocation.opDMAID,
           loginCredentials: data.loginCredentials ? 1 : 0,
+          posterDesigns: data.package.noOfPosters,
+          graphicReels: data.package.noOfGraphicReels,
+          educationalReels: data.package.noOfEducationalReels,
+          youtubeVideos: data.package.noOfYouTubeVideos,
+          shootOffer: data.package.shootOffered ? 1 : 0,
           moveTostatus: data.status,
           lastDateOfService: this.formatDate(data.paymentDate),
         });
@@ -174,12 +195,15 @@ export class ClientsOnboardingComponent implements OnInit {
     return date;
   }
 
-  addDeliverable(deliverable: any = { promotionType: '', creativeType: '', language: '', count: '' }) {
+  addDeliverable(deliverable: any = { promotionType: '', creativeType: '', language: '', count: '' , primaryDay:'' , secondaryDay:'', tertiaryDay:''}) {
     const newRow = this.fb.group({
       promotionType: [deliverable.promotionType, Validators.required],
       creativeType: [deliverable.creativeType, Validators.required],
       language: [deliverable.language, Validators.required],
       count: [deliverable.count, Validators.required],
+      primaryDay:[deliverable.primaryDay,Validators.required],
+      secondaryDay:[deliverable.secondaryDay,Validators.required],
+      tertiaryDay:[deliverable.tertiaryDay,Validators.required],
     });
     this.deliverablesArray.push(newRow);
   }
@@ -216,7 +240,7 @@ export class ClientsOnboardingComponent implements OnInit {
   
           // Handle error scenarios with fallback message
           const errorMessage =
-            error?.error?.message || 'Failed to update client details. Please try again.';
+          error.error || 'Failed to update client details. Please try again.';
           this.openAlertDialog('Error', errorMessage);
         },
       });
@@ -249,6 +273,9 @@ export class ClientsOnboardingComponent implements OnInit {
         language:deliverable.language,
         count:deliverable.count,
         creativeType: deliverable.creativeType,
+        primaryDay:deliverable.primaryDay,
+        secondaryDay:deliverable.secondaryDay,
+        TertiaryDay:deliverable.tertiaryDay,
 
       })),
       clientResourceAllocation: {
