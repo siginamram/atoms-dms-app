@@ -106,7 +106,7 @@ export class VideoEditorOperationsComponent implements OnInit {
         next: (response: any[]) => {
           this.contentData.data = response.map((item, index) => ({
             id: index + 1,
-            creativeType:this.mapCreativeType(item.creativeType),
+            creativeType:item.creativeType,
             shootLink: item.shootLink,
             editorLink: item.editorLink,
             title: item.title || 'No Title',
@@ -138,7 +138,7 @@ export class VideoEditorOperationsComponent implements OnInit {
       3: 'Sent for Approval',
       4: 'Changes Recommended',
       5: 'Approved',
-       6:'Sent for client approval'
+      6: 'Sent for client approval'
     };
     return statusMap[status] || 'Unknown Status';
   }

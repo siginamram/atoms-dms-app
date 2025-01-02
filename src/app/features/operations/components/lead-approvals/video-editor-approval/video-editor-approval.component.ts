@@ -40,6 +40,7 @@ export class VideoEditorApprovalComponent implements OnInit {
     'sNo',
     'organizationName',
     'resourceName',
+    'creativeType',
     'title',
     'description',
     'thumbNail',
@@ -80,6 +81,7 @@ export class VideoEditorApprovalComponent implements OnInit {
           status: this.getPostStatusText(item.status), // Map postStatus to text
           monthlyTrackerId: item.monthlyTrackerId,
           userId: userId,
+          creativeTypeName:item.creativeType,
           creativeType:item.creativeTypeId,
           role:'Video'
         }));

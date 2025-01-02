@@ -95,7 +95,7 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let row">
-        <button mat-button color="accent" (click)="openEditPopup(row)"> 
+        <button mat-button color="accent" (click)="openEditPopup(row)" [disabled]="row.status === 'Approved'"> 
            <mat-icon>edit</mat-icon>
         </button>
       </td>
