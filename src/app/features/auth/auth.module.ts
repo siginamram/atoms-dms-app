@@ -17,6 +17,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatSelectModule, // Added MatSelectModule for dropdown support
     ReactiveFormsModule,
     FormsModule, // Added for ngModel support if required
+    MatProgressSpinnerModule
   ]
 })
 export class AuthModule { }

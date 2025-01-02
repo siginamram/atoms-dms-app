@@ -12,6 +12,7 @@ import { ToWords } from 'to-words';
   styleUrls: ['./sla-generation-dynmic.component.css']
 })
 export class SlaGenerationDynamicComponent {
+  showSpinner: boolean = false;
   clientName: string = '';
   city: string = '';
   clientRepresentativeName = '';
@@ -76,6 +77,7 @@ export class SlaGenerationDynamicComponent {
   }
 
   async generatePDF() {
+    this.showSpinner = true;
     const pdf = new jsPDF('p', 'mm', 'a4'); // Create PDF in A4 size
 
     const element1 = document.getElementById('pdf-container1');
@@ -110,6 +112,7 @@ export class SlaGenerationDynamicComponent {
       // Save the PDF
       pdf.save(`${this.clientName}_SLA.pdf`);
     }
+    this.showSpinner = false;
   }
 
 }

@@ -26,7 +26,7 @@ export class SalesConvertedListComponent implements OnInit {
     'actions',
   ];
   dataSource1 = new MatTableDataSource<any>([]); // Data source for the table
-
+  showSpinner: boolean = false;
   constructor(
     private router: Router,
     private commanApiService: MarketingService
@@ -39,6 +39,7 @@ export class SalesConvertedListComponent implements OnInit {
 
   // Load table data directly from the API
   loadTableData(): void {
+    this.showSpinner = true;
     const userId = parseInt(localStorage.getItem('UserID') || '0', 10);
 
     this.commanApiService.GetClientKTStatus(userId).subscribe(
@@ -48,9 +49,11 @@ export class SalesConvertedListComponent implements OnInit {
           ...item,
         }));
         this.dataSource1.paginator = this.paginator; // Attach paginator
+        this.showSpinner = false;
       },
       (error) => {
         console.error('Failed to fetch table data:', error);
+        this.showSpinner = false;
         this.dataSource1.data = [];
       }
     );

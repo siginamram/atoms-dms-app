@@ -18,7 +18,7 @@ export class QuoteGenerationDocComponent implements OnInit {
   tableData: any[] = []; // Data for the table
   originalTableData: any[] = []; // Unfiltered data (original dataset)
   dataSource = new MatTableDataSource<any>(this.tableData); // Data source for MatTable
-
+  showSpinner: boolean = false;
   displayedColumns = [
     'id',
     'date',
@@ -58,12 +58,15 @@ export class QuoteGenerationDocComponent implements OnInit {
 
   // Fetch leads using MarketingService
   getLeads(userId: number): void {
+    this.showSpinner = true;
     this.marketingService.getQuoteByUserId(userId).subscribe({
       next: (response) => {
         this.leads = [{ leadId: 0, organizationName: 'All' }, ...response]; // Add "All" option
         this.filteredLeads = [...this.leads]; // Copy for filtering
+        this.showSpinner = false;
       },
       error: (err) => {
+        this.showSpinner = false;
         console.error('Error fetching leads:', err);
       },
     });
@@ -71,6 +74,7 @@ export class QuoteGenerationDocComponent implements OnInit {
 
   // Fetch all records and display in the table
   fetchAllRecords(userId: number): void {
+    this.showSpinner = true;
     this.marketingService.getQuoteByUserId(userId).subscribe({
       next: (response) => {
         this.originalTableData = response.map((item: any) => ({
@@ -93,9 +97,11 @@ export class QuoteGenerationDocComponent implements OnInit {
         // Update tableData and MatTable datasource
         this.tableData = [...this.originalTableData];
         this.dataSource.data = this.tableData;
+        this.showSpinner = false;
       },
       error: (err) => {
         console.error('Error fetching all records:', err);
+        this.showSpinner = false;
       },
     });
   }

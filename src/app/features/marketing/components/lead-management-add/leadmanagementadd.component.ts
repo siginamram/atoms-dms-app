@@ -16,6 +16,7 @@ import { MarketingService } from '../../services/marketing.service';
 
 export class LeadmanagementaddComponent implements OnInit {
   leadForm: FormGroup;
+  showSpinner: boolean = false;
   countries: { id: number; name: string }[] = [];
   filteredStates: { id: number; name: string }[] = [];
   filteredDistricts: { id: number; name: string }[] = [];
@@ -51,21 +52,26 @@ export class LeadmanagementaddComponent implements OnInit {
 
   // Load countries from the API
   loadCountries() {
+    this.showSpinner = true
     this.commanApiService.getAllCountries().subscribe(
       (data: any) => {
         this.countries = data.map((country: any) => ({
           id: country.countryID,
           name: country.countryName,
         }));
+        this.showSpinner = false
       },
       (error) => {
         this.openAlertDialog('Error', 'Failed to load countries. Please try again.', 'error');
+        this.showSpinner = true
       }
     );
+
   }
 
   // Handle country change and load states
   onCountryChange(countryId: number) {
+    this.showSpinner = true
     this.commanApiService.getStatesByCountry(countryId).subscribe(
       (data: any) => {
         this.filteredStates = data.map((state: any) => ({
@@ -80,10 +86,12 @@ export class LeadmanagementaddComponent implements OnInit {
         this.openAlertDialog('Error', 'Failed to load states. Please try again.', 'error');
       }
     );
+    this.showSpinner = false
   }
 
   // Handle state change and load districts
   onStateChange(stateId: number) {
+    this.showSpinner = true
     this.commanApiService.getDistrictsByState(stateId).subscribe(
       (data: any) => {
         this.filteredDistricts = data.map((district: any) => ({
@@ -97,10 +105,12 @@ export class LeadmanagementaddComponent implements OnInit {
         this.openAlertDialog('Error', 'Failed to load districts. Please try again.', 'error');
       }
     );
+    this.showSpinner = false;
   }
 
   // Handle district change and load cities
   onDistrictChange(districtId: number) {
+    this.showSpinner = true
     this.commanApiService.getCitiesByDistrict(districtId).subscribe(
       (data: any) => {
         this.filteredCities = data.map((city: any) => ({
@@ -113,9 +123,11 @@ export class LeadmanagementaddComponent implements OnInit {
         this.openAlertDialog('Error', 'Failed to load cities. Please try again.', 'error');
       }
     );
+    this.showSpinner = false
   }
 
   onSubmit() {
+    this.showSpinner = true
     if (this.leadForm.valid) {
       const userID = parseInt(localStorage.getItem('UserID') || '0', 10);
   
@@ -138,21 +150,26 @@ export class LeadmanagementaddComponent implements OnInit {
       this.commanApiService.addLead(payload).subscribe(
         (response: string) => {
           if (response === 'Success') {
+            this.showSpinner = false;
             this.openAlertDialog('Success', 'Lead saved successfully!', 'success');
             this.router.navigate(['/home/marketing/lead-management']);
             this.leadForm.reset();
           } else {
+            this.showSpinner = false;
             this.openAlertDialog('Error', 'Unexpected response from server.', 'error');
           }
         },
         (error) => {
+          this.showSpinner = false;
           console.error('Error saving lead:', error);
           this.openAlertDialog('Error', `Failed to save lead. Please try again. \n ${error?.error}`,'error');
         }
       );
     } else {
+      this.showSpinner = false;
       this.openAlertDialog('Error', 'Please fill all required fields correctly.', 'error');
     }
+   
   }
     // Utility function to format date as YYYY-MM-DD
     private formatDate(date: Date): string {

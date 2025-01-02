@@ -19,7 +19,7 @@ export class SalesConvertStatuEditComponent implements OnInit {
   operationsLeads: any[] = [];
 
   maxDate: Date; // Maximum date for the datepicker
-
+  showSpinner: boolean = false;
   constructor(
     private fb: FormBuilder,
     private marketingService: MarketingService,
@@ -31,6 +31,7 @@ export class SalesConvertStatuEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.showSpinner = true;
     // Retrieve clientId from query parameters
     this.route.queryParams.subscribe((params) => {
       this.clientId = +params['clientid'] || 0;
@@ -42,6 +43,7 @@ export class SalesConvertStatuEditComponent implements OnInit {
     this.initializeForm();
     this.loadOperationsManagers(); // Load managers initially
     this.loadOperationsLeads(); // Load leads initially
+    this.showSpinner = false;
   }
 
   loadClientData(clientId: number) {
@@ -175,6 +177,7 @@ export class SalesConvertStatuEditComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.showSpinner = true
     if (this.progressForm.valid) {
       const payload = {
         clientId: this.clientId,
@@ -197,7 +200,7 @@ export class SalesConvertStatuEditComponent implements OnInit {
       this.marketingService.updateClientKTStatus(payload).subscribe(
         (response: string) => {
           console.log('API Response:', response);
-
+          this.showSpinner = false;
           if (response === 'Success') {
             this.openAlertDialog('Success', 'Updated successfully!');
             this.router.navigate(['/home/marketing/sales-converted']);
@@ -206,6 +209,7 @@ export class SalesConvertStatuEditComponent implements OnInit {
           }
         },
         (error: any) => {
+          this.showSpinner = false;
           console.error('Submission Failed:', error);
           const errorMessage =
             error?.error?.message || 'An unexpected error occurred. Please try again.';
@@ -213,6 +217,7 @@ export class SalesConvertStatuEditComponent implements OnInit {
         }
       );
     } else {
+      this.showSpinner = false;
       this.openAlertDialog('Error', 'Please fill all required fields correctly.');
     }
   }

@@ -36,6 +36,7 @@ export class QuoteGenerationDownloadComponent {
     noSCForAdCMUptoInWords: string = '';
     adBudget: number = 0;
     isAssistance:boolean= false;
+    showSpinner: boolean = false;
     constructor(private route: ActivatedRoute){
     }
 
@@ -66,6 +67,7 @@ export class QuoteGenerationDownloadComponent {
 
 
     async generatePDF() {
+      this.showSpinner = true;
       const pdf = new jsPDF('p', 'mm', 'a4'); // Create PDF in A4 size
   
       const element1 = document.getElementById('pdf-container1');
@@ -87,7 +89,7 @@ export class QuoteGenerationDownloadComponent {
   
         pdf.addPage(); // Add a new page
         pdf.addImage(imgData2, 'PNG', 0, 0, pdfWidth, pdfHeight2); // Add element2 to the new page
-  
+        this.showSpinner = false;
         // Save the PDF
         pdf.save('quotation.pdf');
       }

@@ -17,3 +17,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     font-family: Roboto, sans-serif;
   }
   
+.spinner{
+  display: flex;
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  right: 0;
+  left: 0;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1056;
+}

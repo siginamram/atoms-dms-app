@@ -31,6 +31,7 @@ export class MeetManagementHistoryComponent implements OnInit {
   ]; // Columns for the table
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  showSpinner: boolean = false;
 
   constructor(private marketingService: MarketingService) {}
 
@@ -49,17 +50,23 @@ export class MeetManagementHistoryComponent implements OnInit {
 
   // Fetch leads by userId
   getLeads(userId: number): void {
+    this.showSpinner = true
     this.marketingService.getLeadsByUserId(userId).subscribe({
       next: (response: any[]) => {
         this.leads = response;
         this.filteredLeads = response; // Initialize filtered leads
+        this.showSpinner = false;
       },
-      error: (err) => console.error('Error fetching leads:', err)
+      error: (err) => {
+        this.showSpinner = false;
+        console.error('Error fetching leads:', err)
+      }
     });
   }
 
   // Fetch meeting history by leadId
   getMeetingHistory(leadId: number): void {
+    this.showSpinner = true
     this.marketingService.getMeetingHistoryByLeadId(leadId).subscribe({
       next: (response: any[]) => {
         // Transform statusOfLead to human-readable text
@@ -68,8 +75,11 @@ export class MeetManagementHistoryComponent implements OnInit {
           statusOfLead: this.getStatusLabel(meeting.statusOfLead) // Transform status
         }));
         this.dataSource.data = this.meetingHistory; // Update table data
+        this.showSpinner = false;
       },
-      error: (err) => console.error('Error fetching meeting history:', err)
+      error: (err) =>{ this.showSpinner = false;
+         console.error('Error fetching meeting history:', err)
+      }
     });
   }
   

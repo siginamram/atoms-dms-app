@@ -12,6 +12,7 @@ import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/ale
   styleUrls: ['./meet-management-popup.component.css'],
 })
 export class MeetManagementPopupComponent implements OnInit {
+  showSpinner: boolean=  false;
   meetForm: FormGroup;
   isPopupVisible = true;
   leads: any[] = []; // Dynamically loaded leads
@@ -40,12 +41,15 @@ export class MeetManagementPopupComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.showSpinner = true
     this.route.params.subscribe((params) => {
       this.meetID = +params['id'];
       if (this.meetID) {
         this.loadMeetingDetails(this.meetID); // Fetch meeting details, including leadID
+        this.showSpinner = false
       } else {
         this.loadLeads(); // Load all leads if no meetID
+        this.showSpinner = false
       }
 
       this.startTimeOptions = this.generateStartTimeOptions(); // Generate start time options
@@ -127,6 +131,7 @@ export class MeetManagementPopupComponent implements OnInit {
 
   // Submit the form
   onSubmit(): void {
+    this.showSpinner = true;  
     if (this.meetForm.valid) {
       const userId = parseInt(localStorage.getItem('UserID') || '0', 10); // Get UserID from localStorage
       const formData = this.meetForm.value;
@@ -152,6 +157,7 @@ export class MeetManagementPopupComponent implements OnInit {
           } else {
             this.openAlertDialog('Error', response || 'Unexpected server response.');
           }
+          this.showSpinner = false;
         },
         (error) => {
           console.error('Failed to schedule the meeting:', error);
@@ -161,12 +167,15 @@ export class MeetManagementPopupComponent implements OnInit {
             error?.error ||
             'An unexpected error occurred while scheduling the meeting.';
           this.openAlertDialog('Error', errorMessage);
+          this.showSpinner = false;
         }
       );
     } else {
       console.error('Form is invalid:', this.meetForm.errors);
       this.openAlertDialog('Error', 'Please fill in all required fields correctly.');
+      this.showSpinner = false;
     }
+
   }
   
   // Utility function to format date as YYYY-MM-DD

@@ -18,6 +18,7 @@ export class LeadManagementListComponent implements OnInit {
   filteredLeads: any[] = []; // Fetched leads based on the tab
   dataSource = new MatTableDataSource<any>(); // Data source for Material Table
   @ViewChild(MatPaginator) paginator!: MatPaginator; // Reference to MatPaginator
+  showSpinner: boolean = false;
 
   constructor(
     private router: Router,
@@ -57,6 +58,7 @@ export class LeadManagementListComponent implements OnInit {
 
   // Load leads based on the active tab
   loadLeads(): void {
+    this.showSpinner = true
     const userId = parseInt(localStorage.getItem('UserID') || '0', 10);
     const status = this.activeTab === 'progressive' ? 1 : 3; // Determine status based on the tab
 
@@ -65,11 +67,13 @@ export class LeadManagementListComponent implements OnInit {
         console.log(`Fetched Leads for ${this.activeTab} tab:`, data);
         this.filteredLeads = data; // Bind fetched data to the table
         this.dataSource.data = this.filteredLeads; // Update data source
+        this.showSpinner = false
       },
       (error) => {
         console.error(`Failed to fetch ${this.activeTab} leads:`, error);
         this.filteredLeads = []; // Clear the table if there is an error
         this.dataSource.data = [];
+        this.showSpinner = false
       }
     );
   }
@@ -91,6 +95,7 @@ export class LeadManagementListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((confirmed) => {
       if (confirmed) {
+        this.showSpinner = true
         const payload = {
           leadID: lead.leadID,
           salesPersonID: parseInt(localStorage.getItem('UserID') || '0', 10),
@@ -99,6 +104,7 @@ export class LeadManagementListComponent implements OnInit {
 
         this.commanApiService.updateLeadStatus(payload).subscribe(
           () => {
+            this.showSpinner = false;
             this.dialog.open(AlertDialogComponent, {
               width: '400px',
               data: {
@@ -109,6 +115,7 @@ export class LeadManagementListComponent implements OnInit {
             this.loadLeads(); // Reload leads after update
           },
           (error) => {
+            this.showSpinner = false;
             console.error('Failed to update lead status:', error);
             this.dialog.open(AlertDialogComponent, {
               width: '400px',
@@ -135,6 +142,7 @@ export class LeadManagementListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((confirmed) => {
       if (confirmed) {
+        this.showSpinner = true;
         const payload = {
           leadID: lead.leadID,
           salesPersonID: parseInt(localStorage.getItem('UserID') || '0', 10),
@@ -143,6 +151,7 @@ export class LeadManagementListComponent implements OnInit {
 
         this.commanApiService.updateLeadStatus(payload).subscribe(
           () => {
+            this.showSpinner = false;
             this.dialog.open(AlertDialogComponent, {
               width: '400px',
               data: {
@@ -153,6 +162,7 @@ export class LeadManagementListComponent implements OnInit {
             this.loadLeads(); // Reload leads after update
           },
           (error) => {
+            this.showSpinner = false;
             console.error('Failed to update lead status:', error);
             this.dialog.open(AlertDialogComponent, {
               width: '400px',

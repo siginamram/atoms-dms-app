@@ -80,7 +80,7 @@ export class QuoteGenerationAddComponent implements OnInit {
   leadID: number | null = null;
   quotationData: any;
   deliverables = ['posters', 'graphicReels', 'educationalReels', 'youtubeVideos',  'campaignBudget'];
-
+  showSpinner = false;
   constructor(
     private fb: FormBuilder,
     private marketingService: MarketingService,
@@ -95,11 +95,12 @@ export class QuoteGenerationAddComponent implements OnInit {
   async ngOnInit() {
     this.initForm();
     this.route.params.subscribe(async (params) => {
+      this.showSpinner = true
       this.leadID = +params['id'];
       if (this.leadID) {
       await this.getLeads();
-        this.fetchLeadData(this.leadID); // Load client details for the given LeadID
-     
+      this.fetchLeadData(this.leadID); // Load client details for the given LeadID
+      this.showSpinner = false;
       }
     });
   }
@@ -504,6 +505,7 @@ export class QuoteGenerationAddComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.showSpinner = true
     if (this.leadForm.valid) {
     
       const userID = parseInt(localStorage.getItem('UserID') || '0', 10); // Get user ID from localStorage
@@ -581,21 +583,27 @@ export class QuoteGenerationAddComponent implements OnInit {
       this.marketingService.saveQuote(payload).subscribe(
          (response) => {
           if(response == 'Success'){
+            this.showSpinner = false
             this.myButton.nativeElement.click();
+            
           }
           else{
+            this.showSpinner = false
             this.openAlertDialog('Error', response || 'Unexpected server response.');
+
           }
 
           //this.openAlertDialog('Success', 'Quote saved successfully!');
           // this.Router.navigate(['/home/marketing/generate-quote']);
         },
          (error) => {
+          this.showSpinner = false
           console.error('Error saving quote:', error);
           this.openAlertDialog('Error', 'Failed to save quote. Please try again.');
         },
       );
     } else {
+      this.showSpinner = false
       this.openAlertDialog('Error', 'Please fill all required fields correctly.');
     }
   }

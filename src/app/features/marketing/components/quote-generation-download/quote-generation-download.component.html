@@ -1,3 +1,7 @@
+<div  class="spinner" *ngIf="showSpinner">
+    <mat-spinner></mat-spinner>
+  </div>
+
 <div class ="d-flex justify-content-center gap-3">
     <button (click)="generatePDF()" class="btn btn-primary">Download</button>
 </div>
@@ -59,11 +63,11 @@
     <div class="container py-5 mt-5" style="line-height: 1.5;">
         <div style="margin-bottom: 10px;">  
         <h3 style="margin-top: 0;">Monthly Deliverables While Optimizing Social Media</h3>
-        <p>No. of posters: {{leadPackage?.noOfPosters}}</p>
-        <p>No. of graphic reels: {{leadPackage?.noOfGraphicReels}}</p>
-        <p>No. of educational reels: {{leadPackage?.noOfEducationalReels}}</p>
-        <p>No. of YouTube Videos: {{leadPackage?.noOfYouTubeVideos}}</p>
-        <p>Ad Budget Per Month: INR {{adBudget}}/- ({{adBudgetInWords}})</p>
+        <p *ngIf="leadPackage?.noOfPosters != 0">No. of posters: {{leadPackage?.noOfPosters}}</p>
+        <p *ngIf="leadPackage?.noOfGraphicReels != 0">No. of graphic reels: {{leadPackage?.noOfGraphicReels}}</p>
+        <p *ngIf="leadPackage?.noOfEducationalReels != 0">No. of educational reels: {{leadPackage?.noOfEducationalReels}}</p>
+        <p *ngIf="leadPackage?.noOfYouTubeVideos != 0">No. of YouTube Videos: {{leadPackage?.noOfYouTubeVideos}}</p>
+        <p *ngIf="adBudget != 0">Ad Budget Per Month: INR {{adBudget}}/- ({{adBudgetInWords}})</p>
     </div>
 
 

@@ -1,3 +1,7 @@
+<div  class="spinner" *ngIf="showSpinner">
+    <mat-spinner></mat-spinner>
+  </div>
+
 <div class ="d-flex justify-content-center gap-3">
     <button (click)="generatePDF()" class="btn btn-primary">Download</button>
 </div>
@@ -30,10 +34,10 @@
                 <li>Content creation and graphic design</li>
                 <li>Monthly social media deliverables as specified below</li>
                 <ul>
-                    <li>No. of posters per month: <b>{{packageDetails?.noOfPosters}}</b></li>
-                    <li>No. of graphic reels per month: <b>{{packageDetails?.noOfGraphicReels}}</b> (A Graphic reel is defined as a video that is 9:16 ratio designed with graphic elements such as images, vectors, 3D graphic elements and text overlay with a duration of up to ninety seconds)</li>
-                    <li>No. of educational reels per month: <b>{{packageDetails?.noOfEducationalReels}}</b> (An educational reel is defined as a video in 9:16 ratio with a person describing or explaining anything that they feel matters to their target audience and lies in a duration of up to ninety seconds)</li>
-                    <li>No. of YouTube videos per month: <b>{{packageDetails?.noOfYouTubeVideos}}</b> (A YouTube video is defined as a video that is 16:9 ratio with a person describing or explaining anything that they feel matters to their target audience and lies in a duration of up to ten minutes)</li>
+                    <li *ngIf="packageDetails?.noOfPosters != 0">No. of posters per month: <b>{{packageDetails?.noOfPosters}}</b></li>
+                    <li *ngIf="packageDetails?.noOfGraphicReels != 0">No. of graphic reels per month: <b>{{packageDetails?.noOfGraphicReels}}</b> (A Graphic reel is defined as a video that is 9:16 ratio designed with graphic elements such as images, vectors, 3D graphic elements and text overlay with a duration of up to ninety seconds)</li>
+                    <li *ngIf="packageDetails?.noOfEducationalReels != 0">No. of educational reels per month: <b>{{packageDetails?.noOfEducationalReels}}</b> (An educational reel is defined as a video in 9:16 ratio with a person describing or explaining anything that they feel matters to their target audience and lies in a duration of up to ninety seconds)</li>
+                    <li *ngIf="packageDetails?.noOfYouTubeVideos != 0">No. of YouTube videos per month: <b>{{packageDetails?.noOfYouTubeVideos}}</b> (A YouTube video is defined as a video that is 16:9 ratio with a person describing or explaining anything that they feel matters to their target audience and lies in a duration of up to ten minutes)</li>
                 </ul>
                 <li>Sponsored ad budget: INR <b>{{adBudget}}</b>/- ({{adBudgetInWords}}) (A sponsored ad is defined as an ad campaign that will be running on social media platforms)</li>
                 <li *ngIf="packageDetails?.shootOffered">Monthly video shoot for YouTube Videos and Educational Reels</li>
