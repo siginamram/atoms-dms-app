@@ -131,6 +131,7 @@ export class GraphicReelDesignerOperationsComponent implements OnInit {
       3: 'Sent for Approval',
       4: 'Changes Recommended',
       5: 'Approved',
+      6:'Sent for client approval'
     };
     return statusMap[status] || 'Unknown Status';
   }

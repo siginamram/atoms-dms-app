@@ -209,10 +209,12 @@ export class OperationsContentWritersComponent implements OnInit {
         return 'Changes recommended';
       case 5:
         return 'Approved';
+      case 6:
+          return 'Sent for client approval';
       default:
         return 'Unknown status';
     }
-  }
+  } 
 
   onEdit(row: any): void {
     console.log('Edit action for row:', row); // Check if monthlyTrackerId exists

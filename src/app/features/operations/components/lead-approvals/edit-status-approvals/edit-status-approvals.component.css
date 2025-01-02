@@ -1,0 +1,30 @@
+.popup-container {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  .form-row {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .form-field {
+    width: 100%;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+  
+  .toolbar {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px;
+  }

@@ -80,7 +80,8 @@ export class PosterDesignerApprovalComponent implements OnInit {
           graphicStatus: this.getPostStatusText(item.graphicStatus), // Map postStatus to text
           monthlyTrackerId: item.monthlyTrackerId,
           userId: userId,
-          type: 'graphic',
+          creativeType:2,
+          role:'Poster',
         }));
         this.dataSource.paginator = this.paginator;
       },

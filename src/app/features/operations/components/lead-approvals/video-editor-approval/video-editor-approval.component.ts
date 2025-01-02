@@ -80,7 +80,8 @@ export class VideoEditorApprovalComponent implements OnInit {
           status: this.getPostStatusText(item.status), // Map postStatus to text
           monthlyTrackerId: item.monthlyTrackerId,
           userId: userId,
-          type: 'video',
+          creativeType:item.creativeTypeId,
+          role:'Video'
         }));
         this.dataSource.paginator = this.paginator;
       },

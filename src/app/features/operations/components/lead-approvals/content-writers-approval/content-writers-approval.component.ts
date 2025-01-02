@@ -76,7 +76,8 @@ export class ContentWritersApprovalComponent implements OnInit {
           contentStatus: this.getStatusText(item.contentStatus),
           monthlyTrackerId:item.monthlyTrackerId,
           userId:userId,
-          type:'content',
+          creativeType:1,
+          role:'Content Writer',
         }));
         this.dataSource.paginator = this.paginator;
       },
