@@ -226,25 +226,45 @@
       <!-- Telugu -->
       <mat-form-field class="form-field1" appearance="outline">
         <mat-label>1st Priority Day</mat-label>
-        <mat-select formControlName="primaryDay">
+        <mat-select formControlName="priority1">
           <mat-option *ngFor="let dayNames of dayNames" [value]="dayNames.value">{{ dayNames.text }}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field class="form-field1" appearance="outline">
         <mat-label>2nd Priority Day</mat-label>
-        <mat-select formControlName="secondaryDay">
+        <mat-select formControlName="priority2">
           <mat-option *ngFor="let dayNames of dayNames" [value]="dayNames.value">{{ dayNames.text }}</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field class="form-field1" appearance="outline">
         <mat-label>3rd Priority Day</mat-label>
-        <mat-select formControlName="tertiaryDay">
+        <mat-select formControlName="priority3">
           <mat-option *ngFor="let dayNames of dayNames" [value]="dayNames.value">{{ dayNames.text }}</mat-option>
         </mat-select>
       </mat-form-field>
-  
+      <mat-form-field class="form-field1" appearance="outline">
+        <mat-label>4th Priority Day</mat-label>
+        <mat-select formControlName="priority4">
+          <mat-option *ngFor="let dayNames of dayNames" [value]="dayNames.value">{{ dayNames.text }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="form-field1" appearance="outline">
+        <mat-label>5th Priority Day</mat-label>
+        <mat-select formControlName="priority5">
+          <mat-option *ngFor="let dayNames of dayNames" [value]="dayNames.value">{{ dayNames.text }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="form-field1" appearance="outline">
+        <mat-label>6th Priority Day</mat-label>
+        <mat-select formControlName="priority6">
+          <mat-option *ngFor="let dayNames of dayNames" [value]="dayNames.value">{{ dayNames.text }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
       <!-- Remove Button -->
       <button mat-icon-button color="warn" (click)="removeVideoDeliverable(i)">
         <mat-icon>delete</mat-icon>
@@ -288,36 +308,84 @@
             <input matInput formControlName="count" />
           </mat-form-field>
       
-          <!-- Telugu -->
-          <mat-form-field class="form-field1" appearance="outline">
-            <mat-label>1st Priority Day</mat-label>
-            <mat-select formControlName="primaryDay">
-              <mat-option *ngFor="let dayNames of dayNames" [value]="dayNames.value">{{ dayNames.text }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field class="form-field1" appearance="outline">
-            <mat-label>2nd Priority Day</mat-label>
-            <mat-select formControlName="secondaryDay">
-              <mat-option *ngFor="let dayNames of dayNames" [value]="dayNames.value">{{ dayNames.text }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field class="form-field1" appearance="outline">
-            <mat-label>3rd Priority Day</mat-label>
-            <mat-select formControlName="tertiaryDay">
-              <mat-option *ngFor="let dayNames of dayNames" [value]="dayNames.value">{{ dayNames.text }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-      
           <!-- Remove Button -->
           <button mat-icon-button color="warn" (click)="removeDeliverable(i)">
             <mat-icon>delete</mat-icon>
           </button>
         </div>
       </div>
-      
-      
+      <!--Client Priority Deliverables Section -->
+  <div class="deliverables-header" *ngIf="onboardingForm.get('shootOffer')?.value === 1">
+    <h3>Priority Deliverables</h3>
+    <button mat-raised-button color="primary" (click)="addprioritydeliverables()" type="button">+ Add Priority Deliverable</button>
+  </div>
+  
+  <div *ngFor="let prioritydeliverables of prioritydeliverablesArray.controls; let i = index" [formGroup]="prioritydeliverables" class="deliverable-row">
+    <div class="form-row">
+      <!-- Creative Type -->
+      <mat-form-field class="form-field1" appearance="outline">
+        <mat-label>Creative Type</mat-label>
+        <mat-select formControlName="creativeType">
+          <mat-option *ngFor="let creative of creativeTypes" [value]="creative.value">{{ creative.text }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+        <!-- Promotion Type -->
+        <mat-form-field class="form-field1" appearance="outline">
+          <mat-label>Promotion Type</mat-label>
+          <mat-select formControlName="promotionType">
+            <mat-option *ngFor="let type of promotionTypes" [value]="type.value">{{ type.text }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+    
+      <!-- Telugu -->
+      <mat-form-field class="form-field1" appearance="outline">
+        <mat-label>1st Priority Day</mat-label>
+        <mat-select formControlName="priority1">
+          <mat-option *ngFor="let dayNames of dayNames" [value]="dayNames.value">{{ dayNames.text }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="form-field1" appearance="outline">
+        <mat-label>2nd Priority Day</mat-label>
+        <mat-select formControlName="priority2">
+          <mat-option *ngFor="let dayNames of dayNames" [value]="dayNames.value">{{ dayNames.text }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="form-field1" appearance="outline">
+        <mat-label>3rd Priority Day</mat-label>
+        <mat-select formControlName="priority3">
+          <mat-option *ngFor="let dayNames of dayNames" [value]="dayNames.value">{{ dayNames.text }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="form-field1" appearance="outline">
+        <mat-label>4th Priority Day</mat-label>
+        <mat-select formControlName="priority4">
+          <mat-option *ngFor="let dayNames of dayNames" [value]="dayNames.value">{{ dayNames.text }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="form-field1" appearance="outline">
+        <mat-label>5th Priority Day</mat-label>
+        <mat-select formControlName="priority5">
+          <mat-option *ngFor="let dayNames of dayNames" [value]="dayNames.value">{{ dayNames.text }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="form-field1" appearance="outline">
+        <mat-label>6th Priority Day</mat-label>
+        <mat-select formControlName="priority6">
+          <mat-option *ngFor="let dayNames of dayNames" [value]="dayNames.value">{{ dayNames.text }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Remove Button -->
+      <button mat-icon-button color="warn" (click)="removeprioritydeliverables(i)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div> 
   
       <!-- Submit -->
       <div class="form-actions">

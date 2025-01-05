@@ -107,6 +107,7 @@ export class ClientsOnboardingComponent implements OnInit {
       lastDateOfService: [''],
       deliverables: this.fb.array([]),
       videodeliverables: this.fb.array([]),
+      prioritydeliverables: this.fb.array([]),
     });
   }
 
@@ -190,6 +191,10 @@ export class ClientsOnboardingComponent implements OnInit {
           this.addVideoDeliverable(videodeliverable);
         });
 
+        data.clientDeliverablesPriorities.forEach((prioritydeliverables: any) => {
+          this.addprioritydeliverables(prioritydeliverables);
+        });
+
         console.log('Loaded Client Data:', this.onboardingForm.value);
       },
       error: (error) => {
@@ -205,15 +210,13 @@ export class ClientsOnboardingComponent implements OnInit {
     return date;
   }
 
-  addDeliverable(deliverable: any = { promotionType: '', creativeType: '', language: '', count: '' , primaryDay:'' , secondaryDay:'', tertiaryDay:''}) {
+  addDeliverable(deliverable: any = { promotionType: '', creativeType: '', language: '', count: '' }) {
     const newRow = this.fb.group({
       promotionType: [deliverable.promotionType, Validators.required],
       creativeType: [deliverable.creativeType, Validators.required],
       language: [deliverable.language, Validators.required],
       count: [deliverable.count, Validators.required],
-      primaryDay:[deliverable.primaryDay,Validators.required],
-      secondaryDay:[deliverable.secondaryDay,Validators.required],
-      tertiaryDay:[deliverable.tertiaryDay,Validators.required],
+  
     });
     this.deliverablesArray.push(newRow);
   }
@@ -229,12 +232,15 @@ export class ClientsOnboardingComponent implements OnInit {
     }
   }
 
-  addVideoDeliverable(videodeliverable: any = {  creativeType: '' , primaryDay:'' , secondaryDay:'', tertiaryDay:''}) {
+  addVideoDeliverable(videodeliverable: any = {  creativeType: '' , priority1:'' , priority2:'', priority3:'', priority4:'' , priority5:'', priority6:''}) {
     const newRow = this.fb.group({
       creativeType: [videodeliverable.creativeType, Validators.required],
-      primaryDay:[videodeliverable.primaryDay,Validators.required],
-      secondaryDay:[videodeliverable.secondaryDay,Validators.required],
-      tertiaryDay:[videodeliverable.tertiaryDay,Validators.required],
+      priority1:[videodeliverable.priority1,Validators.required],
+      priority2:[videodeliverable.priority2,Validators.required],
+      priority3:[videodeliverable.priority3,Validators.required],
+      priority4:[videodeliverable.priority4,Validators.required],
+      priority5:[videodeliverable.priority5,Validators.required],
+      priority6:[videodeliverable.priority6,Validators.required],
     });
     this.videodeliverablesArray.push(newRow);
   }
@@ -250,6 +256,30 @@ export class ClientsOnboardingComponent implements OnInit {
     }
   }
 
+  addprioritydeliverables(prioritydeliverables: any = {  creativeType: '',promotionType:'' , priority1:'' , priority2:'', priority3:'', priority4:'' , priority5:'', priority6:''}) {
+    const newRow = this.fb.group({
+      creativeType: [prioritydeliverables.creativeType, Validators.required],
+      promotionType: [prioritydeliverables.promotionType, Validators.required],
+      priority1:[prioritydeliverables.priority1,Validators.required],
+      priority2:[prioritydeliverables.priority2,Validators.required],
+      priority3:[prioritydeliverables.priority3,Validators.required],
+      priority4:[prioritydeliverables.priority4,Validators.required],
+      priority5:[prioritydeliverables.priority5,Validators.required],
+      priority6:[prioritydeliverables.priority6,Validators.required],
+    });
+    this.prioritydeliverablesArray.push(newRow);
+  }
+
+  get prioritydeliverablesArray(): FormArray<FormGroup> {
+    return this.onboardingForm.get('prioritydeliverables') as FormArray<FormGroup>;
+  }
+
+  removeprioritydeliverables(index: number): void {
+    if (index >= 0 && index < this.prioritydeliverablesArray.length) {
+      this.prioritydeliverablesArray.removeAt(index);
+      console.log('Deliverable Removed:', this.prioritydeliverablesArray.value);
+    }
+  }
   onSubmit(): void {
     if (this.onboardingForm.valid) {
       const payload = this.preparePayload(); // Prepare payload from form data
@@ -299,21 +329,32 @@ export class ClientsOnboardingComponent implements OnInit {
       advAmount: formValue.advAmount,
       advDate: formValue.advanceDate,
       loginCredentials: formValue.loginCredentials ===  1,
+
       clientDeliverables: this.deliverablesArray.value.map((deliverable: any) => ({
         promotionType: deliverable.promotionType,
         language:deliverable.language,
         count:deliverable.count,
         creativeType: deliverable.creativeType,
-        primaryDay:deliverable.primaryDay,
-        secondaryDay:deliverable.secondaryDay,
-        TertiaryDay:deliverable.tertiaryDay,
-
       })),
       clientVideoDeliverables: this.videodeliverablesArray.value.map((deliverable: any) => ({
         creativeType: deliverable.creativeType,
-        primaryDay:deliverable.primaryDay,
-        secondaryDay:deliverable.secondaryDay,
-        TertiaryDay:deliverable.tertiaryDay,
+        priority1:deliverable.priority1,
+        priority2:deliverable.priority2,
+        priority3:deliverable.priority3,
+        priority4:deliverable.priority4,
+        priority5:deliverable.priority5,
+        priority6:deliverable.priority6,
+
+      })),
+      clientDeliverablesPriorities: this.prioritydeliverablesArray.value.map((deliverable: any) => ({
+        creativeType: deliverable.creativeType,
+        promotionType: deliverable.promotionType,
+        priority1:deliverable.priority1,
+        priority2:deliverable.priority2,
+        priority3:deliverable.priority3,
+        priority4:deliverable.priority4,
+        priority5:deliverable.priority5,
+        priority6:deliverable.priority6,
 
       })),
       clientResourceAllocation: {

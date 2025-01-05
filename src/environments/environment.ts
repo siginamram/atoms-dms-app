@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
- // baseApiUrl: 'https://www.ashritafashionmall.com'
+    //baseApiUrl: 'https://ashritafashionmall.com'
   // baseApiUrl: 'http://103.191.208.97'  // Storing the base url of swagger, from where the swagger generate value 
    baseApiUrl: 'https://localhost:44305'
 };
