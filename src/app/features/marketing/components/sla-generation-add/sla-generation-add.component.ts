@@ -17,6 +17,7 @@ export class SlaGenerationAddComponent implements OnInit {
   minDate: Date;
   salesPersonDesignation: any;
   salesPersonName: any;
+  showSpinner: boolean = false;
   @ViewChild('modalButton') myButton!: ElementRef<HTMLButtonElement>;
   constructor(
     private fb: FormBuilder,
@@ -76,6 +77,7 @@ export class SlaGenerationAddComponent implements OnInit {
 
   // Load client details using the API
   loadClientDetails(leadID: number): void {
+    this.showSpinner = true;
     this.commanApiService.getClientByLeadId(leadID).subscribe(
       (data: any) => {
         console.log('Client Details:', data);
@@ -107,8 +109,10 @@ export class SlaGenerationAddComponent implements OnInit {
           others: data.package?.smOthers || false,
           otherPlatforms: data.package?.smOthersText || '',
         });
+        this.showSpinner = false;
       },
       (error) => {
+        this.showSpinner = false;
         console.error('Failed to fetch client details:', error);
       }
     );
@@ -151,6 +155,7 @@ export class SlaGenerationAddComponent implements OnInit {
 
   // Handle form submission
   onSubmit(): void {
+    this.showSpinner = true;
     if (this.slaForm.valid) {
       const formData = this.slaForm.value;
   
@@ -190,7 +195,7 @@ export class SlaGenerationAddComponent implements OnInit {
       this.commanApiService.addClient(payload).subscribe(
         (response: string) => {
           console.log('Response from API:', response);
-  
+          this.showSpinner = false;
           // Handle backend response that sends plain text like "Success"
           if (response === 'Success') {
             this.myButton.nativeElement.click();
@@ -199,6 +204,7 @@ export class SlaGenerationAddComponent implements OnInit {
           }
         },
         (error: any) => {
+          this.showSpinner = false;
           console.error('Error adding client:', error);
   
           // Handle potential HTTP error with fallback message
@@ -208,6 +214,7 @@ export class SlaGenerationAddComponent implements OnInit {
         }
       );
     } else {
+      this.showSpinner = false;
       this.openAlertDialog('Error', 'Please fill all required fields.');
     }
   }

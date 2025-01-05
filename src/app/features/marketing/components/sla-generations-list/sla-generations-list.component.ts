@@ -12,7 +12,7 @@ import { MarketingService } from '../../services/marketing.service'; // Ensure t
 })
 export class SlaGenerationsListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
+  showSpinner: boolean = false;
   searchTerm: string = ''; // Search input value
   leads: any[] = []; // Full list of leads
   filteredLeads: any[] = []; // Filtered list for autocomplete
@@ -40,6 +40,7 @@ export class SlaGenerationsListComponent implements OnInit {
 
   // Load leads from the API
   loadLeads(): void {
+    this.showSpinner = true;
     const userId = parseInt(localStorage.getItem('UserID') || '0', 10);
     const status = 2;
 
@@ -49,11 +50,13 @@ export class SlaGenerationsListComponent implements OnInit {
         this.filteredLeads = [...this.leads]; // Initialize filtered leads
         this.dataSource.data = this.leads; // Set data for the table
         this.dataSource.paginator = this.paginator; // Attach paginator
+        this.showSpinner = false;
       },
       (error) => {
         console.error('Failed to fetch leads:', error);
         this.leads = [];
         this.filteredLeads = [];
+        this.showSpinner = false;
       }
     );
   }

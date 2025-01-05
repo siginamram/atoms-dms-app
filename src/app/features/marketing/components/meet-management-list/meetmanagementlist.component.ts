@@ -15,7 +15,7 @@ export class MeetmanagementlistComponent implements OnInit, AfterViewInit {
   activeTab: 'upcoming' | 'tentative' = 'upcoming';
   displayedColumns: string[] = [];
   dataSource = new MatTableDataSource<any>();
-
+  showSpinner: boolean = false;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
@@ -45,31 +45,37 @@ export class MeetmanagementlistComponent implements OnInit, AfterViewInit {
   }
 
   loadUpcomingMeetings(): void {
+    this.showSpinner = true
     const userId = parseInt(localStorage.getItem('UserID') || '0', 10);
     this.marketingService.getMeetingsByUser(userId).subscribe(
       (data: any) => {
         console.log('Fetched Upcoming Meetings:', data);
         this.dataSource.data = data;
         this.cdr.detectChanges();
+        this.showSpinner = false;
       },
       (error) => {
         console.error('Failed to fetch upcoming meetings:', error);
         this.dataSource.data = [];
+        this.showSpinner = false;
       }
     );
   }
 
   loadTentativeMeetings(): void {
+    this.showSpinner = true
     const userId = parseInt(localStorage.getItem('UserID') || '0', 10);
     this.marketingService.getTentativeMeetingsByUser(userId).subscribe(
       (data: any) => {
         console.log('Fetched Tentative Meetings:', data);
         this.dataSource.data = data;
         this.cdr.detectChanges();
+        this.showSpinner = false;
       },
       (error) => {
         console.error('Failed to fetch tentative meetings:', error);
         this.dataSource.data = [];
+        this.showSpinner = false;
       }
     );
   }

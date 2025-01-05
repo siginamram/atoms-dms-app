@@ -12,13 +12,13 @@ import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/ale
   styleUrls: ['./meetmanagementadd.component.css'],
 })
 export class MeetmanagementaddComponent implements OnInit {
+  showSpinner: boolean = false;
   meetForm: FormGroup;
   uploadedImage: string | ArrayBuffer | null = null;
   meetID: number | null = null;
   leadID: number | null = null;
   minDate: Date; // Variable to store today's date
   startTimeOptions: string[] = []; // Will hold the generated time options
-
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -104,6 +104,7 @@ export class MeetmanagementaddComponent implements OnInit {
   }
 
   loadMeetingDetails(meetID: number): void {
+    this.showSpinner = true;
     this.commanApiService.getMeetingDetails(meetID).subscribe(
       (data: any) => {
         console.log('Fetched meeting details:', data);
@@ -132,9 +133,11 @@ export class MeetmanagementaddComponent implements OnInit {
         } else {
           this.meetForm.patchValue({ nextMeetDate: new Date(data.nextMeetDate) });
         }
+        this.showSpinner = false;
       },
       (error) => {
         console.error('Failed to fetch meeting details:', error);
+        this.showSpinner = false;
       }
     );
   }
@@ -156,8 +159,9 @@ export class MeetmanagementaddComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.showSpinner = true;
+    debugger
     if (this.meetForm.valid) {
-      console.log()
       const userId = parseInt(localStorage.getItem('UserID') || '0', 10); // Get UserID from localStorage
       const payload = {
         ...this.meetForm.value,
@@ -187,6 +191,7 @@ export class MeetmanagementaddComponent implements OnInit {
     } else {
       this.openAlertDialog('Error', 'Please fill all required fields correctly.');
     }
+    this.showSpinner = false;
   }
   
   // Utility function to format date as YYYY-MM-DD
