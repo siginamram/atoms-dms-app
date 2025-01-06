@@ -162,7 +162,7 @@ export class SlaGenerationAddComponent implements OnInit {
       const payload = {
         clientName: formData.clientName,
         clientDesignation: formData.designation,
-        paymentDate: formData.paymentDuedate,
+        paymentDate:this.formatDate(new Date(this.slaForm.get('paymentDuedate')?.value)),
         organizationName: formData.leadName,
         address: formData.address,
         domain: formData.organizationDomain,
@@ -218,7 +218,14 @@ export class SlaGenerationAddComponent implements OnInit {
       this.openAlertDialog('Error', 'Please fill all required fields.');
     }
   }
-  
+   // Utility function to format date as YYYY-MM-DD
+   private formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
   redirect(){
     this.router.navigate([`/home/marketing/sla-generation`]);
   }
