@@ -30,7 +30,7 @@ export class QuoteGenerationDownloadComponent {
     clientPackage: string ='';
     basePackage: number = 0;
     basePackageInWords: string = '';
-    totalBudget: number = 0;
+    totalBudget: string = '';
     totalBudgetInWords: string = '';
     noSCForAdCMUpto: number = 0;
     noSCForAdCMUptoInWords: string = '';
@@ -96,7 +96,7 @@ export class QuoteGenerationDownloadComponent {
     }
 
     calculateTotalBudget(){
-      let budget = this.leadPackage?.adBudget + this.leadPackage?.basePackage
+      let budget = Number(this.leadPackage?.adBudget) + Number(this.leadPackage?.basePackage)
       return  (budget + budget*0.18)
     }
     

@@ -29,6 +29,7 @@ export class MeetManagementPopupComponent implements OnInit {
   ) {
     this.meetForm = this.fb.group({
       leadName: ['', Validators.required], // leadID
+      meetMode: ['', Validators.required],
       scheduleDate: ['', Validators.required], // scheduledDate
       scheduleTime: [
         '',

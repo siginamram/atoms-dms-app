@@ -52,7 +52,7 @@
 
   <mat-form-field appearance="outline" *ngIf="leadForm.get('shootOverview.shootBudget')?.value === 'Yes'">
     <mat-label>Charge Per Visit</mat-label>
-    <input matInput type="number" formControlName="chargePerVisit"/>
+    <input matInput  formControlName="chargePerVisit"/>
   </mat-form-field>
 </div>
 </div>
@@ -81,7 +81,7 @@
   <h2>Base Package</h2>
   <mat-form-field appearance="outline">
     <mat-label>Base Package</mat-label>
-    <input matInput type="number" formControlName="basePackage" />
+    <input matInput  formControlName="basePackage" />
   </mat-form-field>
   <!-- Advanced Assistance -->
   <h2>Advanced Assistance</h2>
@@ -126,7 +126,7 @@
     <div class="form-row" formGroupName="monthlyDeliverables">
       <mat-form-field *ngFor="let field of deliverables" appearance="outline">
         <mat-label>{{ field }}</mat-label>
-        <input matInput type="number" formControlName="{{field}}" />
+        <input matInput  formControlName="{{field}}" />
       </mat-form-field>
     </div>
 
@@ -134,7 +134,7 @@
       <mat-checkbox formControlName="requiredToDedicateAdditionalAdBudget">You have to dedicate additional budget for the ads to reach your target audience in inorganic methods.</mat-checkbox>
       <mat-form-field appearance="outline" >
         <mat-label>Max Add Budget Amount</mat-label>
-        <input matInput type="number" formControlName="noSCForAdCMUpto" />
+        <input matInput  formControlName="noSCForAdCMUpto" />
       </mat-form-field>
     </div>
     <P  class="form-row">We will not apply an additional service charge for the mentioned ad budget.</P>

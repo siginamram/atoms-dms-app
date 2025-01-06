@@ -110,7 +110,7 @@ export class QuoteGenerationAddComponent implements OnInit {
       leadName: [{ value: '', disabled: true }],
       dateOfGeneration: ['', Validators.required],
       brandingType: ['Organizational', Validators.required],
-      basePackage: [0, Validators.min(0)],
+      basePackage: [0,[ Validators.min(0),  Validators.pattern('^[0-9]*\.?[0-9]+$')]],
       services: this.fb.group({
         socialMediaOptimization: [true],
         dedicatedRM: [true],
@@ -132,12 +132,12 @@ export class QuoteGenerationAddComponent implements OnInit {
         otherPlatform: [''],
       }),
       monthlyDeliverables: this.fb.group({
-        posters: [0, Validators.min(0)],
-        graphicReels: [0, Validators.min(0)],
-        educationalReels: [0, Validators.min(0)],
-        youtubeVideos: [0, Validators.min(0)],
+        posters: [0, [ Validators.min(0),  Validators.pattern('^[0-9]*\.?[0-9]+$')]],
+        graphicReels: [0, [ Validators.min(0),  Validators.pattern('^[0-9]*\.?[0-9]+$')]],
+        educationalReels: [0, [ Validators.min(0),  Validators.pattern('^[0-9]*\.?[0-9]+$')]],
+        youtubeVideos: [0,  [ Validators.min(0),  Validators.pattern('^[0-9]*\.?[0-9]+$')]],
         //twitterVideos: [0, Validators.min(0)],
-        campaignBudget: [0, Validators.required],
+        campaignBudget: [0, [Validators.required, Validators.pattern('^[0-9]*\.?[0-9]+$')]],
       }),
       marketingStrategies: this.fb.group({
         level: ['Advanced', Validators.required],
@@ -159,10 +159,10 @@ export class QuoteGenerationAddComponent implements OnInit {
       ),
       shootOverview: this.fb.group({
         shootBudget: ['No', Validators.required],
-        chargePerVisit: [0,Validators.min(0)],
+        chargePerVisit: [0, Validators.pattern('^[0-9]*\.?[0-9]+$')],
       }),
       requiredToDedicateAdditionalAdBudget: [true],
-      noSCForAdCMUpto: [0,Validators.min(0)] 
+      noSCForAdCMUpto: [0, Validators.pattern('^[0-9]*\.?[0-9]+$')] 
     });
   }
 

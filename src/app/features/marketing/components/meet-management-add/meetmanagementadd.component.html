@@ -42,6 +42,7 @@
     </div>
     <!-- Row 4 -->
     <div class="form-row">
+
       <mat-form-field appearance="outline">
         <mat-label>Requirement of Next Meet</mat-label>
         <mat-select formControlName="requireAnotherMeet">
@@ -55,6 +56,17 @@
     </div>
     
     <div class="form-row" *ngIf="meetForm.get('requireAnotherMeet')?.value === 1">
+      <mat-form-field appearance="outline">
+        <mat-label>Meet Mode</mat-label>
+        <mat-select formControlName="meetMode">
+          <mat-option [value]="'online'"> Online</mat-option>
+          <mat-option [value]="'offline'"> Offline</mat-option>
+        </mat-select>
+        <mat-error *ngIf="meetForm.get('meetMode')?.hasError('required')">
+          Please select Mode of Meet.
+        </mat-error>
+      </mat-form-field>
+
       <mat-form-field appearance="outline">
         <mat-label>Next Meet Date</mat-label>
         <input
