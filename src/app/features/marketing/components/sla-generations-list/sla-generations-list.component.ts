@@ -90,12 +90,12 @@ export class SlaGenerationsListComponent implements OnInit {
   downloadSLA(leadId:any){
     this.commanApiService.getClientByLeadId(leadId).subscribe(
       (data: any) => {
-        console.log(data)
         const payload = {
           clientName: data.clientName || '',
           clientDesignation: data.clientDesignation || '',
           paymentDate: data.paymentDate || '',
           organizationName: data.organizationName || '',
+          slaGenerateDate: data.slaGenerateDate || '',
           address: data.address || '',
           package: {
             basePackage: data.package?.basePackage || 0,
