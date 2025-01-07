@@ -54,6 +54,7 @@ export class SlaGenerationDynamicComponent {
       this.adBudgetInWords = this.toWords.convert(this.packageDetails?.adBudget,{currency: true, ignoreDecimal: true })
       this.shootBudgetInWords = this.toWords.convert(this.packageDetails?.chargePerVisit,{currency: true,ignoreDecimal: true})
       this.totalBudgetInWords = this.toWords.convert(budget,{currency: true,ignoreDecimal: true})
+      this.signingDate =new Date(this.slaData?.slaGenerateDate);
     })
   }
   calculateTotalBudget() {
