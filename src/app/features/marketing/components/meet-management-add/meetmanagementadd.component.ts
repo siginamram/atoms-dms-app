@@ -161,7 +161,7 @@ export class MeetmanagementaddComponent implements OnInit {
 
   onSubmit(): void {
     this.showSpinner = true;
-    debugger
+    //debugger
     if (this.meetForm.valid) {
       const userId = parseInt(localStorage.getItem('UserID') || '0', 10); // Get UserID from localStorage
       const payload = {
@@ -173,6 +173,7 @@ export class MeetmanagementaddComponent implements OnInit {
         statusOfLead: parseInt(this.meetForm.value.statusOfLead, 10), // Ensure statusOfLead is an integer
         requireAnotherMeet:this.meetForm.get('requireAnotherMeet')?.value ? true : false,
         nextMeetDate: this.formatDate(new Date(this.meetForm.value.nextMeetDate)),
+        modeOfMeet:this.meetForm.get('meetMode')?.value ? true : false,
       };
   
       this.commanApiService.updateMeeting(payload).subscribe(

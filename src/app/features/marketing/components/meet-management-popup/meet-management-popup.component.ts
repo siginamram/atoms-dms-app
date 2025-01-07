@@ -143,6 +143,7 @@ export class MeetManagementPopupComponent implements OnInit {
         scheduledTime: formData.scheduleTime, // Time in string format
         salesPersonID: userId, // Logged-in user's ID
         meetID: this.meetID || 0,
+        modeOfMeet:this.meetForm.get('meetMode')?.value ? true : false,
       };
   
       console.log('Payload for API:', payload); // Debug payload

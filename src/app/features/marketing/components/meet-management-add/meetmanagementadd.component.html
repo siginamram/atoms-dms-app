@@ -59,8 +59,9 @@
       <mat-form-field appearance="outline">
         <mat-label>Meet Mode</mat-label>
         <mat-select formControlName="meetMode">
-          <mat-option [value]="'online'"> Online</mat-option>
-          <mat-option [value]="'offline'"> Offline</mat-option>
+          <mat-option [value]='1'> Offline</mat-option>
+          <mat-option [value]='0'> Online</mat-option>
+         
         </mat-select>
         <mat-error *ngIf="meetForm.get('meetMode')?.hasError('required')">
           Please select Mode of Meet.
