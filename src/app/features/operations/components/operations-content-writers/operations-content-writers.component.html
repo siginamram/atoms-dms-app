@@ -79,7 +79,11 @@
       <th mat-header-cell *matHeaderCellDef>S.No</th>
       <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
     </ng-container>
-
+     <!-- Reported Date Column -->
+     <ng-container matColumnDef="postScheduleOn">
+      <th mat-header-cell *matHeaderCellDef> Post Schedule Date </th>
+      <td mat-cell *matCellDef="let row"> {{ row.postScheduleOn | date: 'dd-MM-yyyy' }} </td>
+    </ng-container>
     <ng-container matColumnDef="speciality">
       <th mat-header-cell *matHeaderCellDef (click)="toggleFilter('speciality', $event)">
         Speciality
@@ -167,5 +171,5 @@
     <p>No Records Found...</p>
   </div>
   <!-- Paginator -->
-  <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20, 30]"></mat-paginator>
+  <mat-paginator [pageSize]="30" [pageSizeOptions]="[5, 10, 20, 30]"></mat-paginator>
 </div>

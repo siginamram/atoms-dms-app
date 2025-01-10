@@ -66,6 +66,7 @@ export class OperationsContentWritersComponent implements OnInit {
   dataSource = new MatTableDataSource<any>();
   displayedColumns: string[] = [
     'id',
+    'postScheduleOn',
     'speciality',
     'promotionType',
     'creativeType',

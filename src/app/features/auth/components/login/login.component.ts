@@ -86,7 +86,6 @@ export class LoginComponent implements OnInit {
     } else if (roleID === 3) {
       console.log('Navigating to Team Lead Dashboard');
       this.router.navigateByUrl('/home/dashboard/lead-dashboard');
-      //this.router.navigateByUrl('/home/teamlead-dashboard');
     } else if (roleID === 10) {
       console.log('Navigating to Employee Dashboard');
       this.router.navigateByUrl('/home/dashboard/cw-dashboard');

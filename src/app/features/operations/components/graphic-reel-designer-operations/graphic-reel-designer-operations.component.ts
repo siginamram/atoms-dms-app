@@ -37,6 +37,7 @@ export class GraphicReelDesignerOperationsComponent implements OnInit {
   clientForm: FormGroup;
   displayedColumns: string[] = [
    'id',
+   'postScheduleOn',
     'speciality',
     'creativeType',
     'promotionType',
@@ -104,6 +105,7 @@ export class GraphicReelDesignerOperationsComponent implements OnInit {
           this.contentData.data = response.map((item) => ({
             date: moment(item.specialDayDate).format('YYYY-MM-DD'),
             client: this.clientForm.value.clientName,
+            postScheduleOn:item.postScheduleOn,
             speciality: item.speciality,
             promotionType:item.promotionType,
             creativeType: item.creativeType,
