@@ -40,6 +40,7 @@ export class PosterDesignerApprovalComponent implements OnInit {
   displayedColumns: string[] = [
     'sNo',
     'organizationName',
+    'postScheduleOn',
     'resourceName',
     'language',
     'link',
