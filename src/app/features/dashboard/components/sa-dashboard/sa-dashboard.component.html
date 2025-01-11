@@ -1,0 +1,53 @@
+<div class="dashboard-container">
+    <!-- Date Filters -->
+    <div class="date-filters">
+      <div class="filter">
+        <label for="fromDate">From Date:</label>
+        <input id="fromDate" type="date" />
+      </div>
+      <div class="filter">
+        <label for="toDate">To Date:</label>
+        <input id="toDate" type="date" />
+      </div>
+    </div>
+  
+    <!-- KPI Section -->
+    <div class="kpi-section">
+      <div
+        class="kpi-card"
+        *ngFor="let kpi of kpis"
+        [style.background-color]="kpi.color"
+      >
+        <div class="icon-wrapper">
+          <mat-icon>{{ kpi.icon }}</mat-icon>
+        </div>
+        <h3>{{ kpi.title }}</h3>
+        <h2>{{ kpi.value }}</h2>
+      </div>
+    </div>
+  
+    <!-- Table Section -->
+    <div class="table-section">
+      <table>
+        <thead>
+          <tr>
+            <th>Name of the Client</th>
+            <th>Deal Closing Date</th>
+            <th>Base Package</th>
+            <th>Ad Budget</th>
+            <th>Total Worth</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let client of clients">
+            <td>{{ client.name }}</td>
+            <td>{{ client.dealDate }}</td>
+            <td>{{ client.basePackage }}</td>
+            <td>{{ client.adBudget }}</td>
+            <td>{{ client.totalWorth }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

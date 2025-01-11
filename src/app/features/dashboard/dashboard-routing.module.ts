@@ -5,6 +5,8 @@ import { DashboardHomeComponent } from './components/dashboard-home/dashboard-ho
 import { ManagerDashboardComponent } from './components/manager-dashboard/manager-dashboard.component';
 import { LeadDashboardComponent } from './components/lead-dashboard/lead-dashboard.component';
 import { CwDashboardComponent } from './components/cw-dashboard/cw-dashboard.component';
+import { SlDashboardComponent } from './components/sl-dashboard/sl-dashboard.component';
+import { SaDashboardComponent } from './components/sa-dashboard/sa-dashboard.component';
 
 const routes: Routes = [
   {
@@ -16,6 +18,8 @@ const routes: Routes = [
       { path: 'manager-dashboard', component: ManagerDashboardComponent },
       { path: 'lead-dashboard', component: LeadDashboardComponent },
       { path: 'cw-dashboard', component: CwDashboardComponent },
+      { path: 'sl-dashboard', component: SlDashboardComponent },
+      { path: 'sa-dashboard', component: SaDashboardComponent },
     ],
   },
 ];

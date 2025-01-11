@@ -17,6 +17,9 @@ import { NgChartsModule } from 'ng2-charts';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button'; // If you want calendar navigation buttons
+import { SlDashboardComponent } from './components/sl-dashboard/sl-dashboard.component';
+import { SaDashboardComponent } from './components/sa-dashboard/sa-dashboard.component';
+import { MatIconModule } from '@angular/material/icon';
 
 
 
@@ -33,6 +36,8 @@ import { MatButtonModule } from '@angular/material/button'; // If you want calen
     PdDashboardComponent,
     PgDashboardComponent,
     VeDashboardComponent,
+    SlDashboardComponent,
+    SaDashboardComponent,
   ],
   imports: [
     CommonModule,
@@ -42,6 +47,7 @@ import { MatButtonModule } from '@angular/material/button'; // If you want calen
     MatDatepickerModule,
     MatNativeDateModule,
     MatButtonModule,
+    MatIconModule,
   
   ]
 })
