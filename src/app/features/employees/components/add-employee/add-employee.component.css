@@ -1,0 +1,50 @@
+.employee-container {
+  max-width: 900px;
+  margin-left: 300px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color:  #FFFFFF;
+  box-shadow: 0 4px 8px rgb(66, 45, 255);
+}
+
+.container {
+  position: relative;
+  width: 800px;
+  height: 50px;
+  margin: 0px 50px auto;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+
+.circle {
+  display: inline-flex;
+  /* Center text both horizontally and vertically */
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  /* Set the width and height to create a circle */
+  height: 40px;
+  background-color: #999999;
+  /* Background color of the circle */
+  color: white;
+  /* Text color */
+  border-radius: 50%;
+  /* Makes the shape a circle */
+  font-size: 20px;
+  /* Adjust font size */
+  font-weight: bold;
+  /* Make the text bold */
+  text-align: center;
+}
+
+.active {
+  background-color: #2f3b80;
+}
+
+h4 {
+  font-size: x-large;
+  color: #2f3b80;
+  font-weight: bolder;
+}

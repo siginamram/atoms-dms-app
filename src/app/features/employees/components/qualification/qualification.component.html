@@ -1,0 +1,122 @@
+<div class="employee-container">
+    <div class="container">
+        <!-- Points -->
+        <div class="circle active">
+            A
+        </div>
+
+        <div class="circle active">
+            B
+        </div>
+        <div class="circle">
+            C
+        </div>
+        <div class="circle">
+            D
+        </div>
+        <div class="circle">
+            E
+        </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <form [formGroup]="qualificationForm">
+            <div class="row">
+                <div class="col">
+                    <h4>
+                        Qualification
+                    </h4>
+                </div>
+            </div>
+
+                <div *ngFor="let group of qualificationGroup.controls;let i = index" [formGroup]="group">
+                    <div class="row">
+                        <div class="col">
+                            <h3>{{selectedQualificationArray[i]}}</h3>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="row">
+                            <div class="col col-md-3">
+                                <mat-form-field class="form-field" appearance="outline">
+                                    <mat-label>Course Name</mat-label>
+                                    <input matInput formControlName="educationQualification" />
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col col-md-3">
+                                <mat-form-field class="form-field" appearance="outline">
+                                    <mat-label>Institutional Name</mat-label>
+                                    <input matInput formControlName="educationInstituteName" />
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col col-md-3">
+                                <mat-form-field class="form-field" appearance="outline">
+                                    <mat-label>Board/University</mat-label>
+                                    <input matInput formControlName="educationBoardName" />
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col col-md-3">
+                                <mat-form-field class="form-field" appearance="outline">
+                                    <mat-label>Specialization</mat-label>
+                                    <input matInput formControlName="educationSpecialization" />
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col col-md-3">
+                                <mat-form-field class="form-field" appearance="outline">
+                                    <mat-label>Year of Completion</mat-label>
+                                    <input matInput formControlName="yearOfCompletion" />
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col col-md-3">
+                                <mat-form-field class="form-field" appearance="outline">
+                                    <mat-label>Percentage</mat-label>
+                                    <input matInput formControlName="percentage" />
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-8">
+
+                            </div>
+                            <div class="col-4" style="display: flex;justify-content: end;">
+                                <button mat-icon-button color="warn" (click)="removeFields(i)">
+                                    <mat-icon>delete</mat-icon>
+                                  </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="row">
+                <div class="col-6">
+                    <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Qualification</mat-label>
+                        <mat-select [(value)]="selectedQual">
+                            <mat-option *ngFor="let qual of qualificationDropDown" [value]="qual">{{qual}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-6" style="display: flex;justify-content: end;">
+                    <button mat-raised-button color="primary" (click)="checkAndAddQualification()">
+                        Add Qualification
+                    </button>
+                </div>
+            </div>
+
+        </form>
+
+
+
+    </div>
+
+</div>

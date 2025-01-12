@@ -1,1 +1,245 @@
-<p>add-employee works!</p>
+<div class="employee-container">
+   <div class="container">
+      <!-- Points -->
+      <div class="circle active">
+         A
+      </div>
+
+      <div class="circle">
+         B
+      </div>
+      <div class="circle">
+         C
+      </div>
+      <div class="circle">
+         D
+      </div>
+      <div class="circle">
+         E
+      </div>
+   </div>
+
+   <div style="margin-top: 20px;">
+      <form [formGroup]="personalDetailsForm">
+          <!--Personal Details-->
+         <div class="row">
+            <div class="col">
+               <h4>Personal Info</h4>
+            </div>
+
+           
+            <div class="col-12" style="margin-top: 10px;">
+               <div class="row">
+                  <div class="col-12 col-md-4">
+                     <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>First Name</mat-label>
+                        <input matInput formControlName="firstName" />
+                     </mat-form-field>
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                     <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Middle Name</mat-label>
+                        <input matInput formControlName="middleName" />
+                     </mat-form-field>
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                     <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Last Name</mat-label>
+                        <input matInput formControlName="lastName" />
+                     </mat-form-field>
+                  </div>
+               </div>
+
+               <div class="row">
+                  <div class="col-12 col-md-4">
+                     <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Date Of Birth</mat-label>
+                        <input matInput [matDatepicker]="picker1" formControlName="dateOfBirth" />
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                     </mat-form-field>
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                     <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Marital Status</mat-label>
+                        <mat-select formControlName="maritalStatus">
+                           <mat-option [value]="'Single'">Single</mat-option>
+                           <mat-option [value]="'Married'">Married</mat-option>
+                           <mat-option [value]="'Widowed'">Widowed</mat-option>
+                           <mat-option [value]="'Divorced'">Divorced</mat-option>
+                        </mat-select>
+                     </mat-form-field>
+                  </div>
+
+
+                  <div class="col-12 col-md-4">
+                     <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Phone Number</mat-label>
+                        <input matInput formControlName="contactNumber" />
+                     </mat-form-field>
+                  </div>
+               </div>
+
+               <div class="row">
+                  <div class="col-12 col-md-4">
+                     <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Email Id</mat-label>
+                        <input matInput formControlName="emailId" />
+                     </mat-form-field>
+                  </div>
+
+
+               </div>
+            </div>
+         </div>
+
+         <!--Family Details-->
+         <div class="row">
+            <div class="col">
+               <h4>Family Info</h4>
+            </div>
+
+            <div class="col-12" style="margin-top: 10px;">
+               <!--Father Details-->
+               <div class="row">
+                  <div class="col-12 col-md-4">
+                     <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Father Name</mat-label>
+                        <input matInput formControlName="fatherName" />
+                     </mat-form-field>
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                     <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Father Number</mat-label>
+                        <input matInput formControlName="fatherNumber" />
+                     </mat-form-field>
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                     <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Email Id</mat-label>
+                        <input matInput formControlName="fatherEmailId" />
+                     </mat-form-field>
+                  </div>
+
+               </div>
+
+               <!--Mother Details-->
+               <div class="row">
+                  <div class="col-12 col-md-4">
+                     <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Mother Name</mat-label>
+                        <input matInput formControlName="motherName" />
+                     </mat-form-field>
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                     <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Mother Number</mat-label>
+                        <input matInput formControlName="motherNumber" />
+                     </mat-form-field>
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                     <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Email Id</mat-label>
+                        <input matInput formControlName="motherEmailId" />
+                     </mat-form-field>
+                  </div>
+
+               </div>
+
+               <!--Spouse Details-->
+               <div class="row">
+                  <div class="col-12 col-md-4">
+                     <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Spouse Name</mat-label>
+                        <input matInput formControlName="spouseName" />
+                     </mat-form-field>
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                     <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Spouse Number</mat-label>
+                        <input matInput formControlName="spouseNumber" />
+                     </mat-form-field>
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                     <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Email Id</mat-label>
+                        <input matInput formControlName="spouseEmailId" />
+                     </mat-form-field>
+                  </div>
+
+               </div>
+
+               <div class="row">
+                  <div class="col-12 col-md-4">
+                     <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Emergency Contact</mat-label>
+                        <mat-select formControlName="emergencyContact">
+                           <mat-option [value]="'Father'">Father</mat-option>
+                           <mat-option [value]="'Mother'">Mother</mat-option>
+                           <mat-option [value]="'Spouse'">Spouse</mat-option>
+                           <mat-option [value]="'Other'">Other</mat-option>
+                        </mat-select>
+                     </mat-form-field>
+                  </div>
+
+                  <div class="col-12 col-md-4" *ngIf="personalDetailsForm.get('emergencyContact')?.value === 'Other'">
+                     <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>RelationShip</mat-label>
+                        <mat-select formControlName="otherPersonRelation">
+                           <mat-option [value]="'Sibling'">Sibling</mat-option>
+                           <mat-option [value]="'Relative'">Relative</mat-option>
+                           <mat-option [value]="'Friend'">Friend</mat-option>
+                        </mat-select>
+                     </mat-form-field>
+                  </div>
+               </div>
+
+               <!--Other Details-->
+               <div class="row"  *ngIf="personalDetailsForm.get('emergencyContact')?.value === 'Other'">
+                  <div class="col-12 col-md-4">
+                     <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Name</mat-label>
+                        <input matInput formControlName="otherPersonName" />
+                     </mat-form-field>
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                     <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Phone Number</mat-label>
+                        <input matInput formControlName="otherPersonNumber" />
+                     </mat-form-field>
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                     <mat-form-field class="form-field" appearance="outline">
+                        <mat-label>Email Id</mat-label>
+                        <input matInput formControlName="otherPersonEmail" />
+                     </mat-form-field>
+                  </div>
+
+               </div>
+            </div>
+
+         </div>
+
+         <div class="row"> 
+            <div class="col" style="display: flex;justify-content: end;">
+               <button mat-raised-button color="primary" type="submit" [disabled]="disableNext()">
+                  Next
+                </button>
+            </div>
+         </div>
+
+      </form>
+   </div>
+
+</div>
