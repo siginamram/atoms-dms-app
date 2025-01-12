@@ -39,6 +39,7 @@ export class GraphicReelsDesignerApprovalComponent implements OnInit {
   displayedColumns: string[] = [
     'sNo',
     'organizationName',
+    'postScheduleOn',
     'resourceName',
     'language',
     'link',

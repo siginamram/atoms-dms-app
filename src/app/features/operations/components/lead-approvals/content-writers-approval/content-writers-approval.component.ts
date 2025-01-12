@@ -37,6 +37,7 @@ export class ContentWritersApprovalComponent implements OnInit {
   displayedColumns: string[] = [
     'monthlyTrackerId',
     'organizationName',
+    'postScheduleOn',
     'resourceName',
     'speciality',
     'creativeType',

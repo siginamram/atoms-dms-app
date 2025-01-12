@@ -1,0 +1,52 @@
+<div class="dashboard-container">
+    <!-- Date Filters -->
+    <div class="date-filters">
+      <div class="filter">
+        <label for="fromDate">From:</label>
+        <input type="date" id="fromDate" [(ngModel)]="fromDate" />
+      </div>
+      <div class="filter">
+        <label for="toDate">To:</label>
+        <input type="date" id="toDate" [(ngModel)]="toDate" />
+      </div>
+      <button (click)="applyDateFilter()">Apply</button>
+    </div>
+  
+    <!-- KPI Section -->
+    <div class="kpi-section">
+      <div
+        class="kpi-card"
+        *ngFor="let kpi of kpis"
+        [style.background-color]="kpi.color"
+      >
+        <mat-icon class="kpi-icon">{{ kpi.icon }}</mat-icon>
+        <h3>{{ kpi.title }}</h3>
+        <h2>{{ kpi.value }}</h2>
+      </div>
+    </div>
+  
+    <!-- Table Section -->
+    <div class="table-section">
+      <table>
+        <thead>
+          <tr>
+            <th>Name of the S.A</th>
+            <th>Prospects Registered</th>
+            <th>Deals Closed</th>
+            <th>Revenue Generated</th>
+            <th>Success Rate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of tableData">
+            <td>{{ row.name }}</td>
+            <td>{{ row.prospects }}</td>
+            <td>{{ row.dealsClosed }}</td>
+            <td>{{ row.revenue }}</td>
+            <td>{{ row.successRate }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

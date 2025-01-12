@@ -18,9 +18,9 @@
     </div>
     <div class="sidebar-content">
       <ul class="sidebar-list">
-        <li>
-          <a routerLink="/home/dashboard" routerLinkActive="active">
-            <i class="material-icons">home</i> Dashboard
+        <li *ngFor="let item of menuItems">
+          <a [routerLink]="item.route" routerLinkActive="active">
+            <i class="material-icons">{{ item.icon }}</i> {{ item.title }}
           </a>
         </li>
         <li>
@@ -142,9 +142,9 @@
 <div class="mobile-menu" [class.active]="isMobileMenuActive">
   <button class="close-btn" (click)="toggleMobileMenu()">×</button>
   <ul class="sidebar-list">
-    <li>
-      <a routerLink="/home/dashboard" routerLinkActive="active">
-        <i class="material-icons">home</i> Dashboard
+    <li *ngFor="let item of menuItems">
+      <a [routerLink]="item.route" routerLinkActive="active">
+        <i class="material-icons">{{ item.icon }}</i> {{ item.title }}
       </a>
     </li>
     <li>
