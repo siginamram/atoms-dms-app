@@ -11,6 +11,10 @@
   <div class="section">
     <div class="form-row">
       <mat-form-field appearance="outline">
+        <mat-label>Client Name</mat-label>
+        <input matInput formControlName="clientName" type="text" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Client Category</mat-label>
         <mat-select formControlName="clientCategory">
           <mat-option [value]="1">A</mat-option>

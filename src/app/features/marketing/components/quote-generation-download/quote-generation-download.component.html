@@ -9,7 +9,7 @@
 <div id="pdfContent">
 <div id="pdf-container1" style="background-image: url('../../../../assets/img/atomsletter_header.jpg');">
     <div class="container py-5">
-        <h4 class="text-center mb-2 mt-5">Digital Marketing Services <br>{{clientPackage | uppercase }}</h4>
+        <h4 class="text-center mb-2 mt-5">DIGITAL MARKETING SERVICES <br>{{clientPackage | uppercase }} SERVICES</h4>
         <!-- Services Section -->
         <!-- <div class="branding-type">
             <p class="section-title">Branding Type</p>
@@ -63,16 +63,18 @@
     <div class="container py-5 mt-5" style="line-height: 1.5;">
         <div style="margin-bottom: 10px;">  
         <h3 style="margin-top: 0;">Monthly Deliverables While Optimizing Social Media</h3>
-        <p *ngIf="leadPackage?.noOfPosters != 0">No. of posters: {{leadPackage?.noOfPosters}}</p>
-        <p *ngIf="leadPackage?.noOfGraphicReels != 0">No. of graphic reels: {{leadPackage?.noOfGraphicReels}}</p>
-        <p *ngIf="leadPackage?.noOfEducationalReels != 0">No. of educational reels: {{leadPackage?.noOfEducationalReels}}</p>
-        <p *ngIf="leadPackage?.noOfYouTubeVideos != 0">No. of YouTube Videos: {{leadPackage?.noOfYouTubeVideos}}</p>
-        <p *ngIf="adBudget != 0">Ad Budget Per Month: INR {{adBudget}}/- ({{adBudgetInWords}})</p>
+        <ul style="margin: 0;">
+            <li *ngIf="leadPackage?.noOfPosters != 0">No. of posters: {{leadPackage?.noOfPosters}}</li>
+            <li *ngIf="leadPackage?.noOfGraphicReels != 0">No. of graphic reels: {{leadPackage?.noOfGraphicReels}}</li>
+            <li *ngIf="leadPackage?.noOfEducationalReels != 0">No. of educational reels: {{leadPackage?.noOfEducationalReels}}</li>
+            <li *ngIf="leadPackage?.noOfYouTubeVideos != 0">No. of YouTube Videos: {{leadPackage?.noOfYouTubeVideos}}</li>
+            <li *ngIf="adBudget != 0">Ad Budget Per Month: INR {{adBudget}}/- ({{adBudgetInWords}})</li>
+        </ul>
     </div>
 
 
         <h3>Marketing Strategies</h3>
-        <ul style="padding-left: 20px; margin: 0;">
+        <ul style=" margin: 0;">
             <li *ngIf="mStrategies?.googleMyBusiness">Google My Business Management</li>
             <li *ngIf="mStrategies?.podcast">Podcast</li>
             <li *ngIf="mStrategies?.competitorAnalysis">Competitor Analysis</li>
@@ -88,7 +90,7 @@
         </ul>
 
         <h3 *ngIf="isAssistance">Assistance</h3>
-        <ul style="padding-left: 20px; margin: 0;">
+        <ul style=" margin: 0;">
             <li *ngIf="assistance?.sem">Search Engine Marketing Assistance</li>
             <li *ngIf="assistance?.justDail">Justdial</li>
             <li *ngIf="assistance?.whatsappMarketing">WhatsApp Marketing Assistance</li>
@@ -97,15 +99,21 @@
             <li *ngIf="assistance?.interviewInYTAndTV">Assistance for interviews in major YouTube channels and TV Channels</li>
         </ul>
 
-        <h3>Monthly Base Package : INR {{basePackage}}/-  ({{basePackageInWords}})</h3>
-        <h3>Total Budget :<span>INR {{ totalBudget}}/-</span><span>( Including GST <span *ngIf="this.leadPackage?.chargesPerVisit>0"> and Excluding Shoot</span> )</span></h3>
+        <h3 style="display: inline;">Monthly Base Package :</h3> INR {{basePackage}}/-  ({{basePackageInWords}})<br>
+        <div style="display: inline-block; ">
+            <h3 >Total Budget&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</h3>
+        </div>
+        <div style="display: inline;">
+            <span> INR {{ totalBudget}}/-</span><span>({{totalBudgetInWords}} Including GST <span *ngIf="this.leadPackage?.chargesPerVisit>0"> and Excluding Shoot</span> )</span>
+        </div>
+
 
     
         <h3>Note:</h3>
         <ul>
             <li *ngIf="leadPackage?.chargesPerVisit>0">The shoot budget will be billed based on the number of shoots conducted during the month, along with applicable GST charges.</li>
             <li *ngIf="leadPackage?.requiredToDedicateAdditionalAdBudget">You have to dedicate additional budget for the ads to reach your target audience in inorganic methods.</li>
-            <li>There won’t be any service charges for ad campaign management up to a budget of INR {{ noSCForAdCMUpto}}/- {{ noSCForAdCMUptoInWords }}</li>
+            <li>There won’t be any service charges for ad campaign management up to a budget of INR {{ noSCForAdCMUpto}}/- ({{ noSCForAdCMUptoInWords }})</li>
         </ul>
     </div>
 </div>

@@ -53,6 +53,7 @@ export class SalesConvertStatuEditComponent implements OnInit {
           console.log('Fetched Client Data:', data);
   
           this.progressForm.patchValue({
+            clientName: data.organizationName || '',
             clientCategory: data.clientCategory || '',
             operationsManager: data.opManagerID || '', // Bind opManagerID
             operationsLead: data.opLeadID || '', // Bind opLeadID
@@ -90,11 +91,12 @@ export class SalesConvertStatuEditComponent implements OnInit {
 
   initializeForm() {
     this.progressForm = this.fb.group({
+      clientName: [{value: '',disabled: true}, Validators.required ],
       clientCategory: ['', Validators.required],
       operationsManager: ['', Validators.required],
       operationsLead: ['', Validators.required],
-      contactNumberManager: [''], // Optional fields without validation
-      contactNumberLead: [''],
+      contactNumberManager: [{value: '',disabled: true}], // Optional fields without validation
+      contactNumberLead: [{value: '',disabled: true}],
       ktStatus: [false, Validators.required],
       ktDate: ['', Validators.required],
       isAdvReceived: [false, Validators.required],

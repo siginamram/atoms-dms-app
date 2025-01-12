@@ -36,7 +36,7 @@
       <mat-checkbox formControlName="dedicatedRM">Assistance to Dedicated RM</mat-checkbox>
       <mat-checkbox formControlName="dedicatedDMA">Assistance to Dedicated DMA</mat-checkbox>
       <mat-checkbox formControlName="addCampaignManagement">Ad Campaign Management</mat-checkbox>
-      <mat-checkbox formControlName="performanceTracker">Monthly Performance Tracker</mat-checkbox>
+      <mat-checkbox formControlName="performanceTracker">Monthly Performance Report</mat-checkbox>
       <mat-checkbox formControlName="photoVideoShoots">Monthly Photo and Video Shoots</mat-checkbox>
     </div>
 <!-- Shoot Overview -->
@@ -60,7 +60,7 @@
     <h2>Marketing Strategies</h2>
     <div formGroupName="marketingStrategies">
       <mat-radio-group formControlName="level" (change)="onLevelChange()">
-        <mat-radio-button *ngFor="let level of ['Stater', 'Basic', 'Pro', 'Advanced','Gold']" [value]="level">{{ level }}</mat-radio-button>
+        <mat-radio-button *ngFor="let level of ['Starter', 'Basic', 'Pro', 'Advanced','Gold']" [value]="level">{{ level }}</mat-radio-button>
       </mat-radio-group>
       <div>
       <mat-checkbox formControlName="googleMyBusiness">Google My Business Management</mat-checkbox>
@@ -126,14 +126,14 @@
     <div class="form-row" formGroupName="monthlyDeliverables">
       <mat-form-field *ngFor="let field of deliverables" appearance="outline">
         <mat-label>{{ field }}</mat-label>
-        <input matInput  formControlName="{{field}}" />
+        <input matInput  formControlName="{{deliverableFields[field]}}" />
       </mat-form-field>
     </div>
 
     <div class="form-row">
       <mat-checkbox formControlName="requiredToDedicateAdditionalAdBudget">You have to dedicate additional budget for the ads to reach your target audience in inorganic methods.</mat-checkbox>
       <mat-form-field appearance="outline" >
-        <mat-label>Max Add Budget Amount</mat-label>
+        <mat-label>Max Ad Budget</mat-label>
         <input matInput  formControlName="noSCForAdCMUpto" />
       </mat-form-field>
     </div>

@@ -79,7 +79,14 @@ export class QuoteGenerationAddComponent implements OnInit {
   shootBudgetOptions = ['Yes', 'No'];
   leadID: number | null = null;
   quotationData: any;
-  deliverables = ['posters', 'graphicReels', 'educationalReels', 'youtubeVideos',  'campaignBudget'];
+  deliverables = ['Posters', 'Graphic Reels', 'Educational Reels', 'Youtube Videos',  'Campaign Budget'];
+  deliverableFields: any = {
+    'Posters': 'posters',
+    'Graphic Reels': 'graphicReels',
+    'Educational Reels':'educationalReels',
+    'Youtube Videos': 'youtubeVideos',
+    'Campaign Budget':'campaignBudget'
+  }
   showSpinner = false;
   constructor(
     private fb: FormBuilder,
@@ -188,9 +195,9 @@ export class QuoteGenerationAddComponent implements OnInit {
   
   onCheckboxChange(event: MatCheckboxChange): void {
     if (event.checked) {
-      this.deliverables = ['posters', 'graphicReels', 'educationalReels', 'youtubeVideos',  'campaignBudget'];
+      this.deliverables = ['Posters', 'Graphic Reels', 'Educational Reels', 'Youtube Videos',  'Campaign Budget'];
     } else {
-      this.deliverables = ['posters', 'graphicReels', 'educationalReels',  'campaignBudget'];
+      this.deliverables = ['Posters', 'GraphicReels', 'Educational Reels',  'Campaign Budget'];
     }
   }
 
@@ -232,7 +239,7 @@ export class QuoteGenerationAddComponent implements OnInit {
     this.marketingService.getQuoteByLeadId(leadId).subscribe({
       next: (data: any) => {
         if(!data.socialMediaOptimization?.smYoutube){
-          this.deliverables = ['posters', 'graphicReels', 'educationalReels',  'campaignBudget'];
+          this.deliverables = ['Posters', 'Graphic Reels', 'Educational Reels',  'Campaign Budget'];
         }
         this.quotationData = data
         // if (data.leadID === 0) {
@@ -247,7 +254,7 @@ export class QuoteGenerationAddComponent implements OnInit {
         // Map the API response to form fields
         this.leadForm.patchValue({
           leadName: organizationName || '', // Ensure a default value
-          dateOfGeneration:  data.date && data.date  !== '0001-01-01T00:00:00' ? new Date(data.date) : '' ,// Default value if missing
+          dateOfGeneration:  data.date && data.date  !== '0001-01-01T00:00:00' ? new Date(data.date) : new Date() ,// Default value if missing
           brandingType: data.branding === 1 ? 'Organizational' : 'Personal', // Map branding type
 
           basePackage: data.leadPackage?.basePackage || 0,

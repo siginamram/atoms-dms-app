@@ -79,8 +79,7 @@ export class QuoteGenerationDocComponent implements OnInit {
       next: (response) => {
         this.originalTableData = response.map((item: any) => ({
           leadId: item.leadId, // Ensure this is part of the mapped data
-          date: item.date && item.date  !== '0001-01-01T00:00:00' ? new Date(item.date) : ''
-          , // Add date dynamically  
+          date: item.date && item.date  !== '0001-01-01T00:00:00' ? new Date(item.date) : new Date(), // Add date dynamically  
           leadDetails: item.organizationName,
           basePackage: item.basePackage,
           adBudget: item.adBudget,

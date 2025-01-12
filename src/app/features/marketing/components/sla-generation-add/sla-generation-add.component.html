@@ -9,7 +9,7 @@
   <form [formGroup]="slaForm" (ngSubmit)="onSubmit()" class="sla-form">
     <div class="form-row">
       <mat-form-field appearance="outline">
-        <mat-label>Name of Organization</mat-label>
+        <mat-label>Name of the Organization</mat-label>
         <input matInput formControlName="leadName" />
         <mat-error *ngIf="slaForm.get('leadName')?.hasError('required')">
           Name of Organization is required.
@@ -17,7 +17,7 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Domain of Organization</mat-label>
+        <mat-label>Domain of the Organization</mat-label>
         <input matInput formControlName="organizationDomain" />
         <mat-error *ngIf="slaForm.get('organizationDomain')?.hasError('required')">
           Domain is required.
@@ -28,10 +28,10 @@
     <!-- New Client Name and Designation Fields -->
     <div class="form-row">
       <mat-form-field appearance="outline" aria-readonly="true">
-        <mat-label>Client Name</mat-label>
+        <mat-label>Name of Signing Authority</mat-label>
         <input matInput formControlName="clientName" />
         <mat-error *ngIf="slaForm.get('clientName')?.hasError('required')">
-          Client Name is required.
+          Name of Signing Authority is required.
         </mat-error>
       </mat-form-field>
 
@@ -100,7 +100,7 @@
         <input matInput formControlName="basePackage" />
       </mat-form-field>
       <mat-form-field appearance="outline">
-        <mat-label>No. of Poster Designs</mat-label>
+        <mat-label>No. of Posters</mat-label>
         <input matInput formControlName="posterDesigns" />
       </mat-form-field>
 
@@ -116,11 +116,11 @@
 
     <div class="form-row">
       <mat-form-field appearance="outline">
-        <mat-label>Graphic Reel</mat-label>
+        <mat-label>Graphic Reels</mat-label>
         <input matInput formControlName="graphicReel" />
       </mat-form-field>
       <mat-form-field appearance="outline">
-        <mat-label>Educational Reel</mat-label>
+        <mat-label>General Educational Reels</mat-label>
         <input matInput formControlName="educationalReel" />
       </mat-form-field>
 
