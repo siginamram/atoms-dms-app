@@ -19,7 +19,8 @@ export class MeetManagementPopupComponent implements OnInit {
   meetID: number | null = null;
   leadID: number | null = null;
   startTimeOptions: string[] = [];
-
+  filteredLeads: any[] = []; // Filtered leads for autocomplete
+  
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -56,7 +57,51 @@ export class MeetManagementPopupComponent implements OnInit {
       this.startTimeOptions = this.generateStartTimeOptions(); // Generate start time options
     });
   }
-
+  filterLeads(event: Event): void {
+    const inputValue = (event.target as HTMLInputElement).value.toLowerCase();
+    this.filteredLeads = this.leads.filter((lead) =>
+      lead.organizationName.toLowerCase().includes(inputValue)
+    );
+  }
+  onLeadSelected(event: any): void {
+    const selectedLead = this.leads.find(
+      (lead) => lead.leadID === event.option.value
+    );
+    if (selectedLead) {
+      this.meetForm.patchValue({
+        leadName: selectedLead.leadID, // Store leadID in the form
+      });
+    }
+  }
+  
+  loadLeads(filterByLeadID?: number): void {
+    const userId = parseInt(localStorage.getItem('UserID') || '0', 10); // Get UserID from localStorage
+    const status = 1; // Default status to progressive
+  
+    this.commanApiService.getLeadsByStatusAndRole(userId, status).subscribe(
+      (data: any[]) => {
+        this.leads = data;
+        this.filteredLeads = filterByLeadID
+          ? data.filter((lead) => lead.leadID === filterByLeadID)
+          : data; // Initialize filteredLeads
+      },
+      (error) => {
+        console.error('Failed to fetch leads:', error);
+        this.leads = [];
+        this.filteredLeads = [];
+      }
+    );
+  }
+  displayLeadName = (leadID: number): string => {
+    const lead = this.leads.find((l) => l.leadID === leadID);
+    return lead ? lead.organizationName : '';
+  };
+  
+  getLeadName(leadID: number): string {
+    const lead = this.leads.find((l) => l.leadID === leadID);
+    return lead ? lead.organizationName : '';
+  }
+  
   generateStartTimeOptions(): string[] {
     const options: string[] = [];
     const startHour = 0; // 00:00 (12:00 AM)
@@ -98,31 +143,6 @@ export class MeetManagementPopupComponent implements OnInit {
     return date ? date >= today : false; // Allow only today and future dates
   };
 
-  // Load leads dynamically
-  loadLeads(filterByLeadID?: number): void {
-    const userId = parseInt(localStorage.getItem('UserID') || '0', 10); // Get UserID from localStorage
-    const status = 1; // Default status to progressive
-
-    this.commanApiService.getLeadsByStatusAndRole(userId, status).subscribe(
-      (data: any[]) => {
-        if (filterByLeadID) {
-          // Filter specific leadID if provided
-          this.leads = data.filter((lead) => lead.leadID === filterByLeadID);
-
-          if (this.leads.length === 0) {
-            console.warn(`No lead found with ID: ${filterByLeadID}`);
-          }
-        } else {
-          // Otherwise bind all leads
-          this.leads = data;
-        }
-      },
-      (error) => {
-        console.error('Failed to fetch leads:', error);
-        this.leads = [];
-      }
-    );
-  }
 
   // Close the popup
   closePopup(): void {

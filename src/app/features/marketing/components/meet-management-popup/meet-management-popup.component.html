@@ -15,15 +15,28 @@
       <div class="form-row">
         <mat-form-field appearance="outline">
           <mat-label>Name of the Lead</mat-label>
-          <mat-select formControlName="leadName">
-            <mat-option *ngFor="let lead of leads" [value]="lead.leadID">
+          <input
+            matInput
+            placeholder="Search Lead"
+            formControlName="leadName"
+            [matAutocomplete]="auto"
+            [value]="getLeadName(meetForm.get('leadName')?.value)"
+            (input)="filterLeads($event)"
+          />
+          <mat-autocomplete
+            #auto="matAutocomplete"
+            (optionSelected)="onLeadSelected($event)"
+            [displayWith]="displayLeadName"
+          >
+            <mat-option *ngFor="let lead of filteredLeads" [value]="lead.leadID">
               {{ lead.organizationName }}
             </mat-option>
-          </mat-select>
+          </mat-autocomplete>
           <mat-error *ngIf="meetForm.get('leadName')?.hasError('required')">
             Please select a lead.
           </mat-error>
         </mat-form-field>
+        
 
         <mat-form-field appearance="outline">
           <mat-label>Meet Mode</mat-label>

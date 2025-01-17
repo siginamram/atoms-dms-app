@@ -31,10 +31,11 @@
             </ul>
         </div>
 
-        <div class="shoot-overview" *ngIf="services?.monthlyShoot">
+        <div class="shoot-overview" *ngIf="services?.monthlyShoot && leadPackage?.shootBudgetOffered">
             <h3 class="section-title">Shoot Overview</h3>
             <ul>
-                <li>Shoot Budget: <span *ngIf="leadPackage?.shootBudgetOffered">Available</span><span *ngIf="!leadPackage?.shootBudgetOffered">Not Available</span></li>
+                <li>Shoot Budget: <span *ngIf="leadPackage?.shootBudgetOffered">Available</span>
+                    <span *ngIf="!leadPackage?.shootBudgetOffered">Not Available</span></li>
                 <li *ngIf="leadPackage?.chargesPerVisit > 0">Budget Per Visit: INR {{shootBudget}}/- ( {{shootBudegetInWords}} )</li>
             </ul>
         </div>
@@ -104,7 +105,7 @@
             <h3 >Total Budget&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</h3>
         </div>
         <div style="display: inline;">
-            <span> INR {{ totalBudget}}/-</span><span>({{totalBudgetInWords}} Including GST <span *ngIf="this.leadPackage?.chargesPerVisit>0"> and Excluding Shoot</span> )</span>
+            <span> INR {{ totalBudget}}/-</span><span>({{totalBudgetInWords}} inclusive of GST <span *ngIf="this.leadPackage?.chargesPerVisit>0"> and Excluding Shoot</span> )</span>
         </div>
 
 
