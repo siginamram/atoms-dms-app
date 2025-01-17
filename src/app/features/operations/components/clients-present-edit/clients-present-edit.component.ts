@@ -77,7 +77,7 @@ export class ClientsPresentEditComponent implements OnInit{
      {
     this.editForm = this.fb.group({
       clientName: ['', Validators.required],
-      dealClosingDate: ['', Validators.required],
+      dealClosingDate: [''],
       domain: ['', Validators.required],
       category: ['', Validators.required],
       teamLeader: ['', Validators.required],
@@ -127,7 +127,7 @@ export class ClientsPresentEditComponent implements OnInit{
         this.showSpinner = false;
         this.editForm.patchValue({
           clientName: data.clientName || data.organizationName,
-          dealClosingDate: this.formatDate(data.serviceStartDate),
+          dealClosingDate: data.createdAt,
           domain: data.domain,
           category: data.clientCategory,
           teamLeader: data.clientResourceAllocation.opLeadID,

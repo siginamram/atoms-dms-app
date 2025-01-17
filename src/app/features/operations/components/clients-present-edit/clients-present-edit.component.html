@@ -18,9 +18,10 @@
   
         <mat-form-field class="form-field" appearance="outline">
           <mat-label>Deal Closing Date</mat-label>
-          <input matInput [matDatepicker]="picker1" formControlName="dealClosingDate" />
-          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-          <mat-datepicker #picker1></mat-datepicker>
+          <input 
+            matInput 
+            [value]="editForm.get('dealClosingDate')?.value | date: 'dd-MM-yyyy'" 
+            readonly />
         </mat-form-field>
   
         <mat-form-field class="form-field" appearance="outline">
@@ -113,7 +114,7 @@
       </mat-form-field>
 
       <mat-form-field class="form-field" appearance="outline">
-        <mat-label>Video Editor</mat-label>
+        <mat-label>General Video Editor</mat-label>
         <mat-select formControlName="videoEditor1">
           <mat-option *ngFor="let option of dropdownOptions.videoEditors" [value]="option.userId">
             {{ option.empname }}
@@ -122,7 +123,7 @@
       </mat-form-field>
 
       <mat-form-field class="form-field" appearance="outline">
-        <mat-label>Video Editor-2 (Optional)</mat-label>
+        <mat-label>Graphic Video Editor</mat-label>
         <mat-select formControlName="videoEditor2">
           <mat-option *ngFor="let option of dropdownOptions.videoEditors" [value]="option.userId">
             {{ option.empname }}
