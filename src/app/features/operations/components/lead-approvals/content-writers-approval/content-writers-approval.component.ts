@@ -79,6 +79,7 @@ export class ContentWritersApprovalComponent implements OnInit {
           userId:userId,
           creativeType:1,
           creativeTypeId:item.creativeType,
+          promotionType:this.getpromotionType(item.promotionId),
           role:'Content Writer',
         }));
         this.dataSource.paginator = this.paginator;
@@ -88,6 +89,23 @@ export class ContentWritersApprovalComponent implements OnInit {
       },
     });
   }
+
+  getpromotionType(status: number): string {
+    switch (status) {
+      case 1:
+        return 'Branding';
+      case 2:
+        return 'Educational';
+      case 3:
+        return 'Meme';
+      case 4:
+        return 'Emergency';
+      case 5:
+        return 'Special Day';
+      default:
+        return 'Unknown status';
+    }
+  } 
   applyFilter(): void {
     const organization = this.organizationFilter.value?.toLowerCase() || '';
     const resource = this.resourceFilter.value?.toLowerCase() || '';

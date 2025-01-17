@@ -109,7 +109,7 @@ export class PosterDesignerOperationsComponent implements OnInit {
             client: this.clientForm.value.clientName,
             postScheduleOn:item.postScheduleOn,
             speciality: item.speciality,
-            promotionType:item.promotionType,
+            promotionType:this.getpromotionType(item.promotionId),
             creativeType: item.creativeType,
             language:item.language,
             caption: item.contentCaption,
@@ -139,7 +139,22 @@ export class PosterDesignerOperationsComponent implements OnInit {
     };
     return statusMap[status] || 'Unknown Status';
   }
-
+  getpromotionType(status: number): string {
+    switch (status) {
+      case 1:
+        return 'Branding';
+      case 2:
+        return 'Educational';
+      case 3:
+        return 'Meme';
+      case 4:
+        return 'Emergency';
+      case 5:
+        return 'Special Day';
+      default:
+        return 'Unknown status';
+    }
+  } 
   setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>): void {
     const ctrlValue = this.date.value ?? moment();
     ctrlValue.month(normalizedMonthAndYear.month());

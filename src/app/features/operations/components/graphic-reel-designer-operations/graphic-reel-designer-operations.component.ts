@@ -107,7 +107,7 @@ export class GraphicReelDesignerOperationsComponent implements OnInit {
             client: this.clientForm.value.clientName,
             postScheduleOn:item.postScheduleOn,
             speciality: item.speciality,
-            promotionType:item.promotionType,
+            promotionType:this.getpromotionType(item.promotionId),
             creativeType: item.creativeType,
             language:item.language,
             caption: item.contentCaption,
@@ -125,7 +125,22 @@ export class GraphicReelDesignerOperationsComponent implements OnInit {
         },
       });
   }
-
+  getpromotionType(status: number): string {
+    switch (status) {
+      case 1:
+        return 'Branding';
+      case 2:
+        return 'Educational';
+      case 3:
+        return 'Meme';
+      case 4:
+        return 'Emergency';
+      case 5:
+        return 'Special Day';
+      default:
+        return 'Unknown status';
+    }
+  } 
   mapGraphicStatus(status: number): string {
     const statusMap: { [key: number]: string } = {
       1: 'Yet to Start',

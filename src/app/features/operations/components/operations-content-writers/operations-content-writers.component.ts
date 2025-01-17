@@ -154,6 +154,7 @@ export class OperationsContentWritersComponent implements OnInit {
           ...item,
           day: new Date(item.date).toLocaleDateString('en-US', { weekday: 'long' }),
           contentStatus: this.getStatusText(item.contentStatus),
+          promotionType:this.getpromotionType(item.promotionId),
         }));
         this.isLoading = false; // Stop loading indicator
         this.dataSource.paginator = this.paginator; // Reassign paginator
@@ -217,6 +218,22 @@ export class OperationsContentWritersComponent implements OnInit {
     }
   } 
 
+  getpromotionType(status: number): string {
+    switch (status) {
+      case 1:
+        return 'Branding';
+      case 2:
+        return 'Educational';
+      case 3:
+        return 'Meme';
+      case 4:
+        return 'Emergency';
+      case 5:
+        return 'Special Day';
+      default:
+        return 'Unknown status';
+    }
+  } 
   onEdit(row: any): void {
     console.log('Edit action for row:', row); // Check if monthlyTrackerId exists
     if (!row.monthlyTrackerId) {
