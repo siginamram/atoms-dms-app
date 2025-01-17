@@ -98,6 +98,7 @@ export class PhotoGrapherScheduleMeetComponent implements OnInit {
           meetingStatus: this.mapmeetingstatus(item.meetingStatus), // Status based on type
           meetId:item.id,
           clientId:item.clientId,
+          shootDate:item.date,
         }));
         this.cdr.markForCheck(); // Trigger change detection
       },

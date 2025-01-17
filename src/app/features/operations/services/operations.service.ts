@@ -172,4 +172,9 @@ export class OperationsService {
     const apiUrl = `${this.baseApiUrl}/api/Operations/videoEditorApprovalRequests/${userId}/${date}`;
     return this.http.get(apiUrl);
   }
+
+  GetShootOfferdClients(): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Client/GetShootOfferdClients`;
+    return this.http.get(apiUrl);
+  }
 }

@@ -83,10 +83,18 @@
         </ng-container>
 
         <!-- Reels (%) Column -->
-        <ng-container matColumnDef="percentOfPosters">
-          <th mat-header-cell *matHeaderCellDef>Posters (%)</th>
-          <td mat-cell *matCellDef="let element">{{ element.percentOfPosters }}%</td>
-        </ng-container>
+      <ng-container matColumnDef="percentOfPosters">
+        <th mat-header-cell *matHeaderCellDef>Posters (%)</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-progress-bar
+          mode="determinate"
+          [value]="element.percentOfPosters"
+          [color]="element.percentOfPosters > 70 ? 'primary' : 'warn'">
+        </mat-progress-bar>
+          <span>{{ element.percentOfPosters }}%</span>
+        </td>
+      </ng-container>
+
 
         <!-- No Of Reels Column -->
         <ng-container matColumnDef="noOfReels">
@@ -99,11 +107,18 @@
           <td mat-cell *matCellDef="let element">{{ element.totGraphicApprovedCount }}</td>
         </ng-container>
 
-        <!-- Reels (%) Column -->
-        <ng-container matColumnDef="percentOfGraphicReels">
-          <th mat-header-cell *matHeaderCellDef>Graphic Reels (%)</th>
-          <td mat-cell *matCellDef="let element">{{ element.percentOfGraphicReels }}%</td>
-        </ng-container>
+      <!-- Graphic Reels (%) Column -->
+      <ng-container matColumnDef="percentOfGraphicReels">
+        <th mat-header-cell *matHeaderCellDef>Graphic Reels (%)</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-progress-bar
+            mode="determinate"
+            [value]="element.percentOfGraphicReels"
+            [color]="element.percentOfGraphicReels > 70 ? 'primary' : 'warn'">
+          </mat-progress-bar>
+          <span>{{ element.percentOfGraphicReels }}%</span>
+        </td>
+      </ng-container>
   
         <!-- No Of Graphic Reels Column -->
         <ng-container matColumnDef="noOfGraphicReels">
@@ -111,12 +126,19 @@
           <td mat-cell *matCellDef="let element">{{ element.noOfGraphicReels }}</td>
         </ng-container>
   
-        <!-- Graphic Reels (%) Column -->
+          <!-- Graphic Reels (%) Column -->
         <ng-container matColumnDef="graphicReelsPer">
           <th mat-header-cell *matHeaderCellDef>Graphic Reels (%)</th>
-          <td mat-cell *matCellDef="let element">{{ element.graphicReelsPer }}%</td>
+          <td mat-cell *matCellDef="let element">
+            <mat-progress-bar
+              mode="determinate"
+              [value]="element.graphicReelsPer"
+              [ngClass]="{'green-bar': element.graphicReelsPer > 70, 'default-bar': element.graphicReelsPer <= 70}">
+            </mat-progress-bar>
+            <span>{{ element.graphicReelsPer }}%</span>
+          </td>
         </ng-container>
-  
+
         <!-- Actions Column -->
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Actions</th>

@@ -207,7 +207,7 @@
     </div>
     
   <!--Video Deliverables Section -->
-  <div class="deliverables-header" >
+  <div class="deliverables-header" *ngIf="onboardingForm.get('shootOffer')?.value === 1">
     <h3>Video Deliverables</h3>
     <button mat-raised-button color="primary" (click)="addVideoDeliverable()" type="button">+ Add Video Deliverable</button>
   </div>

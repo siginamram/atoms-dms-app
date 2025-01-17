@@ -56,6 +56,7 @@ import { PosterDesignerApprovalComponent } from './components/lead-approvals/pos
 import { VideoEditorApprovalComponent } from './components/lead-approvals/video-editor-approval/video-editor-approval.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { EditStatusApprovalsComponent } from './components/lead-approvals/edit-status-approvals/edit-status-approvals.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 const MY_FORMATS = {
   parse: {
@@ -128,6 +129,7 @@ const MY_FORMATS = {
         MatMomentDateModule,
         SharedModule,
         MatTabsModule,
+        MatProgressBarModule,
   ],
   providers: [
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },

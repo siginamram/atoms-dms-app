@@ -122,3 +122,10 @@ button {
 mat-form-field {
   width: 20%; /* Full width for filters on smaller screens */
 }
+.green-bar .mat-progress-bar-fill {
+  background-color: #4caf50 !important; /* Green for > 70% */
+}
+
+.default-bar .mat-progress-bar-fill {
+  background-color: #f44336 !important; /* Red for <= 70% */
+}

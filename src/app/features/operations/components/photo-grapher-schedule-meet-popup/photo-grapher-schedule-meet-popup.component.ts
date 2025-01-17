@@ -29,11 +29,14 @@ export class PhotoGrapherScheduleMeetPopupComponent implements OnInit {
   ) {
     this.meetingForm = this.fb.group({
       organizationName: [
-        { value: data.meetingData?.organizationName || '', disabled: data.isEdit }, // Disable in edit mode
+        {
+          value: data.meetingData?.organizationName || '',
+          disabled: data.isEdit, // Disable in edit mode
+        },
         Validators.required,
       ],
       meetingStatus: [data.meetingData?.meetingStatus || 1, Validators.required],
-      date: [data.meetingData?.date || '', Validators.required],
+      date: [data.meetingData?.shootDate || '', Validators.required],
       time: [data.meetingData?.time || '', Validators.required],
       requirednoOfYTVideos: [data.meetingData?.noOfYouTubeVideos || ''],
       requirednoOfEDReels: [data.meetingData?.noOfEducationalReels || ''],
@@ -42,12 +45,18 @@ export class PhotoGrapherScheduleMeetPopupComponent implements OnInit {
       shootLink: [data.meetingData?.shootLink || ''],
       remarks: [data.meetingData?.remarks || ''],
     });
+    
   }
 
   ngOnInit(): void {
     this.startTimeOptions = this.generateStartTimeOptions();
     this.fetchClients();
-
+  
+    // this.meetingForm.patchValue({
+    //   ...this.meetingForm.value,
+    //   date: this.data.meetingData?.shootDate ? new Date(this.data.meetingData.shootDate) : '',
+    // });
+  
     // Initialize form based on Add/Edit mode and status
     if (!this.data.isEdit) {
       this.disableStatus = true; // Disable meeting status for Add
@@ -55,6 +64,7 @@ export class PhotoGrapherScheduleMeetPopupComponent implements OnInit {
       this.onStatusChange(this.meetingForm.value.meetingStatus); // Set fields visibility
     }
   }
+  
 
   generateStartTimeOptions(): string[] {
     const options: string[] = [];
@@ -68,7 +78,7 @@ export class PhotoGrapherScheduleMeetPopupComponent implements OnInit {
   }
 
   fetchClients(): void {
-    this.operationsService.getAllActiveClients().subscribe({
+    this.operationsService.GetShootOfferdClients().subscribe({
       next: (response) => {
         this.clients = response;
         this.filteredClients = response;
@@ -97,25 +107,26 @@ export class PhotoGrapherScheduleMeetPopupComponent implements OnInit {
     if (status === 2) {
       // Rescheduled
       this.showAdditionalFields = false;
+      this.meetingForm.get('shootLink')?.clearValidators();
+      this.meetingForm.get('shootLink')?.updateValueAndValidity();
     } else if (status === 3) {
       // Completed
       this.showAdditionalFields = true;
-
-      // Add URL validation for shootLink
-    this.meetingForm.get('shootLink')?.setValidators([
-      Validators.required,
-      Validators.pattern(
-        '^(https?:\\/\\/)?' + // protocol
-        '((([a-zA-Z0-9\\-]+\\.)+[a-zA-Z]{2,})|' + // domain name
-        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR IP (v4) address
-        '(\\:\\d+)?(\\/[-a-zA-Z0-9%_.~+]*)*' + // port and path
-        '(\\?[;&a-zA-Z0-9%_.~+=-]*)?' + // query string
-        '(\\#[-a-zA-Z0-9_]*)?$' // fragment locator
-      ),
-    ]);
-    this.meetingForm.get('shootLink')?.updateValueAndValidity();
+      this.meetingForm.get('shootLink')?.setValidators([
+        Validators.required,
+        Validators.pattern(
+          '^(https?:\\/\\/)?' + // protocol
+          '((([a-zA-Z0-9\\-]+\\.)+[a-zA-Z]{2,})|' + // domain name
+          '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR IP (v4) address
+          '(\\:\\d+)?(\\/[-a-zA-Z0-9%_.~+]*)*' + // port and path
+          '(\\?[;&a-zA-Z0-9%_.~+=-]*)?' + // query string
+          '(\\#[-a-zA-Z0-9_]*)?$' // fragment locator
+        ),
+      ]);
+      this.meetingForm.get('shootLink')?.updateValueAndValidity();
     }
   }
+  
 
   save(): void {
     if (this.meetingForm.valid) {
@@ -125,7 +136,9 @@ export class PhotoGrapherScheduleMeetPopupComponent implements OnInit {
       // Prepare payload based on meetingStatus
       const payload: any = {
         id: this.data.meetingData?.meetId || 0,
-        clientId:this.data.meetingData?.clientId,
+        clientId: this.clients.find(
+          (client) => client.organizationName === formData.organizationName
+        )?.clientId || this.data.meetingData?.clientId,
         date:this.formatDate(new Date(formData.date)),
         time: formData.time,
         remarks: formData.remarks,

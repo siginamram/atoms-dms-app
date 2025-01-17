@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class AddClientEmergencyRequestComponent implements OnInit {
   emergencyRequestForm: FormGroup;
+  showSpinner: boolean = false;
   userId: number = parseInt(localStorage.getItem('UserID') || '0', 10);
   promotionTypes = [
     { id: 4, name: 'Emergency' },
@@ -55,6 +56,7 @@ export class AddClientEmergencyRequestComponent implements OnInit {
 
   saveDraft() {
     if (this.emergencyRequestForm.valid) {
+      this.showSpinner = true;
       const payload = {
         ...this.emergencyRequestForm.value,
         clientId: this.data.clientId,
@@ -66,14 +68,17 @@ export class AddClientEmergencyRequestComponent implements OnInit {
         (response: string) => {
             console.log('Response from Save Draft:', response);
             if (response === 'Success') {
+              this.showSpinner = false;
               this.openAlertDialog('Success', 'Draft Saved Successfully!');
             } else {
+              this.showSpinner = false;
               this.openAlertDialog('Error', response || 'Unexpected response. Please try again.');
             }
             this.dialogRef.close(true); // Close the popup
           },
           (error: any) => {
             console.error('Error Saving Draft:', error);
+            this.showSpinner = false;
             const errorMessage =
               error.error?.message ||
               'An unexpected error occurred while saving the draft.';
@@ -81,12 +86,14 @@ export class AddClientEmergencyRequestComponent implements OnInit {
           }
         );
     } else {
+      this.showSpinner = false;
       this.openAlertDialog('Error', 'Please fill all required fields correctly.');
     }
   }
 
   sendForApproval() {
     if (this.emergencyRequestForm.valid) {
+      this.showSpinner = true;
       const payload = {
         ...this.emergencyRequestForm.value,
         clientId: this.data.clientId,
@@ -98,13 +105,16 @@ export class AddClientEmergencyRequestComponent implements OnInit {
         (response: string) => {
             console.log('Response from Send for Approval:', response);
             if (response === 'Success') {
+              this.showSpinner = false;
               this.openAlertDialog('Success', 'Sent For Approval Successfully!');
             } else {
+              this.showSpinner = false;
               this.openAlertDialog('Error', response || 'Unexpected response. Please try again.');
             }
             this.dialogRef.close(true); // Close the popup
           },
           (error: any) => {
+            this.showSpinner = false;
             console.error('Error Sending for Approval:', error);
             const errorMessage =
               error.error?.message ||
@@ -113,6 +123,7 @@ export class AddClientEmergencyRequestComponent implements OnInit {
           }
         );
     } else {
+      this.showSpinner = false;
       this.openAlertDialog('Error', 'Please fill all required fields correctly.');
     }
   }

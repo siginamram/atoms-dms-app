@@ -15,7 +15,7 @@ export class SpecialdaysClientsAddComponent implements OnInit {
   filteredClients: any[] = []; // Clients displayed in the autocomplete
   selectedClientName: string = ''; // Selected client name for display
   isEditMode: boolean = false; // Determine if we are in edit mode
-
+  showSpinner: boolean = false;
   constructor(
     public dialogRef: MatDialogRef<SpecialdaysClientsAddComponent>,
     @Inject(MAT_DIALOG_DATA)
@@ -83,7 +83,7 @@ export class SpecialdaysClientsAddComponent implements OnInit {
       alert('Please fill in all required fields.');
       return;
     }
-  
+    this.showSpinner = true;
     const payload = {
       specialDayId: this.data.specialDayId || 0,
       specialDayDate: this.formatDate(new Date(this.data.date)),
@@ -97,13 +97,16 @@ export class SpecialdaysClientsAddComponent implements OnInit {
     this.operationsService.addSpecialDay(payload).subscribe({
       next: (response: string) => {
         if (response === 'Success') {
+          this.showSpinner = false;
           this.openAlertDialog('Success', 'Special day saved successfully!');
           this.dialogRef.close(true);
         } else {
+          this.showSpinner = false;
           this.openAlertDialog('Error', 'Failed to save special day: ' + response);
         }
       },
       error: (error) => {
+        this.showSpinner = false;
         console.error('Error saving special day:', error);
         this.openAlertDialog('Error', 'Please fill all required fields correctly.');
       },
