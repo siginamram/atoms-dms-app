@@ -15,7 +15,7 @@ export class ClientsComponent implements OnInit {
   onboardingColumns = ['id','clientName', 'dealClosingDate', 'domain', 'category', 'ktStatus', 'city', 'edit'];
   presentColumns = ['id','clientName', 'domain', 'category', 'package', 'ktDocument', 'city', 'edit'];
   exitColumns = ['id','clientName', 'domain', 'category', 'package', 'ktDocument', 'city'];
-
+  showSpinner: boolean = false;
   onboardingData: any[] = [];
   presentData: any[] = [];
   exitData: any[] = [];
@@ -35,6 +35,7 @@ export class ClientsComponent implements OnInit {
   }
 
   fetchOnboardingData(userId: number): void {
+    this.showSpinner = true;
     this.operationsService.getOnboardByStatus(userId, 1).subscribe(
       (response) => {
         this.onboardingData = response.map((item: any) => ({
@@ -47,14 +48,17 @@ export class ClientsComponent implements OnInit {
           clientId:item.clientId,
         }));
         console.log('Onboarding Data:', this.onboardingData);
+        this.showSpinner = false;
       },
       (error) => {
+        this.showSpinner = false;
         console.error('Error fetching onboarding data:', error);
       }
     );
   }
 
   fetchPresentData(userId: number): void {
+    this.showSpinner = true;
     this.operationsService.getOnboardByStatus(userId, 2).subscribe(
       (response) => {
         this.presentData = response.map((item: any) => ({
@@ -67,14 +71,17 @@ export class ClientsComponent implements OnInit {
           clientId:item.clientId,
         }));
         console.log('Present Data:', this.presentData);
+        this.showSpinner = false;
       },
       (error) => {
+        this.showSpinner = false;
         console.error('Error fetching present data:', error);
       }
     );
   }
 
   fetchExitData(userId: number): void {
+    this.showSpinner = true;
     this.operationsService.getOnboardByStatus(userId, 3).subscribe(
       (response) => {
         this.exitData = response.map((item: any) => ({
@@ -86,9 +93,11 @@ export class ClientsComponent implements OnInit {
           city: item.cityName,
           clientId:item.clientId,
         }));
+        this.showSpinner = false;
         console.log('Exit Data:', this.exitData);
       },
       (error) => {
+        this.showSpinner = false;
         console.error('Error fetching exit data:', error);
       }
     );

@@ -19,6 +19,7 @@ export interface Employee {
 })
 export class ClientsOnboardingComponent implements OnInit {
   onboardingForm: FormGroup;
+  showSpinner: boolean = false;
   promotionTypes = [
     { value: 1, text: 'Branding' },
     { value: 2, text: 'Educational' },
@@ -115,6 +116,7 @@ export class ClientsOnboardingComponent implements OnInit {
     this.loadDropdownOptions();
     this.clientId = +this.route.snapshot.paramMap.get('id')!;
     if (this.clientId) {
+      this.showSpinner = true;
       this.loadClientData(this.clientId);
     }
   }
@@ -156,9 +158,10 @@ export class ClientsOnboardingComponent implements OnInit {
   loadClientData(clientId: number) {
     this.operationsService.getclientByClientId(clientId).subscribe({
       next: (data: any) => {
+        this.showSpinner = false;
         this.onboardingForm.patchValue({
           clientName: data.organizationName,
-          dealClosingDate: this.formatDate(data.serviceStartDate),
+          dealClosingDate: data.createdAt,
           domain: data.domain,
           category: data.clientCategory,
           ktStatus: data.isKTCompleted ? 1 : 0,
@@ -199,6 +202,7 @@ export class ClientsOnboardingComponent implements OnInit {
       },
       error: (error) => {
         console.error('Failed to load client data:', error);
+        this.showSpinner = false;
       },
     });
   }
@@ -290,15 +294,17 @@ export class ClientsOnboardingComponent implements OnInit {
   
           // Check for success response (plain text)
           if (response === 'Success') {
+            this.showSpinner = false;
             this.openAlertDialog('Success', 'Client Updated Successfully!');
             this.Router.navigate(['/home/operations/clients-list']);
           } else {
+            this.showSpinner = false;
             this.openAlertDialog('Error', response || 'Unexpected response. Please try again.');
           }
         },
         error: (error: any) => {
           console.error('Update Error:', error);
-  
+          this.showSpinner = false;
           // Handle error scenarios with fallback message
           const errorMessage =
           error.error || 'Deliverable count is mismatch with client package.';
@@ -306,6 +312,7 @@ export class ClientsOnboardingComponent implements OnInit {
         },
       });
     } else {
+      this.showSpinner = false;
       this.openAlertDialog('Error', 'Please fill all required fields correctly.');
     }
   }
@@ -313,6 +320,7 @@ export class ClientsOnboardingComponent implements OnInit {
 
   private preparePayload(): any {
     const formValue = this.onboardingForm.value;
+    this.showSpinner = true;
     return {
       clientID: this.clientId,
       //clientName: formValue.clientName,
@@ -379,4 +387,10 @@ export class ClientsOnboardingComponent implements OnInit {
       },
     });
   }
+
+  onCancel(): void {
+    // Logic for cancel action, such as navigating back or resetting the form
+    this.Router.navigate(['/home/operations/clients-list']); // Example: Redirect to a specific route
+  }
+  
 }

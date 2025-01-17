@@ -20,6 +20,7 @@ export interface Employee {
 })
 export class ClientsPresentEditComponent implements OnInit{
   editForm: FormGroup;
+  showSpinner: boolean = false;
   clientId!: number;
   userId = +localStorage.getItem('UserID')!
   promotionTypes = [
@@ -115,6 +116,7 @@ export class ClientsPresentEditComponent implements OnInit{
     this.loadDropdownOptions();
     this.clientId = +this.route.snapshot.paramMap.get('id')!;
     if (this.clientId) {
+      this.showSpinner = true;
       this.loadClientData(this.clientId);
     }
   }
@@ -122,6 +124,7 @@ export class ClientsPresentEditComponent implements OnInit{
   loadClientData(clientId: number) {
     this.operationsService.getclientByClientId(clientId).subscribe({
       next: (data: any) => {
+        this.showSpinner = false;
         this.editForm.patchValue({
           clientName: data.clientName || data.organizationName,
           dealClosingDate: this.formatDate(data.serviceStartDate),
@@ -169,6 +172,7 @@ export class ClientsPresentEditComponent implements OnInit{
       },
       error: (error) => {
         console.error('Failed to load client data:', error);
+        this.showSpinner = false;
       },
     });
   }
@@ -281,7 +285,7 @@ export class ClientsPresentEditComponent implements OnInit{
   onSubmit(): void {
     if (this.editForm.valid) {
       const formValue = this.editForm.value;
-  
+      this.showSpinner = true;
       const payload = {
         clientID: this.clientId,
         clientCategory: formValue.category,
@@ -349,9 +353,11 @@ export class ClientsPresentEditComponent implements OnInit{
       this.operationsService.UpdatePresentClient(payload).subscribe({
         next: (response: any) => {
           if (response === 'Success') {
+            this.showSpinner = false;
             this.openAlertDialog('Success', 'Client Updated Successfully!');
             this.Router.navigate(['/home/operations/clients-list']);
           } else {
+            this.showSpinner = false;
             this.openAlertDialog('Error', response || 'Unexpected response. Please try again.');
           }
         },
@@ -359,9 +365,11 @@ export class ClientsPresentEditComponent implements OnInit{
           const errorMessage =
             error?.error?.message || 'Deliverable count is mismatch with client package.';
           this.openAlertDialog('Error', errorMessage);
+          this.showSpinner = false;
         },
       });
     } else {
+      this.showSpinner = false;
       this.openAlertDialog('Error', 'Please fill all required fields correctly.');
     }
   }
@@ -376,5 +384,8 @@ openAlertDialog(title: string, message: string): void {
     },
   });
 }
-
+onCancel(): void {
+  // Logic for cancel action, such as navigating back or resetting the form
+  this.Router.navigate(['/home/operations/clients-list']); // Example: Redirect to a specific route
+}
 }
