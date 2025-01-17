@@ -127,6 +127,8 @@ export class ContentWritersApprovalComponent implements OnInit {
         return 'Changes recommended';
       case 5:
         return 'Approved';
+      case 6:
+        return 'Sent for client approval';
       default:
         return 'Unknown status';
     }

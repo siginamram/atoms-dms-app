@@ -301,7 +301,7 @@ export class ClientsOnboardingComponent implements OnInit {
   
           // Handle error scenarios with fallback message
           const errorMessage =
-          error.error || 'Failed to update client details. Please try again.';
+          error.error || 'Deliverable count is mismatch with client package.';
           this.openAlertDialog('Error', errorMessage);
         },
       });
