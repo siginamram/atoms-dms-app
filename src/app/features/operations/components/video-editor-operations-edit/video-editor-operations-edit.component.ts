@@ -24,12 +24,21 @@ export class VideoEditorOperationsEditComponent implements OnInit {
     public data: { monthlyTrackerId: number; editorLink: string; title: string; thumbNail: string; description: string }
   ) {
     this.emergencyRequestForm = this.fb.group({
-      editorLink: ['', Validators.required],
+      editorLink: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            '^(https?:\\/\\/)?([\\da-z.-]+)\\.([a-z.]{2,6})([/\\w .-]*)*\\/?$'
+          ),
+        ],
+      ],
       title: ['', Validators.required],
       thumbNail: ['', Validators.required],
       description: ['', Validators.required],
       status: [2], // Default to draft
     });
+    
   }
 
   ngOnInit(): void {

@@ -1,27 +1,30 @@
 <div class="popup-container">
   <h2 mat-dialog-title>{{ data.isEdit ? 'Edit Meeting' : 'Schedule Meeting' }}</h2>
   <form [formGroup]="meetingForm" class="form-grid">
-    <mat-form-field appearance="outline">
-      <mat-label>Organization Name</mat-label>
-      <input
-        matInput
-        formControlName="organizationName"
-        placeholder="Search Organization"
-        (input)="filterClients($event)"
-        [matAutocomplete]="auto"
-      />
-      <mat-autocomplete
-        #auto="matAutocomplete"
-        (optionSelected)="onClientSelected($event)"
+   <!-- Organization Name Field -->
+   <mat-form-field appearance="outline">
+    <mat-label>Organization Name</mat-label>
+    <input
+      matInput
+      formControlName="organizationName"
+      placeholder="Search Organization"
+      (input)="filterClients($event)"
+      [matAutocomplete]="auto"
+      [disabled]="data.isEdit"
+    />
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      (optionSelected)="onClientSelected($event)"
+    >
+      <mat-option
+        *ngFor="let client of filteredClients"
+        [value]="client.organizationName"
       >
-        <mat-option
-          *ngFor="let client of filteredClients"
-          [value]="client.organizationName"
-        >
-          {{ client.organizationName }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+        {{ client.organizationName }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
 
     <mat-form-field appearance="outline">
       <mat-label>Status of the Meet</mat-label>
@@ -76,7 +79,15 @@
 
       <mat-form-field appearance="outline" *ngIf="showAdditionalFields">
         <mat-label>Shoot Link</mat-label>
-        <input matInput formControlName="shootLink" />
+        <input
+          matInput
+          formControlName="shootLink"
+          placeholder="Enter Shoot Link"
+          type="url"
+        />
+        <mat-error *ngIf="meetingForm.get('shootLink')?.hasError('pattern')">
+          Please enter a valid URL.
+        </mat-error>
       </mat-form-field>
 
     <mat-form-field appearance="outline" class="full-width">

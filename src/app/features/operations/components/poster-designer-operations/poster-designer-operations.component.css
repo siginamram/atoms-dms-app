@@ -43,4 +43,28 @@
       flex: 100%;
     }
   }
-  
+/* Styling for the truncated cell */
+.truncated-cell {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limit content to 2 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal; /* Allow wrapping for multi-line text */
+  cursor: pointer;
+  position: relative;
+}
+
+/* Hover effect to display full content */
+.truncated-cell:hover {
+  -webkit-line-clamp: unset; /* Remove the line clamp on hover */
+  overflow: visible;
+  white-space: normal;
+  background-color: #f9f9f9; /* Optional: Highlight background */
+  z-index: 10; /* Ensure it appears on top */
+  position: absolute;
+  padding: 10px; /* Add padding for better readability */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for better focus */
+  width: auto; /* Allow the full width of the content */
+  border-radius: 4px; /* Optional: Add rounded corners */
+}

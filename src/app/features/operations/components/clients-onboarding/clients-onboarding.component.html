@@ -40,8 +40,8 @@
         <mat-form-field appearance="outline">
           <mat-label>K.T Status</mat-label>
           <mat-select formControlName="ktStatus">
-            <mat-option [value]="1">Yes</mat-option>
-            <mat-option [value]="0">No</mat-option>
+            <mat-option [value]="1">Completed</mat-option>
+            <mat-option [value]="0">Pending</mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field appearance="outline">
@@ -71,7 +71,7 @@
           <input matInput type="number" formControlName="advAmount" />
         </mat-form-field>
         <mat-form-field appearance="outline">
-          <mat-label>Date for Advance</mat-label>
+          <mat-label>Advance Payment Date</mat-label>
           <input matInput [matDatepicker]="picker2"  formControlName="advanceDate" />
           <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
           <mat-datepicker #picker2></mat-datepicker>
@@ -80,8 +80,8 @@
         <mat-form-field class="form-field" appearance="outline">
           <mat-label>Login Credentials</mat-label>
           <mat-select formControlName="loginCredentials">
-            <mat-option [value]="1">Yes</mat-option>
-            <mat-option [value]="0">No</mat-option>
+            <mat-option [value]="1">Received</mat-option>
+            <mat-option [value]="0">Yet to Receive</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -129,7 +129,7 @@
   
       <div class="form-row">
         <mat-form-field class="form-field" appearance="outline">
-            <mat-label>Video Editor-1</mat-label>
+            <mat-label>General Video Editor</mat-label>
             <mat-select formControlName="videoEditor1">
               <mat-option *ngFor="let option of dropdownOptions.videoEditors" [value]="option.userid">
                 {{ option.empname }}
@@ -138,7 +138,7 @@
           </mat-form-field>
         
           <mat-form-field class="form-field" appearance="outline">
-            <mat-label>Video Editor-2</mat-label>
+            <mat-label>Graphic Video Editor</mat-label>
             <mat-select formControlName="videoEditor2">
               <mat-option *ngFor="let option of dropdownOptions.videoEditors" [value]="option.userid">
                 {{ option.empname }}
@@ -207,7 +207,7 @@
     </div>
     
   <!--Video Deliverables Section -->
-  <div class="deliverables-header" *ngIf="onboardingForm.get('shootOffer')?.value === 1">
+  <div class="deliverables-header" >
     <h3>Video Deliverables</h3>
     <button mat-raised-button color="primary" (click)="addVideoDeliverable()" type="button">+ Add Video Deliverable</button>
   </div>

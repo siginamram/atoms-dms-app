@@ -1,7 +1,7 @@
 <div class="content-writer-container">
     <!-- Toolbar -->
     <div class="toolbar">
-      Content Writers Approvals
+      Content Approvals
     </div>
   
     <!-- Filter Section -->
@@ -58,7 +58,7 @@
   
         <ng-container matColumnDef="creativeType">
           <th mat-header-cell *matHeaderCellDef>Creative Type</th>
-          <td mat-cell *matCellDef="let row">{{ row.creativeType }}</td>
+          <td mat-cell *matCellDef="let row">{{ row.creativeTypeId }}</td>
         </ng-container>
   
         <ng-container matColumnDef="promotionType">
@@ -72,14 +72,19 @@
         </ng-container>
   
         <ng-container matColumnDef="contentInPost">
-            <th mat-header-cell *matHeaderCellDef>Content In Post</th>
-            <td mat-cell *matCellDef="let row">{{ row.contentInPost }}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="contentCaption">
-            <th mat-header-cell *matHeaderCellDef>Content Caption</th>
-            <td mat-cell *matCellDef="let row">{{ row.contentCaption }}</td>
-          </ng-container>
+          <th mat-header-cell *matHeaderCellDef>Content In Post</th>
+          <td mat-cell *matCellDef="let row">
+            <div class="content-cell" title="{{ row.contentInPost }}">{{ row.contentInPost }}</div>
+          </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="contentCaption">
+          <th mat-header-cell *matHeaderCellDef>Content Caption</th>
+          <td mat-cell *matCellDef="let row">
+            <div class="content-cell" title="{{ row.contentCaption }}">{{ row.contentCaption }}</div>
+          </td>
+        </ng-container>
+        
 
           <ng-container matColumnDef="contentStatus">
             <th mat-header-cell *matHeaderCellDef (click)="toggleFilter('contentStatus', $event)">

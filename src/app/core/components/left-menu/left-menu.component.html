@@ -73,54 +73,56 @@
           </a>
         </li>
         <li>
-          <a [routerLink]="['/home', 'operations', 'content-writer-client']" *ngIf="roleService.hasRole(['Content Writer'])" routerLinkActive="active">
-            <i class="material-icons">edit</i>Content Writer
+          <a [routerLink]="['/home', 'operations', 'content-writer-client']" 
+          *ngIf="roleService.hasRole(['Content Writer'])" routerLinkActive="active">
+            <i class="material-icons">edit</i>Daily Tasks
           </a>
         </li>
         <li>
           <a [routerLink]="['/home', 'operations', 'poster-designer-client']" 
              *ngIf="roleService.hasRole(['Poster Designer'])" 
              routerLinkActive="active">
-            <i class="material-icons">design_services</i>Poster Designer
+            <i class="material-icons">design_services</i>Daily Tasks
           </a>
         </li>
         <li>
           <a [routerLink]="['/home', 'operations', 'video-editor-client']" 
              *ngIf="roleService.hasRole([ 'Video Editor'])" 
              routerLinkActive="active">
-            <i class="material-icons">movie_creation</i>Video Editor
+            <i class="material-icons">movie_creation</i>General Educational Videos
           </a>
         </li>
         <li>
           <a [routerLink]="['/home', 'operations', 'photo-grapher-client']" 
              *ngIf="roleService.hasRole(['Videographer'])" 
              routerLinkActive="active">
-            <i class="material-icons">videocam</i>Videographer
+            <i class="material-icons">videocam</i>Daily Tasks
           </a>
         </li>
         <li>
           <a [routerLink]="['/home', 'operations', 'photo-grapher-history']" 
              *ngIf="roleService.hasRole(['Videographer'])" 
              routerLinkActive="active">
-            <i class="material-icons">history</i>Videographer clients history
+            <i class="material-icons">history</i>Shoots History
           </a>
         </li>
         <li>
           <a [routerLink]="['/home', 'operations', 'graphicreels-designer-client']" 
              *ngIf="roleService.hasRole([ 'Video Editor'])" 
              routerLinkActive="active">
-            <i class="material-icons">movie_creation</i>Graphic Reel Editor
+            <i class="material-icons">movie_creation</i>Graphic Videos
           </a>
         </li>
         <li>
           <a [routerLink]="['/home', 'operations', 'operations-dma']" 
              *ngIf="roleService.hasRole([ 'DMA'])" 
              routerLinkActive="active">
-            <i class="material-icons">upload_file</i>DMA
+            <i class="material-icons">upload_file</i>Daily Tasks
           </a>
         </li>
         <li>
           <a [routerLink]="['/home', 'employees', 'AddComponent']" 
+          *ngIf="roleService.hasRole([ 'HR'])"
              routerLinkActive="active">
             <i class="material-icons">person_add</i>Create Employee
           </a>
@@ -191,49 +193,49 @@
     </li>
     <li>
       <a [routerLink]="['/home', 'operations', 'content-writer-client']" *ngIf="roleService.hasRole([ 'Content Writer'])" routerLinkActive="active">
-        <i class="material-icons">edit</i>Content Writer
+        <i class="material-icons">edit</i>Daily Tasks
       </a>
     </li>
     <li>
       <a [routerLink]="['/home', 'operations', 'poster-designer-client']" 
          *ngIf="roleService.hasRole([ 'Poster Designer'])" 
          routerLinkActive="active">
-        <i class="material-icons">design_services</i>Poster Designer
+        <i class="material-icons">design_services</i>Daily Tasks
       </a>
     </li>
     <li>
       <a [routerLink]="['/home', 'operations', 'video-editor-client']" 
          *ngIf="roleService.hasRole(['Video Editor'])" 
          routerLinkActive="active">
-        <i class="material-icons">movie_creation</i>Video Editor
+        <i class="material-icons">movie_creation</i>Daily Tasks
       </a>
     </li>
     <li>
       <a [routerLink]="['/home', 'operations', 'photo-grapher-client']" 
          *ngIf="roleService.hasRole([ 'Videographer'])" 
          routerLinkActive="active">
-        <i class="material-icons">videocam</i>Videographer
+        <i class="material-icons">videocam</i>Daily Tasks
       </a>
     </li>
     <li>
       <a [routerLink]="['/home', 'operations', 'photo-grapher-history']" 
          *ngIf="roleService.hasRole(['Videographer'])" 
          routerLinkActive="active">
-        <i class="material-icons">history</i>Videographer clients history
+        <i class="material-icons">history</i>Shoots History
       </a>
     </li>
     <li>
       <a [routerLink]="['/home', 'operations', 'graphicreels-designer-client']" 
          *ngIf="roleService.hasRole([ 'Video Editor'])" 
          routerLinkActive="active">
-        <i class="material-icons">movie_creation</i>Graphic Reel Editor
+        <i class="material-icons">movie_creation</i>Daily Tasks
       </a>
     </li>
     <li>
       <a [routerLink]="['/home', 'operations', 'operations-dma']" 
          *ngIf="roleService.hasRole([ 'DMA'])" 
          routerLinkActive="active">
-        <i class="material-icons">upload_file</i>DMA
+        <i class="material-icons">upload_file</i>Daily Tasks
       </a>
     </li>
     <li>

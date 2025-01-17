@@ -1,35 +1,57 @@
 <div class="popup-container">
-    <mat-toolbar color="primary" style="border-radius: 10px; margin-bottom: 20px;">
-      <span>Update Video Details</span>
-    </mat-toolbar>
-    <form [formGroup]="emergencyRequestForm">
-      <div class="form-grid">
-        <mat-form-field appearance="outline">
-          <mat-label>Video Link</mat-label>
-          <input matInput formControlName="editorLink" />
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline">
-          <mat-label>Title</mat-label>
-          <input matInput formControlName="title" />
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline">
-          <mat-label>Thumbnail</mat-label>
-          <input matInput formControlName="thumbNail" />
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline" class="caption-field">
-          <mat-label>Caption/Description</mat-label>
-          <textarea matInput formControlName="description"></textarea>
-        </mat-form-field>
-      </div>
-    </form>
-  </div>
-  
-  <div mat-dialog-actions align="end">
-    <button mat-raised-button color="warn" (click)="close()">Cancel</button>
-    <button mat-raised-button color="accent" (click)="saveDraft()">Save Draft</button>
-    <button mat-raised-button color="primary" (click)="sendForApproval()">Send To Approval</button>
-  </div>
-  
+  <mat-toolbar color="primary" style="border-radius: 10px; margin-bottom: 20px;">
+    <span>Update Video Details</span>
+  </mat-toolbar>
+  <form [formGroup]="emergencyRequestForm">
+    <div class="form-grid">
+      <!-- Video Link Field -->
+      <mat-form-field appearance="outline">
+        <mat-label>Video Link</mat-label>
+        <input
+          matInput
+          formControlName="editorLink"
+          placeholder="Enter Video Link"
+        />
+        <mat-error *ngIf="emergencyRequestForm.get('editorLink')?.hasError('required')">
+          Video Link is required.
+        </mat-error>
+        <mat-error *ngIf="emergencyRequestForm.get('editorLink')?.hasError('pattern')">
+          Please enter a valid URL (e.g., https://example.com).
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Title Field -->
+      <mat-form-field appearance="outline">
+        <mat-label>Title</mat-label>
+        <input matInput formControlName="title" />
+        <mat-error *ngIf="emergencyRequestForm.get('title')?.hasError('required')">
+          Title is required.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Thumbnail Field -->
+      <mat-form-field appearance="outline">
+        <mat-label>Thumbnail</mat-label>
+        <input matInput formControlName="thumbNail" />
+        <mat-error *ngIf="emergencyRequestForm.get('thumbNail')?.hasError('required')">
+          Thumbnail is required.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Caption/Description Field -->
+      <mat-form-field appearance="outline" class="caption-field">
+        <mat-label>Caption/Description</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+        <mat-error *ngIf="emergencyRequestForm.get('description')?.hasError('required')">
+          Caption/Description is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </form>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-raised-button color="warn" (click)="close()">Cancel</button>
+  <button mat-raised-button color="accent" [disabled]="emergencyRequestForm.invalid" (click)="saveDraft()">Save Draft</button>
+  <button mat-raised-button color="primary" [disabled]="emergencyRequestForm.invalid" (click)="sendForApproval()">Send To Approval</button>
+</div>

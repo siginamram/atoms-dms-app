@@ -1,7 +1,7 @@
 .content-container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 20px auto;
-    padding-left: 100px;
+    padding-left: 200px;
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -44,4 +44,29 @@
       flex: 100%;
     }
   }
-  
+/* Styling for content cells */
+.content-cell {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limit to 2 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal; /* Allow wrapping for the truncation */
+  cursor: pointer;
+  position: relative;
+}
+
+/* On hover, show full content */
+.content-cell:hover {
+  -webkit-line-clamp: unset; /* Remove the line clamp */
+  max-height: none;
+  overflow: visible;
+  white-space: normal;
+  background-color: #f9f9f9; /* Highlight background */
+  z-index: 10;
+  position: absolute;
+  padding: 10px; /* Add padding for better readability */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for focus */
+  width: auto; /* Adjust width */
+  border-radius: 4px;
+}

@@ -78,6 +78,7 @@ export class ContentWritersApprovalComponent implements OnInit {
           monthlyTrackerId:item.monthlyTrackerId,
           userId:userId,
           creativeType:1,
+          creativeTypeId:item.creativeType,
           role:'Content Writer',
         }));
         this.dataSource.paginator = this.paginator;

@@ -97,6 +97,7 @@ export class PhotoGrapherScheduleMeetComponent implements OnInit {
           remarks: item.remarks || 'No remarks', // Default if remarks are missing
           meetingStatus: this.mapmeetingstatus(item.meetingStatus), // Status based on type
           meetId:item.id,
+          clientId:item.clientId,
         }));
         this.cdr.markForCheck(); // Trigger change detection
       },

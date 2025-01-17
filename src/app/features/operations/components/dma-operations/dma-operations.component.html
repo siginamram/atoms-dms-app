@@ -61,9 +61,16 @@
         <td mat-cell *matCellDef="let row"> {{ row.speciality || 'N/A' }} </td>
       </ng-container>
   
-      <ng-container matColumnDef="contentCaption">
+      <!-- <ng-container matColumnDef="contentCaption">
         <th mat-header-cell *matHeaderCellDef> Content Caption </th>
         <td mat-cell *matCellDef="let row"> {{ row.contentCaption || 'N/A' }} </td>
+      </ng-container> -->
+
+      <ng-container matColumnDef="contentCaption">
+        <th mat-header-cell *matHeaderCellDef>Content Caption</th>
+        <td mat-cell *matCellDef="let row">
+          <div class="content-cell" title="{{ row.contentCaption || 'N/A' }}">{{ row.contentCaption || 'N/A'}}</div>
+        </td>
       </ng-container>
   
       <ng-container matColumnDef="thumbNail">

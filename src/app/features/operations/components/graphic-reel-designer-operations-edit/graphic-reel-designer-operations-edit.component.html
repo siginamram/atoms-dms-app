@@ -1,20 +1,44 @@
 <h1 mat-dialog-title class="dialog-title">Update Design</h1>
 <div mat-dialog-content class="dialog-content" style="padding-top: 20px;">
   <!-- Update Design Link Field -->
-  <mat-form-field appearance="outline" class="dialog-field">
-    <mat-label>Update Design Link</mat-label>
-    <input matInput [(ngModel)]="data.link" placeholder="Enter Design Link" />
-  </mat-form-field>
-
-  <!-- Caption Field -->
-  <!-- <mat-form-field appearance="outline" class="dialog-field">
-    <mat-label>Caption</mat-label>
-    <input matInput [(ngModel)]="data.caption" placeholder="Enter Caption" />
-  </mat-form-field> -->
+  <form #designForm="ngForm">
+    <mat-form-field appearance="outline" class="dialog-field">
+      <mat-label>Update Design Link</mat-label>
+      <input
+        matInput
+        name="designLink"
+        [(ngModel)]="data.link"
+        #urlInput="ngModel"
+        placeholder="Enter Design Link"
+        required
+        pattern="https?://.+"
+      />
+      <mat-error *ngIf="urlInput.errors?.['required']">
+        Link is required.
+      </mat-error>
+      <mat-error *ngIf="urlInput.errors?.['pattern']">
+        Please enter a valid URL (e.g., https://example.com).
+      </mat-error>
+    </mat-form-field>
+  </form>
 </div>
 
 <div mat-dialog-actions class="dialog-actions">
   <button mat-button color="warn" (click)="onCancel()">Cancel</button>
-  <button mat-raised-button color="accent"  (click)="onSave('draft')">Save Draft</button>
-  <button mat-raised-button color="primary" (click)="onSave('approval')">Send To Approval</button>
+  <button
+    mat-raised-button
+    color="accent"
+    [disabled]="!designForm.valid"
+    (click)="onSave('draft')"
+  >
+    Save Draft
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="!designForm.valid"
+    (click)="onSave('approval')"
+  >
+    Send To Approval
+  </button>
 </div>

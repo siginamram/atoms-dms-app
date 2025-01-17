@@ -1,31 +1,30 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OperationsService } from '../../services/operations.service';
-import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/alert-dialog.component'; 
+import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/alert-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-graphic-reel-designer-operations-edit',
-  standalone:false,
+  standalone: false,
   templateUrl: './graphic-reel-designer-operations-edit.component.html',
-  styleUrl: './graphic-reel-designer-operations-edit.component.css'
+  styleUrls: ['./graphic-reel-designer-operations-edit.component.css'],
 })
 export class GraphicReelDesignerOperationsEditComponent implements OnInit {
-  constructor(  private dialog: MatDialog,
+  constructor(
+    private dialog: MatDialog,
     public dialogRef: MatDialogRef<GraphicReelDesignerOperationsEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { trackerID: number; link: string; caption: string },
     private operationsService: OperationsService
   ) {}
 
   ngOnInit(): void {
-    // Initialize data if necessary
     console.log('Edit Data:', this.data);
   }
 
   onSave(action: 'draft' | 'approval'): void {
-    if (!this.data.link ) {
-      alert('Please fill in all required fields.');
-      this.openAlertDialog('Error', 'Please fill in all required fields.');
+    if (!this.data.link || !this.isValidUrl(this.data.link)) {
+      this.openAlertDialog('Error', 'Please enter a valid URL.');
       return;
     }
 
@@ -36,16 +35,17 @@ export class GraphicReelDesignerOperationsEditComponent implements OnInit {
       createdBy: parseInt(localStorage.getItem('UserID') || '0', 10), // User ID from localStorage
     };
 
-    //console.log('Payload:', payload);
-
     this.operationsService.updateGraphicDesignLink(payload).subscribe({
       next: () => {
-        this.openAlertDialog('Success', `${action === 'draft' ? 'Draft Saved' : 'Sent for Approval'} successfully!`);
-        this.dialogRef.close(true); // Close the dialog and indicate success
+        this.openAlertDialog(
+          'Success',
+          `${action === 'draft' ? 'Draft Saved' : 'Sent for Approval'} successfully!`
+        );
+        this.dialogRef.close(true);
       },
       error: (error) => {
         console.error('Error updating graphic design link:', error);
-        this.openAlertDialog('Error', error);
+        this.openAlertDialog('Error', error.message || 'Something went wrong.');
       },
     });
   }
@@ -60,8 +60,14 @@ export class GraphicReelDesignerOperationsEditComponent implements OnInit {
       data: {
         title,
         message,
-        type: title.toLowerCase(), // success, error, or warning
+        type: title.toLowerCase(),
       },
     });
+  }
+
+  // Utility method for URL validation
+  private isValidUrl(url: string): boolean {
+    const urlPattern = /^(https?:\/\/[^\s$.?#].[^\s]*)$/i;
+    return urlPattern.test(url);
   }
 }

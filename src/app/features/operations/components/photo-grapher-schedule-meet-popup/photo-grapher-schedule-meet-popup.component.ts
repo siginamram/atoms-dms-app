@@ -28,7 +28,10 @@ export class PhotoGrapherScheduleMeetPopupComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: { isEdit: boolean; meetingData: any }
   ) {
     this.meetingForm = this.fb.group({
-      organizationName: [data.meetingData?.organizationName || '', Validators.required],
+      organizationName: [
+        { value: data.meetingData?.organizationName || '', disabled: data.isEdit }, // Disable in edit mode
+        Validators.required,
+      ],
       meetingStatus: [data.meetingData?.meetingStatus || 1, Validators.required],
       date: [data.meetingData?.date || '', Validators.required],
       time: [data.meetingData?.time || '', Validators.required],
@@ -97,6 +100,20 @@ export class PhotoGrapherScheduleMeetPopupComponent implements OnInit {
     } else if (status === 3) {
       // Completed
       this.showAdditionalFields = true;
+
+      // Add URL validation for shootLink
+    this.meetingForm.get('shootLink')?.setValidators([
+      Validators.required,
+      Validators.pattern(
+        '^(https?:\\/\\/)?' + // protocol
+        '((([a-zA-Z0-9\\-]+\\.)+[a-zA-Z]{2,})|' + // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR IP (v4) address
+        '(\\:\\d+)?(\\/[-a-zA-Z0-9%_.~+]*)*' + // port and path
+        '(\\?[;&a-zA-Z0-9%_.~+=-]*)?' + // query string
+        '(\\#[-a-zA-Z0-9_]*)?$' // fragment locator
+      ),
+    ]);
+    this.meetingForm.get('shootLink')?.updateValueAndValidity();
     }
   }
 
@@ -108,9 +125,7 @@ export class PhotoGrapherScheduleMeetPopupComponent implements OnInit {
       // Prepare payload based on meetingStatus
       const payload: any = {
         id: this.data.meetingData?.meetId || 0,
-        clientId: this.clients.find(
-          (client) => client.organizationName === formData.organizationName
-        )?.clientId || 0,
+        clientId:this.data.meetingData?.clientId,
         date:this.formatDate(new Date(formData.date)),
         time: formData.time,
         remarks: formData.remarks,

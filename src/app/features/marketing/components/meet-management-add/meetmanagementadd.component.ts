@@ -51,7 +51,7 @@ export class MeetmanagementaddComponent implements OnInit {
       nextMeetTime: [''],
       insight: ['', Validators.maxLength(500)],
       selfie: [''],
-      meetMode: ['', Validators.required]
+      meetMode: ['']
     });
   }
 
