@@ -79,11 +79,11 @@ export class QuoteGenerationAddComponent implements OnInit {
   shootBudgetOptions = ['Yes', 'No'];
   leadID: number | null = null;
   quotationData: any;
-  deliverables = ['Posters', 'Graphic Reels', 'Educational Reels', 'Youtube Videos',  'Campaign Budget'];
+  deliverables = ['Posters', 'Graphic Reels', 'General Educational Reels', 'Youtube Videos',  'Campaign Budget'];
   deliverableFields: any = {
     'Posters': 'posters',
     'Graphic Reels': 'graphicReels',
-    'Educational Reels':'educationalReels',
+    'General Educational Reels':'educationalReels',
     'Youtube Videos': 'youtubeVideos',
     'Campaign Budget':'campaignBudget'
   }
@@ -101,13 +101,12 @@ export class QuoteGenerationAddComponent implements OnInit {
 
   async ngOnInit() {
     this.initForm();
+    this.showSpinner = true;
     this.route.params.subscribe(async (params) => {
-      this.showSpinner = true
       this.leadID = +params['id'];
       if (this.leadID) {
       await this.getLeads();
       this.fetchLeadData(this.leadID); // Load client details for the given LeadID
-      this.showSpinner = false;
       }
     });
   }
@@ -250,7 +249,6 @@ export class QuoteGenerationAddComponent implements OnInit {
         //Find the lead by this.leadID
         const selectedLead = this.leads.find((lead) => lead.leadID === this.leadID);
         const organizationName = selectedLead?.organizationName || '';
-        console.log(organizationName)
         // Map the API response to form fields
         this.leadForm.patchValue({
           leadName: organizationName || '', // Ensure a default value
@@ -323,9 +321,11 @@ export class QuoteGenerationAddComponent implements OnInit {
           requiredToDedicateAdditionalAdBudget: data.leadPackage?.requiredToDedicateAdditionalAdBudget || false
           
         });
+        this.showSpinner = false;
       },
       error: (err) => {
         console.error('Error fetching lead data:', err);
+        this.showSpinner = false;
         alert('Failed to fetch lead data. Please try again.');
       },
     });
@@ -506,6 +506,7 @@ export class QuoteGenerationAddComponent implements OnInit {
         smOthers: this.leadForm.get('socialMediaOptimization.others')?.value,
         smOthersText: this.leadForm.get('socialMediaOptimization.otherPlatform')?.value || '',
       },
+      pageName: 'IndividualItem'
     };
     const encodedObject = btoa(JSON.stringify(payload))
     this.Router.navigate([`/home/marketing/generated-quote-download`],{ queryParams: { data: encodedObject } });

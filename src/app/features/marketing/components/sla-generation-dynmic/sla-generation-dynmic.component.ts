@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { ToWords } from 'to-words';
@@ -33,8 +33,9 @@ export class SlaGenerationDynamicComponent {
   salesPersonName: any;
 
   toWords = new ToWords();
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute,private router: Router) { }
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.route.queryParams.subscribe(params => {
       this.slaData = JSON.parse(atob(params['data']));
       console.log(this.slaData)
@@ -114,6 +115,15 @@ export class SlaGenerationDynamicComponent {
       pdf.save(`${this.clientName}_SLA.pdf`);
     }
     this.showSpinner = false;
+  }
+
+  redirect(){
+    if(this.slaData?.pageName == 'list'){
+      this.router.navigate([`/home/marketing/sla-generation`]);
+    }
+    else{
+      this.router.navigate([`/home/marketing/generate-sla/${this.slaData?.clientId}`]);
+    }
   }
 
 }

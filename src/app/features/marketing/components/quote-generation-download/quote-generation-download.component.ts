@@ -37,7 +37,7 @@ export class QuoteGenerationDownloadComponent {
     adBudget: number = 0;
     isAssistance:boolean= false;
     showSpinner: boolean = false;
-    constructor(private route: ActivatedRoute){
+    constructor(private route: ActivatedRoute,private router: Router){
     }
 
     ngOnInit(){
@@ -63,6 +63,7 @@ export class QuoteGenerationDownloadComponent {
       this.noSCForAdCMUpto = this.leadPackage?.noSCForAdCMUpto.toLocaleString('en-IN');;
       this.noSCForAdCMUptoInWords = toWords.convert(this.leadPackage?.noSCForAdCMUpto, { currency: true, ignoreDecimal: true });
       this.isAssistance = this.assistance?.sem ||  this.assistance?.justDail || this.assistance?.whatsappMarketing || this.assistance?.emailMarketing || this.assistance?.influencerMarketing || this.assistance?.interviewInYTAndTV
+      window.scrollTo(0, 0);
     }
 
 
@@ -72,8 +73,9 @@ export class QuoteGenerationDownloadComponent {
   
       const element1 = document.getElementById('pdf-container1');
       const element2 = document.getElementById('pdf-container2');
+      const element3 = document.getElementById('pdf-container3');
   
-      if (element1 && element2) {
+      if (element1 && element2 && element3) {
         // Capture element1
         const canvas1 = await html2canvas(element1, { scale: 2 });
         const imgData1 = canvas1.toDataURL('image/png');
@@ -89,6 +91,14 @@ export class QuoteGenerationDownloadComponent {
   
         pdf.addPage(); // Add a new page
         pdf.addImage(imgData2, 'PNG', 0, 0, pdfWidth, pdfHeight2); // Add element2 to the new page
+        // Capture element3
+        const canvas3 = await html2canvas(element3, { scale: 2 });
+        const imgData3 = canvas3.toDataURL('image/png');
+        const pdfHeight3 = (canvas2.height * pdfWidth) / canvas2.width;
+  
+        pdf.addPage(); // Add a new page
+        pdf.addImage(imgData3, 'PNG', 0, 0, pdfWidth, pdfHeight3); // Add element3 to the new page
+        
         this.showSpinner = false;
         // Save the PDF
         pdf.save('quotation.pdf');
@@ -98,6 +108,15 @@ export class QuoteGenerationDownloadComponent {
     calculateTotalBudget(){
       let budget = Number(this.leadPackage?.adBudget) + Number(this.leadPackage?.basePackage)
       return  (budget + budget*0.18)
+    }
+
+    goBackToEditPage(){
+      if(this.clientData?.pageName == 'list'){
+        this.router.navigate([`/home/marketing/generate-quote`]);
+      }
+      else{
+        this.router.navigate([`/home/marketing/generate-new-quote/${this.clientData?.leadID}`]);
+      }
     }
     
 }

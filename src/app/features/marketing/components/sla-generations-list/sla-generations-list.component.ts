@@ -116,9 +116,9 @@ export class SlaGenerationsListComponent implements OnInit {
             smOthersText: data.package?.smOthersText || '',
           },
           salesPersonDesignation: data.salesPersonDesignation,
-          salesPersonName: data.salesPersonName
+          salesPersonName: data.salesPersonName,
+          pageName: 'list'
         };
-        console.log(payload)
         const encodedObject = btoa(JSON.stringify(payload))
         this.router.navigate([`/home/marketing/sla-download`],{ queryParams: { data: encodedObject } });
       })

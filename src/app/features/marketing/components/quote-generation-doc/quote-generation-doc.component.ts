@@ -156,7 +156,8 @@ downloadQuotation(leadId: any){
   if (leadId) {
     this.marketingService.getQuoteByLeadId(leadId).subscribe({
       next: (data: any) => {
-        const encodedObject = btoa(JSON.stringify(data))
+        let payload = {...data , pageName: 'list' }
+        const encodedObject = btoa(JSON.stringify(payload))
         this.router.navigate([`/home/marketing/generated-quote-download`],{ queryParams: { data: encodedObject } });
       },
     });
