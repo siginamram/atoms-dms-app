@@ -32,10 +32,13 @@ export const MY_FORMATS = {
 export class DmaClientsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   selectedDate: any = '';
+  showSpinner: boolean = false;
   dataSource1 = new MatTableDataSource<any>([]);
   displayedColumns: string[] = [
     'sno',
     'clientName',
+    'cityName',
+    'clientCategory',
     'contentApproved',
     'postersApproved',
     'graphicVideosApproved',
@@ -64,25 +67,38 @@ export class DmaClientsComponent implements OnInit {
       console.warn('Missing date or userId');
       return;
     }
-
-    this.operationsService.getClientsByGraphicReelEditor(this.userId, this.selectedDate).subscribe({
+    this.showSpinner = true;
+    this.operationsService.ClientsByDMA(this.userId, this.selectedDate).subscribe({
       next: (response: any[]) => {
         console.log('Fetched Clients:', response);
         this.dataSource1.data = response.map((client, index) => ({
           ...client,
           clientName: client.organizationName,
-          contentApproved: client.totContentApprovedPercent || 0,
-          postersApproved: client.totPostersApprovedPercent || 0,
-          graphicVideosApproved: client.totGraphicVideosApprovedPercent || 0,
-          educationalVideosApproved: client.totEducationalVideosApprovedPercent || 0,
-          youtubeVideosApproved: client.totYouTubeVideosApprovedPercent || 0,
+          cityName:client.cityName,
+          clientCategory:client.clientCategory,
+          contentApproved: client.contentApprovedPercent || 0,
+          postersApproved: client.posterApprovedPercent || 0,
+          graphicVideosApproved: client.graphicApprovedPercent || 0,
+          educationalVideosApproved: client.edApprovedPercent || 0,
+          youtubeVideosApproved: client.ytApprovedPercent || 0,
+          clientId:client.clientId,
         }));
+        this.showSpinner = false;
       },
       error: (error) => {
+        this.showSpinner = false;
         console.error('Error fetching clients:', error);
         this.dataSource1.data = []; // Clear table on error
       },
     });
+  }
+  getCategoryLabel(category: number): string {
+    const categoryMap: { [key: number]: string } = {
+      1: 'A',
+      2: 'B',
+      3: 'C',
+    };
+    return categoryMap[category] || 'Unknown'; // Default to 'Unknown' for unmapped values
   }
 
   setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {

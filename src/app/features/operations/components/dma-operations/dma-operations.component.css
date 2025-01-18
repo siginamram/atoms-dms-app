@@ -1,9 +1,9 @@
 .dma-container {
-  margin-left: 250px;
+  margin-left: 255px;
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px; /* Added padding for better spacing */
+  padding: 20px; /* Consistent padding */
 }
 
 mat-toolbar {
@@ -35,7 +35,11 @@ table {
   margin-top: 20px;
   border-collapse: collapse;
 }
-
+th {
+  background-color: #4a4a4a;
+  color: orange;
+  font-weight: bold;
+}
 table th,
 table td {
   padding: 8px 12px;
@@ -103,29 +107,36 @@ table td {
     padding: 2px 6px;
   }
 }
-/* Styling for content cells */
+/* Styling for content cells with truncation */
 .content-cell {
-  display: -webkit-box;
-  -webkit-line-clamp: 2; /* Limit to 2 lines */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: normal; /* Allow wrapping for the truncation */
-  cursor: pointer;
-  position: relative;
+  display: -webkit-box; /* Enable box layout for -webkit-line-clamp */
+  -webkit-line-clamp: 2; /* Limit to 2 lines (truncated view) */
+  -webkit-box-orient: vertical; /* Set box orientation for truncation */
+  overflow: hidden; /* Hide overflow content */
+  text-overflow: ellipsis; /* Add ellipsis for overflow */
+  white-space: normal; /* Allow wrapping for truncation */
+  cursor: pointer; /* Change cursor to indicate interactivity */
+  position: relative; /* Set relative position for absolute hover styling */
 }
 
-/* On hover, show full content */
+/* Full content display on hover */
 .content-cell:hover {
-  -webkit-line-clamp: unset; /* Remove the line clamp */
-  max-height: none;
-  overflow: visible;
-  white-space: normal;
-  background-color: #f9f9f9; /* Highlight background */
-  z-index: 10;
-  position: absolute;
-  padding: 10px; /* Add padding for better readability */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for focus */
-  width: auto; /* Adjust width */
-  border-radius: 4px;
+  -webkit-line-clamp: unset; /* Remove line clamp for full content */
+  line-clamp: unset; /* Add unprefixed property for future compatibility */
+  max-height: none; /* Allow content to expand */
+  overflow: visible; /* Make overflow content visible */
+  white-space: normal; /* Ensure text wraps properly */
+  background-color: #f9f9f9; /* Light gray background for hover effect */
+  z-index: 10; /* Ensure hover content appears on top */
+  position: absolute; /* Position relative to parent */
+  padding: 10px; /* Add padding for readability */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for focus effect */
+  width: auto; /* Auto width to fit content */
+  border-radius: 4px; /* Smooth corners for hover box */
+  transition: background-color 0.3s ease; /* Smooth background transition */
+}
+
+/* Optional: Add animation for smoother transitions */
+.content-cell {
+  transition: all 0.3s ease; /* Smooth transition for truncation changes */
 }

@@ -182,4 +182,9 @@ export class OperationsService {
     const apiUrl = `${this.baseApiUrl}/api/Client/ClientsByUser/${userId}`;
     return this.http.get(apiUrl);
   }
+
+  ClientsByDMA(userId: number, date: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/ClientsByDMA/${userId}/${date}`;
+    return this.http.get(apiUrl);
+  }
 }

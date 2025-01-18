@@ -1,10 +1,16 @@
+<div  class="spinner" *ngIf="showSpinner">
+  <mat-spinner></mat-spinner>
+</div>
 <div class="dma-container">
     <!-- Toolbar -->
     <mat-toolbar color="primary" class="toolbar" style="border-radius: 10px;">
-        <span>DMA Tracker</span>
+      <button mat-icon-button  (click)="goBack()" aria-label="Back">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+        <span>{{this.clientName}}</span>
         </mat-toolbar>
     <!-- Filters -->
-    <div class="filters-container">
+    <!-- <div class="filters-container">
       <mat-form-field appearance="outline">
         <mat-label>Client</mat-label>
         <input
@@ -32,8 +38,32 @@
           panelClass="month-picker"
         ></mat-datepicker>
       </mat-form-field>
-    </div>
+    </div> -->
   
+      <!-- Filter Section -->
+  <div [formGroup]="clientForm" class="filters-container">
+    <mat-form-field appearance="outline">
+      <mat-label>Organization Name</mat-label>
+      <input matInput formControlName="clientName" readonly />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <input
+        matInput
+        [matDatepicker]="picker"
+        [formControl]="date"
+        placeholder="Select Month and Year"
+        readonly
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker
+        #picker
+        startView="multi-year"
+        (monthSelected)="setMonthAndYear($event, picker)"
+        readonly
+      ></mat-datepicker>
+    </mat-form-field>
+  </div>
     <!-- Table -->
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="id">

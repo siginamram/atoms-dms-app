@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl,FormGroup,FormBuilder } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDatepicker } from '@angular/material/datepicker';
@@ -7,6 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import * as moment from 'moment';
+import { Router, ActivatedRoute } from '@angular/router';
 import { OperationsService } from '../../services/operations.service';
 import { DmaOperationsEditComponent } from '../dma-operations-edit/dma-operations-edit.component';
 
@@ -34,6 +35,11 @@ export class DmaOperationsComponent implements OnInit {
   dateControl = new FormControl(moment());
   clients: any[] = [];
   filteredClients: any[] = [];
+  clientId: number = 0;
+  selectedDate: string = '';
+  clientName:string=''; 
+  showSpinner: boolean = false;
+  clientForm: FormGroup;
   dataSource = new MatTableDataSource<any>([]);
   displayedColumns: string[] = [
     'id',
@@ -54,42 +60,52 @@ export class DmaOperationsComponent implements OnInit {
   ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  constructor(private operationsService: OperationsService, private dialog: MatDialog) {}
+  date = new FormControl(moment());
+  constructor(private operationsService: OperationsService,
+    private fb: FormBuilder,
+     private dialog: MatDialog,
+     private router: Router,
+     private route: ActivatedRoute,
+    ) {
+      this.clientForm = this.fb.group({
+        clientName: [''],
+      });
+    }
 
   ngOnInit(): void {
-    this.fetchClients();
-    this.fetchTableData();
+// Retrieve clientId and date from query parameters
+    this.route.queryParams.subscribe((params) => {
+      this.clientId = Number(params['clientId']) || 0;
+      this.selectedDate = params['date']
+        ? moment(params['date']).format('YYYY-MM-DD')
+        : moment().format('YYYY-MM-DD'); // Default to current date
+
+      // Fetch client details and table data
+      this.fetchClientDetails(this.clientId);
+      this.fetchTableData();
+    });
   }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
   }
 
-  fetchClients(): void {
-    this.operationsService.getAllActiveClients().subscribe({
-      next: (response: any[]) => {
-        this.clients = response;
-        this.filteredClients = response;
+  fetchClientDetails(clientId: number): void {
+    this.showSpinner = true;
+    this.operationsService.getclientByClientId(clientId).subscribe({
+      next: (response) => {
+        if (response?.organizationName) {
+          this.clientForm.patchValue({ clientName: response.organizationName });
+          this.clientName=response.organizationName;
+          this.showSpinner = false;
+        }
       },
-      error: (error) => console.error('Error fetching clients:', error),
+      error: (error) => 
+        console.error('Error fetching client details:', error),
     });
   }
 
-  filterClients(event: Event): void {
-    const input = (event.target as HTMLInputElement)?.value.toLowerCase() || '';
-    this.filteredClients = this.clients.filter((client) =>
-      client.organizationName.toLowerCase().includes(input)
-    );
-  }
 
-  onClientSelected(event: MatAutocompleteSelectedEvent): void {
-    const selectedClient = this.clients.find((client) => client.organizationName === event.option.value);
-    if (selectedClient) {
-      this.clientControl.setValue(selectedClient.organizationName);
-      this.fetchTableData();
-    }
-  }
 
   setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
     const ctrlValue = this.dateControl.value!;
@@ -101,16 +117,16 @@ export class DmaOperationsComponent implements OnInit {
   }
 
   fetchTableData(): void {
-    const selectedClient = this.clients.find((client) => client.organizationName === this.clientControl.value);
-    const clientId = selectedClient?.clientId || 0;
-    const date = this.dateControl.value?.format('YYYY-MM') + '-01';
+    // const selectedClient = this.clients.find((client) => client.organizationName === this.clientControl.value);
+    // const clientId = selectedClient?.clientId || 0;
+    // const date = this.dateControl.value?.format('YYYY-MM') + '-01';
 
-    if (!clientId || !date) {
+    if (!this.clientId || !this.selectedDate) {
       console.warn('Please select both Client and Date to filter.');
       return;
     }
-
-    this.operationsService.DMAMonthlyTracker(clientId, date).subscribe({
+    this.showSpinner = true;
+    this.operationsService.DMAMonthlyTracker(this.clientId, this.selectedDate).subscribe({
       next: (response: any[]) => {
         this.dataSource.data = response.map((item, index) => ({
           ...item,
@@ -124,9 +140,11 @@ export class DmaOperationsComponent implements OnInit {
           postRemarks:item.postRemarks,
           creativeTypeId:item.creativeTypeId,
         }));
+        this.showSpinner = false;
       },
       error: (error) => {
         console.error('Error fetching table data:', error);
+        this.showSpinner = false;
         this.dataSource.data = [];
       },
     });
@@ -144,6 +162,8 @@ export class DmaOperationsComponent implements OnInit {
       return 'Changes recommended';
     case 5:
       return 'Approved';
+      case 6:
+        return 'Sent for client approval';
     default:
       return 'Unknown status';
   }
@@ -183,6 +203,9 @@ editRow(meet: any): void {
   });
 }
 
+goBack(): void {
+  this.router.navigate(['/home/operations/client-dma']); 
+}
   
   
 }

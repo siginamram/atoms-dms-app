@@ -114,7 +114,7 @@
           </a>
         </li>
         <li>
-          <a [routerLink]="['/home', 'operations', 'operations-dma']" 
+          <a [routerLink]="['/home', 'operations', 'client-dma']" 
              *ngIf="roleService.hasRole([ 'DMA'])" 
              routerLinkActive="active">
             <i class="material-icons">upload_file</i>Daily Tasks
@@ -232,7 +232,7 @@
       </a>
     </li>
     <li>
-      <a [routerLink]="['/home', 'operations', 'operations-dma']" 
+      <a [routerLink]="['/home', 'operations', 'client-dma']" 
          *ngIf="roleService.hasRole([ 'DMA'])" 
          routerLinkActive="active">
         <i class="material-icons">upload_file</i>Daily Tasks
