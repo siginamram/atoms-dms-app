@@ -35,10 +35,10 @@
         </ng-container>
   
         <!-- City Name Column -->
-        <ng-container matColumnDef="cityName">
+        <!-- <ng-container matColumnDef="cityName">
           <th mat-header-cell *matHeaderCellDef>City</th>
           <td mat-cell *matCellDef="let row">{{ row.cityName }}</td>
-        </ng-container>
+        </ng-container> -->
   
         <!-- Client Category Column -->
         <ng-container matColumnDef="clientCategory">
@@ -65,9 +65,21 @@
           </ng-container>
 
         <!-- Posters Approved (%) Column -->
-        <ng-container matColumnDef="percentOfGraphicReelsApproved">
+        <!-- <ng-container matColumnDef="percentOfGraphicReelsApproved">
           <th mat-header-cell *matHeaderCellDef>Graphic Reels  Approved (%)</th>
           <td mat-cell *matCellDef="let row">{{ row.percentOfGraphicReelsApproved }}%</td>
+        </ng-container> -->
+
+        <ng-container matColumnDef="percentOfGraphicReelsApproved">
+          <th mat-header-cell *matHeaderCellDef>Graphic Reels  Approved (%)</th>
+          <td mat-cell *matCellDef="let element">
+            <mat-progress-bar
+            mode="determinate"
+            [value]="element.percentOfGraphicReelsApproved"
+            [color]="element.percentOfGraphicReelsApproved > 70 ? 'primary' : 'warn'">
+          </mat-progress-bar>
+            <span>{{ element.percentOfGraphicReelsApproved }}%</span>
+          </td>
         </ng-container>
   
         <!-- Actions Column -->

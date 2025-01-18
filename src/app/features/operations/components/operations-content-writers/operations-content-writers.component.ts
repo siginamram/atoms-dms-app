@@ -53,9 +53,9 @@ export class OperationsContentWritersComponent implements OnInit {
   educationalReelCount = 0;
   memePosterCount = 0;
   memeReelCount = 0;
-
   totalPosters = 0;
   totalReels = 0;
+  clientName:string=''; 
   // Column Filters
   specialityFilter = new FormControl('');
   promotionTypeFilter = new FormControl('');
@@ -138,6 +138,7 @@ export class OperationsContentWritersComponent implements OnInit {
         // Assuming response contains organizationName
         if (response?.organizationName) {
           this.clientForm.patchValue({ clientName: response.organizationName });
+          this.clientName=response.organizationName;
         }
       },
       error: (error) => {
@@ -318,5 +319,8 @@ export class OperationsContentWritersComponent implements OnInit {
       (!creativeType || data.creativeType?.toLowerCase().includes(creativeType)) &&
       (!contentStatus || data.contentStatus?.toLowerCase().includes(contentStatus));
     this.dataSource.filter = Math.random().toString(); // Trigger filter update
+  }
+  goBack(): void {
+    this.router.navigate(['/home/operations/content-writer-client']); 
   }
 }    

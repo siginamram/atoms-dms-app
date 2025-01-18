@@ -56,6 +56,8 @@ export class PhotoGrapherScheduleMeetComponent implements OnInit {
       this.displayedColumns = [
         'id',
         'organizationName',
+        'cityName',
+        'clientCategory',
         'date',
         'time',
         'noOfYTVideos',
@@ -68,6 +70,8 @@ export class PhotoGrapherScheduleMeetComponent implements OnInit {
       this.displayedColumns = [
         'id',
         'organizationName',
+        'cityName',
+        'clientCategory',
         'date',
         'time',
         'noOfYouTubeVideos',
@@ -99,6 +103,8 @@ export class PhotoGrapherScheduleMeetComponent implements OnInit {
           meetId:item.id,
           clientId:item.clientId,
           shootDate:item.date,
+          clientCategory:item.clientCategory,
+          cityName:item.cityName,
         }));
         this.cdr.markForCheck(); // Trigger change detection
       },

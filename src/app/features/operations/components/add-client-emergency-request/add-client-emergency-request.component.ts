@@ -62,6 +62,7 @@ export class AddClientEmergencyRequestComponent implements OnInit {
         clientId: this.data.clientId,
         contentStatus: 2, // Draft status
         createdBy: this.userId,
+        date: this.formatDate(new Date(this.emergencyRequestForm.value.date)),
       };
 
       this.operationsService.AddClientEmergencyRequest(payload).subscribe(
@@ -99,6 +100,7 @@ export class AddClientEmergencyRequestComponent implements OnInit {
         clientId: this.data.clientId,
         contentStatus: 3, // Approval status
         createdBy: this.userId,
+        date: this.formatDate(new Date(this.emergencyRequestForm.value.date)),
       };
 
       this.operationsService.AddClientEmergencyRequest(payload).subscribe(
@@ -142,4 +144,12 @@ export class AddClientEmergencyRequestComponent implements OnInit {
       },
     });
   }
+
+    // Utility function to format date as YYYY-MM-DD
+    private formatDate(date: Date): string {
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const day = date.getDate().toString().padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
 }

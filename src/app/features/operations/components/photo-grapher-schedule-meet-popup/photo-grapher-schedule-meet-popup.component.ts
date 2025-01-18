@@ -19,7 +19,7 @@ export class PhotoGrapherScheduleMeetPopupComponent implements OnInit {
   filteredClients: any[] = [];
   disableStatus = false; // Disable meeting status for Add
   showAdditionalFields = false; // Control visibility of additional fields for 'Completed'
-
+  today: Date = new Date(); 
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog, // Inject MatDialog
@@ -179,7 +179,7 @@ export class PhotoGrapherScheduleMeetPopupComponent implements OnInit {
         error: (error: any) => {
           console.error('Error saving meeting:', error);
           //this.dialogRef.close({ success: false, message: 'Failed to save meeting' });
-          this.openAlertDialog('Error', 'Unexpected response. Please try again.');
+          this.openAlertDialog('Error', 'Already have an Scheduled shoot.');
         },
       });
     } else {

@@ -1,10 +1,9 @@
 .content-container {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding-left: 100px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-left: 255px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px; /* Consistent padding */
   }
   
   mat-toolbar {
@@ -29,7 +28,11 @@
     width: 100%;
     margin-top: 20px;
   }
-  
+  th {
+    background-color: #4a4a4a;
+    color: orange;
+    font-weight: bold;
+  }
   .mat-elevation-z8 {
     border-radius: 8px;
   }

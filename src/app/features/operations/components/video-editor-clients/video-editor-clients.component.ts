@@ -38,7 +38,6 @@ export class VideoEditorClientsComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
     'organizationName',
-    'cityName',
     'clientCategory',
     'noOfYouTubeVideos',
      'totYouTubeVideosApprovedCount',
@@ -79,8 +78,8 @@ export class VideoEditorClientsComponent implements OnInit {
           noOfEducationalReels: client.noOfEducationalReels,
           totYouTubeVideosApprovedCount: client.totYouTubeVideosApprovedCount,
           totEducationalReelsApprovedCount: client.totEducationalReelsApprovedCount,
-          percentOfYouTubeVideosApproved: client.percentOfYouTubeVideosApproved + '%',
-          percentOfEducationalReelsApproved: client.percentOfEducationalReelsApproved + '%',
+          percentOfYouTubeVideosApproved: client.percentOfYouTubeVideosApproved,
+          percentOfEducationalReelsApproved: client.percentOfEducationalReelsApproved,
           clientId: client.clientId,
         }));
         this.cdr.markForCheck(); // Trigger change detection

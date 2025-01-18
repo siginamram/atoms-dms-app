@@ -46,7 +46,11 @@ table {
   width: 100%;
   border-collapse: collapse;
 }
-
+th {
+  background-color: #4a4a4a;
+  color: orange;
+  font-weight: bold;
+}
 table th,
 table td {
   padding: 8px 12px;

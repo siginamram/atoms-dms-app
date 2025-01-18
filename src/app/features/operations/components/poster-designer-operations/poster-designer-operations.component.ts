@@ -36,6 +36,7 @@ export class PosterDesignerOperationsComponent implements OnInit {
   clientId: number = 0;
   selectedDate: string = '';
   creativeType: number = 1; // Default creativeType
+  clientName:string=''; 
   clientForm: FormGroup;
   displayedColumns: string[] = [
    'id',
@@ -88,6 +89,7 @@ export class PosterDesignerOperationsComponent implements OnInit {
       next: (response) => {
         if (response?.organizationName) {
           this.clientForm.patchValue({ clientName: response.organizationName });
+          this.clientName=response.organizationName;
         }
       },
       error: (error) => console.error('Error fetching client details:', error),
@@ -181,6 +183,9 @@ export class PosterDesignerOperationsComponent implements OnInit {
         console.log('Popup result:', result);
       }
     });
+  }
+  goBack(): void {
+    this.router.navigate(['/home/operations/poster-designer-client']); 
   }
 
 }

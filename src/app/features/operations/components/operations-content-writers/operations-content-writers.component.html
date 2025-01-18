@@ -1,10 +1,14 @@
 <div class="content-writers-container">
   <!-- Toolbar -->
   <mat-toolbar color="primary" class="toolbar">
-    <span>CW Tracker</span>
+    <button mat-icon-button  (click)="goBack()" aria-label="Back">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span>{{this.clientName}}</span>
     <span class="spacer"></span>
     <button mat-raised-button color="accent" class="add-button" (click)="addNewEntry()">+ Add Emergency Request</button>
   </mat-toolbar>
+  
 
 
   <!-- Filter Section -->

@@ -35,7 +35,6 @@ export class GraphicReelDesignerClientComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
     'organizationName',
-    'cityName',
     'clientCategory',
     'noOfGraphicReels',
     'totGraphicReelContentApprovedCount',

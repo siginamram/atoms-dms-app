@@ -23,9 +23,9 @@
     </form>
   </div>
   
-  <div mat-dialog-actions align="end">
-    <button mat-raised-button color="accent" (click)="saveDraft()">Save Draft</button>
-    <button mat-raised-button color="primary" (click)="sendForApproval()">Send To Approval</button>
+  <div mat-dialog-actions align="end" >
+    <button mat-raised-button color="accent" (click)="saveDraft()" *ngIf="data?.status !== 'Approved'">Save Draft</button>
+    <button mat-raised-button color="primary" (click)="sendForApproval()" *ngIf="data?.status !== 'Approved'">Send To Approval</button>
     <button mat-raised-button color="warn" (click)="close()">Cancel</button>
   </div>
   

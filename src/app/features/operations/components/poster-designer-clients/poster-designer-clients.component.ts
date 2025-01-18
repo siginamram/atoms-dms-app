@@ -37,7 +37,6 @@ export class PosterDesignerClientsComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
     'organizationName',
-    'cityName',
     'clientCategory',
     'noOfPosters',
     'percentOfPosterContentApproved',

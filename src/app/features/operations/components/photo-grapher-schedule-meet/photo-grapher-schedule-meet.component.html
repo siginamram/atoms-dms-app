@@ -41,6 +41,16 @@
       <th mat-header-cell *matHeaderCellDef>Organization Name</th>
       <td mat-cell *matCellDef="let row">{{ row.organizationName }}</td>
     </ng-container>
+
+    <ng-container matColumnDef="cityName">
+      <th mat-header-cell *matHeaderCellDef>City</th>
+      <td mat-cell *matCellDef="let row">{{ row.cityName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="clientCategory">
+      <th mat-header-cell *matHeaderCellDef>Category</th>
+      <td mat-cell *matCellDef="let row">{{ row.clientCategory }}</td>
+    </ng-container>
   
     <!-- Date Column -->
     <ng-container matColumnDef="date">
@@ -62,7 +72,7 @@
   
     <!-- No. of ED Reels Column -->
     <ng-container matColumnDef="noOfEDReels">
-      <th mat-header-cell *matHeaderCellDef>No. of ED Reels</th>
+      <th mat-header-cell *matHeaderCellDef>No. of GED Reels</th>
       <td mat-cell *matCellDef="let row">{{ row.noOfEducationalReels }}</td>
     </ng-container>
   
@@ -107,6 +117,16 @@
       <td mat-cell *matCellDef="let row">{{ row.organizationName }}</td>
     </ng-container>
   
+    <ng-container matColumnDef="cityName">
+      <th mat-header-cell *matHeaderCellDef>City</th>
+      <td mat-cell *matCellDef="let row">{{ row.cityName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="clientCategory">
+      <th mat-header-cell *matHeaderCellDef>Category</th>
+      <td mat-cell *matCellDef="let row">{{ row.clientCategory }}</td>
+    </ng-container>
+
     <!-- Date Column -->
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef>Schedule Date</th>
@@ -121,13 +141,13 @@
   
     <!-- No. of YouTube Videos Column -->
     <ng-container matColumnDef="noOfYouTubeVideos">
-      <th mat-header-cell *matHeaderCellDef>No. of YouTube Videos</th>
+      <th mat-header-cell *matHeaderCellDef>No. of YT Videos</th>
       <td mat-cell *matCellDef="let row">{{ row.noOfYouTubeVideos }}</td>
     </ng-container>
   
     <!-- No. of Educational Reels Column -->
     <ng-container matColumnDef="noOfEducationalReels">
-      <th mat-header-cell *matHeaderCellDef>No. of Educational Reels</th>
+      <th mat-header-cell *matHeaderCellDef>No. of GED Reels</th>
       <td mat-cell *matCellDef="let row">{{ row.noOfEducationalReels }}</td>
     </ng-container>
   

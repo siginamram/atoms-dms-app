@@ -34,6 +34,7 @@ export class GraphicReelDesignerOperationsComponent implements OnInit {
   clientId: number = 0;
   selectedDate: string = '';
   creativeType: number = 2; // Default creativeType
+  clientName:string=''; 
   clientForm: FormGroup;
   displayedColumns: string[] = [
    'id',
@@ -86,6 +87,7 @@ export class GraphicReelDesignerOperationsComponent implements OnInit {
       next: (response) => {
         if (response?.organizationName) {
           this.clientForm.patchValue({ clientName: response.organizationName });
+          this.clientName=response.organizationName;
         }
       },
       error: (error) => console.error('Error fetching client details:', error),
@@ -180,5 +182,7 @@ export class GraphicReelDesignerOperationsComponent implements OnInit {
       }
     });
   }
-
+  goBack(): void {
+    this.router.navigate(['/home/operations/graphicreels-designer-client']); 
+  }
 }

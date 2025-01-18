@@ -1,7 +1,10 @@
 <div class="content-writers-container">
     <!-- Toolbar -->
     <mat-toolbar color="primary" class="toolbar">
-      <span>Video Editor Tracker</span>
+      <button mat-icon-button  (click)="goBack()" aria-label="Back">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <span>{{this.clientName}}</span>
     </mat-toolbar>
   
   <!-- Filters Section -->
@@ -40,11 +43,16 @@
       <td mat-cell *matCellDef="let video">{{ video.creativeType }}</td>
     </ng-container>
 
+    <ng-container matColumnDef="postScheduleOn">
+      <th mat-header-cell *matHeaderCellDef>Post schedule date</th>
+      <td mat-cell *matCellDef="let video">{{ video.postScheduleOn | date: 'dd-MM-yyyy'  }}</td>
+    </ng-container>
+
       <!-- Shoot Link Column -->
       <ng-container matColumnDef="shootLink">
         <th mat-header-cell *matHeaderCellDef>Shoot Link</th>
         <td mat-cell *matCellDef="let video">
-          <a *ngIf="video.shootLink" [href]="video.shootLink" target="_blank">View Shoot</a>
+          <a *ngIf="video.shootLink" [href]="video.shootLink" target="_blank">View</a>
           <span *ngIf="!video.shootLink">N/A</span>
         </td>
       </ng-container>
@@ -53,7 +61,7 @@
       <ng-container matColumnDef="editorLink">
         <th mat-header-cell *matHeaderCellDef>Editor Link</th>
         <td mat-cell *matCellDef="let video">
-          <a *ngIf="video.editorLink" [href]="video.editorLink" target="_blank">View Editor</a>
+          <a *ngIf="video.editorLink" [href]="video.editorLink" target="_blank">View </a>
           <span *ngIf="!video.editorLink">N/A</span>
         </td>
       </ng-container>
@@ -95,9 +103,13 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let row">
-        <button mat-button color="accent" (click)="openEditPopup(row)" [disabled]="row.status === 'Approved'"> 
-           <mat-icon>edit</mat-icon>
-        </button>
+        <button 
+        mat-button 
+        color="accent" 
+        (click)="openEditPopup(row)" 
+        [disabled]="row.status === 'Approved' || row.status === 'Sent for client approval'">
+        <mat-icon>edit</mat-icon>
+      </button>
       </td>
     </ng-container>
 

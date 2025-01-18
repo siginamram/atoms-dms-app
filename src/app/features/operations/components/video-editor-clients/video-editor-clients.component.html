@@ -42,10 +42,10 @@
       </ng-container>
 
       <!-- City Column -->
-      <ng-container matColumnDef="cityName">
+      <!-- <ng-container matColumnDef="cityName">
         <th mat-header-cell *matHeaderCellDef>City</th>
         <td mat-cell *matCellDef="let row">{{ row.cityName }}</td>
-      </ng-container>
+      </ng-container> -->
 
       <!-- Client Category Column -->
       <ng-container matColumnDef="clientCategory">
@@ -78,15 +78,39 @@
       </ng-container>
 
       <!-- Percent of YouTube Videos Approved Column -->
-      <ng-container matColumnDef="percentOfYouTubeVideosApproved">
+      <!-- <ng-container matColumnDef="percentOfYouTubeVideosApproved">
         <th mat-header-cell *matHeaderCellDef>Percent of YouTube Videos Approved</th>
         <td mat-cell *matCellDef="let row">{{ row.percentOfYouTubeVideosApproved }}</td>
+      </ng-container> -->
+
+      <ng-container matColumnDef="percentOfYouTubeVideosApproved">
+        <th mat-header-cell *matHeaderCellDef>Percent of YouTube Videos Approved (%)</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-progress-bar
+          mode="determinate"
+          [value]="element.percentOfYouTubeVideosApproved"
+          [color]="element.percentOfYouTubeVideosApproved > 70 ? 'primary' : 'warn'">
+        </mat-progress-bar>
+          <span>{{ element.percentOfYouTubeVideosApproved }}%</span>
+        </td>
       </ng-container>
 
       <!-- Percent of Educational Reels Approved Column -->
-      <ng-container matColumnDef="percentOfEducationalReelsApproved">
+      <!-- <ng-container matColumnDef="percentOfEducationalReelsApproved">
         <th mat-header-cell *matHeaderCellDef>Percent of Educational Reels Approved</th>
         <td mat-cell *matCellDef="let row">{{ row.percentOfEducationalReelsApproved }}</td>
+      </ng-container> -->
+
+      <ng-container matColumnDef="percentOfEducationalReelsApproved">
+        <th mat-header-cell *matHeaderCellDef>Percent of Educational Reels Approved(%)</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-progress-bar
+          mode="determinate"
+          [value]="element.percentOfEducationalReelsApproved"
+          [color]="element.percentOfEducationalReelsApproved > 70 ? 'primary' : 'warn'">
+        </mat-progress-bar>
+          <span>{{ element.percentOfEducationalReelsApproved }}%</span>
+        </td>
       </ng-container>
 
       <!-- Actions Column -->

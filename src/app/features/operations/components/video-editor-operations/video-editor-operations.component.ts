@@ -46,6 +46,7 @@ export class VideoEditorOperationsComponent implements OnInit {
   displayedColumns = [
     'id',
     'creativeType',
+    'postScheduleOn',
     'shootLink',
     'editorLink',
     'thumbNail',
@@ -56,6 +57,7 @@ export class VideoEditorOperationsComponent implements OnInit {
     'actions',
     
   ];
+  clientName: any;
   constructor(private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
     private router: Router,
@@ -87,6 +89,7 @@ export class VideoEditorOperationsComponent implements OnInit {
       next: (response) => {
         if (response?.organizationName) {
           this.clientForm.patchValue({ clientName: response.organizationName });
+          this.clientName=response.organizationName;
         }
       },
       error: (error) => console.error('Error fetching client details:', error),
@@ -109,12 +112,13 @@ export class VideoEditorOperationsComponent implements OnInit {
             creativeType:item.creativeType,
             shootLink: item.shootLink,
             editorLink: item.editorLink,
-            title: item.title || 'No Title',
-            description: item.description || 'No Description',
+            title: item.title ,
+            description: item.description ,
             status: this.mapGraphicStatus(item.status),
-            remarks: item.remarks || 'No Remarks',
-            thumbNail: item.thumbNail || 'No ThumbNail',
+            remarks: item.remarks ,
+            thumbNail: item.thumbNail ,
             monthlyTrackerId:item.monthlyTrackerId,
+            postScheduleOn:item.postScheduleOn,
           }));
           this.cdr.markForCheck(); // Trigger change detection
         },
@@ -175,5 +179,7 @@ export class VideoEditorOperationsComponent implements OnInit {
       }
     });
   }
-
+  goBack(): void {
+    this.router.navigate(['/home/operations/video-editor-client']); 
+  }
 }

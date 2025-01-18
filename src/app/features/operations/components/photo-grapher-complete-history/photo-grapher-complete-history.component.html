@@ -41,14 +41,34 @@
           <th mat-header-cell *matHeaderCellDef>Organization</th>
           <td mat-cell *matCellDef="let element">{{ element.organizationName }}</td>
         </ng-container>
+
+        <ng-container matColumnDef="city">
+          <th mat-header-cell *matHeaderCellDef>City</th>
+          <td mat-cell *matCellDef="let element">{{ element.cityName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="clientCategory">
+          <th mat-header-cell *matHeaderCellDef>Category</th>
+          <td mat-cell *matCellDef="let row">{{ row.clientCategory }}</td>
+        </ng-container>
+        
+        <ng-container matColumnDef="rqenoOfYouTubeVideos">
+          <th mat-header-cell *matHeaderCellDef>Required YT Videos</th>
+          <td mat-cell *matCellDef="let element">{{ element.noOfYouTubeVideos }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="rqenoOfEducationalReels">
+          <th mat-header-cell *matHeaderCellDef>Required GED Reels</th>
+          <td mat-cell *matCellDef="let element">{{ element.noOfEducationalReels }}</td>
+        </ng-container>
   
         <ng-container matColumnDef="noOfYouTubeVideos">
-          <th mat-header-cell *matHeaderCellDef>YouTube Videos</th>
+          <th mat-header-cell *matHeaderCellDef>YT Videos Shoot</th>
           <td mat-cell *matCellDef="let element">{{ element.noOfYTVideos }}</td>
         </ng-container>
   
         <ng-container matColumnDef="noOfEducationalReels">
-          <th mat-header-cell *matHeaderCellDef>Educational Reels</th>
+          <th mat-header-cell *matHeaderCellDef>GED Reels Shoot</th>
           <td mat-cell *matCellDef="let element">{{ element.noOfEDReels }}</td>
         </ng-container>
   

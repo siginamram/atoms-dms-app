@@ -1,5 +1,5 @@
 <div class="popup-container">
-  <h2 mat-dialog-title>{{ data.isEdit ? 'Edit Meeting' : 'Schedule Meeting' }}</h2>
+  <h2 mat-dialog-title>{{ data.isEdit ? 'Edit Shoot Scheduled' : 'Schedule Shoot' }}</h2>
   <form [formGroup]="meetingForm" class="form-grid">
    <!-- Organization Name Field -->
    <mat-form-field appearance="outline">
@@ -26,8 +26,8 @@
   
 
 
-    <mat-form-field appearance="outline">
-      <mat-label>Status of the Meet</mat-label>
+    <mat-form-field appearance="outline" *ngIf="data.isEdit">
+      <mat-label>Status of the Shoot </mat-label>
       <mat-select
         formControlName="meetingStatus"
         [disabled]="!data.isEdit || disableStatus"
@@ -41,11 +41,15 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Schedule Date</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="date" />
+      <input 
+        matInput 
+        [matDatepicker]="picker" 
+        formControlName="date" 
+        [min]="today" 
+      />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
-    
 
     <mat-form-field appearance="outline">
       <mat-label>Schedule Time</mat-label>
@@ -64,17 +68,17 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" *ngIf="showAdditionalFields">
-        <mat-label>Required ED Reels</mat-label>
+        <mat-label>Required GED Reels</mat-label>
         <input matInput formControlName="requirednoOfEDReels" type="number" />
       </mat-form-field>
 
       <mat-form-field appearance="outline" *ngIf="showAdditionalFields">
-        <mat-label>No. of YT Videos</mat-label>
+        <mat-label>No. of YT Videos Shoot</mat-label>
         <input matInput formControlName="noOfYTVideos" type="number" />
       </mat-form-field>
 
       <mat-form-field appearance="outline" *ngIf="showAdditionalFields">
-        <mat-label>No. of ED Reels</mat-label>
+        <mat-label>No. of GED Reels Shoot</mat-label>
         <input matInput formControlName="noOfEDReels" type="number" />
       </mat-form-field>
 
