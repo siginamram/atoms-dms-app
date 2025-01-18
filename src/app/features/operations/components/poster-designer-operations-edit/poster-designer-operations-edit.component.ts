@@ -23,21 +23,18 @@ export class PosterDesignerOperationsEditComponent implements OnInit {
   }
 
   onSave(action: 'draft' | 'approval'): void {
-    if (!this.data.link ) {
-      //alert('Please fill in all required fields.');
-      this.openAlertDialog('Error', 'Please fill in all required fields.');
+    if (!this.isValidUrl(this.data.link)) {
+      this.openAlertDialog('Error', 'Please enter a valid URL.');
       return;
     }
-
+  
     const payload = {
       monthlyTrackerId: this.data.trackerID,
       link: this.data.link,
       graphicStatus: action === 'draft' ? 2 : 3, // 2: Draft, 3: Approval
       createdBy: parseInt(localStorage.getItem('UserID') || '0', 10), // User ID from localStorage
     };
-
-    //console.log('Payload:', payload);
-
+  
     this.operationsService.updateGraphicDesignLink(payload).subscribe({
       next: () => {
         this.openAlertDialog('Success', `${action === 'draft' ? 'Draft Saved' : 'Sent for Approval'} successfully!`);
@@ -63,5 +60,9 @@ export class PosterDesignerOperationsEditComponent implements OnInit {
         type: title.toLowerCase(), // success, error, or warning
       },
     });
+  }
+  isValidUrl(url: string): boolean {
+    const urlPattern = /^(https?:\/\/)[^\s$.?#].[^\s]*$/;
+    return urlPattern.test(url);
   }
 }

@@ -249,6 +249,7 @@ export class OperationsContentWritersComponent implements OnInit {
         contentInPost: row.contentInPost,
         contentCaption: row.contentCaption,
         referenceDoc: row.referenceDoc,
+        status:row.contentStatus,
       },
     });
 

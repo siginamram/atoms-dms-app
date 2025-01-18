@@ -3,14 +3,16 @@
   <!-- Update Design Link Field -->
   <mat-form-field appearance="outline" class="dialog-field">
     <mat-label>Update Design Link</mat-label>
-    <input matInput [(ngModel)]="data.link" placeholder="Enter Design Link" />
+    <input 
+      matInput 
+      [(ngModel)]="data.link" 
+      placeholder="Enter Design Link" 
+      [pattern]="'https?://.+'" 
+      required />
+    <mat-error *ngIf="!isValidUrl(data.link)">
+      Please enter a valid URL (e.g., https://example.com).
+    </mat-error>
   </mat-form-field>
-
-  <!-- Caption Field -->
-  <!-- <mat-form-field appearance="outline" class="dialog-field">
-    <mat-label>Caption</mat-label>
-    <input matInput [(ngModel)]="data.caption" placeholder="Enter Caption" />
-  </mat-form-field> -->
 </div>
 
 <div mat-dialog-actions class="dialog-actions">
