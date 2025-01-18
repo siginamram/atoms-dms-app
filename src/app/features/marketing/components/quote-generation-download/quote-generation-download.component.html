@@ -1,17 +1,19 @@
-<div  class="spinner" *ngIf="showSpinner">
+<div class="spinner" *ngIf="showSpinner">
     <mat-spinner></mat-spinner>
-  </div>
+</div>
 
-<div class ="d-flex justify-content-center gap-3">
+<div class="d-flex justify-content-center gap-3">
     <button (click)="generatePDF()" class="btn btn-primary">Download</button>
+    <button (click)="goBackToEditPage()" class="btn btn-primary">Back</button>
 </div>
 
 <div id="pdfContent">
-<div id="pdf-container1" style="background-image: url('../../../../assets/img/atomsletter_header.jpg');">
-    <div class="container py-5">
-        <h4 class="text-center mb-2 mt-5">DIGITAL MARKETING SERVICES <br>{{clientPackage | uppercase }} SERVICES</h4>
-        <!-- Services Section -->
-        <!-- <div class="branding-type">
+    <div id="pdf-container1" style="background-image: url('../../../../assets/img/atomsletter_header.jpg');">
+        <div class="container py-5">
+            <h4 class="text-center mb-2 mt-5">DIGITAL MARKETING SERVICES <br>{{clientPackage | uppercase }} SERVICES
+            </h4>
+            <!-- Services Section -->
+            <!-- <div class="branding-type">
             <p class="section-title">Branding Type</p>
             <ul>
                 <li>Organization</li>
@@ -19,103 +21,127 @@
             </ul>
         </div> -->
 
-        <div class="services">
-            <h3 class="section-title">Services</h3>
-            <ul>
-                <li *ngIf="services?.smOptimization">Social Media Optimization</li>
-                <li *ngIf="services?.dedicatedRM">Assistance of dedicated Relationship Manager</li>
-                <li *ngIf="services?.dedicatedDMA">Assistance of dedicated Digital Marketing Associate</li>
-                <li *ngIf="services?.addCampaignManagement">Ad Campaign Management</li>
-                <li *ngIf="services?.monthlyPerformanceTracker">Monthly Performance Report</li>
-                <li *ngIf="services?.monthlyShoot">Monthly Photo and Video Shoots</li>
-            </ul>
-        </div>
-
-        <div class="shoot-overview" *ngIf="services?.monthlyShoot && leadPackage?.shootBudgetOffered">
-            <h3 class="section-title">Shoot Overview</h3>
-            <ul>
-                <li>Shoot Budget: <span *ngIf="leadPackage?.shootBudgetOffered">Available</span>
-                    <span *ngIf="!leadPackage?.shootBudgetOffered">Not Available</span></li>
-                <li *ngIf="leadPackage?.chargesPerVisit > 0">Budget Per Visit: INR {{shootBudget}}/- ( {{shootBudegetInWords}} )</li>
-            </ul>
-        </div>
-
-        <div class="social-media-optimization">
-            <h3 class="section-title">Social Media Optimization</h3>
-            <ul>
-                <li *ngIf="smo?.creationOfSM">Designing Social Media Calendar</li>
-                <li *ngIf="smo?.contentDevelopment">Content Development</li>
-                <li  *ngIf="smo?.graphicDesign">Graphic Design</li>
-                <li>Managing the following Social Media Platforms</li>
+            <div class="services">
+                <h3 class="section-title">Services</h3>
                 <ul>
-                    <li *ngIf="smo?.smInstagram">Instagram</li>
-                    <li  *ngIf="smo?.smFaceBook">Facebook</li>
-                    <li  *ngIf="smo?.smYoutube">YouTube</li>
-                    <li  *ngIf="smo?.smLinkedin">LinkedIn</li>
-                    <li  *ngIf="smo?.smGoogle">Google My Business</li>
-                    <li  *ngIf="smo?.smOthers">{{smo?.smOthersText}}</li>
+                    <li *ngIf="services?.smOptimization">Social Media Optimization</li>
+                    <li *ngIf="services?.dedicatedRM">Assistance of dedicated Relationship Manager</li>
+                    <li *ngIf="services?.dedicatedDMA">Assistance of dedicated Digital Marketing Associate</li>
+                    <li *ngIf="services?.addCampaignManagement">Ad Campaign Management</li>
+                    <li *ngIf="services?.monthlyPerformanceTracker">Monthly Performance Report</li>
+                    <li *ngIf="services?.monthlyShoot">Monthly Photo and Video Shoots</li>
                 </ul>
+            </div>
+
+            <div class="shoot-overview" *ngIf="services?.monthlyShoot && leadPackage?.shootBudgetOffered">
+                <h3 class="section-title">Shoot Overview</h3>
+                <ul>
+                    <li>Shoot Budget: <span *ngIf="leadPackage?.shootBudgetOffered">Available</span>
+                        <span *ngIf="!leadPackage?.shootBudgetOffered">Not Available</span>
+                    </li>
+                    <li *ngIf="leadPackage?.chargesPerVisit > 0">Budget Per Visit: INR {{shootBudget}}/- (
+                        {{shootBudegetInWords}} )</li>
+                </ul>
+            </div>
+
+            <div class="social-media-optimization">
+                <h3 class="section-title">Social Media Optimization</h3>
+                <ul>
+                    <li *ngIf="smo?.creationOfSM">Designing Social Media Calendar</li>
+                    <li *ngIf="smo?.contentDevelopment">Content Development</li>
+                    <li *ngIf="smo?.graphicDesign">Graphic Design</li>
+                    <li>Managing the following Social Media Platforms</li>
+                    <ul>
+                        <li *ngIf="smo?.smInstagram">Instagram</li>
+                        <li *ngIf="smo?.smFaceBook">Facebook</li>
+                        <li *ngIf="smo?.smYoutube">YouTube</li>
+                        <li *ngIf="smo?.smLinkedin">LinkedIn</li>
+                        <li *ngIf="smo?.smGoogle">Google My Business</li>
+                        <li *ngIf="smo?.smOthers">{{smo?.smOthersText}}</li>
+                    </ul>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="pdf-container2" style="background-image: url('../../../../assets/img/atomsletter_header.jpg');">
+        <div class="container py-5 mt-5">
+            <div style="margin-bottom: 10px;">
+                <h3 style="margin-top: 0;">Monthly Deliverables While Optimizing Social Media</h3>
+                <ul style="margin: 0;">
+                    <li *ngIf="leadPackage?.noOfPosters != 0">No. of posters: {{leadPackage?.noOfPosters}}</li>
+                    <li *ngIf="leadPackage?.noOfGraphicReels != 0">No. of graphic reels:
+                        {{leadPackage?.noOfGraphicReels}}</li>
+                    <li *ngIf="leadPackage?.noOfEducationalReels != 0">No. of educational reels:
+                        {{leadPackage?.noOfEducationalReels}}</li>
+                    <li *ngIf="leadPackage?.noOfYouTubeVideos != 0">No. of YouTube Videos:
+                        {{leadPackage?.noOfYouTubeVideos}}</li>
+                    <li *ngIf="adBudget != 0">Ad Budget Per Month: INR {{adBudget}}/- ({{adBudgetInWords}})</li>
+                </ul>
+            </div>
+
+
+            <h3>Marketing Strategies</h3>
+            <ul style=" margin: 0;">
+                <li *ngIf="mStrategies?.googleMyBusiness">Google My Business Management</li>
+                <li *ngIf="mStrategies?.podcast">Podcast</li>
+                <li *ngIf="mStrategies?.competitorAnalysis">Competitor Analysis</li>
+                <li *ngIf="mStrategies?.recommendingContentStratagy">Recommendation of content strategy</li>
+                <li *ngIf="mStrategies?.skeletonChangeBasedOnPerson">Frequent content skeleton changes based on
+                    performance</li>
+                <li *ngIf="mStrategies?.trainingOnEdVideos">Training on educational videos and template</li>
+                <li *ngIf="mStrategies?.adShoots">Ad Shoots</li>
+                <li *ngIf="mStrategies?.conceptShhots">Concept Shoots</li>
+                <li *ngIf="mStrategies?.onlineQAInteracts">Online Q & A interactions</li>
+                <li *ngIf="mStrategies?.behindScenes">Behind the scenes</li>
+                <li *ngIf="mStrategies?.respondingToEvents">Responding to current events</li>
+                <li *ngIf="mStrategies?.seo">Search Engine Optimisation</li>
+            </ul>
+
+            <h3 *ngIf="isAssistance">Assistance</h3>
+            <ul style=" margin: 0;">
+                <li *ngIf="assistance?.sem">Search Engine Marketing Assistance</li>
+                <li *ngIf="assistance?.justDail">Justdial</li>
+                <li *ngIf="assistance?.whatsappMarketing">WhatsApp Marketing Assistance</li>
+                <li *ngIf="assistance?.emailMarketing">Email Marketing Assistance</li>
+                <li *ngIf="assistance?.influencerMarketing">Influencer Marketing Assistance</li>
+                <li *ngIf="assistance?.interviewInYTAndTV">Assistance for interviews in major YouTube channels and TV
+                    Channels</li>
             </ul>
         </div>
     </div>
-</div>
 
-<div id="pdf-container2" style="background-image: url('../../../../assets/img/atomsletter_header.jpg');">
-    <div class="container py-5 mt-5" style="line-height: 1.5;">
-        <div style="margin-bottom: 10px;">  
-        <h3 style="margin-top: 0;">Monthly Deliverables While Optimizing Social Media</h3>
-        <ul style="margin: 0;">
-            <li *ngIf="leadPackage?.noOfPosters != 0">No. of posters: {{leadPackage?.noOfPosters}}</li>
-            <li *ngIf="leadPackage?.noOfGraphicReels != 0">No. of graphic reels: {{leadPackage?.noOfGraphicReels}}</li>
-            <li *ngIf="leadPackage?.noOfEducationalReels != 0">No. of educational reels: {{leadPackage?.noOfEducationalReels}}</li>
-            <li *ngIf="leadPackage?.noOfYouTubeVideos != 0">No. of YouTube Videos: {{leadPackage?.noOfYouTubeVideos}}</li>
-            <li *ngIf="adBudget != 0">Ad Budget Per Month: INR {{adBudget}}/- ({{adBudgetInWords}})</li>
-        </ul>
-    </div>
+    <div id="pdf-container3" style="background-image: url('../../../../assets/img/atomsletter_header.jpg');">
+        <div class="container py-5 mt-5">
+            <div style="margin-bottom: 10px;">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td><h3>Monthly Base Package</h3><h3>:</h3></td>
+                            <td> INR {{basePackage}}/- ({{basePackageInWords}})</td>
+                        </tr>
+                        <tr *ngIf="adBudget != 0">
+                            <td><h3>Ad Budget</h3><h3>:</h3></td>
+                            <td>INR {{adBudget}}/- ({{adBudgetInWords}})</td>
+                        </tr>
+                        <tr>
+                            <td><h3>Total Budget</h3><h3>:</h3></td>
+                            <td>INR {{ totalBudget}}/- ({{totalBudgetInWords}}, inclusive of GST <span
+                                *ngIf="this.leadPackage?.chargesPerVisit>0"> and Excluding Shoot</span> )</td>
+                        </tr>
+                    </tbody>
+                </table>
 
-
-        <h3>Marketing Strategies</h3>
-        <ul style=" margin: 0;">
-            <li *ngIf="mStrategies?.googleMyBusiness">Google My Business Management</li>
-            <li *ngIf="mStrategies?.podcast">Podcast</li>
-            <li *ngIf="mStrategies?.competitorAnalysis">Competitor Analysis</li>
-            <li *ngIf="mStrategies?.recommendingContentStratagy">Recommendation of content strategy</li>
-            <li *ngIf="mStrategies?.skeletonChangeBasedOnPerson">Frequent content skeleton changes based on performance</li>
-            <li *ngIf="mStrategies?.trainingOnEdVideos">Training on educational videos and template</li>
-            <li *ngIf="mStrategies?.adShoots">Ad Shoots</li>
-            <li *ngIf="mStrategies?.conceptShhots">Concept Shoots</li>
-            <li *ngIf="mStrategies?.onlineQAInteracts">Online Q & A interactions</li>
-            <li *ngIf="mStrategies?.behindScenes">Behind the scenes</li>
-            <li *ngIf="mStrategies?.respondingToEvents">Responding to current events</li>
-            <li *ngIf="mStrategies?.seo">Search Engine Optimisation</li>
-        </ul>
-
-        <h3 *ngIf="isAssistance">Assistance</h3>
-        <ul style=" margin: 0;">
-            <li *ngIf="assistance?.sem">Search Engine Marketing Assistance</li>
-            <li *ngIf="assistance?.justDail">Justdial</li>
-            <li *ngIf="assistance?.whatsappMarketing">WhatsApp Marketing Assistance</li>
-            <li *ngIf="assistance?.emailMarketing">Email Marketing Assistance</li>
-            <li *ngIf="assistance?.influencerMarketing">Influencer Marketing Assistance</li>
-            <li *ngIf="assistance?.interviewInYTAndTV">Assistance for interviews in major YouTube channels and TV Channels</li>
-        </ul>
-
-        <h3 style="display: inline;">Monthly Base Package :</h3> INR {{basePackage}}/-  ({{basePackageInWords}})<br>
-        <div style="display: inline-block; ">
-            <h3 >Total Budget&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</h3>
+                <h3>Note:</h3>
+                <ul>
+                    <li *ngIf="leadPackage?.chargesPerVisit>0">The shoot budget will be billed based on the number of
+                        shoots conducted during the month, along with applicable GST charges.</li>
+                    <li *ngIf="leadPackage?.requiredToDedicateAdditionalAdBudget">You have to dedicate additional budget
+                        for the ads to reach your target audience in inorganic methods.</li>
+                    <li>There won’t be any service charges for ad campaign management up to a budget of INR {{
+                        noSCForAdCMUpto}}/- ({{ noSCForAdCMUptoInWords }})</li>
+                </ul>
+            </div>
         </div>
-        <div style="display: inline;">
-            <span> INR {{ totalBudget}}/-</span><span>({{totalBudgetInWords}} inclusive of GST <span *ngIf="this.leadPackage?.chargesPerVisit>0"> and Excluding Shoot</span> )</span>
-        </div>
-
-
-    
-        <h3>Note:</h3>
-        <ul>
-            <li *ngIf="leadPackage?.chargesPerVisit>0">The shoot budget will be billed based on the number of shoots conducted during the month, along with applicable GST charges.</li>
-            <li *ngIf="leadPackage?.requiredToDedicateAdditionalAdBudget">You have to dedicate additional budget for the ads to reach your target audience in inorganic methods.</li>
-            <li>There won’t be any service charges for ad campaign management up to a budget of INR {{ noSCForAdCMUpto}}/- ({{ noSCForAdCMUptoInWords }})</li>
-        </ul>
     </div>
-</div>
 </div>

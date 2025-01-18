@@ -142,8 +142,10 @@
 
   
     <!-- Submit Button -->
-    <div class="submit-button-container">
+    <div class="submit-button-container d-flex justify-content-center gap-3">
       <button mat-raised-button color="primary" type="submit" [disabled]="!leadForm.valid">Submit &  Generate Quote</button>
+
+      <button mat-raised-button color="primary" type="button" (click)="redirect()">Back</button>
     </div>
   </form>
 </div>

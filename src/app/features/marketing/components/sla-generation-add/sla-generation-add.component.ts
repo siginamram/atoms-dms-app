@@ -81,7 +81,6 @@ export class SlaGenerationAddComponent implements OnInit {
     this.showSpinner = true;
     this.commanApiService.getClientByLeadId(leadID).subscribe(
       (data: any) => {
-        console.log('Client Details:', data);
         this.salesPersonName = data?.salesPersonName;
         this.salesPersonDesignation = data?.salesPersonDesignation;
         // Bind API data to the form
@@ -122,7 +121,7 @@ export class SlaGenerationAddComponent implements OnInit {
   generateSLA(): void {
     const formData = this.slaForm.value;
     const payload = {
-
+      clientId: this.leadID,
       clientName: formData.clientName,
       clientDesignation: formData.designation,
       paymentDate: formData.paymentDuedate,
@@ -150,7 +149,8 @@ export class SlaGenerationAddComponent implements OnInit {
       },
       advancePaymentStatus: 1,
       salesPersonDesignation: this.salesPersonDesignation,
-      salesPersonName: this.salesPersonName
+      salesPersonName: this.salesPersonName,
+      pageName: 'IndividualItem'
     };
     const encodedObject = btoa(JSON.stringify(payload))
     this.router.navigate([`/home/marketing/sla-download`],{ queryParams: { data: encodedObject } });

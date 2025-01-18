@@ -1,5 +1,7 @@
     /* A4 Container Settings */
-    #pdf-container1, #pdf-container2 {
+    #pdf-container1,
+    #pdf-container2,
+    #pdf-container3 {
         width: 804px;
         /* A4 width */
         height: 1153px;
@@ -44,15 +46,24 @@
         margin-bottom: 0;
     }
 
-    ul{
-        margin-bottom: 10px !important; 
+    ul {
+        margin-bottom: 10px !important;
     }
-    li {
-        text-indent: 10px !important; 
-        font-family: 'Times New Roman' !important;
-       /* Align text closer to the bullet */
-      }
 
-li::marker{
-    font-size: larger;
-}
+    li {
+        text-indent: 10px !important;
+        font-family: 'Times New Roman' !important;
+        /* Align text closer to the bullet */
+    }
+
+    li::marker {
+        font-size: larger;
+    }
+
+    tr td:first-child{
+        width: 185px;
+        vertical-align: top;
+        display: flex;
+        justify-content: space-between;
+    }
+

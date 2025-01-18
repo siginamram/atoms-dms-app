@@ -4,6 +4,7 @@
 
 <div class ="d-flex justify-content-center gap-3">
     <button (click)="generatePDF()" class="btn btn-primary">Download</button>
+    <button mat-raised-button color="primary" type="button" (click)="redirect()">Back</button>
 </div>
 
 <body>
@@ -39,12 +40,11 @@
                     <li *ngIf="packageDetails?.noOfEducationalReels != 0">No. of educational reels per month: <b>{{packageDetails?.noOfEducationalReels}}</b> (An educational reel is defined as a video in 9:16 ratio with a person describing or explaining anything that they feel matters to their target audience and lies in a duration of up to ninety seconds)</li>
                     <li *ngIf="packageDetails?.noOfYouTubeVideos != 0">No. of YouTube videos per month: <b>{{packageDetails?.noOfYouTubeVideos}}</b> (A YouTube video is defined as a video that is 16:9 ratio with a person describing or explaining anything that they feel matters to their target audience and lies in a duration of up to ten minutes)</li>
                 </ul>
-                <li>Sponsored ad budget: INR <b>{{adBudget}}</b>/- ({{adBudgetInWords}}) (A sponsored ad is defined as an ad campaign that will be running on social media platforms)</li>
-                <li *ngIf="packageDetails?.shootOffered">Monthly video shoot for YouTube Videos and Educational Reels</li>
-                <ul *ngIf="packageDetails?.shootOffered">
-                    <li  *ngIf="packageDetails?.shootBudget">Shoot Charges: Applicable</li>
-                    <li  *ngIf="!packageDetails?.shootBudget">Shoot Charges: Not Applicable</li>
-                    <li  *ngIf="packageDetails?.shootBudget">Shoot Budget per visit: INR <b>{{shootBudget}}</b>/- ({{shootBudgetInWords}})
+                <li *ngIf="adBudget">Sponsored ad budget: INR <b>{{adBudget}}</b>/- ({{adBudgetInWords}}) (A sponsored ad is defined as an ad campaign that will be running on social media platforms)</li>
+                <li *ngIf="packageDetails?.shootBudget">Monthly video shoot for YouTube Videos and Educational Reels</li>
+                <ul *ngIf="packageDetails?.shootBudget">
+                    <li>Shoot Charges: Applicable</li>
+                    <li>Shoot Budget per visit: INR <b>{{shootBudget}}</b>/- ({{shootBudgetInWords}})
                 </ul>
             </ul>
            
@@ -60,8 +60,8 @@
             <ul>
                 <li>Ensure timely delivery of agreed services. </li>
                 <li>Maintain the quality of designs, videos, and campaign management. </li>
-                <li>Collaborate with the client for special shoots. </li>
-                <li>Run sponsored ad campaigns efficiently within the allocated budget. </li>
+                <li *ngIf="packageDetails?.shootBudget">Collaborate with the client for special shoots. </li>
+                <li *ngIf="adBudget">Run sponsored ad campaigns efficiently within the allocated budget. </li>
             </ul>
             <li><b>Responsibilities of {{clientName}}</b></li>
             <ul>
@@ -73,7 +73,7 @@
         </ul>
         <h5>Payment Terms</h5>
         <ul>
-            <li>Monthly Charges for the services: INR <b>{{totalBudget}}</b>/- ({{totalBudgetInWords}}). <b> (Including GST and Excluding Shoot) </b></li>
+            <li>Monthly Charges for the services: INR <b>{{totalBudget}}</b>/- ({{totalBudgetInWords}}). <b> (Including GST and Excluding Shoot Budget) </b></li>
             <li>Payments to be made on or before the <b>{{paymentDate}}<sup>{{suffix}}</sup></b>  of every month.</li>
             <li>Payments should be made via bank transfer or any agreed-upon payment method.</li>
         </ul>

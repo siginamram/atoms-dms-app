@@ -17,7 +17,7 @@ export class SalesConvertStatuEditComponent implements OnInit {
   uploadedSLAFile: File | null = null;
   operationsManagers: any[] = [];
   operationsLeads: any[] = [];
-
+  maxDateForKt: Date;
   maxDate: Date; // Maximum date for the datepicker
   showSpinner: boolean = false;
   constructor(
@@ -27,7 +27,8 @@ export class SalesConvertStatuEditComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog
   ) {
-    this.maxDate = new Date(); // Set minDate to today's date
+    this.maxDate = new Date(); // Set maxDate to today's date
+    this.maxDateForKt = new Date();
   }
 
   ngOnInit() {
@@ -76,7 +77,9 @@ export class SalesConvertStatuEditComponent implements OnInit {
                 : '',
             slaUpload: data.slaUrl || null,
           });
-  
+          if(!data.isKTCompleted){
+            this.maxDateForKt = new Date('12-31-2999');
+          }
           // Optional: Log data for debugging
           console.log('Manager Contact:', data.opManagerNumber);
           console.log('Lead Contact:', data.opLeadNumber);
@@ -233,5 +236,13 @@ export class SalesConvertStatuEditComponent implements OnInit {
         type: title.toLowerCase(), // success, error, or warning
       },
     });
+  }
+
+  changeStatusValue(event:any){
+    if(event.value == 1){
+      this.maxDateForKt = new Date();
+    }else{
+      this.maxDateForKt = new Date('12-31-2999');
+    }
   }
 }

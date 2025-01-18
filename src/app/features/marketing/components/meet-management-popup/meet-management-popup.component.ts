@@ -48,10 +48,8 @@ export class MeetManagementPopupComponent implements OnInit {
       this.meetID = +params['id'];
       if (this.meetID) {
         this.loadMeetingDetails(this.meetID); // Fetch meeting details, including leadID
-        this.showSpinner = false
       } else {
         this.loadLeads(); // Load all leads if no meetID
-        this.showSpinner = false
       }
 
       this.startTimeOptions = this.generateStartTimeOptions(); // Generate start time options
@@ -84,11 +82,14 @@ export class MeetManagementPopupComponent implements OnInit {
         this.filteredLeads = filterByLeadID
           ? data.filter((lead) => lead.leadID === filterByLeadID)
           : data; // Initialize filteredLeads
+          this.showSpinner = false;
       },
+      
       (error) => {
         console.error('Failed to fetch leads:', error);
         this.leads = [];
         this.filteredLeads = [];
+        this.showSpinner = false;
       }
     );
   }
@@ -122,9 +123,10 @@ export class MeetManagementPopupComponent implements OnInit {
   loadMeetingDetails(meetID: number): void {
     this.commanApiService.getMeetingDetails(meetID).subscribe(
       (data: any) => {
-        console.log('Fetched meeting details:', data);
         this.leadID = data.leadID;
-
+        this.meetForm.patchValue({
+          leadName: this.leadID
+        });
         // Load specific leadID if available
         if (this.leadID) {
           this.loadLeads(this.leadID);
