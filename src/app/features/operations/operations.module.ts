@@ -57,6 +57,7 @@ import { VideoEditorApprovalComponent } from './components/lead-approvals/video-
 import { MatTabsModule } from '@angular/material/tabs';
 import { EditStatusApprovalsComponent } from './components/lead-approvals/edit-status-approvals/edit-status-approvals.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { DmaClientsComponent } from './components/dma-clients/dma-clients.component';
 
 const MY_FORMATS = {
   parse: {
@@ -102,6 +103,7 @@ const MY_FORMATS = {
     PosterDesignerApprovalComponent,
     VideoEditorApprovalComponent,
     EditStatusApprovalsComponent,
+    DmaClientsComponent,
   ],
   imports: [
     CommonModule,

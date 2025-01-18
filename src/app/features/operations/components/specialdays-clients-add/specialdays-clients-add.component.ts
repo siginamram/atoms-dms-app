@@ -16,6 +16,7 @@ export class SpecialdaysClientsAddComponent implements OnInit {
   selectedClientName: string = ''; // Selected client name for display
   isEditMode: boolean = false; // Determine if we are in edit mode
   showSpinner: boolean = false;
+  userId: number = parseInt(localStorage.getItem('UserID') || '0', 10);
   constructor(
     public dialogRef: MatDialogRef<SpecialdaysClientsAddComponent>,
     @Inject(MAT_DIALOG_DATA)
@@ -42,7 +43,8 @@ export class SpecialdaysClientsAddComponent implements OnInit {
   
 
   fetchAllClients(): void {
-    this.operationsService.getAllActiveClients().subscribe({
+
+    this.operationsService.getClientsByUser(this.userId).subscribe({
       next: (response: any[]) => {
         this.allClients = response;
         this.filteredClients = response; // Initially show all clients

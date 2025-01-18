@@ -18,7 +18,7 @@ export class SpecialdaysClientsViewComponent implements OnInit {
   selectedYear: string = '';
   selectedClientName: string = '';
   availableYears: string[] = ['2024', '2025']; // Update years as needed
-
+  userId: number = parseInt(localStorage.getItem('UserID') || '0', 10);
   displayedColumns = ['id', 'date', 'specialDay', 'language','type', 'actions'];
   dataSource = new MatTableDataSource<any>(); // Use MatTableDataSource for pagination
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -40,7 +40,7 @@ export class SpecialdaysClientsViewComponent implements OnInit {
   }
 
   fetchAllClients(): void {
-    this.operationsService.getAllActiveClients().subscribe({
+    this.operationsService.getClientsByUser(this.userId).subscribe({
       next: (response: any[]) => {
         this.clients = response;
         this.filteredClients = response;

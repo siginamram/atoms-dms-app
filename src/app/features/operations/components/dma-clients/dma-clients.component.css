@@ -1,0 +1,84 @@
+.poster-designer-container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .toolbar {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .filter-row {
+    margin: 20px;
+    display: flex;
+    justify-content: flex-start;
+  }
+  
+  mat-form-field {
+    width: 300px;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th {
+    background-color: #4a4a4a;
+    color: orange;
+    font-weight: bold;
+  }
+  
+  td, th {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  button {
+    cursor: pointer;
+  }
+  
+  @media (max-width: 768px) {
+    .filter-row {
+      justify-content: center;
+    }
+  
+    mat-form-field {
+      width: 100%;
+    }
+  
+    table {
+      font-size: 14px;
+    }
+  }
+  .filter-container {
+    margin: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  mat-form-field {
+    width: 300px;
+  }
+  .no-data-message {
+    display: flex; /* Center alignment */
+    justify-content: center; /* Horizontal center */
+    align-items: center; /* Vertical center */
+    height: 200px; /* Adjust height for alignment */
+    color: #ff5722; /* Add a custom color (e.g., orange-red) */
+    font-size: 18px; /* Adjust font size */
+    font-weight: bold; /* Make the text bold */
+    text-align: center; /* Center-align the text */
+    background-color: #f9f9f9; /* Optional: Light background for contrast */
+    border: 1px solid #ddd; /* Optional: Add a subtle border */
+    border-radius: 8px; /* Optional: Rounded corners */
+  }

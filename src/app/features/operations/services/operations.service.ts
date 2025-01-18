@@ -177,4 +177,9 @@ export class OperationsService {
     const apiUrl = `${this.baseApiUrl}/api/Client/GetShootOfferdClients`;
     return this.http.get(apiUrl);
   }
+
+  getClientsByUser (userId: number): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Client/ClientsByUser/${userId}`;
+    return this.http.get(apiUrl);
+  }
 }
