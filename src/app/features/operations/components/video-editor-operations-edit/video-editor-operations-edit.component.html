@@ -31,10 +31,10 @@
 
       <!-- Thumbnail Field -->
       <mat-form-field appearance="outline">
-        <mat-label>Thumbnail</mat-label>
+        <mat-label>Thumbnail Link</mat-label>
         <input matInput formControlName="thumbNail" />
         <mat-error *ngIf="emergencyRequestForm.get('thumbNail')?.hasError('required')">
-          Thumbnail is required.
+          Thumbnail Link is required.
         </mat-error>
       </mat-form-field>
 

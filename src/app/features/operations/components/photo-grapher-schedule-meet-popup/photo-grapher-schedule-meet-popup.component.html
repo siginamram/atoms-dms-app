@@ -64,23 +64,36 @@
  
       <mat-form-field appearance="outline" *ngIf="showAdditionalFields">
         <mat-label>Required YT Videos</mat-label>
-        <input matInput formControlName="requirednoOfYTVideos" type="number" />
+        <input matInput formControlName="requirednoOfYTVideos" readonly type="number" />
       </mat-form-field>
 
       <mat-form-field appearance="outline" *ngIf="showAdditionalFields">
         <mat-label>Required GED Reels</mat-label>
-        <input matInput formControlName="requirednoOfEDReels" type="number" />
+        <input matInput formControlName="requirednoOfEDReels" readonly type="number"  />
       </mat-form-field>
 
       <mat-form-field appearance="outline" *ngIf="showAdditionalFields">
         <mat-label>No. of YT Videos Shoot</mat-label>
-        <input matInput formControlName="noOfYTVideos" type="number" />
+        <input
+          matInput
+          formControlName="noOfYTVideos"
+          type="text"
+          inputmode="numeric"
+          pattern="\d*"
+        />
       </mat-form-field>
-
+      
       <mat-form-field appearance="outline" *ngIf="showAdditionalFields">
         <mat-label>No. of GED Reels Shoot</mat-label>
-        <input matInput formControlName="noOfEDReels" type="number" />
+        <input
+          matInput
+          formControlName="noOfEDReels"
+          type="text"
+          inputmode="numeric"
+          pattern="\d*"
+        />
       </mat-form-field>
+      
 
       <mat-form-field appearance="outline" *ngIf="showAdditionalFields">
         <mat-label>Shoot Link</mat-label>

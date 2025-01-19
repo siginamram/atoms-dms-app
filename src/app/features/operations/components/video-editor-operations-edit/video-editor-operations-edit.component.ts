@@ -34,7 +34,7 @@ export class VideoEditorOperationsEditComponent implements OnInit {
         ],
       ],
       title: ['', Validators.required],
-      thumbNail: ['', Validators.required],
+      thumbNail: [''],
       description: ['', Validators.required],
       status: [2], // Default to draft
     });

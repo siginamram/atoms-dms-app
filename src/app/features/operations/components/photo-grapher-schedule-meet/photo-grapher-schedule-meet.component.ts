@@ -97,8 +97,8 @@ export class PhotoGrapherScheduleMeetComponent implements OnInit {
           time: item.time || 'Not Specified', // Default placeholder if time is missing
           noOfYouTubeVideos: item.noOfYouTubeVideos || 0, // Default to 0 if missing
           noOfEducationalReels: item.noOfEducationalReels || 0, // Default to 0 if missing
-          shootLink: item.shootLink || 'N/A', // Default if shootLink is missing
-          remarks: item.remarks || 'No remarks', // Default if remarks are missing
+          shootLink: item.shootLink || '', // Default if shootLink is missing
+          remarks: item.remarks || '', // Default if remarks are missing
           meetingStatus: this.mapmeetingstatus(item.meetingStatus), // Status based on type
           meetId:item.id,
           clientId:item.clientId,
