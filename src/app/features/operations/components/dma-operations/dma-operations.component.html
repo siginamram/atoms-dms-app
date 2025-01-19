@@ -99,7 +99,7 @@
             *ngIf="row.contentCaption"
             (click)="showFullText(row.contentCaption, 'Content Caption')"
           >
-            {{ row.contentCaption | slice: 0:30 }}...
+            {{ row.contentCaption | slice: 0:10 }}...
           </div>
           <div *ngIf="!row.contentCaption">N/A</div>
         </td>
