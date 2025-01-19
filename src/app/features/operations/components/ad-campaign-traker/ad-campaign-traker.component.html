@@ -1,1 +1,124 @@
-<p>ad-campaign-traker works!</p>
+<div class="content-writers-container">
+    <!-- Toolbar -->
+    <mat-toolbar color="primary" class="toolbar">
+      <button mat-icon-button (click)="goBack()" aria-label="Back">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <span>{{ clientName }}</span>
+      <span class="spacer"></span>
+      <button mat-raised-button color="accent" class="add-button" (click)="addNewEntry()">+ Ad Campaign</button>
+    </mat-toolbar>
+  
+    <!-- Filter Section -->
+    <div [formGroup]="clientForm" class="filters-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Organization Name</mat-label>
+        <input matInput formControlName="clientName" readonly />
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline">
+        <input
+          matInput
+          [matDatepicker]="picker"
+          [formControl]="date"
+          placeholder="Select Month and Year"
+          readonly
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker
+          #picker
+          startView="multi-year"
+          (monthSelected)="setMonthAndYear($event, picker)"
+          readonly
+        ></mat-datepicker>
+      </mat-form-field>
+    </div>
+  
+    <!-- Loader -->
+    <div class="loader-container" *ngIf="isLoading">
+      <mat-spinner></mat-spinner>
+    </div>
+  
+    <!-- Table -->
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="!isLoading">
+      <!-- Columns -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>S.No</th>
+        <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="campaignStartDate">
+        <th mat-header-cell *matHeaderCellDef>Campaign Start Date</th>
+        <td mat-cell *matCellDef="let row">{{ row.campaignStartDate | date: 'dd-MM-yyyy' }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="campaignEndDate">
+        <th mat-header-cell *matHeaderCellDef>Campaign End Date</th>
+        <td mat-cell *matCellDef="let row">{{ row.campaignEndDate | date: 'dd-MM-yyyy' }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="platform">
+        <th mat-header-cell *matHeaderCellDef>Platform</th>
+        <td mat-cell *matCellDef="let row">{{ row.platform }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="objective">
+        <th mat-header-cell *matHeaderCellDef>Objective</th>
+        <td mat-cell *matCellDef="let row">{{ row.objective }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="reach">
+        <th mat-header-cell *matHeaderCellDef>Reach</th>
+        <td mat-cell *matCellDef="let row">{{ row.reach }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="impressions">
+        <th mat-header-cell *matHeaderCellDef>Impressions</th>
+        <td mat-cell *matCellDef="let row">{{ row.impressions }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="resultType">
+        <th mat-header-cell *matHeaderCellDef>Result Type</th>
+        <td mat-cell *matCellDef="let row">{{ row.resultType }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="result">
+        <th mat-header-cell *matHeaderCellDef>Result</th>
+        <td mat-cell *matCellDef="let row">{{ row.result }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="costPerResult">
+        <th mat-header-cell *matHeaderCellDef>Cost Per Result</th>
+        <td mat-cell *matCellDef="let row">{{ row.costPerResult }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="amountSpent">
+        <th mat-header-cell *matHeaderCellDef>Amount Spent</th>
+        <td mat-cell *matCellDef="let row">{{ row.amountSpent }}</td>
+      </ng-container>
+  
+      <!-- New Target Amount Column -->
+      <ng-container matColumnDef="targetAmount">
+        <th mat-header-cell *matHeaderCellDef>Target Amount</th>
+        <td mat-cell *matCellDef="let row">{{ row.targetAmount }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="accent" (click)="onEdit(element)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <div *ngIf="dataSource.data.length === 0" class="no-data-message">
+      <p>No Records Found...</p>
+    </div>
+    <!-- Paginator -->
+    <mat-paginator [pageSize]="30" [pageSizeOptions]="[5, 10, 20, 30]"></mat-paginator>
+  </div>
+  

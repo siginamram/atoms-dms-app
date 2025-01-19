@@ -33,6 +33,7 @@ export const MY_FORMATS = {
 })
 export class PosterDesignerOperationsComponent implements OnInit {
     @ViewChild(MatPaginator) paginator!: MatPaginator;
+    @ViewChild('fullTextDialog') fullTextDialog: any;
   clientId: number = 0;
   selectedDate: string = '';
   creativeType: number = 1; // Default creativeType
@@ -187,5 +188,13 @@ export class PosterDesignerOperationsComponent implements OnInit {
   goBack(): void {
     this.router.navigate(['/home/operations/poster-designer-client']); 
   }
-
+  showFullText(text: string, title: string): void {
+    this.dialog.open(this.fullTextDialog, {
+      width: '400px',
+      data: {
+        text: text,
+        title: title,
+      },
+    });
+  }
 }

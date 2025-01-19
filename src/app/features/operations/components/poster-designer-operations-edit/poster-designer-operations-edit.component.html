@@ -7,12 +7,13 @@
       matInput 
       [(ngModel)]="data.link" 
       placeholder="Enter Design Link" 
-      [pattern]="'https?://.+'" 
-      required />
+      required 
+      [pattern]="'https?://.*\\.(com|net|in|org|gov|edu)'" />
     <mat-error *ngIf="!isValidUrl(data.link)">
-      Please enter a valid URL (e.g., https://example.com).
+      Please enter a valid URL ending with .com, .net, .in, etc. (e.g., https://example.com).
     </mat-error>
   </mat-form-field>
+  
 </div>
 
 <div mat-dialog-actions class="dialog-actions">

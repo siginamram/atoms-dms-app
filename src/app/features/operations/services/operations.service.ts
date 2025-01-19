@@ -187,4 +187,19 @@ export class OperationsService {
     const apiUrl = `${this.baseApiUrl}/api/Operations/ClientsByDMA/${userId}/${date}`;
     return this.http.get(apiUrl);
   }
+
+  contentApprovalHistory(userId: number, date: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/contentApprovalHistory/${userId}/${date}`;
+    return this.http.get(apiUrl);
+  }
+
+  graphicApprovalHistory(userId: number, date: string,creativeType:number): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/graphicApprovalHistory/${userId}/${date}/${creativeType}`;
+    return this.http.get(apiUrl);
+  }
+
+  videoEditorApprovalHistory(userId: number, date: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/videoEditorApprovalHistory/${userId}/${date}`;
+    return this.http.get(apiUrl);
+  }
 }

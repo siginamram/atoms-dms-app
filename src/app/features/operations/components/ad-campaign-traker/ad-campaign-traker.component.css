@@ -1,0 +1,243 @@
+.content-writers-container {
+    margin-left: 250px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px; /* Added padding for better spacing */
+  }
+  
+  mat-toolbar {
+    margin-bottom: 16px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    border-radius: 8px;
+  }
+  
+  .filters-container {
+    display: flex;
+    align-items: left;
+    gap: 10px;
+    flex-wrap: wrap; /* Ensure wrapping on smaller screens */
+  }
+  
+  mat-form-field {
+    min-width: 40px; /* Adjust minimum width for filters */
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  table th,
+  table td {
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 14px; /* Default font size */
+  }
+  
+  table th {
+    color:orange;
+    background-color: #f1f1f1;
+    font-weight: bold;
+  }
+  
+  table td {
+    background-color: #ffffff;
+  }
+  
+  .popup-container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .popup-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  .spacer {
+    flex: 1 1 auto;
+  }
+  
+  .metric-buttons {
+    display: flex; /* Enable horizontal layout */
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
+    gap: 8px; /* Add spacing between buttons */
+    justify-content: center; /* Center align all buttons */
+    margin-bottom: 16px; /* Add spacing below buttons */
+  }
+  
+  .metric-button {
+    display: flex; /* Use Flexbox for alignment */
+    align-items: center; /* Center items vertically */
+    justify-content: space-between; /* Space out icon and text */
+    gap: 8px; /* Add spacing between icon and text */
+    padding: 8px 12px; /* Reduce padding for button size */
+    font-size: 12px; /* Adjust font size for compact view */
+    min-width: 150px; /* Set minimum width for uniformity */
+    border-radius: 5px; /* Add rounded corners */
+    color: white; /* Set text color */
+  }
+  
+  .metric-button mat-icon {
+    font-size: 18px; /* Adjust icon size */
+  }
+ 
+  
+  /* Responsive Styles */
+  @media (max-width: 1024px) {
+    .content-writers-container {
+      margin-left: 200px; /* Adjust margin for medium screens */
+      padding: 15px;
+    }
+  
+    .filters-container {
+      gap: 8px; /* Reduce spacing for medium screens */
+    }
+  
+    mat-form-field {
+      min-width: 120px; /* Adjust filter field size */
+    }
+  
+    table th,
+    table td {
+      font-size: 13px; /* Reduce font size for medium screens */
+      padding: 6px 10px;
+    }
+  
+    .metric-button {
+      font-size: 11px; /* Adjust button font size */
+      padding: 6px 10px; /* Reduce button padding */
+      min-width: 120px; /* Adjust button width */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .content-writers-container {
+      margin-left: 0; /* Remove left margin for smaller screens */
+      padding: 10px;
+    }
+  
+    .filters-container {
+      flex-direction: column; /* Stack filters vertically */
+      gap: 8px;
+    }
+  
+    mat-form-field {
+      width: 100%; /* Full width for filters */
+    }
+  
+    table th,
+    table td {
+      font-size: 12px; /* Further reduce font size */
+      padding: 5px 8px;
+    }
+  
+    .metric-button {
+      font-size: 10px; /* Smaller button font size */
+      padding: 5px 8px;
+      min-width: 100px; /* Reduce button width */
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .filters-container {
+      gap: 6px; /* Reduce gap for compact screens */
+    }
+  
+    table th,
+    table td {
+      font-size: 11px; /* Reduce font size */
+      padding: 4px 6px;
+    }
+  
+    .metric-button {
+      font-size: 9px; /* Minimized font size for very small screens */
+      padding: 4px 6px;
+      min-width: 90px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .filters-container {
+      gap: 4px; /* Minimal gap for very small screens */
+    }
+  
+    table th,
+    table td {
+      font-size: 10px; /* Smallest font size for table */
+      padding: 3px 5px;
+    }
+  
+    .metric-button {
+      font-size: 8px;
+      padding: 3px 5px;
+      min-width: 80px;
+    }
+  }
+  /* Adjust table headers */
+  table th {
+    padding: 6px; /* Reduce padding inside headers */
+    vertical-align: top; /* Align filter inputs properly */
+  }
+  
+  /* Adjust column filter input fields */
+  .column-filter {
+    width: 80%; /* Reduce width of filter inputs */
+    margin: 0 auto; /* Center-align the filter inputs */
+    padding: 2px; /* Reduce padding inside inputs */
+    font-size: 12px; /* Smaller font size */
+    box-sizing: border-box; /* Ensure proper alignment */
+  }
+  
+  /* Remove extra spacing between filters */
+  .column-filter + .column-filter {
+    margin-top: 0; /* Remove top margin between filters */
+  }
+  
+  /* Table container for responsiveness */
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  /* Adjust for smaller screens */
+  @media (max-width: 768px) {
+    .column-filter {
+      font-size: 10px; /* Adjust font size for smaller screens */
+      padding: 1px; /* Reduce padding for compact size */
+      width: 70%; /* Further reduce width */
+    }
+  
+    table th {
+      padding: 4px; /* Adjust padding for smaller screens */
+    }
+    .column-filter-container {
+      margin-top: 5px; /* Add spacing below column name */
+    }
+  }
+  
+  .loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px; /* Adjust height as needed */
+  }
+  .no-data-message {
+    display: flex; /* Center alignment */
+    justify-content: center; /* Horizontal center */
+    align-items: center; /* Vertical center */
+    height: 200px; /* Adjust height for alignment */
+    color: #ff5722; /* Add a custom color (e.g., orange-red) */
+    font-size: 18px; /* Adjust font size */
+    font-weight: bold; /* Make the text bold */
+    text-align: center; /* Center-align the text */
+    background-color: #f9f9f9; /* Optional: Light background for contrast */
+    border: 1px solid #ddd; /* Optional: Add a subtle border */
+    border-radius: 8px; /* Optional: Rounded corners */
+  }
+  
+  

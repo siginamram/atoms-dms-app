@@ -1,0 +1,105 @@
+<div class="content-writer-container">
+    <div class="toolbar">General Educational Videos Approvals</div>
+  
+    <!-- Filter Section -->
+    <div class="filter-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Select Month and Year</mat-label>
+        <input matInput [matDatepicker]="picker" [formControl]="date" placeholder="Select Month and Year" readonly />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker startView="multi-year" (monthSelected)="setMonthAndYear($event, picker)"></mat-datepicker>
+      </mat-form-field>
+    </div>
+  
+    <!-- Table -->
+    <div class="table-container">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="sNo">
+            <th mat-header-cell *matHeaderCellDef>S.No</th>
+            <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="organizationName">
+          <th mat-header-cell *matHeaderCellDef (click)="toggleFilter('organizationName', $event)">
+            Organization
+            <div *ngIf="activeFilter === 'organizationName'" class="column-filter-container">
+              <mat-form-field class="column-filter">
+                <input matInput [formControl]="organizationFilter" placeholder="Filter" />
+              </mat-form-field>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.organizationName }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="resourceName">
+          <th mat-header-cell *matHeaderCellDef (click)="toggleFilter('resourceName', $event)">
+            Resource
+            <div *ngIf="activeFilter === 'resourceName'" class="column-filter-container">
+              <mat-form-field class="column-filter">
+                <input matInput [formControl]="resourceFilter" placeholder="Filter" />
+              </mat-form-field>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.resourceName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="creativeType">
+          <th mat-header-cell *matHeaderCellDef>Creative Type</th>
+          <td mat-cell *matCellDef="let row">{{ row.creativeTypeName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef>Title</th>
+          <td mat-cell *matCellDef="let row">{{ row.title }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef>Description</th>
+          <td mat-cell *matCellDef="let row">{{ row.description }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="thumbNail">
+          <th mat-header-cell *matHeaderCellDef>ThumbNail</th>
+          <td mat-cell *matCellDef="let row">{{ row.thumbNail }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="editorLink">
+            <th mat-header-cell *matHeaderCellDef>Editor Link</th>
+            <td mat-cell *matCellDef="let element">
+              <a *ngIf="element.editorLink" [href]="element.editorLink" target="_blank">View Link</a>
+              <span *ngIf="!element.editorLink">N/A</span>
+            </td>
+          </ng-container>
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef (click)="toggleFilter('status', $event)">
+            Status
+            <div *ngIf="activeFilter === 'status'" class="column-filter-container">
+              <mat-form-field class="column-filter">
+                <input matInput [formControl]="postStatusFilter" placeholder="Filter" />
+              </mat-form-field>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.status }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="approvedon">
+          <th mat-header-cell *matHeaderCellDef>Approved On</th>
+          <td mat-cell *matCellDef="let row">{{ row.date | date: 'dd-MM-yyyy'  }}</td>
+        </ng-container>
+  
+        <!-- <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Action</th>
+            <td mat-cell *matCellDef="let row">
+              <button mat-icon-button color="accent" (click)="onEdit(row)">
+                  <mat-icon>edit</mat-icon>
+              </button>
+            </td>
+        </ng-container> -->
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSize]="30" [pageSizeOptions]="[5, 10, 20, 30]"></mat-paginator>
+    </div>
+  </div>
+  

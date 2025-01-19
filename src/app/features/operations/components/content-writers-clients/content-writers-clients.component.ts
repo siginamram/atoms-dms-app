@@ -38,7 +38,6 @@ export class ContentWritersClientsComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
     'organizationName',
-    'cityName',
     'clientCategory',
     'noOfPosters',
     'totContentApprovedCount',

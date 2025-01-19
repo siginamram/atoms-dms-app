@@ -108,35 +108,17 @@ table td {
   }
 }
 /* Styling for content cells with truncation */
-.content-cell {
-  display: -webkit-box; /* Enable box layout for -webkit-line-clamp */
-  -webkit-line-clamp: 2; /* Limit to 2 lines (truncated view) */
-  -webkit-box-orient: vertical; /* Set box orientation for truncation */
-  overflow: hidden; /* Hide overflow content */
-  text-overflow: ellipsis; /* Add ellipsis for overflow */
-  white-space: normal; /* Allow wrapping for truncation */
-  cursor: pointer; /* Change cursor to indicate interactivity */
-  position: relative; /* Set relative position for absolute hover styling */
+.truncated-cell {
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* Limit content to 1 line */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* Do not wrap */
+  cursor: pointer;
 }
 
-/* Full content display on hover */
-.content-cell:hover {
-  -webkit-line-clamp: unset; /* Remove line clamp for full content */
-  line-clamp: unset; /* Add unprefixed property for future compatibility */
-  max-height: none; /* Allow content to expand */
-  overflow: visible; /* Make overflow content visible */
-  white-space: normal; /* Ensure text wraps properly */
-  background-color: #f9f9f9; /* Light gray background for hover effect */
-  z-index: 10; /* Ensure hover content appears on top */
-  position: absolute; /* Position relative to parent */
-  padding: 10px; /* Add padding for readability */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for focus effect */
-  width: auto; /* Auto width to fit content */
-  border-radius: 4px; /* Smooth corners for hover box */
-  transition: background-color 0.3s ease; /* Smooth background transition */
-}
-
-/* Optional: Add animation for smoother transitions */
-.content-cell {
-  transition: all 0.3s ease; /* Smooth transition for truncation changes */
+.truncated-cell:hover {
+  text-decoration: underline; /* Indicate clickable text */
+  color: blue; /* Optional: Highlight on hover */
 }

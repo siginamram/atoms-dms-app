@@ -7,7 +7,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { OperationsService } from '../../../services/operations.service'; 
 import { MatDialog } from '@angular/material/dialog';
-import { EditStatusApprovalsComponent } from '../edit-status-approvals/edit-status-approvals.component';
 export const MY_FORMATS = {
   parse: {
     dateInput: 'MM/YYYY',
@@ -21,13 +20,13 @@ export const MY_FORMATS = {
 };
 
 @Component({
-  selector: 'app-content-writers-approval',
+  selector: 'app-content-writers-approval-history',
   standalone:false,
-  templateUrl: './content-writers-approval.component.html',
-  styleUrl: './content-writers-approval.component.css',
-    providers: [provideMomentDateAdapter(MY_FORMATS)],
+  templateUrl: './content-writers-approval-history.component.html',
+  styleUrl: './content-writers-approval-history.component.css',
+  providers: [provideMomentDateAdapter(MY_FORMATS)],
 })
-export class ContentWritersApprovalComponent implements OnInit {
+export class ContentWritersApprovalHistoryComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('fullTextDialog') fullTextDialog: any;
   readonly date = new FormControl(moment());
@@ -47,8 +46,7 @@ export class ContentWritersApprovalComponent implements OnInit {
     'contentInPost',
     'contentCaption',
     'contentStatus',
-    'contentRemarks',
-    'action',
+    'approvedon',
   ];
   dataSource = new MatTableDataSource<any>();
 
@@ -71,7 +69,7 @@ export class ContentWritersApprovalComponent implements OnInit {
   fetchApprovalRequests(): void {
     const userId = parseInt(localStorage.getItem('UserID') || '1', 10);
     const selectedDate = this.date.value?.format('YYYY-MM') || moment().format('YYYY-MM');
-    this.operationsService.contentApprovalRequests(userId, `${selectedDate}-01`).subscribe({
+    this.operationsService.contentApprovalHistory(userId, `${selectedDate}-01`).subscribe({
       next: (response) => {
         this.dataSource.data = response.map((item: any) => ({
           ...item,
@@ -163,18 +161,7 @@ export class ContentWritersApprovalComponent implements OnInit {
     this.fetchApprovalRequests();
   }
 
-  onEdit(row: any): void {
-    const dialogRef = this.dialog.open(EditStatusApprovalsComponent, {
-      width: '600px',
-      data: row,
-    });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.fetchApprovalRequests(); // Refresh table after edit
-      }
-    });
-  }
   showFullText(text: string, title: string): void {
     this.dialog.open(this.fullTextDialog, {
       width: '400px',

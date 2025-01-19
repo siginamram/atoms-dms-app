@@ -1,1 +1,63 @@
-<p>ad-campaign-management works!</p>
+<div class="ad-campaign-container">
+    <!-- Toolbar -->
+    <mat-toolbar color="primary" class="toolbar" style="border-radius: 10px;">
+        <span>Clients List</span>
+        </mat-toolbar>
+    <!-- Filter Section -->
+    <div class="filter-container">
+        <mat-form-field appearance="outline">
+            <mat-label>Month and Year</mat-label>
+            <input matInput [matDatepicker]="dp" [formControl]="date" placeholder="MM/YYYY" readonly>
+            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+            <mat-datepicker
+              #dp
+              startView="multi-year"
+              (monthSelected)="setMonthAndYear($event, dp)"
+              panelClass="example-month-picker">
+            </mat-datepicker>
+          </mat-form-field>
+    </div>
+  
+    <!-- Table Section -->
+    <div class="table-container">
+      <table mat-table [dataSource]="campaigns" class="mat-elevation-z8 responsive-table">
+        <!-- Serial Number Column -->
+        <ng-container matColumnDef="sno">
+        <th mat-header-cell *matHeaderCellDef>S.No</th>
+        <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+        </ng-container>
+        <!-- Client Column -->
+        <ng-container matColumnDef="client">
+          <th mat-header-cell *matHeaderCellDef>Client</th>
+          <td mat-cell *matCellDef="let element">{{ element.client }}</td>
+        </ng-container>
+  
+        <!-- No. of Campaigns Column -->
+        <ng-container matColumnDef="noOfCampaigns">
+          <th mat-header-cell *matHeaderCellDef>No. of Campaigns</th>
+          <td mat-cell *matCellDef="let element">{{ element.noOfCampaigns }}</td>
+        </ng-container>
+  
+        <!-- No. of Campaigns Completed Column -->
+        <ng-container matColumnDef="noOfCompletedCampaigns">
+          <th mat-header-cell *matHeaderCellDef>No. of Campaigns Completed</th>
+          <td mat-cell *matCellDef="let element">{{ element.noOfCompletedCampaigns }}</td>
+        </ng-container>
+  
+        <!-- Action Column -->
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-button color="primary" (click)="editCampaign(element)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+  
+        <!-- Header and Row Definitions -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </div>
+  

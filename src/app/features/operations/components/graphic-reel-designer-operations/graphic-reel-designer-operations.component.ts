@@ -31,6 +31,7 @@ export const MY_FORMATS = {
 })
 export class GraphicReelDesignerOperationsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('fullTextDialog') fullTextDialog: any;
   clientId: number = 0;
   selectedDate: string = '';
   creativeType: number = 2; // Default creativeType
@@ -184,5 +185,15 @@ export class GraphicReelDesignerOperationsComponent implements OnInit {
   }
   goBack(): void {
     this.router.navigate(['/home/operations/graphicreels-designer-client']); 
+  }
+
+  showFullText(text: string, title: string): void {
+    this.dialog.open(this.fullTextDialog, {
+      width: '400px',
+      data: {
+        text: text,
+        title: title,
+      },
+    });
   }
 }

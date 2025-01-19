@@ -32,6 +32,7 @@ export const MY_FORMATS = {
 })
 export class DmaOperationsComponent implements OnInit {
   clientControl = new FormControl('');
+  @ViewChild('fullTextDialog') fullTextDialog: any;
   dateControl = new FormControl(moment());
   clients: any[] = [];
   filteredClients: any[] = [];
@@ -207,5 +208,14 @@ goBack(): void {
   this.router.navigate(['/home/operations/client-dma']); 
 }
   
+showFullText(text: string, title: string): void {
+  this.dialog.open(this.fullTextDialog, {
+    width: '400px',
+    data: {
+      text: text,
+      title: title,
+    },
+  });
+}
   
 }

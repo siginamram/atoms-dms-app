@@ -58,6 +58,14 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { EditStatusApprovalsComponent } from './components/lead-approvals/edit-status-approvals/edit-status-approvals.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { DmaClientsComponent } from './components/dma-clients/dma-clients.component';
+import { AdCampaignManagementComponent } from './components/ad-campaign-management/ad-campaign-management.component';
+import { AdCampaignTrakerComponent } from './components/ad-campaign-traker/ad-campaign-traker.component';
+import { AdCampaignTrakerEditComponent } from './components/ad-campaign-traker-edit/ad-campaign-traker-edit.component';
+import { ContentWritersApprovalHistoryComponent } from './components/lead-approvals-history/content-writers-approval-history/content-writers-approval-history.component';
+import { GraphicReelsApprovalHistoryComponent } from './components/lead-approvals-history/graphic-reels-approval-history/graphic-reels-approval-history.component';
+import { LeadApprovalHistoryComponent } from './components/lead-approvals-history/lead-approval-history/lead-approval-history.component';
+import { VideoEditorApprovalHistoryComponent } from './components/lead-approvals-history/video-editor-approval-history/video-editor-approval-history.component';
+import { PosterDesignerApprovalHistoryComponent } from './components/lead-approvals-history/poster-designer-approval-history/poster-designer-approval-history.component';
 
 const MY_FORMATS = {
   parse: {
@@ -104,6 +112,14 @@ const MY_FORMATS = {
     VideoEditorApprovalComponent,
     EditStatusApprovalsComponent,
     DmaClientsComponent,
+    AdCampaignManagementComponent,
+    AdCampaignTrakerComponent,
+    AdCampaignTrakerEditComponent,
+    ContentWritersApprovalHistoryComponent,
+    GraphicReelsApprovalHistoryComponent,
+    LeadApprovalHistoryComponent,
+    VideoEditorApprovalHistoryComponent,
+    PosterDesignerApprovalHistoryComponent,
   ],
   imports: [
     CommonModule,

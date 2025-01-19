@@ -20,6 +20,9 @@ import { DmaOperationsComponent } from './components/dma-operations/dma-operatio
 import { PhotoGrapherCompleteHistoryComponent } from './components/photo-grapher-complete-history/photo-grapher-complete-history.component';
 import { LeadApprovalsComponent } from './components/lead-approvals/lead-approvals/lead-approvals.component';
 import { DmaClientsComponent } from './components/dma-clients/dma-clients.component';
+import { AdCampaignManagementComponent } from './components/ad-campaign-management/ad-campaign-management.component';
+import { AdCampaignTrakerComponent } from './components/ad-campaign-traker/ad-campaign-traker.component';
+import { LeadApprovalHistoryComponent } from './components/lead-approvals-history/lead-approval-history/lead-approval-history.component';
 
 const routes: Routes = [
   {
@@ -52,8 +55,11 @@ const routes: Routes = [
 
       { path: 'operations-dma', component: DmaOperationsComponent },
       { path: 'client-dma', component: DmaClientsComponent },
+      { path: 'ad-campaign-dma', component: AdCampaignManagementComponent },
+      { path: 'ad-campaign-operations-dma', component: AdCampaignTrakerComponent },
 
       { path: 'lead-approvals', component: LeadApprovalsComponent },
+      { path: 'lead-approvals-history', component: LeadApprovalHistoryComponent },
   
     ]
   }

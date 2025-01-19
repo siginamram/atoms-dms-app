@@ -1,0 +1,45 @@
+.popup-container {
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+  }
+  mat-toolbar {
+    margin-bottom: 16px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    background-color: #3f51b5; /* Add a background color for the toolbar */
+    border-radius: 8px;
+  }
+  .form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 16px;
+  }
+  
+  .mat-form-field {
+    flex: 1;
+    min-width: 150px;
+  }
+  
+  .mat-form-field.full-width {
+    width: 100%;
+  }
+  
+  .action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+  }
+  
+  @media (max-width: 768px) {
+    .form-row {
+      flex-direction: column;
+    }
+  }
+  
