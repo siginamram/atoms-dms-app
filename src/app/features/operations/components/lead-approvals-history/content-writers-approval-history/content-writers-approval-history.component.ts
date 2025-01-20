@@ -29,7 +29,7 @@ export const MY_FORMATS = {
 export class ContentWritersApprovalHistoryComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('fullTextDialog') fullTextDialog: any;
-  readonly date = new FormControl(moment());
+readonly date = new FormControl(moment().add(1, 'month').startOf('month'));
   activeFilter: string | null = null;
   organizationFilter = new FormControl('');
   resourceFilter = new FormControl('');

@@ -60,7 +60,9 @@ export class DmaClientsComponent implements OnInit {
     this.dataSource1.paginator = this.paginator; // Attach paginator
     this.fetchClients(); // Fetch initial data
   }
-
+  ngAfterViewInit(): void {
+    this.dataSource1.paginator = this.paginator;
+  }
   fetchClients(): void {
     this.selectedDate = this.date.value?.format('YYYY-MM') + '-01'; // Format date as YYYY-MM-DD
     if (!this.selectedDate || !this.userId) {
