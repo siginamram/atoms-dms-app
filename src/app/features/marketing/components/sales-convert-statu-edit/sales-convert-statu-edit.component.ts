@@ -245,4 +245,8 @@ export class SalesConvertStatuEditComponent implements OnInit {
       this.maxDateForKt = new Date('12-31-2999');
     }
   }
+
+  back(){
+    this.router.navigate(['/home/marketing/sales-converted'])
+  }
 }

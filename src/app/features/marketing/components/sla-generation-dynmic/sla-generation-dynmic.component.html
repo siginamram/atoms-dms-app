@@ -40,7 +40,7 @@
                     <li *ngIf="packageDetails?.noOfEducationalReels != 0">No. of educational reels per month: <b>{{packageDetails?.noOfEducationalReels}}</b> (An educational reel is defined as a video in 9:16 ratio with a person describing or explaining anything that they feel matters to their target audience and lies in a duration of up to ninety seconds)</li>
                     <li *ngIf="packageDetails?.noOfYouTubeVideos != 0">No. of YouTube videos per month: <b>{{packageDetails?.noOfYouTubeVideos}}</b> (A YouTube video is defined as a video that is 16:9 ratio with a person describing or explaining anything that they feel matters to their target audience and lies in a duration of up to ten minutes)</li>
                 </ul>
-                <li *ngIf="adBudget">Sponsored ad budget: INR <b>{{adBudget}}</b>/- ({{adBudgetInWords}}) (A sponsored ad is defined as an ad campaign that will be running on social media platforms)</li>
+                <li *ngIf="packageDetails?.adBudget">Sponsored ad budget: INR <b>{{adBudget}}</b>/- ({{adBudgetInWords}}) (A sponsored ad is defined as an ad campaign that will be running on social media platforms)</li>
                 <li *ngIf="packageDetails?.shootBudget">Monthly video shoot for YouTube Videos and Educational Reels</li>
                 <ul *ngIf="packageDetails?.shootBudget">
                     <li>Shoot Charges: Applicable</li>
@@ -61,19 +61,19 @@
                 <li>Ensure timely delivery of agreed services. </li>
                 <li>Maintain the quality of designs, videos, and campaign management. </li>
                 <li *ngIf="packageDetails?.shootBudget">Collaborate with the client for special shoots. </li>
-                <li *ngIf="adBudget">Run sponsored ad campaigns efficiently within the allocated budget. </li>
+                <li *ngIf="packageDetails?.adBudget">Run sponsored ad campaigns efficiently within the allocated budget. </li>
             </ul>
             <li><b>Responsibilities of {{clientName}}</b></li>
             <ul>
                 <li>Provide knowledge transfer sessions for the content and design team before onboarding.</li>
                 <li>Share required data, content, and additional information <b> at least 4 days </b> prior to project deadlines.</li>
-                <li *ngIf="packageDetails?.shootOffered">Allocate time for photographers and team members for monthly video shoots.</li>
+                <li *ngIf="packageDetails?.shootBudget">Allocate time for photographers and team members for monthly video shoots.</li>
                 <li>Provide constructive feedback to enhance service quality.</li>
             </ul>
         </ul>
         <h5>Payment Terms</h5>
         <ul>
-            <li>Monthly Charges for the services: INR <b>{{totalBudget}}</b>/- ({{totalBudgetInWords}}). <b> (Including GST and Excluding Shoot Budget) </b></li>
+            <li>Monthly Charges for the services: INR <b>{{totalBudget}}</b>/- ({{totalBudgetInWords}}). <b> (Including GST <span *ngIf="packageDetails?.shootBudget">and Excluding Shoot Budget</span>) </b></li>
             <li>Payments to be made on or before the <b>{{paymentDate}}<sup>{{suffix}}</sup></b>  of every month.</li>
             <li>Payments should be made via bank transfer or any agreed-upon payment method.</li>
         </ul>
