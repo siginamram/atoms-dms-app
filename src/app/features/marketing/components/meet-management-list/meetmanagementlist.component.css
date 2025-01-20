@@ -1,11 +1,9 @@
 .meets-container {
-  max-width: 1000px;
-  margin: 10px auto;
-  padding: 10px;
+  margin-left: 140px;
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding-left: 50px;
+  padding: 20px; /* Consistent padding */;
 }
 
 .spacer {

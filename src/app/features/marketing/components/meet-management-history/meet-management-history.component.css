@@ -1,11 +1,9 @@
 .sla-container {
-    max-width: 1000px;
-    margin: 10px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding-left: 50px;
+  margin-left: 140px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px; /* Consistent padding */
   }
   
   /* Toolbar Styles */
