@@ -39,6 +39,7 @@ export class OperationsContentWritersComponent implements OnInit {
   // Data and Filters
   isLoading = false; // Initially set to true
   selecteddate: any = ''; // Default selected client
+  selectedDate : any = ''; // Default selected client
   selectedMonthYear: Date | null = null;
   startAtDate = new Date();
   leads: any[] = [];
@@ -110,7 +111,12 @@ export class OperationsContentWritersComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       this.clientId = Number(params['clientId']) || 0; // Ensure correct case ('clientId')
       this.selecteddate = params['date'] ? new Date(params['date']).toISOString() : null;
-
+      if (params['date']) {
+        this.selectedDate = moment(params['date'], 'YYYY-MM-DD'); // Convert to Moment object
+        this.date.setValue(this.selectedDate); // Update FormControl
+      } else {
+        this.selectedDate = moment(); // Default to current date
+      }
       // Fetch the client details
       this.fetchClientDetails(this.clientId);
       console.log('Client ID:', this.clientId);

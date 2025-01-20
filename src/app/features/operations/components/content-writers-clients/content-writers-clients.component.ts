@@ -32,7 +32,7 @@ export class ContentWritersClientsComponent implements OnInit {
   filteredClients: any[] = [];
   searchTerm: string = '';
   selectedDate:any='';
-  readonly date = new FormControl(moment());
+  readonly date = new FormControl(moment().add(1, 'month').startOf('month'));
   userId: number = parseInt(localStorage.getItem('UserID') || '0', 10); // Get UserID from local storage
 
   displayedColumns: string[] = [
