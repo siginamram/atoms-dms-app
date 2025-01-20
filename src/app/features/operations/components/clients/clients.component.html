@@ -83,7 +83,7 @@
       <tr mat-header-row *matHeaderRowDef="onboardingColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: onboardingColumns;"></tr>
     </table>
-    <div *ngIf="onboardingData.length === 0" class="no-data-message">
+    <div *ngIf="onboardingData.data.length === 0" class="no-data-message">
       <p>No data available.</p>
     </div>
   </div>
@@ -138,7 +138,7 @@
       <tr mat-header-row *matHeaderRowDef="presentColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: presentColumns;"></tr>
     </table>
-    <div *ngIf="presentData.length === 0" class="no-data-message">
+    <div *ngIf="presentData.data.length === 0" class="no-data-message">
       <p>No data available.</p>
     </div>
   </div>
@@ -193,7 +193,7 @@
       <tr mat-header-row *matHeaderRowDef="exitColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: exitColumns;"></tr>
     </table>
-    <div *ngIf="exitData.length === 0" class="no-data-message">
+    <div *ngIf="exitData.data.length === 0" class="no-data-message">
       <p>No data available.</p>
     </div>
   </div>

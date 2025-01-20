@@ -1,32 +1,42 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { OperationsService } from '../../services/operations.service';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-clients',
-  standalone:false,
+  standalone: false,
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.css'],
 })
 export class ClientsComponent implements OnInit {
-    @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
   activeTab = 'onboarding'; // Default tab
-  onboardingColumns = ['id','clientName', 'dealClosingDate', 'domain', 'category', 'ktStatus', 'city', 'edit'];
-  presentColumns = ['id','clientName', 'domain', 'category', 'package', 'ktDocument', 'city', 'edit'];
-  exitColumns = ['id','clientName', 'domain', 'category', 'package', 'ktDocument', 'city'];
+  onboardingColumns = ['id', 'clientName', 'dealClosingDate', 'domain', 'category', 'ktStatus', 'city', 'edit'];
+  presentColumns = ['id', 'clientName', 'domain', 'category', 'package', 'ktDocument', 'city', 'edit'];
+  exitColumns = ['id', 'clientName', 'domain', 'category', 'package', 'ktDocument', 'city'];
   showSpinner: boolean = false;
-  onboardingData: any[] = [];
-  presentData: any[] = [];
-  exitData: any[] = [];
+
+  onboardingData = new MatTableDataSource<any>();
+  presentData = new MatTableDataSource<any>();
+  exitData = new MatTableDataSource<any>();
 
   constructor(private router: Router, private operationsService: OperationsService) {}
 
   ngOnInit(): void {
-    const userId = +localStorage.getItem('UserID')!; // Retrieve user ID from local storage
+    const userId = +localStorage.getItem('UserID')!;
     this.fetchOnboardingData(userId);
     this.fetchPresentData(userId);
     this.fetchExitData(userId);
+  }
+
+  ngAfterViewInit(): void {
+    // Assign paginator after view init
+    this.onboardingData.paginator = this.paginator;
+    this.presentData.paginator = this.paginator;
+    this.exitData.paginator = this.paginator;
   }
 
   switchTab(tab: string): void {
@@ -38,16 +48,15 @@ export class ClientsComponent implements OnInit {
     this.showSpinner = true;
     this.operationsService.getOnboardByStatus(userId, 1).subscribe(
       (response) => {
-        this.onboardingData = response.map((item: any) => ({
+        this.onboardingData.data = response.map((item: any) => ({
           clientName: item.organizationName,
           dealClosingDate: item.dealCloseDate,
           domain: item.domain,
           category: this.mapCategory(item.clientCategory),
           ktStatus: item.isKTCompleted ? 'Completed' : 'Pending',
           city: item.cityName,
-          clientId:item.clientId,
+          clientId: item.clientId,
         }));
-        console.log('Onboarding Data:', this.onboardingData);
         this.showSpinner = false;
       },
       (error) => {
@@ -61,16 +70,15 @@ export class ClientsComponent implements OnInit {
     this.showSpinner = true;
     this.operationsService.getOnboardByStatus(userId, 2).subscribe(
       (response) => {
-        this.presentData = response.map((item: any) => ({
+        this.presentData.data = response.map((item: any) => ({
           clientName: item.organizationName,
           domain: item.domain,
           category: this.mapCategory(item.clientCategory),
           package: item.basePackage,
           ktDocument: item.ktDocUrl ? 'Uploaded' : 'Pending',
           city: item.cityName,
-          clientId:item.clientId,
+          clientId: item.clientId,
         }));
-        console.log('Present Data:', this.presentData);
         this.showSpinner = false;
       },
       (error) => {
@@ -84,17 +92,16 @@ export class ClientsComponent implements OnInit {
     this.showSpinner = true;
     this.operationsService.getOnboardByStatus(userId, 3).subscribe(
       (response) => {
-        this.exitData = response.map((item: any) => ({
+        this.exitData.data = response.map((item: any) => ({
           clientName: item.organizationName,
           domain: item.domain,
           category: this.mapCategory(item.clientCategory),
           package: item.basePackage,
           ktDocument: item.ktDocUrl ? 'Uploaded' : 'Pending',
           city: item.cityName,
-          clientId:item.clientId,
+          clientId: item.clientId,
         }));
         this.showSpinner = false;
-        console.log('Exit Data:', this.exitData);
       },
       (error) => {
         this.showSpinner = false;
@@ -121,9 +128,4 @@ export class ClientsComponent implements OnInit {
     this.router.navigate([`/home/operations/clients-present/${client}`]);
     console.log('Edit Present Client:', client);
   }
-
-  // editExitClient(client: any): void {
-  //   this.router.navigate([`/home/operations/clients-exit/${client.clientName}`]);
-  //   console.log('Edit Exit Client:', client);
-  // }
 }
