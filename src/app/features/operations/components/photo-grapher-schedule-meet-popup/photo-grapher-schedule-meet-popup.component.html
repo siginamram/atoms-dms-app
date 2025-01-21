@@ -108,6 +108,21 @@
         </mat-error>
       </mat-form-field>
 
+      <mat-form-field appearance="outline" *ngIf="showAdditionalFields">
+        <mat-label>Travelling Time</mat-label>
+        <input matInput formControlName="travellingTime" type="text" inputmode="numeric" pattern="\d*"/>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" *ngIf="showAdditionalFields">
+        <mat-label>Waiting Time</mat-label>
+        <input matInput formControlName="waitingTime" type="text" inputmode="numeric" pattern="\d*"/>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" *ngIf="showAdditionalFields">
+        <mat-label>Shoot Time</mat-label>
+        <input matInput formControlName="shootTime" type="text" inputmode="numeric" pattern="\d*"  />
+      </mat-form-field>
+
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Remarks</mat-label>
       <textarea matInput formControlName="remarks"></textarea>

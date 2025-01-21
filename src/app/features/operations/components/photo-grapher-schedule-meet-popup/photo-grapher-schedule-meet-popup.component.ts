@@ -44,6 +44,9 @@ export class PhotoGrapherScheduleMeetPopupComponent implements OnInit {
       noOfEDReels: [data.meetingData?.noOfEDReels || ''],
       shootLink: [data.meetingData?.shootLink || ''],
       remarks: [data.meetingData?.remarks || ''],
+      travellingTime: [data.meetingData?.travellingTime],
+      waitingTime:  [data.meetingData?.waitingTime ],
+      shootTime: [data.meetingData?.shootTime ]
     });
     
   }
@@ -121,9 +124,21 @@ export class PhotoGrapherScheduleMeetPopupComponent implements OnInit {
           '(\\:\\d+)?(\\/[-a-zA-Z0-9%_.~+]*)*' + // port and path
           '(\\?[;&a-zA-Z0-9%_.~+=-]*)?' + // query string
           '(\\#[-a-zA-Z0-9_]*)?$' // fragment locator
-        ),
+        )
+      ]);
+      this.meetingForm.get('travellingTime')?.setValidators([
+        Validators.required
+      ]);
+      this.meetingForm.get('waitingTime')?.setValidators([
+        Validators.required
+      ]);
+      this.meetingForm.get('shootTime')?.setValidators([
+        Validators.required
       ]);
       this.meetingForm.get('shootLink')?.updateValueAndValidity();
+      this.meetingForm.get('travellingTime')?.updateValueAndValidity();
+      this.meetingForm.get('waitingTime')?.updateValueAndValidity();
+      this.meetingForm.get('shootTime')?.updateValueAndValidity();
     }
   }
   
@@ -151,6 +166,9 @@ export class PhotoGrapherScheduleMeetPopupComponent implements OnInit {
         payload.shootLink = formData.shootLink;
         payload.noOfYTVideos = formData.noOfYTVideos || 0;
         payload.noOfEDReels = formData.noOfEDReels || 0;
+        payload.travellingTime = formData.travellingTime;
+        payload.waitingTime = formData.waitingTime;
+        payload.shootingTime = formData.shootTime;
       }
   
       // Call the respective API based on the meetingStatus
