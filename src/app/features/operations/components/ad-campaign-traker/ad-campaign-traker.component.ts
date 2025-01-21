@@ -1,52 +1,27 @@
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Component, OnInit, ViewChild, ChangeDetectorRef, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDatepicker } from '@angular/material/datepicker';
-import { FormControl } from '@angular/forms';
-import * as moment from 'moment';
-import { Moment } from 'moment';
 import { MatPaginator } from '@angular/material/paginator';
-import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
+import { MatDialog } from '@angular/material/dialog';
+import { MatDatepicker } from '@angular/material/datepicker';
 import { Router, ActivatedRoute } from '@angular/router';
 import { OperationsService } from '../../services/operations.service';
-import { MatDialog } from '@angular/material/dialog';
 import { AdCampaignTrakerEditComponent } from '../ad-campaign-traker-edit/ad-campaign-traker-edit.component';
-
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'MM/YYYY',
-  },
-  display: {
-    dateInput: 'MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-ad-campaign-traker',
-  standalone:false,
+  standalone: false,
   templateUrl: './ad-campaign-traker.component.html',
-  styleUrl: './ad-campaign-traker.component.css',
-    providers: [provideMomentDateAdapter(MY_FORMATS)],
-    //encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./ad-campaign-traker.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdCampaignTrakerComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  // Data and Filters
-  isLoading = false; // Initially set to true
-  selecteddate: any = ''; // Default selected client
-  selectedMonthYear: Date | null = null;
-  startAtDate = new Date();
-  leads: any[] = [];
-  searchTerm: string = '';
-  formattedMonthYear: string = '';
-  clientId: number = 0;
-  readonly date = new FormControl(moment());
-  clientName: string = '';
-  // dataSource = new MatTableDataSource<any>();
+
+  // State Variables
+  isLoading = false;
+  dataSource = new MatTableDataSource<any>();
   displayedColumns: string[] = [
     'id',
     'campaignStartDate',
@@ -58,71 +33,50 @@ export class AdCampaignTrakerComponent implements OnInit {
     'resultType',
     'result',
     'costPerResult',
-    'targetAmount', 
+    'targetAmount',
     'amountSpent',
-    'edit'
+    'edit',
   ];
-// Add dummy data including targetAmount
-dataSource = new MatTableDataSource<any>([
-  {
-    campaignStartDate: '2025-01-01',
-    campaignEndDate: '2025-01-15',
-    platform: 'Facebook',
-    objective: 'Conversions',
-    reach: 5000,
-    impressions: 7000,
-    resultType: 'Leads',
-    result: 50,
-    costPerResult: 10,
-    amountSpent: 500,
-    targetAmount: 600 // Add targetAmount to data
-  },
-  // Add more rows as needed
-]);
-  // Popup Management
-  isPopupVisible = false;
-  isEditMode = false;
   clientForm: FormGroup;
+  clientId: number = 0;
+  clientName: string = '';
 
-  constructor(private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
     private router: Router,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private operationsService: OperationsService) {
+    private operationsService: OperationsService
+  ) {
     this.clientForm = this.fb.group({
       clientName: [''],
-
+      fromDate: [''],
+      toDate: [''],
     });
   }
 
   ngOnInit(): void {
-    // Retrieve clientId and date from query parameters
+    // Retrieve clientId from query params
     this.route.queryParams.subscribe((params) => {
-      this.clientId = Number(params['clientId']) || 0; // Ensure correct case ('clientId')
-      this.selecteddate = params['date'] ? new Date(params['date']).toISOString() : null;
+      this.clientId = Number(params['clientId']) || 0;
 
-      // Fetch the client details
+      // Fetch client details
       this.fetchClientDetails(this.clientId);
-      console.log('Client ID:', this.clientId);
-      console.log('Selected Date:', this.selecteddate);
-
-      //this.fetchMonthlyTrackerData();
-
+      this.fetchFilteredData();
     });
   }
+
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator; // Assign paginator after view initialization
   }
+
   fetchClientDetails(clientId: number): void {
     this.operationsService.getclientByClientId(clientId).subscribe({
       next: (response) => {
-        console.log('Client Details:', response);
-
-        // Assuming response contains organizationName
         if (response?.organizationName) {
           this.clientForm.patchValue({ clientName: response.organizationName });
-          this.clientName=response.organizationName;
+          this.clientName = response.organizationName;
         }
       },
       error: (error) => {
@@ -130,88 +84,116 @@ dataSource = new MatTableDataSource<any>([
       },
     });
   }
-  fetchMonthlyTrackerData(): void {
-    this.isLoading = true; // Start loading indicator
-    this.operationsService.getMonthlyTrackerData(this.clientId, this.selecteddate).subscribe({
-      next: (response) => {
 
+  fetchFilteredData(): void {
+    const from = this.clientForm.get('fromDate')?.value;
+    const to = this.clientForm.get('toDate')?.value;
+
+    if (!from || !to) {
+      console.error('From and To dates are required!');
+      return;
+    }
+
+    this.isLoading = true; // Show loader
+    const formattedFrom = moment(from).format('YYYY-MM-DD');
+    const formattedTo = moment(to).format('YYYY-MM-DD');
+
+    this.operationsService.GetAdCampaignItemsByClientIdAndMonth(this.clientId, formattedFrom, formattedTo).subscribe({
+      next: (response) => {
         this.dataSource.data = response.map((item: any) => ({
           ...item,
-          day: new Date(item.date).toLocaleDateString('en-US', { weekday: 'long' }),
-          //contentStatus: item.contentStatus,
-          //promotionType:tem.promotionId,
+          platformLabel: this.getPlatformLabel(item.platform),
+          objectiveLabel: this.getObjectiveLabel(item.objective),
+          resultTypeLabel: this.getResultTypeLabel(item.resultType),
         }));
-        this.isLoading = false; // Stop loading indicator
-        this.dataSource.paginator = this.paginator; // Reassign paginator
+        this.isLoading = false; // Hide loader
       },
       error: (error) => {
-        this.isLoading = false; // Stop loading indicator
-        console.error('Error fetching tracker data:', error);
+        this.isLoading = false; // Hide loader
+        console.error('Error fetching data:', error);
       },
     });
   }
 
-  setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>): void {
-    const ctrlValue = this.date.value ?? moment();
-    ctrlValue.month(normalizedMonthAndYear.month());
-    ctrlValue.year(normalizedMonthAndYear.year());
-    this.date.setValue(ctrlValue);
-    this.selecteddate = ctrlValue.format('YYYY-MM-DD'); // Update selectedDate
-    datepicker.close();
-    this.fetchMonthlyTrackerData();
-  }
-
-  onMonthYearSelected(event: moment.Moment, datepicker: any): void {
-    if (event && event.isValid && event.isValid()) {
-      // Format the selected date as MM/YYYY
-      this.formattedMonthYear = event.format('MM/YYYY');
-      console.log('Selected Month/Year:', this.formattedMonthYear);
-
-      // Close the datepicker
-      datepicker.close();
-
-      // Trigger Angular change detection
-      this.cdr.detectChanges();
-    } else {
-      console.error('Invalid date selected:', event);
+  getPlatformLabel(status: number): string {
+    switch (status) {
+      case 1:
+        return 'Facebook';
+      case 2:
+        return 'Instagram';
+      case 3:
+        return 'YouTube';
+      default:
+        return 'Unknown status';
     }
-  }
-  addNewEntry() {
-    const dialogRef = this.dialog.open(AdCampaignTrakerEditComponent, {
-         width: '600px',
-         data: {
-           isEdit: false,
-           meetingData: null,
-         },
-       });
-   
-       dialogRef.afterClosed().subscribe((result) => {
-         if (result) {
-           console.log('Meet Scheduled:', result);
-           this.fetchMonthlyTrackerData(); // Refresh data
-         }
-       });
-  }
+  } 
 
-  onEdit(row: any): void {
+  getObjectiveLabel(status: number): string {
+    switch (status) {
+      case 1:
+        return 'Awareness';
+      case 2:
+        return 'Engagement';
+      case 3:
+        return 'Traffic';
+      case 4:
+        return 'Lead Generation';
+      default:
+        return 'Unknown status';
+    }
+  } 
+
+  getResultTypeLabel(status: number): string {
+    switch (status) {
+      case 1:
+        return 'Reach';
+      case 2:
+        return 'Impressions';
+      case 3:
+        return 'Engagement';
+      case 4:
+        return 'Profile Visits';
+      case 5:
+        return 'WA Messages';
+      case 6:
+          return 'Leads Generation';
+      default:
+        return 'Unknown status';
+    }
+  } 
+
+  addNewEntry(): void {
     const dialogRef = this.dialog.open(AdCampaignTrakerEditComponent, {
       width: '600px',
       data: {
-        isEdit: true,
-        //meetingData: meet,
+        isEdit: false,
+        meetingData: null,
       },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log('Meet Edited:', result);
-        this.fetchMonthlyTrackerData(); // Refresh data
+        this.fetchFilteredData(); // Refresh data
+      }
+    });
+  }
+
+  onEdit(row: any): void {
+    console.log('Editing Row Data:', row); // Log the row data to verify
+    const dialogRef = this.dialog.open(AdCampaignTrakerEditComponent, {
+      width: '600px',
+      data: row, // Pass the correct row data for editing
+    });
+  
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log('Campaign Edited:', result);
+        this.fetchFilteredData(); // Refresh the data
       }
     });
   }
   
-
   goBack(): void {
-    this.router.navigate(['/home/operations/ad-campaign-dma']); 
+    this.router.navigate(['/home/operations/ad-campaign-dma']);
   }
-}    
+}

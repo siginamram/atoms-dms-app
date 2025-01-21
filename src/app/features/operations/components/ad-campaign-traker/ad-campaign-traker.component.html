@@ -15,24 +15,24 @@
         <mat-label>Organization Name</mat-label>
         <input matInput formControlName="clientName" readonly />
       </mat-form-field>
-  
+    
       <mat-form-field appearance="outline">
-        <input
-          matInput
-          [matDatepicker]="picker"
-          [formControl]="date"
-          placeholder="Select Month and Year"
-          readonly
-        />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker
-          #picker
-          startView="multi-year"
-          (monthSelected)="setMonthAndYear($event, picker)"
-          readonly
-        ></mat-datepicker>
+        <mat-label>From Date</mat-label>
+        <input matInput [matDatepicker]="fromDatePicker" formControlName="fromDate" />
+        <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #fromDatePicker></mat-datepicker>
       </mat-form-field>
+    
+      <mat-form-field appearance="outline">
+        <mat-label>To Date</mat-label>
+        <input matInput [matDatepicker]="toDatePicker" formControlName="toDate" />
+        <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #toDatePicker></mat-datepicker>
+      </mat-form-field>
+    
+      <button mat-raised-button color="primary" (click)="fetchFilteredData()">Filter</button>
     </div>
+    
   
     <!-- Loader -->
     <div class="loader-container" *ngIf="isLoading">
@@ -59,12 +59,12 @@
   
       <ng-container matColumnDef="platform">
         <th mat-header-cell *matHeaderCellDef>Platform</th>
-        <td mat-cell *matCellDef="let row">{{ row.platform }}</td>
+        <td mat-cell *matCellDef="let row">{{ row.platformLabel }}</td>
       </ng-container>
   
       <ng-container matColumnDef="objective">
         <th mat-header-cell *matHeaderCellDef>Objective</th>
-        <td mat-cell *matCellDef="let row">{{ row.objective }}</td>
+        <td mat-cell *matCellDef="let row">{{ row.objectiveLabel }}</td>
       </ng-container>
   
       <ng-container matColumnDef="reach">
@@ -79,7 +79,7 @@
   
       <ng-container matColumnDef="resultType">
         <th mat-header-cell *matHeaderCellDef>Result Type</th>
-        <td mat-cell *matCellDef="let row">{{ row.resultType }}</td>
+        <td mat-cell *matCellDef="let row">{{ row.resultTypeLabel }}</td>
       </ng-container>
   
       <ng-container matColumnDef="result">
@@ -100,13 +100,13 @@
       <!-- New Target Amount Column -->
       <ng-container matColumnDef="targetAmount">
         <th mat-header-cell *matHeaderCellDef>Target Amount</th>
-        <td mat-cell *matCellDef="let row">{{ row.targetAmount }}</td>
+        <td mat-cell *matCellDef="let row">{{ row.targetBudget }}</td>
       </ng-container>
   
       <ng-container matColumnDef="edit">
         <th mat-header-cell *matHeaderCellDef>Action</th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-icon-button color="accent" (click)="onEdit(element)">
+        <td mat-cell *matCellDef="let row">
+          <button mat-icon-button color="accent" (click)="onEdit(row)">
             <mat-icon>edit</mat-icon>
           </button>
         </td>

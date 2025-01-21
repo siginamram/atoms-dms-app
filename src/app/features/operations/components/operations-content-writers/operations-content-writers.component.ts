@@ -154,7 +154,7 @@ export class OperationsContentWritersComponent implements OnInit {
   }
   fetchMonthlyTrackerData(): void {
     this.isLoading = true; // Start loading indicator
-    this.operationsService.getMonthlyTrackerData(this.clientId, this.selecteddate).subscribe({
+    this.operationsService.getMonthlyTrackerData(this.clientId, this.selecteddate,0).subscribe({
       next: (response) => {
 
         this.dataSource.data = response.map((item: any) => ({
@@ -171,6 +171,28 @@ export class OperationsContentWritersComponent implements OnInit {
         console.error('Error fetching tracker data:', error);
       },
     });
+  }
+  forecast() {
+
+    this.isLoading = true; // Start loading indicator
+    this.operationsService.getMonthlyTrackerData(this.clientId, this.selecteddate,1).subscribe({
+      next: (response) => {
+
+        this.dataSource.data = response.map((item: any) => ({
+          ...item,
+          day: new Date(item.date).toLocaleDateString('en-US', { weekday: 'long' }),
+          contentStatus: this.getStatusText(item.contentStatus),
+          promotionType:this.getpromotionType(item.promotionId),
+        }));
+        this.isLoading = false; // Stop loading indicator
+        this.dataSource.paginator = this.paginator; // Reassign paginator
+      },
+      error: (error) => {
+        this.isLoading = false; // Stop loading indicator
+        console.error('Error fetching tracker data:', error);
+      },
+    });
+
   }
 
   fetchClientDeliverablesAndPackages(clientId: number): void {

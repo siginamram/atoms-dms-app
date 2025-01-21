@@ -54,8 +54,8 @@ export class OperationsService {
     // Set responseType to 'text' since the API returns plain text
     return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
   }
-  getMonthlyTrackerData(clientId: number, date: string): Observable<any> {
-    const apiUrl = `${this.baseApiUrl}/api/Operations/contentWriterMonthlyTracker/${clientId}/${date}`;
+  getMonthlyTrackerData(clientId: number, date: string,forecast: number): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/contentWriterMonthlyTracker/${clientId}/${date}/${forecast}`;
     return this.http.get(apiUrl);
   }
 
@@ -201,5 +201,31 @@ export class OperationsService {
   videoEditorApprovalHistory(userId: number, date: string): Observable<any> {
     const apiUrl = `${this.baseApiUrl}/api/Operations/videoEditorApprovalHistory/${userId}/${date}`;
     return this.http.get(apiUrl);
+  }
+
+
+  getAdCampaignByMonthAndUserId(employeeId: number, date: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Client/AdCampaignByMonthAndUserId`;
+    const payload = {
+      employeeId,
+      date: date || null // Use null if date is not provided
+    };
+    return this.http.post(apiUrl, payload);
+  }
+  
+  updateAdCampaignItem(payload: any): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Client/updateAdCampaignItem`;
+    // Set responseType to 'text' since the API returns plain text
+    return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+  }
+
+  GetAdCampaignItemsByClientIdAndMonth(clientId: number, from: any,to:any): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Client/GetAdCampaignItemsByClientIdAndMonth`;
+    const payload = {
+      clientId,
+      from,
+      to
+    };
+    return this.http.post(apiUrl, payload);
   }
 }

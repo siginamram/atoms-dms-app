@@ -34,6 +34,8 @@
         readonly
       ></mat-datepicker>
     </mat-form-field>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <button mat-raised-button color="accent" class="add-button" (click)="forecast()">Generate Forecast</button>
   </div>
   <!-- Loader -->
   <div class="loader-container" *ngIf="isLoading">

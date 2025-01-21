@@ -1,113 +1,130 @@
 <div class="popup-container">
-    <!-- Toolbar -->
-    <mat-toolbar color="primary" class="toolbar" style="border-radius: 10px;">
-    <span>{{ campaignForm.get('platform')?.value ? 'Edit Ad Campaign' : 'Add Ad Campaign' }}</span>
-    </mat-toolbar>
- 
-    <form [formGroup]="campaignForm" class="form-grid">
-      <!-- Row 1 -->
-      <div class="form-row">
-        <mat-form-field appearance="outline">
-          <mat-label>From Date</mat-label>
-          <input matInput [matDatepicker]="fromDatePicker" formControlName="fromDate" />
-          <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
-          <mat-datepicker #fromDatePicker></mat-datepicker>
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline">
-          <mat-label>To Date</mat-label>
-          <input matInput [matDatepicker]="toDatePicker" formControlName="toDate" />
-          <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
-          <mat-datepicker #toDatePicker></mat-datepicker>
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline">
-          <mat-label>Target Amount</mat-label>
-          <input matInput type="number" formControlName="targetAmount" />
-        </mat-form-field>
-      </div>
-  
-      <!-- Row 2 -->
-      <div class="form-row">
-        <mat-form-field appearance="outline">
-          <mat-label>Platform</mat-label>
-          <mat-select formControlName="platform">
-            <mat-option *ngFor="let platform of platforms" [value]="platform.value">
-              {{ platform.label }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline">
-          <mat-label>Objective</mat-label>
-          <mat-select formControlName="objective">
-            <mat-option *ngFor="let objective of objectives" [value]="objective.value">
-              {{ objective.label }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline">
-          <mat-label>Result Type</mat-label>
-          <mat-select formControlName="resultType">
-            <mat-option *ngFor="let resultType of resultTypes" [value]="resultType.value">
-              {{ resultType.label }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-  
-      <!-- Row 3 -->
-      <div class="form-row">
-        <mat-form-field appearance="outline">
-          <mat-label>Result</mat-label>
-          <input matInput type="number" formControlName="result" />
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline">
-          <mat-label>Cost Per Result</mat-label>
-          <input matInput type="number" formControlName="costPerResult" />
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline">
-          <mat-label>Reach</mat-label>
-          <input matInput type="number" formControlName="reach" />
-        </mat-form-field>
-      </div>
-  
-      <!-- Row 4 -->
-      <div class="form-row">
-        <mat-form-field appearance="outline">
-          <mat-label>Impressions</mat-label>
-          <input matInput type="number" formControlName="impressions" />
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline">
-          <mat-label>Amount Spent</mat-label>
-          <input matInput type="number" formControlName="amountSpent" />
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline">
-          <mat-label>Followers After Campaign</mat-label>
-          <input matInput type="number" formControlName="followersAfterCampaign" />
-        </mat-form-field>
-      </div>
-  
-      <!-- Row 5 -->
-      <div class="form-row">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Campaign Generated Link</mat-label>
-          <input matInput formControlName="campaignLink" />
-        </mat-form-field>
-      </div>
-  
-      <!-- Action Buttons -->
-      <div class="action-buttons">
-        <button mat-raised-button color="primary" type="submit" [disabled]="campaignForm.invalid">
-          {{ campaignForm.get('platform')?.value ? 'Update' : 'Submit' }}
-        </button>
-        <button mat-raised-button color="warn" type="button" (click)="onCancel()">Cancel</button>
-      </div>
-    </form>
-  </div>
-  
+  <!-- Toolbar -->
+  <mat-toolbar color="primary" class="toolbar" style="border-radius: 10px;">
+    <span>{{ isEdit ? 'Edit Ad Campaign' : 'Add Ad Campaign' }}</span>
+  </mat-toolbar>
+
+  <form [formGroup]="campaignForm" class="form-grid" (ngSubmit)="onSubmit()">
+    <!-- Row 1 -->
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>From Date</mat-label>
+        <input matInput [matDatepicker]="fromDatePicker" formControlName="fromDate" />
+        <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #fromDatePicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>To Date</mat-label>
+        <input matInput [matDatepicker]="toDatePicker" formControlName="toDate" />
+        <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #toDatePicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Target Amount</mat-label>
+        <input matInput type="number" formControlName="targetAmount" />
+      </mat-form-field>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Platform</mat-label>
+        <mat-select formControlName="platform">
+          <mat-option *ngFor="let platform of platforms" [value]="platform.value">
+            {{ platform.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Objective</mat-label>
+        <mat-select formControlName="objective">
+          <mat-option *ngFor="let objective of objectives" [value]="objective.value">
+            {{ objective.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Result Type</mat-label>
+        <mat-select formControlName="resultType">
+          <mat-option *ngFor="let resultType of resultTypes" [value]="resultType.value">
+            {{ resultType.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Row 3 -->
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Result</mat-label>
+        <input matInput type="number" formControlName="result" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Cost Per Result</mat-label>
+        <input matInput type="number" formControlName="costPerResult" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Reach</mat-label>
+        <input matInput type="number" formControlName="reach" />
+      </mat-form-field>
+    </div>
+
+    <!-- Row 4 -->
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Impressions</mat-label>
+        <input matInput type="number" formControlName="impressions" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Amount Spent</mat-label>
+        <input matInput type="number" formControlName="amountSpent" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Followers Before Campaign</mat-label>
+        <input matInput type="number" formControlName="followersBeforeCampaign" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Followers After Campaign</mat-label>
+        <input matInput type="number" formControlName="followersAfterCampaign" />
+      </mat-form-field>
+    </div>
+
+    <!-- Row 5 -->
+    <div class="form-row">
+      <mat-form-field appearance="outline" >
+        <mat-label>Campaign Generated Link</mat-label>
+        <input matInput formControlName="campaignLink" />
+      </mat-form-field>
+   
+      <mat-form-field appearance="outline">
+        <mat-label>Campaign Completed</mat-label>
+        <mat-select formControlName="isCampaignCompleted">
+          <mat-option [value]="1">Yes</mat-option>
+          <mat-option [value]="0">No</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Remarks</mat-label>
+        <textarea matInput formControlName="remarks"></textarea>
+      </mat-form-field>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button mat-raised-button color="primary" type="submit" [disabled]="campaignForm.invalid">
+        {{ isEdit ? 'Update' : 'Submit' }}
+      </button>
+      <button mat-raised-button color="warn" type="button" (click)="onCancel()">Cancel</button>
+    </div>
+  </form>
+</div>
