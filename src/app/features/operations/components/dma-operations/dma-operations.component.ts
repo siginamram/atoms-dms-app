@@ -173,11 +173,11 @@ export class DmaOperationsComponent implements OnInit {
 getpostStatus(status: number): string {
   switch (status) {
     case 1:
-      return 'Yet to start';
+      return 'Yet to Post';
     case 2:
-      return 'Scheduled';
+      return 'Early Post';
     case 3:
-      return 'Posted';
+      return 'On Time Post';
     case 4:
       return 'Late Posted';
     default:

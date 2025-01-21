@@ -1,5 +1,7 @@
 <div class="dma-edit-container">
-    <h2 mat-dialog-title>{{ isFirstCase ? 'Add Schedule' : 'Edit Post' }}</h2>
+  <mat-toolbar color="primary" class="toolbar" style="border-radius: 10px;">
+  {{ isFirstCase ? 'Add Schedule' : 'Edit Post' }}
+  </mat-toolbar>
   
     <form [formGroup]="editForm" class="edit-form">
       <!-- Schedule Date (only for First Case) -->

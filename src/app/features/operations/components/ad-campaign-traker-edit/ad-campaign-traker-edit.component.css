@@ -42,4 +42,9 @@
       flex-direction: column;
     }
   }
-  
+  .no-arrows {
+    -moz-appearance: textfield;
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+  }

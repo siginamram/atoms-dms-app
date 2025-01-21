@@ -3,7 +3,6 @@
   <mat-toolbar color="primary" class="toolbar" style="border-radius: 10px;">
     <span>{{ isEdit ? 'Edit Ad Campaign' : 'Add Ad Campaign' }}</span>
   </mat-toolbar>
-
   <form [formGroup]="campaignForm" class="form-grid" (ngSubmit)="onSubmit()">
     <!-- Row 1 -->
     <div class="form-row">
@@ -13,20 +12,39 @@
         <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #fromDatePicker></mat-datepicker>
       </mat-form-field>
-
+  
       <mat-form-field appearance="outline">
         <mat-label>To Date</mat-label>
         <input matInput [matDatepicker]="toDatePicker" formControlName="toDate" />
         <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #toDatePicker></mat-datepicker>
       </mat-form-field>
-
+  
       <mat-form-field appearance="outline">
         <mat-label>Target Amount</mat-label>
-        <input matInput type="number" formControlName="targetAmount" />
+        <!-- <input matInput type="number" formControlName="targetAmount" class="no-arrows" /> -->
+        <input
+        matInput
+        formControlName="targetAmount"
+        type="text"
+        inputmode="numeric"
+        pattern="\d*"
+      />
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline">
+        <mat-label>Amount Spent</mat-label>
+        <!-- <input matInput type="number" formControlName="amountSpent" class="no-arrows" /> -->
+        <input
+        matInput
+        formControlName="amountSpent"
+        type="text"
+        inputmode="numeric"
+        pattern="\d*"
+      />
       </mat-form-field>
     </div>
-
+  
     <!-- Row 2 -->
     <div class="form-row">
       <mat-form-field appearance="outline">
@@ -37,7 +55,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-
+  
       <mat-form-field appearance="outline">
         <mat-label>Objective</mat-label>
         <mat-select formControlName="objective">
@@ -46,7 +64,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-
+  
       <mat-form-field appearance="outline">
         <mat-label>Result Type</mat-label>
         <mat-select formControlName="resultType">
@@ -56,69 +74,116 @@
         </mat-select>
       </mat-form-field>
     </div>
-
+  
     <!-- Row 3 -->
     <div class="form-row">
       <mat-form-field appearance="outline">
         <mat-label>Result</mat-label>
-        <input matInput type="number" formControlName="result" />
+        <!-- <input matInput type="number" formControlName="result" class="no-arrows" /> -->
+        <input
+        matInput
+        formControlName="result"
+        type="text"
+        inputmode="numeric"
+        pattern="\d*"
+      />
       </mat-form-field>
-
+  
       <mat-form-field appearance="outline">
         <mat-label>Cost Per Result</mat-label>
-        <input matInput type="number" formControlName="costPerResult" />
+        <!-- <input matInput type="number" formControlName="costPerResult" class="no-arrows" /> -->
+        <input
+        matInput
+        formControlName="costPerResult"
+        type="text"
+        inputmode="numeric"
+        pattern="\d*"
+      />
       </mat-form-field>
-
+  
       <mat-form-field appearance="outline">
         <mat-label>Reach</mat-label>
-        <input matInput type="number" formControlName="reach" />
+        <!-- <input matInput type="number" formControlName="reach" class="no-arrows" /> -->
+        <input
+        matInput
+        formControlName="reach"
+        type="text"
+        inputmode="numeric"
+        pattern="\d*"
+      />
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline">
+        <mat-label>Impressions</mat-label>
+        <!-- <input matInput type="number" formControlName="impressions" class="no-arrows" /> -->
+        <input
+        matInput
+        formControlName="impressions"
+        type="text"
+        inputmode="numeric"
+        pattern="\d*"
+      />
       </mat-form-field>
     </div>
-
+  
     <!-- Row 4 -->
     <div class="form-row">
       <mat-form-field appearance="outline">
-        <mat-label>Impressions</mat-label>
-        <input matInput type="number" formControlName="impressions" />
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Amount Spent</mat-label>
-        <input matInput type="number" formControlName="amountSpent" />
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
         <mat-label>Followers Before Campaign</mat-label>
-        <input matInput type="number" formControlName="followersBeforeCampaign" />
+        <!-- <input matInput type="number" formControlName="followersBeforeCampaign" class="no-arrows" /> -->
+        <input
+        matInput
+        formControlName="followersBeforeCampaign"
+        type="text"
+        inputmode="numeric"
+        pattern="\d*"
+      />
       </mat-form-field>
-
+  
       <mat-form-field appearance="outline">
         <mat-label>Followers After Campaign</mat-label>
-        <input matInput type="number" formControlName="followersAfterCampaign" />
+        <!-- <input matInput type="number" formControlName="followersAfterCampaign" class="no-arrows" /> -->
+        <input
+        matInput
+        formControlName="followersAfterCampaign"
+        type="text"
+        inputmode="numeric"
+        pattern="\d*"
+      />
       </mat-form-field>
-    </div>
-
-    <!-- Row 5 -->
-    <div class="form-row">
-      <mat-form-field appearance="outline" >
-        <mat-label>Campaign Generated Link</mat-label>
-        <input matInput formControlName="campaignLink" />
-      </mat-form-field>
-   
+  
       <mat-form-field appearance="outline">
         <mat-label>Campaign Completed</mat-label>
         <mat-select formControlName="isCampaignCompleted">
-          <mat-option [value]="1">Yes</mat-option>
-          <mat-option [value]="0">No</mat-option>
+          <mat-option [value]="1">Completed</mat-option>
+          <mat-option [value]="0">On Going</mat-option>
         </mat-select>
       </mat-form-field>
-
+    </div>
+  
+    <!-- Row 5 -->
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Campaign Link-1</mat-label>
+        <input matInput formControlName="campaignLink1" />
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline">
+        <mat-label>Campaign Link-2</mat-label>
+        <input matInput formControlName="campaignLink2" />
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline">
+        <mat-label>Campaign Link-3</mat-label>
+        <input matInput formControlName="campaignLink3" />
+      </mat-form-field>
+  
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Remarks</mat-label>
         <textarea matInput formControlName="remarks"></textarea>
       </mat-form-field>
     </div>
-
+  
     <!-- Action Buttons -->
     <div class="action-buttons">
       <button mat-raised-button color="primary" type="submit" [disabled]="campaignForm.invalid">
@@ -127,4 +192,5 @@
       <button mat-raised-button color="warn" type="button" (click)="onCancel()">Cancel</button>
     </div>
   </form>
+  
 </div>

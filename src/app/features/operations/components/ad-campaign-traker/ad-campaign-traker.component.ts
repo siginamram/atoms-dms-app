@@ -3,17 +3,29 @@ import { Component, OnInit, ViewChild, ChangeDetectorRef, ChangeDetectionStrateg
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
-import { MatDatepicker } from '@angular/material/datepicker';
+import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { Router, ActivatedRoute } from '@angular/router';
 import { OperationsService } from '../../services/operations.service';
 import { AdCampaignTrakerEditComponent } from '../ad-campaign-traker-edit/ad-campaign-traker-edit.component';
 import * as moment from 'moment';
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'MM/YYYY',
+  },
+  display: {
+    dateInput: 'MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'app-ad-campaign-traker',
   standalone: false,
   templateUrl: './ad-campaign-traker.component.html',
   styleUrls: ['./ad-campaign-traker.component.css'],
+   providers: [provideMomentDateAdapter(MY_FORMATS)],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdCampaignTrakerComponent implements OnInit {
@@ -51,8 +63,8 @@ export class AdCampaignTrakerComponent implements OnInit {
   ) {
     this.clientForm = this.fb.group({
       clientName: [''],
-      fromDate: [''],
-      toDate: [''],
+      fromDate: [moment().startOf('month').toDate()], // Default to the start of the current month
+      toDate: [moment().endOf('month').toDate()], // Default to the end of the current month
     });
   }
 
@@ -66,7 +78,16 @@ export class AdCampaignTrakerComponent implements OnInit {
       this.fetchFilteredData();
     });
   }
-
+  // Handle Month Selection
+  onMonthSelected(controlName: string, event: moment.Moment, datepicker: any): void {
+    if (event && event.isValid()) {
+      const selectedMonth = event.clone().startOf('month').toDate();
+      this.clientForm.get(controlName)?.setValue(selectedMonth);
+      datepicker.close();
+    } else {
+      console.error('Invalid month selection');
+    }
+  }
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator; // Assign paginator after view initialization
   }
@@ -156,7 +177,7 @@ export class AdCampaignTrakerComponent implements OnInit {
       case 5:
         return 'WA Messages';
       case 6:
-          return 'Leads Generation';
+          return 'Leads Generated';
       default:
         return 'Unknown status';
     }

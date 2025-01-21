@@ -16,7 +16,8 @@ export class DmaOperationsEditComponent implements OnInit {
   isFirstCase: boolean = false;
 
   statusOptions = [
-    { value: 3, label: 'Posted' },
+    { value: 2, label: 'Early Post' },
+    { value: 3, label: 'On Time Post' },
     { value: 4, label: 'Late Posted' }
   ];
 
@@ -31,7 +32,7 @@ export class DmaOperationsEditComponent implements OnInit {
     this.editForm = this.fb.group({
       monthlyTrackerId: [data.meetingData?.monthlyTrackerId || 0, Validators.required],
       scheduleDate: [data.meetingData?.postScheduleOn || null],
-      status: [data.meetingData?.postStatus || 2, Validators.required],
+      status: [data.meetingData?.postStatus || 3, Validators.required],
       postedOn: [data.meetingData?.postedOn || null],
       remarks: [data.meetingData?.postRemarks || '']
     });

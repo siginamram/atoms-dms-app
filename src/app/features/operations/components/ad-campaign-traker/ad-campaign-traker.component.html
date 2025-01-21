@@ -17,17 +17,39 @@
       </mat-form-field>
     
       <mat-form-field appearance="outline">
-        <mat-label>From Date</mat-label>
-        <input matInput [matDatepicker]="fromDatePicker" formControlName="fromDate" />
+        <mat-label>From Month and Year</mat-label>
+        <input
+          matInput
+          [matDatepicker]="fromDatePicker"
+          formControlName="fromDate"
+          placeholder="MM/YYYY"
+          readonly
+        />
         <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
-        <mat-datepicker #fromDatePicker></mat-datepicker>
+        <mat-datepicker
+          #fromDatePicker
+          startView="multi-year"
+          (monthSelected)="onMonthSelected('fromDate', $event, fromDatePicker)"
+          panelClass="example-month-picker"
+        ></mat-datepicker>
       </mat-form-field>
     
       <mat-form-field appearance="outline">
-        <mat-label>To Date</mat-label>
-        <input matInput [matDatepicker]="toDatePicker" formControlName="toDate" />
+        <mat-label>To Month and Year</mat-label>
+        <input
+          matInput
+          [matDatepicker]="toDatePicker"
+          formControlName="toDate"
+          placeholder="MM/YYYY"
+          readonly
+        />
         <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
-        <mat-datepicker #toDatePicker></mat-datepicker>
+        <mat-datepicker
+          #toDatePicker
+          startView="multi-year"
+          (monthSelected)="onMonthSelected('toDate', $event, toDatePicker)"
+          panelClass="example-month-picker"
+        ></mat-datepicker>
       </mat-form-field>
     
       <button mat-raised-button color="primary" (click)="fetchFilteredData()">Filter</button>
