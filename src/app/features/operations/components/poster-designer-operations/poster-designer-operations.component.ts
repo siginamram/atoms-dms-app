@@ -35,7 +35,7 @@ export class PosterDesignerOperationsComponent implements OnInit {
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild('fullTextDialog') fullTextDialog: any;
   clientId: number = 0;
-  selectedDate: string = '';
+  selectedDate: any = '';
   creativeType: number = 1; // Default creativeType
   clientName:string=''; 
   clientForm: FormGroup;
@@ -76,7 +76,7 @@ export class PosterDesignerOperationsComponent implements OnInit {
       this.selectedDate = params['date']
         ? moment(params['date']).format('YYYY-MM-DD')
         : moment().format('YYYY-MM-DD'); // Default to current date
-
+        this.date.setValue(this.selectedDate); // Update FormControl
       // Fetch client details and table data
       this.fetchClientDetails(this.clientId);
       this.fetchTableData();

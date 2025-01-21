@@ -37,7 +37,7 @@ export class VideoEditorOperationsComponent implements OnInit {
 
   // Filters
   clientId: number = 0;
-  selectedDate: string = '';
+  selectedDate: any = '';
   readonly date = new FormControl(moment());
   clientForm: FormGroup;
   // Table Data
@@ -75,7 +75,7 @@ export class VideoEditorOperationsComponent implements OnInit {
       this.selectedDate = params['date']
         ? moment(params['date']).format('YYYY-MM-DD')
         : moment().format('YYYY-MM-DD'); // Default to current date
-
+        this.date.setValue(this.selectedDate); // Update FormControl
       // Fetch client details and table data
       this.fetchClientDetails(this.clientId);
       this.fetchTableData();

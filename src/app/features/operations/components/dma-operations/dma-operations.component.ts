@@ -37,7 +37,7 @@ export class DmaOperationsComponent implements OnInit {
   clients: any[] = [];
   filteredClients: any[] = [];
   clientId: number = 0;
-  selectedDate: string = '';
+  selectedDate: any = '';
   clientName:string=''; 
   showSpinner: boolean = false;
   clientForm: FormGroup;
@@ -77,9 +77,13 @@ export class DmaOperationsComponent implements OnInit {
 // Retrieve clientId and date from query parameters
     this.route.queryParams.subscribe((params) => {
       this.clientId = Number(params['clientId']) || 0;
-      this.selectedDate = params['date']
-        ? moment(params['date']).format('YYYY-MM-DD')
-        : moment().format('YYYY-MM-DD'); // Default to current date
+     this.selectedDate = params['date'] ? new Date(params['date']).toISOString() : null;
+         if (params['date']) {
+           this.selectedDate = moment(params['date'], 'YYYY-MM-DD'); // Convert to Moment object
+           this.date.setValue(this.selectedDate); // Update FormControl
+         } else {
+           this.selectedDate = moment(); // Default to current date
+         }
 
       // Fetch client details and table data
       this.fetchClientDetails(this.clientId);
@@ -109,11 +113,12 @@ export class DmaOperationsComponent implements OnInit {
 
 
   setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
-    const ctrlValue = this.dateControl.value!;
-    ctrlValue.month(normalizedMonthAndYear.month());
-    ctrlValue.year(normalizedMonthAndYear.year());
-    this.dateControl.setValue(ctrlValue);
-    datepicker.close();
+    const ctrlValue = this.date.value ?? moment();
+      ctrlValue.month(normalizedMonthAndYear.month());
+      ctrlValue.year(normalizedMonthAndYear.year());
+      this.date.setValue(ctrlValue);
+      this.selectedDate = ctrlValue.format('YYYY-MM-DD'); // Update selectedDate
+      datepicker.close();
     this.fetchTableData();
   }
 
