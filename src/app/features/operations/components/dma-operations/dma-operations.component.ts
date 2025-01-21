@@ -77,13 +77,10 @@ export class DmaOperationsComponent implements OnInit {
 // Retrieve clientId and date from query parameters
     this.route.queryParams.subscribe((params) => {
       this.clientId = Number(params['clientId']) || 0;
-     this.selectedDate = params['date'] ? new Date(params['date']).toISOString() : null;
-         if (params['date']) {
-           this.selectedDate = moment(params['date'], 'YYYY-MM-DD'); // Convert to Moment object
-           this.date.setValue(this.selectedDate); // Update FormControl
-         } else {
-           this.selectedDate = moment(); // Default to current date
-         }
+        this.selectedDate = params['date']
+             ? moment(params['date']).format('YYYY-MM-DD')
+             : moment().format('YYYY-MM-DD'); // Default to current date
+             this.date.setValue(this.selectedDate); // Update FormControl
 
       // Fetch client details and table data
       this.fetchClientDetails(this.clientId);
@@ -113,16 +110,17 @@ export class DmaOperationsComponent implements OnInit {
 
 
   setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
-    const ctrlValue = this.date.value ?? moment();
-      ctrlValue.month(normalizedMonthAndYear.month());
-      ctrlValue.year(normalizedMonthAndYear.year());
-      this.date.setValue(ctrlValue);
-      this.selectedDate = ctrlValue.format('YYYY-MM-DD'); // Update selectedDate
-      datepicker.close();
-    this.fetchTableData();
+      const ctrlValue = this.date.value ?? moment();
+        ctrlValue.month(normalizedMonthAndYear.month());
+        ctrlValue.year(normalizedMonthAndYear.year());
+        this.date.setValue(ctrlValue);
+        this.selectedDate = ctrlValue.format('YYYY-MM-DD'); // Update selectedDate
+        datepicker.close();
+        this.fetchTableData(); // Fetch table data for the new date
   }
 
   fetchTableData(): void {
+    debugger;
     // const selectedClient = this.clients.find((client) => client.organizationName === this.clientControl.value);
     // const clientId = selectedClient?.clientId || 0;
     // const date = this.dateControl.value?.format('YYYY-MM') + '-01';

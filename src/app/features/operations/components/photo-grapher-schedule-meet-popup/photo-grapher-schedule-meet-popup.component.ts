@@ -190,9 +190,15 @@ export class PhotoGrapherScheduleMeetPopupComponent implements OnInit {
       // Execute the API call
       apiCall.subscribe({
         next: (response: string) => {
-          console.log('Save Response:', response);
-          this.openAlertDialog('Success', 'Saved Successfully!');
-          this.dialogRef.close({ success: true, message: response });
+          // console.log('Save Response:', response);
+          // this.openAlertDialog('Success', 'Saved Successfully!');
+          // this.dialogRef.close({ success: true, message: response });
+          if (response === 'Success') {
+            this.openAlertDialog('Success', 'Saved Successfully!');
+            this.dialogRef.close({ success: true, message: response });
+          } else {
+            this.openAlertDialog('Error', response || 'Unexpected server response.');
+          }
         },
         error: (error: any) => {
           console.error('Error saving meeting:', error);
