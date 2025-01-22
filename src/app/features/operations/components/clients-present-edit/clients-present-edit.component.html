@@ -4,7 +4,10 @@
 <div class="form-container">
     <!-- Toolbar -->
     <mat-toolbar color="primary" style="border-radius: 10px; margin-bottom: 20px;">
-      <span>Present Client</span>
+      <button mat-icon-button  (click)="goBack()" aria-label="Back">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <span>{{this.organizationName}}</span>
     </mat-toolbar>
   
     <form [formGroup]="editForm" (ngSubmit)="onSubmit()">

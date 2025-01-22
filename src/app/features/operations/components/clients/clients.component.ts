@@ -11,7 +11,9 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./clients.component.css'],
 })
 export class ClientsComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('onboardingPaginator') onboardingPaginator!: MatPaginator;
+  @ViewChild('presentPaginator') presentPaginator!: MatPaginator;
+  @ViewChild('exitPaginator') exitPaginator!: MatPaginator;
 
   activeTab = 'onboarding'; // Default tab
   onboardingColumns = ['id', 'clientName', 'dealClosingDate', 'domain', 'category', 'ktStatus', 'city', 'edit'];
@@ -26,96 +28,81 @@ export class ClientsComponent implements OnInit {
   constructor(private router: Router, private operationsService: OperationsService) {}
 
   ngOnInit(): void {
-    const userId = +localStorage.getItem('UserID')!;
-    this.fetchOnboardingData(userId);
-    this.fetchPresentData(userId);
-    this.fetchExitData(userId);
+    this.fetchData();
   }
 
   ngAfterViewInit(): void {
-    // Assign paginator after view init
-    this.onboardingData.paginator = this.paginator;
-    this.presentData.paginator = this.paginator;
-    this.exitData.paginator = this.paginator;
+    this.bindPaginators();
   }
 
   switchTab(tab: string): void {
-    console.log('Switching to tab:', tab);
     this.activeTab = tab;
+    this.bindPaginators();
   }
 
-  fetchOnboardingData(userId: number): void {
+  bindPaginators(): void {
+    setTimeout(() => {
+      if (this.activeTab === 'onboarding') {
+        this.onboardingData.paginator = this.onboardingPaginator;
+      } else if (this.activeTab === 'present') {
+        this.presentData.paginator = this.presentPaginator;
+      } else if (this.activeTab === 'exit') {
+        this.exitData.paginator = this.exitPaginator;
+      }
+    });
+  }
+
+  fetchData(): void {
+    const userId = +localStorage.getItem('UserID')!;
     this.showSpinner = true;
-    this.operationsService.getOnboardByStatus(userId, 1).subscribe(
-      (response) => {
+
+    this.operationsService.getOnboardByStatus(userId, 1).subscribe({
+      next: (response) => {
         this.onboardingData.data = response.map((item: any) => ({
-          clientName: item.organizationName,
-          dealClosingDate: item.dealCloseDate,
-          domain: item.domain,
+          clientName: item.organizationName || 'Unknown',
+          dealClosingDate: item.dealCloseDate || 'N/A',
+          domain: item.domain || 'N/A',
           category: this.mapCategory(item.clientCategory),
           ktStatus: item.isKTCompleted ? 'Completed' : 'Pending',
-          city: item.cityName,
+          city: item.cityName || 'N/A',
           clientId: item.clientId,
         }));
         this.showSpinner = false;
       },
-      (error) => {
-        this.showSpinner = false;
-        console.error('Error fetching onboarding data:', error);
-      }
-    );
-  }
+      error: () => (this.showSpinner = false),
+    });
 
-  fetchPresentData(userId: number): void {
-    this.showSpinner = true;
-    this.operationsService.getOnboardByStatus(userId, 2).subscribe(
-      (response) => {
+    this.operationsService.getOnboardByStatus(userId, 2).subscribe({
+      next: (response) => {
         this.presentData.data = response.map((item: any) => ({
-          clientName: item.organizationName,
-          domain: item.domain,
+          clientName: item.organizationName || 'Unknown',
+          domain: item.domain || 'N/A',
           category: this.mapCategory(item.clientCategory),
-          package: item.basePackage,
+          package: item.basePackage || 'N/A',
           ktDocument: item.ktDocUrl ? 'Uploaded' : 'Pending',
-          city: item.cityName,
+          city: item.cityName || 'N/A',
           clientId: item.clientId,
         }));
-        this.showSpinner = false;
       },
-      (error) => {
-        this.showSpinner = false;
-        console.error('Error fetching present data:', error);
-      }
-    );
-  }
+    });
 
-  fetchExitData(userId: number): void {
-    this.showSpinner = true;
-    this.operationsService.getOnboardByStatus(userId, 3).subscribe(
-      (response) => {
+    this.operationsService.getOnboardByStatus(userId, 3).subscribe({
+      next: (response) => {
         this.exitData.data = response.map((item: any) => ({
-          clientName: item.organizationName,
-          domain: item.domain,
+          clientName: item.organizationName || 'Unknown',
+          domain: item.domain || 'N/A',
           category: this.mapCategory(item.clientCategory),
-          package: item.basePackage,
+          package: item.basePackage || 'N/A',
           ktDocument: item.ktDocUrl ? 'Uploaded' : 'Pending',
-          city: item.cityName,
+          city: item.cityName || 'N/A',
           clientId: item.clientId,
         }));
-        this.showSpinner = false;
       },
-      (error) => {
-        this.showSpinner = false;
-        console.error('Error fetching exit data:', error);
-      }
-    );
+    });
   }
 
   mapCategory(categoryId: number): string {
-    const categories: Record<number, string> = {
-      1: 'A',
-      2: 'B',
-      3: 'C',
-    };
+    const categories: Record<number, string> = { 1: 'A', 2: 'B', 3: 'C' };
     return categories[categoryId] || 'Unknown';
   }
 

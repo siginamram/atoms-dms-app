@@ -20,6 +20,7 @@ export interface Employee {
 export class ClientsOnboardingComponent implements OnInit {
   onboardingForm: FormGroup;
   showSpinner: boolean = false;
+  organizationName:string='';
   promotionTypes = [
     { value: 1, text: 'Branding' },
     { value: 2, text: 'Educational' },
@@ -158,6 +159,7 @@ export class ClientsOnboardingComponent implements OnInit {
   loadClientData(clientId: number) {
     this.operationsService.getclientByClientId(clientId).subscribe({
       next: (data: any) => {
+        this.organizationName=data.organizationName;
         this.showSpinner = false;
         this.onboardingForm.patchValue({
           clientName: data.organizationName,
@@ -391,6 +393,9 @@ export class ClientsOnboardingComponent implements OnInit {
   onCancel(): void {
     // Logic for cancel action, such as navigating back or resetting the form
     this.Router.navigate(['/home/operations/clients-list']); // Example: Redirect to a specific route
+  }
+  goBack(): void {
+    this.Router.navigate(['/home/operations/clients-list']); 
   }
   
 }

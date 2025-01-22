@@ -22,6 +22,7 @@ export class ClientsPresentEditComponent implements OnInit{
   editForm: FormGroup;
   showSpinner: boolean = false;
   clientId!: number;
+  organizationName:string='';
   userId = +localStorage.getItem('UserID')!
   promotionTypes = [
     { value: 1, text: 'Branding' },
@@ -125,6 +126,7 @@ export class ClientsPresentEditComponent implements OnInit{
     this.operationsService.getclientByClientId(clientId).subscribe({
       next: (data: any) => {
         this.showSpinner = false;
+        this.organizationName=data.organizationName;
         this.editForm.patchValue({
           clientName: data.clientName || data.organizationName,
           dealClosingDate: data.createdAt,
@@ -388,4 +390,8 @@ onCancel(): void {
   // Logic for cancel action, such as navigating back or resetting the form
   this.Router.navigate(['/home/operations/clients-list']); // Example: Redirect to a specific route
 }
+goBack(): void {
+  this.Router.navigate(['/home/operations/clients-list']); 
+}
+
 }
