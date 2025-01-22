@@ -1,0 +1,50 @@
+<div class="content-writer-container">
+    <!-- Toolbar -->
+    <mat-toolbar color="primary" class="toolbar" style="border-radius: 10px;">
+      <span>Clients KT Documents</span>
+    </mat-toolbar>
+  
+  
+    <!-- Table -->
+    <div class="table-container">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <!-- Serial Number Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>S.No</th>
+          <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+        </ng-container>
+  
+        <!-- Organization Name Column -->
+        <ng-container matColumnDef="organizationName">
+          <th mat-header-cell *matHeaderCellDef (click)="toggleFilter('organizationName', $event)">
+            Organization
+            <div *ngIf="activeFilter === 'organizationName'" class="column-filter-container">
+              <mat-form-field class="column-filter">
+                <input matInput [formControl]="organizationFilter" placeholder="Filter" />
+              </mat-form-field>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.organizationName }}</td>
+        </ng-container>
+
+
+        <!-- Actions Column -->
+       <ng-container matColumnDef="ktDocUrl">
+          <th mat-header-cell *matHeaderCellDef>KT Document</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-button color="accent" [disabled] ="!element?.ktDocUrl" (click)="redirectToWebsite(element)">
+              <mat-icon>visibility</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+  
+        <!-- Header and Row Definitions -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+  
+      <!-- Paginator -->
+      <mat-paginator [pageSize]="30" [pageSizeOptions]="[5, 10, 20,30]"></mat-paginator>
+    </div>
+  </div>
+  

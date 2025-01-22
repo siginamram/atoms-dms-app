@@ -137,6 +137,14 @@
         </li>
 
         <li>
+          <a [routerLink]="['/home', 'operations', 'client-kt-documents']" 
+          *ngIf="roleService.hasRole(['Manager','Team Lead','Content Writer'])"
+             routerLinkActive="active">
+            <i class="material-icons">description</i>KT Documents
+          </a>
+        </li>
+
+        <li>
           <a [routerLink]="['/home', 'employees', 'AddComponent']" 
           *ngIf="roleService.hasRole([ 'HR'])"
              routerLinkActive="active">

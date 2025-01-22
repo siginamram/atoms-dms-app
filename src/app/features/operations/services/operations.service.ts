@@ -228,4 +228,9 @@ export class OperationsService {
     };
     return this.http.post(apiUrl, payload);
   }
+
+  getKTDocumentByUserId(userId: number): Observable<any>{
+    const apiUrl = `${this.baseApiUrl}/api/Client/GetKTDocumentsByUserId/${userId}`;
+    return this.http.get(apiUrl);
+  }
 }

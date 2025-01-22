@@ -21,13 +21,14 @@ export class ClientsOnboardingComponent implements OnInit {
   onboardingForm: FormGroup;
   showSpinner: boolean = false;
   organizationName:string='';
+  ktUrl: string = '';
   promotionTypes = [
     { value: 1, text: 'Branding' },
     { value: 2, text: 'Educational' },
     { value: 3, text: 'Meme' },
     
   ];
-  
+  showPdfMessage: boolean = false;
   creativeTypes = [
     { value: 1, text: 'Poster' },
     { value: 2, text: 'Graphic Reel' },
@@ -56,7 +57,10 @@ export class ClientsOnboardingComponent implements OnInit {
   
   
   minDate: Date;
-  KtDocUpload: File | null = null;
+  KtDocUpload: { fileName: string; fileBytes: any } = {
+    fileName: '',
+    fileBytes: null
+  };
   clientId!: number;
   userId = +localStorage.getItem('UserID')!;
 
@@ -146,13 +150,24 @@ export class ClientsOnboardingComponent implements OnInit {
     });
   }
   onFileChange(event: Event): void {
-    const input = event.target as HTMLInputElement;
+    const input = event.target as HTMLInputElement
     if (input.files && input.files.length > 0) {
-      this.KtDocUpload = input.files[0];
-      console.log('Uploaded SLA File:', this.KtDocUpload.name);
+      let type =  input.files[0]?.name.split('.').pop()
+      let file = input.files[0];
+      if(type == 'pdf' && file.size < 1024*1024*2) //2mb
+      {
+        this.showPdfMessage = false;
+        var reader : FileReader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = async (result) => {
+          this.KtDocUpload.fileName = file.name;
+          this.KtDocUpload.fileBytes = result.target ? result.target['result']?.toString().split(",")[1]: '';
+        }
+      }
+      else{
+        this.showPdfMessage = true
+      }
     } else {
-      this.KtDocUpload = null;
-      console.log('No file selected');
     }
   }
   
@@ -160,6 +175,7 @@ export class ClientsOnboardingComponent implements OnInit {
     this.operationsService.getclientByClientId(clientId).subscribe({
       next: (data: any) => {
         this.organizationName=data.organizationName;
+        this.ktUrl = data.ktDocUrl;
         this.showSpinner = false;
         this.onboardingForm.patchValue({
           clientName: data.organizationName,
@@ -332,7 +348,8 @@ export class ClientsOnboardingComponent implements OnInit {
       serviceStartDate: formValue.dealClosingDate,
       isKTCompleted: formValue.ktStatus === 1,
       ktDate: formValue.ktDate,
-      ktDocUrl:'c:/file.jpg',
+      KTDocUrl: this.ktUrl, 
+      KTDocument: this.KtDocUpload,
       status: formValue.moveTostatus || 1, // Default to 1 if not provided
       paymentDate:formValue.lastDateOfService,
       isAdvReceived: formValue.isAdvReceived === 1,

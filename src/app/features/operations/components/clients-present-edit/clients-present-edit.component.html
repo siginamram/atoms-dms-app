@@ -73,6 +73,16 @@
             <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
             <mat-datepicker #picker3></mat-datepicker>
           </mat-form-field>
+
+            <!-- Document Section -->
+        <div class="form-row">
+          <div appearance="outline">
+            <label for="KtDocUpload" class="form-label">Upload KT FIle</label>
+            <a href="{{ktUrl}}" target="_blank" *ngIf="ktUrl">{{organizationName}}_KT File</a>
+            <input class="form-control" type="file" id="KtDocUpload" (change)="onFileChange($event)" >
+            <p *ngIf="showPdfMessage" style="color: red;">Accepts only pdf and should be less than 2 mb</p>
+          </div>
+        </div>
       </div>
       <h3>Resources Allocation</h3>
       <div class="form-row">

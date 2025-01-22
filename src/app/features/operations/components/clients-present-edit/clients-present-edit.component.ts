@@ -22,6 +22,7 @@ export class ClientsPresentEditComponent implements OnInit{
   editForm: FormGroup;
   showSpinner: boolean = false;
   clientId!: number;
+  showPdfMessage: boolean = false;
   organizationName:string='';
   userId = +localStorage.getItem('UserID')!
   promotionTypes = [
@@ -30,6 +31,11 @@ export class ClientsPresentEditComponent implements OnInit{
     { value: 3, text: 'Meme' },
     
   ];
+  KtDocUpload: { fileName: string; fileBytes: any } = {
+    fileName: '',
+    fileBytes: null
+  };
+  ktUrl: string = ''
   
   creativeTypes = [
     { value: 1, text: 'Poster' },
@@ -127,6 +133,7 @@ export class ClientsPresentEditComponent implements OnInit{
       next: (data: any) => {
         this.showSpinner = false;
         this.organizationName=data.organizationName;
+        this.ktUrl = data.ktDocUrl;
         this.editForm.patchValue({
           clientName: data.clientName || data.organizationName,
           dealClosingDate: data.createdAt,
@@ -301,6 +308,8 @@ export class ClientsPresentEditComponent implements OnInit{
         pendingAmount: formValue.pendingAmount,
         isPendingAmount: formValue.pendingAmountExist === 1,
         serviceEndDate: formValue.lastDateOfService,
+        ktDocUrl: this.ktUrl,
+        ktDocument: this.KtDocUpload,
         package: {
           clientID: this.clientId,
           basePackage: formValue.basePackage,
@@ -392,6 +401,28 @@ onCancel(): void {
 }
 goBack(): void {
   this.Router.navigate(['/home/operations/clients-list']); 
+}
+
+onFileChange(event: Event): void {
+  const input = event.target as HTMLInputElement
+  if (input.files && input.files.length > 0) {
+    let type =  input.files[0]?.name.split('.').pop()
+    let file = input.files[0];
+    if(type == 'pdf' && file.size < 1024*1024*2) //2mb
+    {
+      this.showPdfMessage = false;
+      var reader : FileReader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = async (result) => {
+        this.KtDocUpload.fileName = file.name;
+        this.KtDocUpload.fileBytes = result.target ? result.target['result']?.toString().split(",")[1]: '';
+      }
+    }
+    else{
+      this.showPdfMessage = true
+    }
+  } else {
+  }
 }
 
 }

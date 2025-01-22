@@ -23,6 +23,7 @@ import { DmaClientsComponent } from './components/dma-clients/dma-clients.compon
 import { AdCampaignManagementComponent } from './components/ad-campaign-management/ad-campaign-management.component';
 import { AdCampaignTrakerComponent } from './components/ad-campaign-traker/ad-campaign-traker.component';
 import { LeadApprovalHistoryComponent } from './components/lead-approvals-history/lead-approval-history/lead-approval-history.component';
+import { KtDocListComponent } from './components/kt-doc-list/kt-doc-list.component';
 
 const routes: Routes = [
   {
@@ -33,6 +34,7 @@ const routes: Routes = [
       { path: 'clients-list', component: ClientsComponent }, // Child route
       { path: 'clients-onboards/:id', component: ClientsOnboardingComponent },
       { path: 'clients-present/:id', component: ClientsPresentEditComponent },
+      { path: 'client-kt-documents', component: KtDocListComponent },
 
       { path: 'operations-content-writer', component: OperationsContentWritersComponent },
       { path: 'content-writer-client', component: ContentWritersClientsComponent },
