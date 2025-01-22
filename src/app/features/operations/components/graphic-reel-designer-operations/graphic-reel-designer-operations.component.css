@@ -21,8 +21,7 @@
   }
   
   mat-form-field {
-    flex: 1;
-    min-width: 200px;
+    min-width: 40px;
   }
   
   table {
@@ -62,3 +61,10 @@
   text-decoration: underline; /* Indicate clickable text */
   color: blue; /* Optional: Highlight on hover */
 }
+
+  .loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px; /* Adjust height as needed */
+  }

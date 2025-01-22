@@ -115,6 +115,7 @@ export class GraphicReelDesignerOperationsComponent implements OnInit {
             language:item.language,
             caption: item.contentCaption,
             contentInPost: item.contentInPost,
+            referenceDoc:item.referenceDoc,
             link: item.link,
             status: this.mapGraphicStatus(item.graphicStatus),
             relatedRemarks: item.graphicRemarks || 'No remarks',
@@ -174,6 +175,7 @@ export class GraphicReelDesignerOperationsComponent implements OnInit {
         userID: parseInt(localStorage.getItem('UserID') || '0', 10),
         caption: row.caption,
         contentInPost: row.contentInPost,
+        referenceDoc:row.referenceDoc,
       },
     });
 

@@ -64,6 +64,7 @@
       ></mat-datepicker>
     </mat-form-field>
   </div>
+  <div class="table-container">
     <!-- Table -->
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="id">
@@ -174,5 +175,6 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
       <mat-paginator [pageSize]="30" [pageSizeOptions]="[5, 10, 20,30]"></mat-paginator>
+    </div>
   </div>
   

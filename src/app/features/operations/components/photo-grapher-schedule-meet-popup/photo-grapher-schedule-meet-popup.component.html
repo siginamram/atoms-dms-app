@@ -1,5 +1,10 @@
 <div class="popup-container">
   <h2 mat-dialog-title>{{ data.isEdit ? 'Edit Shoot Scheduled' : 'Schedule Shoot' }}</h2>
+
+  <div  class="spinner" *ngIf="showSpinner">
+    <mat-spinner></mat-spinner>
+  </div>
+  
   <form [formGroup]="meetingForm" class="form-grid">
    <!-- Organization Name Field -->
    <mat-form-field appearance="outline">

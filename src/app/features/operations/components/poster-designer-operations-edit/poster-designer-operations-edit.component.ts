@@ -14,7 +14,7 @@ export class PosterDesignerOperationsEditComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<PosterDesignerOperationsEditComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { trackerID: number; link: string; contentCaption: string,contentInPost:string },
+    @Inject(MAT_DIALOG_DATA) public data: { trackerID: number; link: string; contentCaption: string,contentInPost:string,referenceDoc:string },
     private operationsService: OperationsService
   ) {}
 

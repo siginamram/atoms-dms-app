@@ -120,7 +120,7 @@ export class DmaOperationsComponent implements OnInit {
   }
 
   fetchTableData(): void {
-    debugger;
+    //debugger;
     // const selectedClient = this.clients.find((client) => client.organizationName === this.clientControl.value);
     // const clientId = selectedClient?.clientId || 0;
     // const date = this.dateControl.value?.format('YYYY-MM') + '-01';

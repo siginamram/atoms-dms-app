@@ -82,6 +82,7 @@ readonly date = new FormControl(moment().add(1, 'month').startOf('month'));
           creativeTypeId:item.creativeType,
           promotionType:this.getpromotionType(item.promotionId),
           role:'Content Writer',
+          referenceDoc:item.referenceDoc,
         }));
         this.dataSource.paginator = this.paginator;
       },

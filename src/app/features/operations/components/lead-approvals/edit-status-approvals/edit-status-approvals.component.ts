@@ -29,14 +29,14 @@ export class EditStatusApprovalsComponent implements OnInit {
     this.editForm = this.fb.group({
       contentInPost:[this.data.contentInPost],
       contentCaption:[this.data.contentCaption],
+      referenceDoc:[this.data.referenceDoc],
       status: ['', Validators.required],
       remarks: [{ value: '', disabled: true }, Validators.required]
     });
   }
   ngOnInit(): void {
     console.log('rk',this.data);
-    console.log('rk1',this.data.contentCaption);
-    console.log('rk2',this.data.contentInPost);
+    console.log('rk1',this.data.referenceDoc);
   }
   onStatusChange(value: number) {
     if (value === 4) {

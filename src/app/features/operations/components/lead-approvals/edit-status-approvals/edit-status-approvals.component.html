@@ -15,6 +15,21 @@
           <mat-label>Caption</mat-label>
           <textarea matInput formControlName="contentCaption" readonly></textarea>
         </mat-form-field>
+   <!-- Reference Doc Link -->
+   <div class="content-field" *ngIf="data.referenceDoc && data.referenceDoc !== ''; " style="padding: 20px;">
+    <label class="link-label">Reference Doc Link:</label>
+    <a
+      *ngIf="editForm.get('referenceDoc')?.value"
+      [href]="editForm.get('referenceDoc')?.value"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="url-link"
+    >
+      {{ editForm.get('referenceDoc')?.value }}
+    </a>
+    <span *ngIf="!editForm.get('referenceDoc')?.value">No URL available</span>
+  </div>
+        
       </div>
       <div class="form-row">
         <!-- Status Dropdown -->

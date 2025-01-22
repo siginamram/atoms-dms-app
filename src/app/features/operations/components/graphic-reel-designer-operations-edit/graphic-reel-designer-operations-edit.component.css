@@ -67,4 +67,13 @@
       grid-column: span 1;
     }
   }
+  .url-link {
+    text-decoration: none;
+    color: #1a73e8; /* Google-style link color */
+    font-size: 14px;
+    word-break: break-all; /* Ensure long URLs break properly */
+  }
   
+  .url-link:hover {
+    text-decoration: underline;
+  }

@@ -13,6 +13,23 @@
       {{data.contentCaption}}
     </textarea>
   </mat-form-field>
+  <!-- Reference Doc Link -->
+<div class="content-field" *ngIf="data.referenceDoc && data.referenceDoc !== ''" style="padding: 20px;">
+  <label class="link-label">Reference Doc Link:</label>
+  <a
+    [href]="data.referenceDoc"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="url-link"
+  >
+    {{ data.referenceDoc }}
+  </a>
+</div>
+<!-- <div class="content-field" *ngIf="!data.referenceDoc || data.referenceDoc === ''">
+  <label class="link-label">Reference Doc Link:</label>
+  <span>No URL available</span>
+</div> -->
+
   <!-- Update Design Link Field -->
   <mat-form-field appearance="outline" class="dialog-field">
     <mat-label>Update Design Link</mat-label>

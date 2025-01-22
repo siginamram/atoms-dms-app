@@ -120,6 +120,7 @@ export class PosterDesignerOperationsComponent implements OnInit {
             language:item.language,
             caption: item.contentCaption,
             contentInPost: item.contentInPost,
+            referenceDoc: item.referenceDoc,
             link: item.link,
             status: this.mapGraphicStatus(item.graphicStatus),
             relatedRemarks: item.graphicRemarks || 'No remarks',
@@ -178,7 +179,8 @@ export class PosterDesignerOperationsComponent implements OnInit {
         trackerID: row.monthlyTrackerId,
         userID: parseInt(localStorage.getItem('UserID') || '0', 10),
         contentInPost:row.contentInPost,
-        contentCaption:row.caption
+        contentCaption:row.caption,
+        referenceDoc: row.referenceDoc,
       },
     });
 

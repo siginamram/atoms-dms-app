@@ -31,6 +31,8 @@ export class DmaOperationsEditComponent implements OnInit {
     this.isFirstCase = data.isFirstCase; // Determine case based on the flag
     this.editForm = this.fb.group({
       monthlyTrackerId: [data.meetingData?.monthlyTrackerId || 0, Validators.required],
+      contentCaption:[data.meetingData?.contentCaption || null],
+      link:[data.meetingData?.link || null],
       scheduleDate: [data.meetingData?.postScheduleOn || null],
       status: [data.meetingData?.postStatus || 3, Validators.required],
       postedOn: [data.meetingData?.postedOn || null],

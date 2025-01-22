@@ -17,6 +17,7 @@ export class PhotoGrapherScheduleMeetPopupComponent implements OnInit {
   startTimeOptions: string[] = [];
   clients: any[] = [];
   filteredClients: any[] = [];
+  showSpinner: boolean = false;
   disableStatus = false; // Disable meeting status for Add
   showAdditionalFields = false; // Control visibility of additional fields for 'Completed'
   today: Date = new Date(); 
@@ -145,6 +146,7 @@ export class PhotoGrapherScheduleMeetPopupComponent implements OnInit {
 
   save(): void {
     if (this.meetingForm.valid) {
+      this.showSpinner = true;
       const formData = this.meetingForm.value;
       const userId = parseInt(localStorage.getItem('UserID') || '0', 10); // Get the userId from localStorage
   
@@ -194,13 +196,16 @@ export class PhotoGrapherScheduleMeetPopupComponent implements OnInit {
           // this.openAlertDialog('Success', 'Saved Successfully!');
           // this.dialogRef.close({ success: true, message: response });
           if (response === 'Success') {
+            this.showSpinner = false;
             this.openAlertDialog('Success', 'Saved Successfully!');
             this.dialogRef.close({ success: true, message: response });
           } else {
+            this.showSpinner = false;
             this.openAlertDialog('Error', response || 'Unexpected server response.');
           }
         },
         error: (error: any) => {
+          this.showSpinner = false;
           console.error('Error saving meeting:', error);
           //this.dialogRef.close({ success: false, message: 'Failed to save meeting' });
           this.openAlertDialog('Error', 'Already have an Scheduled shoot.');
@@ -208,6 +213,7 @@ export class PhotoGrapherScheduleMeetPopupComponent implements OnInit {
       });
     } else {
       console.error('Form is invalid');
+      this.showSpinner = false;
       this.openAlertDialog('Error', 'Please fill all required fields correctly.');
       //this.dialogRef.close({ success: false, message: 'Invalid form data' });
     }

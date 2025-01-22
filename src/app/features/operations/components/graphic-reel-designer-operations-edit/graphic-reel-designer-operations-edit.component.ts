@@ -14,7 +14,7 @@ export class GraphicReelDesignerOperationsEditComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     public dialogRef: MatDialogRef<GraphicReelDesignerOperationsEditComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { trackerID: number; link: string; caption: string,contentInPost:string },
+    @Inject(MAT_DIALOG_DATA) public data: { trackerID: number; link: string; caption: string,contentInPost:string,referenceDoc:string },
     private operationsService: OperationsService
   ) {}
 
