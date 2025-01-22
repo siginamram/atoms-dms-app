@@ -172,6 +172,8 @@ export class GraphicReelDesignerOperationsComponent implements OnInit {
       data: {
         trackerID: row.monthlyTrackerId,
         userID: parseInt(localStorage.getItem('UserID') || '0', 10),
+        caption: row.caption,
+        contentInPost: row.contentInPost,
       },
     });
 

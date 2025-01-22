@@ -1,5 +1,18 @@
 <h1 mat-dialog-title class="dialog-title">Update Design</h1>
 <div mat-dialog-content class="dialog-content" style="padding-top: 20px;">
+  <mat-form-field appearance="outline" class="content-field">
+    <mat-label>Content In Post</mat-label>
+    <textarea matInput formControlName="contentInPost" readonly>
+      {{data.contentInPost}}
+    </textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="content-field">
+    <mat-label>Caption</mat-label>
+    <textarea matInput formControlName="contentCaption" readonly>
+      {{data.contentCaption}}
+    </textarea>
+  </mat-form-field>
   <!-- Update Design Link Field -->
   <mat-form-field appearance="outline" class="dialog-field">
     <mat-label>Update Design Link</mat-label>

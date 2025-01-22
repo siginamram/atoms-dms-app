@@ -38,6 +38,7 @@ export class PosterDesignerOperationsComponent implements OnInit {
   selectedDate: any = '';
   creativeType: number = 1; // Default creativeType
   clientName:string=''; 
+  isLoading = false; // Initially set to true
   clientForm: FormGroup;
   displayedColumns: string[] = [
    'id',
@@ -86,12 +87,14 @@ export class PosterDesignerOperationsComponent implements OnInit {
     this.contentData.paginator = this.paginator; // Assign paginator after view initialization
   }
   fetchClientDetails(clientId: number): void {
+    this.isLoading = true;
     this.operationsService.getclientByClientId(clientId).subscribe({
       next: (response) => {
         if (response?.organizationName) {
           this.clientForm.patchValue({ clientName: response.organizationName });
           this.clientName=response.organizationName;
         }
+        this.isLoading = false;
       },
       error: (error) => console.error('Error fetching client details:', error),
     });
@@ -174,6 +177,8 @@ export class PosterDesignerOperationsComponent implements OnInit {
       data: {
         trackerID: row.monthlyTrackerId,
         userID: parseInt(localStorage.getItem('UserID') || '0', 10),
+        contentInPost:row.contentInPost,
+        contentCaption:row.caption
       },
     });
 

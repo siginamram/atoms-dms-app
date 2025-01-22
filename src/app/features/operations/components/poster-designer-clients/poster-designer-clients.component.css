@@ -81,3 +81,10 @@
     border: 1px solid #ddd; /* Optional: Add a subtle border */
     border-radius: 8px; /* Optional: Rounded corners */
   }
+
+  .loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px; /* Adjust height as needed */
+  }

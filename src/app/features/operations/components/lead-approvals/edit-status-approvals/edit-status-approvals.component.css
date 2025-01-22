@@ -15,7 +15,15 @@
   .form-field {
     width: 100%;
   }
-  
+    /* For Fields that Span Two Columns */
+    .content-field {
+      grid-column: span 2;
+    }
+    
+    /* Material Form Fields */
+    mat-form-field {
+      width: 100%;
+    }
   .form-actions {
     display: flex;
     justify-content: flex-end;

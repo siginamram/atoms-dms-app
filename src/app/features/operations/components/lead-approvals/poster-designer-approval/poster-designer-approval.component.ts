@@ -133,8 +133,17 @@ export class PosterDesignerApprovalComponent implements OnInit {
     this.dataSource.filter = Math.random().toString();
   }
 
-  toggleFilter(column: string, event: Event): void {
-    event.stopPropagation();
+  toggleFilter(column: string, event?: MouseEvent): void {
+    // Check if the clicked element is part of the filter input
+    if (
+      event?.target instanceof HTMLElement &&
+      event.target.closest('.column-filter-container') &&
+      this.activeFilter === column
+    ) {
+      return; // Do nothing if clicking inside the filter container
+    }
+
+    // Toggle the filter visibility for the clicked column
     this.activeFilter = this.activeFilter === column ? null : column;
   }
 

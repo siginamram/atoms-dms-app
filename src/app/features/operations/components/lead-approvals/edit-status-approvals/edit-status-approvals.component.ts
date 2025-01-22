@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { OperationsService } from '../../../services/operations.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -11,7 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './edit-status-approvals.component.html',
   styleUrls: ['./edit-status-approvals.component.css']
 })
-export class EditStatusApprovalsComponent {
+export class EditStatusApprovalsComponent implements OnInit {
   editForm: FormGroup;
   statusOptions = [
     { value: 4, text: 'Changes recommended' },
@@ -27,11 +27,17 @@ export class EditStatusApprovalsComponent {
     @Inject(MAT_DIALOG_DATA) public data: any // Role passed dynamically
   ) {
     this.editForm = this.fb.group({
+      contentInPost:[this.data.contentInPost],
+      contentCaption:[this.data.contentCaption],
       status: ['', Validators.required],
       remarks: [{ value: '', disabled: true }, Validators.required]
     });
   }
-
+  ngOnInit(): void {
+    console.log('rk',this.data);
+    console.log('rk1',this.data.contentCaption);
+    console.log('rk2',this.data.contentInPost);
+  }
   onStatusChange(value: number) {
     if (value === 4) {
       this.editForm.get('remarks')?.enable();

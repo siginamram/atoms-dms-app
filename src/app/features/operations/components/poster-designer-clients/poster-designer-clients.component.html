@@ -18,7 +18,10 @@
       </mat-datepicker>
     </mat-form-field>
   </div>
-
+    <!-- Loader -->
+    <div class="loader-container" *ngIf="isLoading">
+      <mat-spinner></mat-spinner>
+    </div>
   <!-- Table -->
   <div class="table-container">
     <table mat-table [dataSource]="dataSource1" class="mat-elevation-z8">

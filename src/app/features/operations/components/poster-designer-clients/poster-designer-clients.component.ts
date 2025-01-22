@@ -33,6 +33,7 @@ export const MY_FORMATS = {
 export class PosterDesignerClientsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   selectedDate:any='';
+  isLoading = false; // Initially set to true
   dataSource1 = new MatTableDataSource<any>([]);
   displayedColumns: string[] = [
     'id',
@@ -62,6 +63,7 @@ export class PosterDesignerClientsComponent implements OnInit {
     this.dataSource1.paginator = this.paginator; // Assign paginator after view initialization
   }
   fetchClients(): void {
+    this.isLoading = true;
     this.selectedDate = this.date.value?.format('YYYY-MM') + '-01'; // Format date as YYYY-MM-DD
     if (!this.selectedDate || !this.userId) {
       console.warn('Missing date or userId');
@@ -75,8 +77,10 @@ export class PosterDesignerClientsComponent implements OnInit {
           ...client,
           id: index + 1, // Add serial number dynamically
         }));
+        this.isLoading = false;
       },
       error: (error) => {
+        this.isLoading = false;
         console.error('Error fetching clients:', error);
         this.dataSource1.data = []; // Clear table on error
       },

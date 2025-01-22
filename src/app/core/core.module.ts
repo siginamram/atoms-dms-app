@@ -6,6 +6,7 @@ import { HomeComponent } from './components/home/home/home.component';
 import { LeftMenuComponent } from './components/left-menu/left-menu.component';
 import { RouterModule } from '@angular/router'; // Import RouterModule
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [
     CommonModule,
     RouterModule ,// Add RouterModule here
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule,
   ],
   exports: [
     HomeComponent,
