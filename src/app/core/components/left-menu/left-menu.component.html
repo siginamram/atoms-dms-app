@@ -66,6 +66,13 @@
           </a>
         </li>
         <li>
+          <a [routerLink]="['/home', 'operations', 'content-writer-calender-export']" 
+             *ngIf="roleService.hasRole(['Manager','Team Lead','Content Writer'])" 
+             routerLinkActive="active">
+            <i class="material-icons">event</i>Calendar Export
+          </a>
+        </li>
+        <li>
           <a [routerLink]="['/home', 'operations', 'lead-approvals']" 
              *ngIf="roleService.hasRole(['Manager','Team Lead'])" 
              routerLinkActive="active">
@@ -282,6 +289,21 @@
          *ngIf="roleService.hasRole(['Manager','Team Lead'])" 
          routerLinkActive="active">
         <i class="material-icons">history</i>Approvals History
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['/home', 'operations', 'client-kt-documents']" 
+      *ngIf="roleService.hasRole(['Manager','Team Lead','Content Writer'])"
+         routerLinkActive="active">
+        <i class="material-icons">description</i>KT Documents
+      </a>
+    </li>
+
+    <li>
+      <a [routerLink]="['/home', 'operations', 'content-writer-calender-export']" 
+         *ngIf="roleService.hasRole(['Manager','Team Lead','Content Writer'])" 
+         routerLinkActive="active">
+        <i class="material-icons">event</i>Calendar Export
       </a>
     </li>
     <!-- <li class="dropdown" [class.active]="isDropdownActive['task']" (click)="toggleDropdown('task')">

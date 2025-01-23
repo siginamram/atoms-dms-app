@@ -24,6 +24,7 @@ import { AdCampaignManagementComponent } from './components/ad-campaign-manageme
 import { AdCampaignTrakerComponent } from './components/ad-campaign-traker/ad-campaign-traker.component';
 import { LeadApprovalHistoryComponent } from './components/lead-approvals-history/lead-approval-history/lead-approval-history.component';
 import { KtDocListComponent } from './components/kt-doc-list/kt-doc-list.component';
+import { ContentWritersCalendarExportComponent } from './components/content-writers-calendar-export/content-writers-calendar-export.component';
 
 const routes: Routes = [
   {
@@ -38,6 +39,7 @@ const routes: Routes = [
 
       { path: 'operations-content-writer', component: OperationsContentWritersComponent },
       { path: 'content-writer-client', component: ContentWritersClientsComponent },
+      { path: 'content-writer-calender-export', component: ContentWritersCalendarExportComponent },
 
       { path: 'operations-poster-designer', component: PosterDesignerOperationsComponent },
       { path: 'poster-designer-client', component: PosterDesignerClientsComponent },

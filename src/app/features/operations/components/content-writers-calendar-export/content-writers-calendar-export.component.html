@@ -1,0 +1,137 @@
+<div class="content-container">
+    <!-- Toolbar -->
+    <mat-toolbar color="primary" class="toolbar" style="border-radius: 10px;">
+      <span>Client Calendar Export</span>
+      <span class="spacer"></span>
+    </mat-toolbar>
+  
+    <!-- Export Buttons -->
+    <div class="export-buttons" style="display: flex; justify-content: flex-end; margin: 10px 0;">
+      <button mat-raised-button color="primary" (click)="exportToExcel()" style="margin-right: 10px;">Export to Excel</button>
+      <button mat-raised-button color="accent" (click)="exportToPDF()">Export to PDF</button>
+    </div>
+  
+    <!-- Filters -->
+    <div class="filters-container" style="display: flex; gap: 20px; margin-bottom: 20px;">
+      <!-- Client Autocomplete -->
+      <mat-form-field appearance="outline" >
+        <mat-label>Client</mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="Search Client"
+          [(ngModel)]="selectedClientName"
+          [matAutocomplete]="auto"
+          (input)="filterClients($event)"
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="onClientSelected($event)"
+        >
+          <mat-option
+            *ngFor="let client of filteredClients"
+            [value]="client.organizationName"
+          >
+            {{ client.organizationName }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+  
+      <!-- Month and Year Picker -->
+      <mat-form-field appearance="outline" >
+        <mat-label>Month and Year</mat-label>
+        <input
+          matInput
+          [matDatepicker]="dp"
+          [formControl]="date"
+          placeholder="MM/YYYY"
+          readonly
+        />
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker
+          #dp
+          startView="multi-year"
+          (monthSelected)="setMonthAndYear($event, dp)"
+          panelClass="example-month-picker"
+        ></mat-datepicker>
+      </mat-form-field>
+    </div>
+  
+    <!-- Loading Spinner -->
+    <div class="spinner" *ngIf="showSpinner" style="text-align: center; margin: 20px;">
+      <mat-spinner></mat-spinner>
+    </div>
+  
+    <!-- Table -->
+    <div class="table-container" style="margin-top: 20px;">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%;">
+        <!-- S.No Column -->
+        <ng-container matColumnDef="sno">
+          <th mat-header-cell *matHeaderCellDef>S.No</th>
+          <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+        </ng-container>
+  
+        <!-- Speciality Column -->
+        <ng-container matColumnDef="speciality">
+          <th mat-header-cell *matHeaderCellDef>Speciality</th>
+          <td mat-cell *matCellDef="let row">{{ row.speciality }}</td>
+        </ng-container>
+  
+        <!-- Creative Type Column -->
+        <ng-container matColumnDef="creativeType">
+          <th mat-header-cell *matHeaderCellDef>Creative Type</th>
+          <td mat-cell *matCellDef="let row">{{ row.creativeType }}</td>
+        </ng-container>
+  
+        <!-- Promotion Type Column -->
+        <ng-container matColumnDef="promotionType">
+          <th mat-header-cell *matHeaderCellDef>Promotion Type</th>
+          <td mat-cell *matCellDef="let row">{{ row.promotionType }}</td>
+        </ng-container>
+  
+        <!-- Language Column -->
+        <ng-container matColumnDef="language">
+          <th mat-header-cell *matHeaderCellDef>Language</th>
+          <td mat-cell *matCellDef="let row">{{ row.language }}</td>
+        </ng-container>
+  
+        <!-- Caption Column -->
+        <ng-container matColumnDef="contentCaption">
+          <th mat-header-cell *matHeaderCellDef>Caption</th>
+          <td mat-cell *matCellDef="let row">
+            <div class="truncated-cell" (click)="showFullText(row.contentCaption, 'Caption')">
+              {{ row.contentCaption | slice: 0:10 }}...
+            </div>
+          </td>
+        </ng-container>
+  
+        <!-- Content In Post Column -->
+        <ng-container matColumnDef="contentInPost">
+          <th mat-header-cell *matHeaderCellDef>Content In Post</th>
+          <td mat-cell *matCellDef="let row">
+            <div class="truncated-cell" (click)="showFullText(row.contentInPost, 'Content In Post')">
+              {{ row.contentInPost | slice: 0:10 }}...
+            </div>
+          </td>
+        </ng-container>
+  
+        <!-- Popup Dialog -->
+        <ng-template #fullTextDialog let-dialogData>
+          <h2 mat-dialog-title>{{ dialogData.title }}</h2>
+          <mat-dialog-content>
+            <p>{{ dialogData.text }}</p>
+          </mat-dialog-content>
+          <mat-dialog-actions>
+            <button mat-button mat-dialog-close>Close</button>
+          </mat-dialog-actions>
+        </ng-template>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+  
+      <!-- Paginator -->
+      <mat-paginator [pageSize]="30" [pageSizeOptions]="[5, 10, 20, 30]" style="margin-top: 20px;"></mat-paginator>
+    </div>
+  </div>
+  
