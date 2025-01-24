@@ -5,11 +5,14 @@
       <span class="spacer"></span>
     </mat-toolbar>
   
-    <!-- Export Buttons -->
-    <div class="export-buttons" style="display: flex; justify-content: flex-end; margin: 10px 0;">
-      <button mat-raised-button color="primary" (click)="exportToExcel()" style="margin-right: 10px;">Export to Excel</button>
-      <button mat-raised-button color="accent" (click)="exportToPDF()">Export to PDF</button>
-    </div>
+<!-- Export Buttons -->
+<div 
+  class="export-buttons" 
+  style="display: flex; justify-content: flex-end; margin: 10px 0;" 
+  *ngIf="this.tabledata.length > 0">
+  <button mat-raised-button color="primary" (click)="exportToExcel()" style="margin-right: 10px;">Export to Excel</button>
+  <button mat-raised-button color="accent" (click)="exportToPDF()">Export to PDF</button>
+</div>
   
     <!-- Filters -->
     <div class="filters-container" style="display: flex; gap: 20px; margin-bottom: 20px;">

@@ -42,6 +42,7 @@ export class ContentWritersCalendarExportComponent  implements OnInit {
   readonly date = new FormControl(moment());
   userId: number = parseInt(localStorage.getItem('UserID') || '0', 10); 
   dataSource = new MatTableDataSource<any>([]);
+  tabledata:any[] = [];
   clients: any[] = [];
   filteredClients: any[] = [];
   selectedClientName: string = '';
@@ -123,6 +124,7 @@ export class ContentWritersCalendarExportComponent  implements OnInit {
     this.showSpinner = true; // Start loading indicator
     this.operationsService.getMonthlyTrackerData(selectedClient.clientId, formattedDate, 0).subscribe({
       next: (response) => {
+        this.tabledata=response;
         this.dataSource.data = response.map((item: any) => ({
           ...item,
           day: new Date(item.date).toLocaleDateString('en-US', { weekday: 'long' }),
