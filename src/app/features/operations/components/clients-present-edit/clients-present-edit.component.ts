@@ -242,7 +242,7 @@ export class ClientsPresentEditComponent implements OnInit{
       }
     }
   
-    addVideoDeliverable(videodeliverable: any = {  creativeType: '' , priority1:'' , priority2:'', priority3:'', priority4:'' , priority5:'', priority6:''}) {
+    addVideoDeliverable(videodeliverable: any = {  creativeType: '' , priority1:'' , priority2:'', priority3:'', priority4:'' , priority5:'', priority6:'', priority7:''}) {
       const newRow = this.fb.group({
         creativeType: [videodeliverable.creativeType, Validators.required],
         priority1:[videodeliverable.priority1,Validators.required],
@@ -251,6 +251,7 @@ export class ClientsPresentEditComponent implements OnInit{
         priority4:[videodeliverable.priority4,Validators.required],
         priority5:[videodeliverable.priority5,Validators.required],
         priority6:[videodeliverable.priority6,Validators.required],
+        priority7:[videodeliverable.priority7,Validators.required],
       });
       this.videodeliverablesArray.push(newRow);
     }
@@ -259,14 +260,14 @@ export class ClientsPresentEditComponent implements OnInit{
       return this.editForm.get('videodeliverables') as FormArray<FormGroup>;
     }
   
-    removeVideoDeliverable(index: number): void {
-      if (index >= 0 && index < this.videodeliverablesArray.length) {
-        this.videodeliverablesArray.removeAt(index);
-        console.log('Deliverable Removed:', this.videodeliverablesArray.value);
-      }
-    }
+    // removeVideoDeliverable(index: number): void {
+    //   if (index >= 0 && index < this.videodeliverablesArray.length) {
+    //     this.videodeliverablesArray.removeAt(index);
+    //     console.log('Deliverable Removed:', this.videodeliverablesArray.value);
+    //   }
+    // }
   
-    addprioritydeliverables(prioritydeliverables: any = {  creativeType: '',promotionType:'' , priority1:'' , priority2:'', priority3:'', priority4:'' , priority5:'', priority6:''}) {
+    addprioritydeliverables(prioritydeliverables: any = {  creativeType: '',promotionType:'' , priority1:'' , priority2:'', priority3:'', priority4:'' , priority5:'', priority6:'', priority7:''}) {
       const newRow = this.fb.group({
         creativeType: [prioritydeliverables.creativeType, Validators.required],
         promotionType: [prioritydeliverables.promotionType, Validators.required],
@@ -276,6 +277,7 @@ export class ClientsPresentEditComponent implements OnInit{
         priority4:[prioritydeliverables.priority4,Validators.required],
         priority5:[prioritydeliverables.priority5,Validators.required],
         priority6:[prioritydeliverables.priority6,Validators.required],
+        priority7:[prioritydeliverables.priority7,Validators.required],
       });
       this.prioritydeliverablesArray.push(newRow);
     }
@@ -346,6 +348,7 @@ export class ClientsPresentEditComponent implements OnInit{
           priority4:deliverable.priority4,
           priority5:deliverable.priority5,
           priority6:deliverable.priority6,
+          priority7:deliverable.priority7,
   
         })),
         clientDeliverablesPriorities: this.prioritydeliverablesArray.value.map((deliverable: any) => ({
@@ -357,6 +360,7 @@ export class ClientsPresentEditComponent implements OnInit{
           priority4:deliverable.priority4,
           priority5:deliverable.priority5,
           priority6:deliverable.priority6,
+          priority7:deliverable.priority7,
   
         })),
       };
