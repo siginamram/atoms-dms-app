@@ -52,7 +52,8 @@ export class SlaGenerationAddComponent implements OnInit {
       youtube: [false],
       google: [false],
       others: [false],
-      otherPlatforms: [''], // Store the value of the "Other Platforms" field
+      otherPlatforms: [''],
+      isGSTApplicable:[false] // Store the value of the "Other Platforms" field
     });
 
     // Dynamically validate "Other Platforms" field based on "others" checkbox
@@ -109,6 +110,7 @@ export class SlaGenerationAddComponent implements OnInit {
           google: data.package?.smGoogle || false,
           others: data.package?.smOthers || false,
           otherPlatforms: data.package?.smOthersText || '',
+          isGSTApplicable: data.package?.isGSTApplicable || false
         });
         this.showSpinner = false;
       },
@@ -146,6 +148,7 @@ export class SlaGenerationAddComponent implements OnInit {
         smGoogle : formData.google,
         smOthers: formData.others,
         smOthersText: formData.otherPlatforms || '',
+        isGSTApplicable: formData.isGSTApplicable 
       },
       advancePaymentStatus: 1,
       salesPersonDesignation: this.salesPersonDesignation,
@@ -191,6 +194,7 @@ export class SlaGenerationAddComponent implements OnInit {
           smGoogle : formData.google,
           smOthers: formData.others,
           smOthersText: formData.otherPlatforms || '',
+          isGSTApplicable: formData.isGSTApplicable 
         },
         advancePaymentStatus: 1,
       };

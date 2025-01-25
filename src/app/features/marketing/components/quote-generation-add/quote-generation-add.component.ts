@@ -168,6 +168,7 @@ export class QuoteGenerationAddComponent implements OnInit {
         chargePerVisit: [0, Validators.pattern('^[0-9]*\.?[0-9]+$')],
       }),
       requiredToDedicateAdditionalAdBudget: [true],
+      isGSTApplicable: [true],
       noSCForAdCMUpto: [0, Validators.pattern('^[0-9]*\.?[0-9]+$')] 
     });
   }
@@ -318,8 +319,8 @@ export class QuoteGenerationAddComponent implements OnInit {
             chargePerVisit: data.leadPackage?.chargesPerVisit || 0,
           },
           noSCForAdCMUpto: data.leadPackage?.noSCForAdCMUpto || 0,
-          requiredToDedicateAdditionalAdBudget: data.leadPackage?.requiredToDedicateAdditionalAdBudget || false
-          
+          requiredToDedicateAdditionalAdBudget: data.leadPackage?.requiredToDedicateAdditionalAdBudget || false,
+          isGSTApplicable : data.leadPackage?.isGSTApplicable || false
         });
         this.showSpinner = false;
       },
@@ -455,6 +456,7 @@ export class QuoteGenerationAddComponent implements OnInit {
         adBudget: this.leadForm.get('monthlyDeliverables.campaignBudget')?.value,
         noSCForAdCMUpto: this.leadForm.get('noSCForAdCMUpto')?.value, // Default value if not in form
         requiredToDedicateAdditionalAdBudget: this.leadForm.get('requiredToDedicateAdditionalAdBudget')?.value, // Default value or from form
+        isGSTApplicable: this.leadForm.get('isGSTApplicable')?.value
       },
       marketingStrategies: {
         leadID: this.leadID,
@@ -534,6 +536,7 @@ export class QuoteGenerationAddComponent implements OnInit {
           adBudget: this.leadForm.get('monthlyDeliverables.campaignBudget')?.value,
           noSCForAdCMUpto: this.leadForm.get('noSCForAdCMUpto')?.value, // Default value if not in form
           requiredToDedicateAdditionalAdBudget: this.leadForm.get('requiredToDedicateAdditionalAdBudget')?.value, // Default value or from form
+          isGSTApplicable: this.leadForm.get('isGSTApplicable')?.value
         },
         marketingStrategies: {
           leadID: this.leadID,
