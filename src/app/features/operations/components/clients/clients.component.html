@@ -42,7 +42,13 @@
       </ng-container>
 
       <ng-container matColumnDef="clientName">
-        <th mat-header-cell *matHeaderCellDef> Name of the Client </th>
+        <th mat-header-cell *matHeaderCellDef  (click)="toggleFilter('clientName', $event)"> Name of the Client 
+          <div *ngIf="activeFilter === 'clientName'" class="column-filter-container">
+            <mat-form-field class="column-filter">
+              <input matInput [formControl]="clientNameFilter" placeholder="Filter" />
+            </mat-form-field>
+          </div>
+        </th>
         <td mat-cell *matCellDef="let element"> {{ element.clientName }} </td>
       </ng-container>
 

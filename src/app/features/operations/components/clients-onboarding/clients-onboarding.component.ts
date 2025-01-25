@@ -97,12 +97,12 @@ export class ClientsOnboardingComponent implements OnInit {
       advAmount: ['', Validators.required],
       advanceDate: ['', Validators.required],
       teamLeader: [null, Validators.required],
-      contentWriter: [null, Validators.required],
-      posterDesigner: [null, Validators.required],
-      photographer: [null, Validators.required],
-      videoEditor1: [null, Validators.required],
-      videoEditor2: [null, Validators.required],
-      dma: [null, Validators.required],
+      contentWriter: [null],
+      posterDesigner: [null],
+      photographer: [null],
+      videoEditor1: [null],
+      videoEditor2: [null],
+      dma: [null],
       loginCredentials: ['', Validators.required],
       posterDesigns: [''],
       graphicReels: [''],
@@ -418,5 +418,40 @@ export class ClientsOnboardingComponent implements OnInit {
   goBack(): void {
     this.Router.navigate(['/home/operations/clients-list']); 
   }
+
+  clearContentWriter(){
+    this.onboardingForm.patchValue({
+      contentWriter : null
+    })
+  }
+
+  clearPosterDesigner(){
+    this.onboardingForm.patchValue({
+      posterDesigner : null
+    })
+  }
+
+  clearPhotographer(){
+    this.onboardingForm.patchValue({
+      photographer : null
+    })
+  }
+
+  clearVideoEditor1(){
+    this.onboardingForm.patchValue({
+      videoEditor1 : null
+    })
+  }
+
+  clearVideoEditor2(){
+    this.onboardingForm.patchValue({
+      videoEditor2 : null
+    })
+  }
   
+  clearDMA(){
+    this.onboardingForm.patchValue({
+      dma : null
+    })
+  }
 }

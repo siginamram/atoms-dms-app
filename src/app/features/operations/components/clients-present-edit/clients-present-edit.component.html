@@ -103,6 +103,15 @@
               {{ option.empname }}
             </mat-option>
           </mat-select>
+          <button type="button"
+          mat-icon-button
+          matSuffix
+          *ngIf ="editForm.controls['contentWriter'].value"
+          (click) = "clearContentWriter()"
+          class="clear-button"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
         </mat-form-field>
 
         <mat-form-field class="form-field" appearance="outline">
@@ -112,6 +121,15 @@
               {{ option.empname }}
             </mat-option>
           </mat-select>
+          <button type="button"
+          mat-icon-button
+          matSuffix
+          *ngIf ="editForm.controls['posterDesigner'].value"
+          (click) = "clearPosterDesigner()"
+          class="clear-button"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
         </mat-form-field>
       </div>
   
@@ -124,6 +142,15 @@
             {{ option.empname }}
           </mat-option>
         </mat-select>
+        <button type="button"
+        mat-icon-button
+        matSuffix
+        *ngIf ="editForm.controls['photographer'].value"
+        (click) = "clearPhotographer()"
+        class="clear-button"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
       </mat-form-field>
 
       <mat-form-field class="form-field" appearance="outline">
@@ -133,6 +160,15 @@
             {{ option.empname }}
           </mat-option>
         </mat-select>
+        <button type="button"
+        mat-icon-button
+        matSuffix
+        *ngIf ="editForm.controls['videoEditor1'].value"
+        (click) = "clearVideoEditor1()"
+        class="clear-button"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
       </mat-form-field>
 
       <mat-form-field class="form-field" appearance="outline">
@@ -142,6 +178,15 @@
             {{ option.empname }}
           </mat-option>
         </mat-select>
+        <button type="button"
+        mat-icon-button
+        matSuffix
+        *ngIf ="editForm.controls['videoEditor2'].value"
+        (click) = "clearVideoEditor2()"
+        class="clear-button"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
       </mat-form-field>
 
         <mat-form-field class="form-field" appearance="outline">
@@ -151,6 +196,15 @@
               {{ option.empname }}
             </mat-option>
           </mat-select>
+          <button type="button"
+          mat-icon-button
+          matSuffix
+          *ngIf ="editForm.controls['dma'].value"
+          (click) = "clearDMA()"
+          class="clear-button"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
         </mat-form-field>
       </div>
    

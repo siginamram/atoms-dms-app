@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { OperationsService } from '../../services/operations.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-clients',
@@ -20,7 +21,8 @@ export class ClientsComponent implements OnInit {
   presentColumns = ['id', 'clientName', 'domain', 'category', 'package', 'ktDocument', 'city', 'edit'];
   exitColumns = ['id', 'clientName', 'domain', 'category', 'package', 'ktDocument', 'city'];
   showSpinner: boolean = false;
-
+  activeFilter: string | null = null;
+  clientNameFilter = new FormControl('');
   onboardingData = new MatTableDataSource<any>();
   presentData = new MatTableDataSource<any>();
   exitData = new MatTableDataSource<any>();
@@ -29,6 +31,7 @@ export class ClientsComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchData();
+    this.clientNameFilter.valueChanges.subscribe(() => this.applyFilter());
   }
 
   ngAfterViewInit(): void {
@@ -115,4 +118,28 @@ export class ClientsComponent implements OnInit {
     this.router.navigate([`/home/operations/clients-present/${client}`]);
     console.log('Edit Present Client:', client);
   }
+
+  toggleFilter(column: string, event?: MouseEvent): void {
+    // Check if the clicked element is part of the filter input
+    if (
+      event?.target instanceof HTMLElement &&
+      event.target.closest('.column-filter-container') &&
+      this.activeFilter === column
+    ) {
+      return; // Do nothing if clicking inside the filter container
+    }
+
+    // Toggle the filter visibility for the clicked column
+    this.activeFilter = this.activeFilter === column ? null : column;
+  }
+
+  applyFilter(): void {
+    const organization = this.clientNameFilter.value?.toLowerCase() || '';
+
+    this.onboardingData.filterPredicate = (data: any) =>
+      (!organization || data.clientName?.toLowerCase().includes(organization));
+
+    this.onboardingData.filter = Math.random().toString(); // Trigger filter refresh
+  }
+
 }
