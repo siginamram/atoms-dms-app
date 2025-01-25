@@ -67,7 +67,7 @@
         </li>
         <li>
           <a [routerLink]="['/home', 'operations', 'content-writer-calender-export']" 
-             *ngIf="roleService.hasRole(['Manager','Team Lead','Content Writer'])" 
+             *ngIf="roleService.hasRole(['Content Writer'])" 
              routerLinkActive="active">
             <i class="material-icons">event</i>Calendar Export
           </a>
@@ -301,7 +301,7 @@
 
     <li>
       <a [routerLink]="['/home', 'operations', 'content-writer-calender-export']" 
-         *ngIf="roleService.hasRole(['Manager','Team Lead','Content Writer'])" 
+         *ngIf="roleService.hasRole(['Content Writer'])" 
          routerLinkActive="active">
         <i class="material-icons">event</i>Calendar Export
       </a>

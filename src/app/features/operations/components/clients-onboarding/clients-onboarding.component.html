@@ -274,10 +274,17 @@
         </mat-select>
       </mat-form-field>
 
+      <mat-form-field class="form-field1" appearance="outline">
+        <mat-label>7th Priority Day</mat-label>
+        <mat-select formControlName="priority7">
+          <mat-option *ngFor="let dayNames of dayNames" [value]="dayNames.value">{{ dayNames.text }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
       <!-- Remove Button -->
-      <button mat-icon-button color="warn" (click)="removeVideoDeliverable(i)">
+      <!-- <button mat-icon-button color="warn" (click)="removeVideoDeliverable(i)">
         <mat-icon>delete</mat-icon>
-      </button>
+      </button> -->
     </div>
   </div>
       <!-- Deliverables Section -->
@@ -385,6 +392,13 @@
       <mat-form-field class="form-field1" appearance="outline">
         <mat-label>6th Priority Day</mat-label>
         <mat-select formControlName="priority6">
+          <mat-option *ngFor="let dayNames of dayNames" [value]="dayNames.value">{{ dayNames.text }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="form-field1" appearance="outline">
+        <mat-label>7th Priority Day</mat-label>
+        <mat-select formControlName="priority7">
           <mat-option *ngFor="let dayNames of dayNames" [value]="dayNames.value">{{ dayNames.text }}</mat-option>
         </mat-select>
       </mat-form-field>
