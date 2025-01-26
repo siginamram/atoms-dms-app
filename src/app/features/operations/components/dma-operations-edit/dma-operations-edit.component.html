@@ -24,14 +24,14 @@
     <div class="form-row">
       <mat-form-field appearance="outline" *ngIf="isFirstCase">
         <mat-label>Schedule Date</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="scheduleDate" />
+        <input matInput [matDatepicker]="picker" formControlName="scheduleDate"  />
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field appearance="outline" *ngIf="!isFirstCase">
         <mat-label>Status</mat-label>
-        <mat-select formControlName="status">
+        <mat-select formControlName="status"  (selectionChange)="onStatusChange($event.value)">
           <mat-option *ngFor="let option of statusOptions" [value]="option.value">
             {{ option.label }}
           </mat-option>
@@ -43,8 +43,8 @@
     <div class="form-row">
       <mat-form-field appearance="outline" *ngIf="!isFirstCase">
         <mat-label>Posted On</mat-label>
-        <input matInput [matDatepicker]="postedPicker" formControlName="postedOn" />
-        <mat-datepicker-toggle matSuffix [for]="postedPicker"></mat-datepicker-toggle>
+        <input matInput [matDatepicker]="postedPicker" [min]="minDate" [max]="maxDate" formControlName="postedOn" />
+        <mat-datepicker-toggle matSuffix [for]="postedPicker" ></mat-datepicker-toggle>
         <mat-datepicker #postedPicker></mat-datepicker>
       </mat-form-field>
 

@@ -14,7 +14,8 @@ import { MatDialog } from '@angular/material/dialog';
 export class DmaOperationsEditComponent implements OnInit {
   editForm: FormGroup;
   isFirstCase: boolean = false;
-
+  minDate: Date ;
+  maxDate: Date;
   statusOptions = [
     { value: 2, label: 'Early Post' },
     { value: 3, label: 'On Time Post' },
@@ -28,6 +29,8 @@ export class DmaOperationsEditComponent implements OnInit {
     private dialogRef: MatDialogRef<DmaOperationsEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any // Data to differentiate between cases
   ) {
+    this.minDate = new Date('2020-01-31');
+    this.maxDate = new Date('3000-01-31');
     this.isFirstCase = data.isFirstCase; // Determine case based on the flag
     this.editForm = this.fb.group({
       monthlyTrackerId: [data.meetingData?.monthlyTrackerId || 0, Validators.required],
@@ -102,6 +105,27 @@ export class DmaOperationsEditComponent implements OnInit {
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
     return `${year}-${month}-${day}`;
+  }
+
+  onStatusChange(value:any){
+    if(value == 2){
+       this.minDate = new Date('2020-01-31');
+        this.maxDate = new Date(this.data.meetingData?.postScheduleOn) ;
+        this.maxDate.setDate(this.maxDate.getDate() - 1);
+    }
+    else if(value == 3){
+      this.minDate = new Date(this.data.meetingData?.postScheduleOn);
+      this.maxDate = new Date(this.data.meetingData?.postScheduleOn);
+      this.editForm.patchValue({
+        postedOn :this.minDate
+      })
+    }
+    else if(value == 4){
+      this.minDate = new Date(this.data.meetingData?.postScheduleOn);
+      this.minDate.setDate(this.maxDate.getDate() + 1);
+      this.maxDate = new Date('3000-01-31');
+    }
+
   }
 
   cancel(): void {
