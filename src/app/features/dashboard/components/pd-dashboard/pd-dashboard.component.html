@@ -1,1 +1,77 @@
-<p>pd-dashboard works!</p>
+<div class="dashboard-container">
+    <!-- KPI Section -->
+    <div class="kpi-section">
+      <div
+        class="kpi-card"
+        *ngFor="let kpi of kpis"
+        [ngStyle]="{ 'background-color': kpi.color }"
+      >
+        <div class="kpi-icon">
+          <mat-icon>{{ kpi.icon }}</mat-icon>
+        </div>
+        <h3>{{ kpi.title }}</h3>
+        <h2>{{ kpi.value }}</h2>
+      </div>
+    </div>
+  
+    <!-- Date Filters -->
+    <!-- Date Filters -->
+    <div class="filters-container">
+      <mat-form-field appearance="outline">
+        <mat-label>From Date</mat-label>
+        <input matInput [matDatepicker]="fromDate" [(ngModel)]="fromDateValue">
+        <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+        <mat-datepicker #fromDate></mat-datepicker>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline">
+        <mat-label>To Date</mat-label>
+        <input matInput [matDatepicker]="toDate" [(ngModel)]="toDateValue">
+        <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+        <mat-datepicker #toDate></mat-datepicker>
+      </mat-form-field>
+  
+      <button mat-raised-button color="primary" (click)="applyDateFilter()">Apply Filter</button>
+    </div>
+    <!-- Chart Section -->
+    <div class="charts-section">
+      <div class="chart-card" *ngFor="let graph of graphs">
+        <h4>{{ graph.title }}</h4>
+        <div class="chart-wrapper">
+          <canvas
+            baseChart
+            [data]="graph.data"
+            [labels]="graph.labels"
+            [options]="chartOptions"
+            [type]="'line'"
+          ></canvas>
+        </div>
+      </div>
+    </div>
+    <!-- Table Section -->
+    <div class="table-section">
+      <table>
+        <thead>
+          <tr>
+            <th>Name of the Client</th>
+            <th>Actual Posters</th>
+            <th>Designed Posters</th>
+            <th>Posters Approved</th>
+            <th>Pending Approvals</th>
+            <th>Pending Posters</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of tableData">
+            <td>{{ row.name }}</td>
+            <td>{{ row.actualContent }}</td>
+            <td>{{ row.contentWritten }}</td>
+            <td>{{ row.contentApproved }}</td>
+            <td>{{ row.pendingApprovals }}</td>
+            <td>{{ row.pendingContents }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

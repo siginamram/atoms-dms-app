@@ -8,6 +8,9 @@ import { ChartOptions, ChartType, ChartData } from 'chart.js';
   styleUrls: ['./cw-dashboard.component.css'],
 })
 export class CwDashboardComponent {
+   // Date Filter Bindings
+ fromDateValue: Date | null = null;
+ toDateValue: Date | null = null;
  // Top Section Data
  kpis = [
   { title: 'Number of Clients', value: 20, icon: 'group', color: '#4CAF50' },

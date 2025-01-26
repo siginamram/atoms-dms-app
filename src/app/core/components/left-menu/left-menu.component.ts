@@ -59,6 +59,10 @@ export class LeftMenuComponent implements OnInit {
       this.menuItems = [
         { title: 'Dashboard', icon: 'home', route: '/home/dashboard/cw-dashboard' },
       ];
+    } else if (roleID === 11) {
+      this.menuItems = [
+        { title: 'Dashboard', icon: 'home', route: '/home/dashboard/pd-dashboard' },
+      ];
     } else if (roleID === 8) {
       this.menuItems = [
         { title: 'Dashboard', icon: 'home', route: '/home/dashboard/sl-dashboard' },
@@ -66,12 +70,13 @@ export class LeftMenuComponent implements OnInit {
     } else if (roleID === 7) {
       this.menuItems = [
         { title: 'Dashboard', icon: 'home', route: '/home/dashboard/sa-dashboard' },
-
       ];
+  
     } else {
       this.menuItems = [
         { title: 'Dashboard', icon: 'home', route: '/home/dashboard' },
       ];
     }
   }
+  
 }

@@ -21,6 +21,10 @@ import { SlDashboardComponent } from './components/sl-dashboard/sl-dashboard.com
 import { SaDashboardComponent } from './components/sa-dashboard/sa-dashboard.component';
 import { MatIconModule } from '@angular/material/icon';
 
+import { MatCardModule } from '@angular/material/card'; // Import MatCardModule
+import { MatTableModule } from '@angular/material/table'; // Import MatTableModule
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 
 @NgModule({
@@ -48,6 +52,10 @@ import { MatIconModule } from '@angular/material/icon';
     MatNativeDateModule,
     MatButtonModule,
     MatIconModule,
+    MatFormFieldModule, 
+    MatInputModule,     
+    MatCardModule,
+    MatTableModule,
   
   ]
 })

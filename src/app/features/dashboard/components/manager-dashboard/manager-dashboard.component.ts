@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-manager-dashboard',
@@ -7,67 +8,98 @@ import { Component } from '@angular/core';
   styleUrls: ['./manager-dashboard.component.css'],
 })
 export class ManagerDashboardComponent {
-  kpis = [
-    { title: 'Number of Clients', value: 20 },
-    { title: 'Number of Team Leads', value: 15 },
-    { title: 'Number of Content Writers', value: 25 },
-    { title: 'Number of Poster Designers', value: 18 },
-    { title: 'Number of Video Editors', value: 12 },
+  displayedColumns: string[] = ['member', 'role', 'toApprove', 'approved', 'manager'];
+
+  deliverablesColumns: string[] = ['name', 'toBePromoted', 'promoted', 'pending'];
+
+   // Sample data for deliverables and approval status
+   deliverables = [
+    { name: 'Posters', toBePromoted: 35, promoted: 30, pending: 5, date: new Date(2023, 5, 10) },
+    { name: 'Graphic Reel', toBePromoted: 15, promoted: 14, pending: 1, date: new Date(2023, 6, 15) },
+    { name: 'Educational Reels', toBePromoted: 8, promoted: 6, pending: 2, date: new Date(2023, 6, 5) },
+    { name: 'YouTube Videos', toBePromoted: 6, promoted: 5, pending: 1, date: new Date(2023, 5, 20) },
   ];
 
-  graphs = [
-    {
-      title: 'Total No. of Content Written',
-      labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
-      datasets: [
-        { data: [10, 20, 30, 40, 50], label: 'Content Written', borderColor: 'blue', fill: false },
-      ],
-    },
-    {
-      title: 'Total No. of Poster Designs',
-      labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
-      datasets: [
-        { data: [15, 25, 35, 45, 55], label: 'Poster Designs', borderColor: 'green', fill: false },
-      ],
-    },
-    {
-      title: 'Total No. of Videos Edited',
-      labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5'],
-      datasets: [
-        { data: [5, 15, 25, 35, 45], label: 'Videos Edited', borderColor: 'red', fill: false },
-      ],
-    },
+  approvalStatus = [
+    { member: 'Pavani', role: 'Content Writer', toApprove: 32, approved: 30, manager: 'Durgesh' },
+    { member: 'Renukeswara Rao', role: 'Content Writer', toApprove: 25, approved: 14, manager: 'Durgesh' },
+    { member: 'Manikanta', role: 'Poster Designer', toApprove: 14, approved: 6, manager: 'Manjunadha' },
+    { member: 'Dariya', role: 'Video Editor', toApprove: 8, approved: 5, manager: 'Anvesh' },
   ];
-  
-  chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: true,
-        position: 'top' as const, // Correctly typed legend position
-      },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false,
-        },
-      },
-      y: {
-        beginAtZero: true,
-      },
-    },
-  };
-  
-  
-  
-  salaryDetails = [
-    { type: 'Salary', amount: '₹30000' },
-    { type: 'Leave Deductions', amount: '₹200' },
-    { type: 'PF Allowances', amount: '₹100' },
-    { type: 'Tax Deductions', amount: '₹150' },
-    { type: 'Net Salary', amount: '₹29550' },
+ // Date Filter Bindings
+ fromDateValue: Date | null = null;
+ toDateValue: Date | null = null;
+
+ filteredDeliverables = new MatTableDataSource(this.deliverables);
+ filteredApprovalStatus = new MatTableDataSource(this.approvalStatus);
+
+ // Method to apply date filter
+ applyDateFilter(): void {
+   const fromDate = this.fromDateValue;
+   const toDate = this.toDateValue;
+
+   // Filter deliverables based on the selected date range
+   this.filteredDeliverables.data = this.deliverables.filter(item => {
+     return (!fromDate || item.date >= fromDate) && (!toDate || item.date <= toDate);
+   });
+
+   // Filter approval status based on the selected date range (if applicable)
+   this.filteredApprovalStatus.data = this.approvalStatus; // Assuming approval status does not require date filtering
+ }
+  dataStats = [
+    { label: 'Number of Clients', value: 40 },
+    { label: 'K.T Sessions', value: 10 },
+    { label: 'Shoot Status', value: 5 },
+    { label: 'Content Writer', value: 3 },
+    { label: 'Poster Designer', value: 5 },
+    { label: 'Video Editor', value: 4 },
+    { label: 'D.M.A', value: 5 },
+    { label: 'Statistics', value: 2 },
   ];
-  
+
+  getStatIcon(label: string): string {
+    switch (label) {
+      case 'Number of Clients':
+        return 'group';
+      case 'K.T Sessions':
+        return 'event';
+      case 'Shoot Status':
+        return 'camera_alt';
+      case 'Content Writer':
+        return 'create';
+      case 'Poster Designer':
+        return 'brush';
+      case 'Video Editor':
+        return 'movie';
+      case 'D.M.A':
+        return 'settings';
+      case 'Statistics':
+        return 'bar_chart';
+      default:
+        return 'info';
+    }
+  }
+
+  getStatColor(label: string): string {
+    switch (label) {
+      case 'Number of Clients':
+        return '#4caf50'; // Green
+      case 'K.T Sessions':
+        return '#ff9800'; // Orange
+      case 'Shoot Status':
+        return '#2196f3'; // Blue
+      case 'Content Writer':
+        return '#3f51b5'; // Indigo
+      case 'Poster Designer':
+        return '#9c27b0'; // Purple
+      case 'Video Editor':
+        return '#f44336'; // Red
+      case 'D.M.A':
+        return '#00bcd4'; // Cyan
+      case 'Statistics':
+        return '#795548'; // Brown
+      default:
+        return '#607d8b'; // Default Gray
+    }
+  }
 }

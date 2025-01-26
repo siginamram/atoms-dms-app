@@ -15,18 +15,24 @@
   </div>
 
   <!-- Date Filters -->
-  <div class="date-filters">
-    <div class="filter">
-      <label for="fromDate">From:</label>
-      <input type="date" id="fromDate" [(ngModel)]="fromDate" />
-    </div>
-    <div class="filter">
-      <label for="toDate">To:</label>
-      <input type="date" id="toDate" [(ngModel)]="toDate" />
-    </div>
-    <button (click)="applyDateFilter()">Apply</button>
-  </div>
+  <!-- Date Filters -->
+  <div class="filters-container">
+    <mat-form-field appearance="outline">
+      <mat-label>From Date</mat-label>
+      <input matInput [matDatepicker]="fromDate" [(ngModel)]="fromDateValue">
+      <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+      <mat-datepicker #fromDate></mat-datepicker>
+    </mat-form-field>
 
+    <mat-form-field appearance="outline">
+      <mat-label>To Date</mat-label>
+      <input matInput [matDatepicker]="toDate" [(ngModel)]="toDateValue">
+      <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+      <mat-datepicker #toDate></mat-datepicker>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="applyDateFilter()">Apply Filter</button>
+  </div>
   <!-- Chart Section -->
   <div class="charts-section">
     <div class="chart-card" *ngFor="let graph of graphs">
