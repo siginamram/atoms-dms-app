@@ -31,6 +31,8 @@ export class SlaGenerationDynamicComponent {
   suffix: string = '';
   salesPersonDesignation:any;
   salesPersonName: any;
+  totalBudgetContent: string = '';
+  isGSTApplicable: boolean = false;
 
   toWords = new ToWords();
   constructor(private route: ActivatedRoute,private router: Router) { }
@@ -56,12 +58,36 @@ export class SlaGenerationDynamicComponent {
       this.shootBudgetInWords = this.toWords.convert(this.packageDetails?.chargePerVisit,{currency: true,ignoreDecimal: true})
       this.totalBudgetInWords = this.toWords.convert(budget,{currency: true,ignoreDecimal: true})
       this.signingDate =new Date(this.slaData?.slaGenerateDate);
+      this.isGSTApplicable = this.packageDetails?.isGSTApplicable;
+      this.totalBudgetContent = this.prepateContent();
     })
   }
   calculateTotalBudget() {
     let budget = this.packageDetails?.adBudget + this.packageDetails?.basePackage;
-    return (budget + budget * 0.18);
+    return this.isGSTApplicable ? (budget + budget * 0.18) : budget;
   }
+
+  
+  prepateContent(){
+    let content = '';
+    let GSTContent = 'inclusive of GST';
+    let Shoot = 'Excluding Shoot Budget';
+    debugger
+    if(this.isGSTApplicable){
+      content = '(' + GSTContent;
+      if(this.packageDetails?.shootBudget){
+        content = content + ' and ' + Shoot + ')';
+      }
+      else{
+        content = content + ')';
+      }
+    }
+    else if(this.packageDetails?.shootBudget){
+      content ="(" + Shoot +")";
+    }
+    return content;
+  }
+
 
   prepareRenewalDate() {
     let dateString = this.paymentDate.toString()

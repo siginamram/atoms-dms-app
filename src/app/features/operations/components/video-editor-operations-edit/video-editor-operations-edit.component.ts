@@ -31,10 +31,14 @@ export class VideoEditorOperationsEditComponent implements OnInit {
           Validators.pattern(
             '^(https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)?)$'
           ),
-        ],
+        ]
       ],
       title: ['', Validators.required],
-      thumbNail: [''],
+      thumbNail: ['', [
+        Validators.pattern(
+          '^(https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)?)$'
+        ),
+      ]],
       description: ['', Validators.required],
       status: [2], // Default to draft
     });

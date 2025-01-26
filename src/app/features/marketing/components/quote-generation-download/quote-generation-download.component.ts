@@ -37,6 +37,8 @@ export class QuoteGenerationDownloadComponent {
     adBudget: number = 0;
     isAssistance:boolean= false;
     showSpinner: boolean = false;
+    isGSTApplicable: boolean = false;
+    totalBudgetExtension: string = '';
     constructor(private route: ActivatedRoute,private router: Router){
     }
 
@@ -50,6 +52,7 @@ export class QuoteGenerationDownloadComponent {
        this.clientPackage =this.packageTypeList[this.mStrategies?.selectedMarketingStrategy];
       })
       var  toWords = new ToWords();
+      this.isGSTApplicable = this.leadPackage?.isGSTApplicable;
       this.shootBudget = this.leadPackage?.chargesPerVisit.toLocaleString('en-IN');
       this.adBudget = this.leadPackage?.adBudget.toLocaleString('en-IN');
       this.basePackage = this.leadPackage?.basePackage.toLocaleString('en-IN');
@@ -64,6 +67,7 @@ export class QuoteGenerationDownloadComponent {
       this.noSCForAdCMUptoInWords = toWords.convert(this.leadPackage?.noSCForAdCMUpto, { currency: true, ignoreDecimal: true });
       this.isAssistance = this.assistance?.sem ||  this.assistance?.justDail || this.assistance?.whatsappMarketing || this.assistance?.emailMarketing || this.assistance?.influencerMarketing || this.assistance?.interviewInYTAndTV
       window.scrollTo(0, 0);
+      this.totalBudgetExtension = this.prepateContent();
     }
 
 
@@ -107,7 +111,24 @@ export class QuoteGenerationDownloadComponent {
 
     calculateTotalBudget(){
       let budget = Number(this.leadPackage?.adBudget) + Number(this.leadPackage?.basePackage)
-      return  (budget + budget*0.18)
+      return this.isGSTApplicable ?   (budget + budget*0.18): budget;
+    }
+
+    prepateContent(){
+      let content = '';
+      let GSTContent = 'inclusive of GST';
+      let Shoot = 'Excluding Shoot';
+      debugger
+      if(this.isGSTApplicable){
+        content = ', ' + GSTContent;
+        if(this.leadPackage?.chargesPerVisit>0){
+          content = content + ' and ' + Shoot;
+        }
+      }
+      else if(this.leadPackage?.chargesPerVisit>0){
+        content =", " + Shoot;
+      }
+      return content;
     }
 
     goBackToEditPage(){

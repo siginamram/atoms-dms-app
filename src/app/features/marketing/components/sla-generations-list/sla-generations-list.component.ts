@@ -93,9 +93,9 @@ export class SlaGenerationsListComponent implements OnInit {
         const payload = {
           clientName: data.clientName || '',
           clientDesignation: data.clientDesignation || '',
-          paymentDate: data.paymentDate || '',
+          paymentDate: data.paymentDate || new Date(),
           organizationName: data.organizationName || '',
-          slaGenerateDate: data.slaGenerateDate || '',
+          slaGenerateDate: data.slaGenerateDate || new Date(),
           address: data.address || '',
           package: {
             basePackage: data.package?.basePackage || 0,
@@ -114,6 +114,7 @@ export class SlaGenerationsListComponent implements OnInit {
             smGoogle : data.package?.smGoogle,
             smOthers: data.package?.Others,
             smOthersText: data.package?.smOthersText || '',
+            isGSTApplicable: data.package?.isGSTApplicable || false
           },
           salesPersonDesignation: data.salesPersonDesignation,
           salesPersonName: data.salesPersonName,

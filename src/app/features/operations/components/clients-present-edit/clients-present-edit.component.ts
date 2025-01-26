@@ -88,12 +88,12 @@ export class ClientsPresentEditComponent implements OnInit{
       domain: ['', Validators.required],
       category: ['', Validators.required],
       teamLeader: ['', Validators.required],
-      contentWriter: ['', Validators.required],
-      photographer: ['', Validators.required],
-      posterDesigner: ['', Validators.required],
-      videoEditor1: ['', Validators.required],
-      videoEditor2: ['', Validators.required],
-      dma: ['', Validators.required],
+      contentWriter: [''],
+      photographer: [''],
+      posterDesigner: [''],
+      videoEditor1: [''],
+      videoEditor2: [''],
+      dma: [''],
       loginCredentials: ['', Validators.required],
       paymentRenewalDate: ['' , Validators.required],
       // Package Section
@@ -427,6 +427,42 @@ onFileChange(event: Event): void {
     }
   } else {
   }
+}
+
+clearContentWriter(){
+  this.editForm.patchValue({
+    contentWriter : null
+  })
+}
+
+clearPosterDesigner(){
+  this.editForm.patchValue({
+    posterDesigner : null
+  })
+}
+
+clearPhotographer(){
+  this.editForm.patchValue({
+    photographer : null
+  })
+}
+
+clearVideoEditor1(){
+  this.editForm.patchValue({
+    videoEditor1 : null
+  })
+}
+
+clearVideoEditor2(){
+  this.editForm.patchValue({
+    videoEditor2 : null
+  })
+}
+
+clearDMA(){
+  this.editForm.patchValue({
+    dma : null
+  })
 }
 
 }

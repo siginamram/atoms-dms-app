@@ -126,8 +126,7 @@
                         </tr>
                         <tr>
                             <td><h3>Total Budget</h3><h3>:</h3></td>
-                            <td>INR {{ totalBudget}}/- ({{totalBudgetInWords}}, inclusive of GST <span
-                                *ngIf="this.leadPackage?.chargesPerVisit>0"> and Excluding Shoot</span> )</td>
+                            <td>INR {{ totalBudget}}/- ({{totalBudgetInWords}}{{totalBudgetExtension}} )</td>
                         </tr>
                     </tbody>
                 </table>
@@ -135,7 +134,7 @@
                 <h3>Note:</h3>
                 <ul>
                     <li *ngIf="leadPackage?.chargesPerVisit>0">The shoot budget will be billed based on the number of
-                        shoots conducted during the month, along with applicable GST charges.</li>
+                        shoots conducted during the month<span *ngIf="isGSTApplicable">, along with applicable GST charges</span>.</li>
                     <li *ngIf="leadPackage?.requiredToDedicateAdditionalAdBudget">You have to dedicate additional budget
                         for the ads to reach your target audience in inorganic methods.</li>
                     <li>There won’t be any service charges for ad campaign management up to a budget of INR {{
