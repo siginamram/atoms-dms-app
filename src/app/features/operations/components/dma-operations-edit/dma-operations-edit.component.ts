@@ -59,7 +59,7 @@ export class DmaOperationsEditComponent implements OnInit {
       // Save logic for the first case
       const payload = {
         monthlyTrackerId: formData.monthlyTrackerId,
-        scheduleDate:this.formatDate(new Date(formData.scheduleDate)),
+        scheduleDate:formData.scheduleDate?this.formatDate(new Date(formData.scheduleDate)):'',
         creativeTypeId: this.data.meetingData.creativeTypeId
       };
 
