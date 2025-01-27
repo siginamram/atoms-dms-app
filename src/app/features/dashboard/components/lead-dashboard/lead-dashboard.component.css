@@ -16,7 +16,7 @@
   flex-wrap: wrap;
 }
 mat-form-field {
-  
+ 
   min-width: 40px; /* Minimum width for fields */
 }
 /* General Card Styling */
@@ -57,15 +57,33 @@ mat-form-field {
   margin-top: 20px;
 }
 
+/* Table Header Styling */
 th.mat-header-cell {
-  background-color: #f4f4f4;
+  background-color: #3f51b5; /* Header background color */
+  color: orange; /* Header text color */
   font-weight: bold;
-  color: #3f51b5; /* Light color for headers */
+  padding: 8px;
+  text-align: center;
+  border-radius: 5px; /* Rounded corners for headers */
 }
 
+/* Table Row Styling */
 td.mat-cell {
-  padding: 8px 12px;
   text-align: center;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+/* Icon Styling for Headers */
+.header-icon {
+  vertical-align: middle;
+  margin-right: 5px;
+  color: orange;
+}
+
+/* Highlight Rows on Hover */
+.mat-row:hover {
+  background-color: #f4f4f4; /* Light gray hover effect */
 }
 
 /* Data Stats Section */

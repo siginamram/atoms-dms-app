@@ -1,32 +1,34 @@
+/* General Styles */
 .content-writer-container {
-  margin-left: 140px;
+  margin-left: 140px; /* Desktop default */
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px; /* Consistent padding */
+  padding: 20px;
 }
 
 .toolbar {
   font-size: 20px;
   font-weight: bold;
-  text-align: center; /* Center align toolbar title for better appearance on small screens */
+  text-align: center;
 }
 
-.filter-row {
+.filter-row,
+.filter-container {
   margin: 20px 0;
   display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap; /* Allow filters to wrap on smaller screens */
-  gap: 15px; /* Add space between filters */
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: flex-start; /* Default alignment */
 }
 
 mat-form-field {
-  width: 300px;
+  width: 300px; /* Default width */
 }
 
 .table-container {
   overflow-x: auto;
-  margin-top: 20px; /* Add space above the table */
+  margin-top: 20px;
 }
 
 table {
@@ -47,63 +49,13 @@ th {
   border-bottom: 1px solid #ddd;
 }
 
-button {
-  cursor: pointer;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-  .content-writer-container {
-    margin-left: 0; /* Remove left margin for mobile screens */
-    padding: 10px; /* Reduce padding for smaller screens */
-  }
-
-  .filter-row {
-    justify-content: center; /* Center-align filters */
-    gap: 10px; /* Reduce gap between filters */
-  }
-
-  mat-form-field {
-    width: 100%; /* Full width for filters on smaller screens */
-  }
-
-  table {
-    font-size: 14px; /* Reduce font size for better fit */
-  }
-
-  th,
-  td {
-    padding: 8px; /* Adjust padding for smaller screens */
-  }
-
-  .toolbar {
-    font-size: 18px; /* Slightly smaller font size for mobile */
-  }
-}
-
-@media (max-width: 576px) {
-  .filter-row {
-    flex-direction: column; /* Stack filters vertically */
-    align-items: center; /* Center-align the filters */
-    gap: 10px; /* Add small gaps between stacked filters */
-  }
-
-  .table-container {
-    margin-top: 10px; /* Adjust spacing above table */
-  }
-
-  table {
-    font-size: 12px; /* Smaller font size for extra small screens */
-  }
-}
-
 .no-data-message {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 200px;
   color: #ff5722;
-  font-size: 16px; /* Reduced font size for smaller screens */
+  font-size: 16px;
   font-weight: bold;
   text-align: center;
   background-color: #f9f9f9;
@@ -111,27 +63,70 @@ button {
   border-radius: 8px;
 }
 
-.filter-container {
-  margin: 20px 0;
-  display: flex;
-  flex-wrap: wrap; /* Allow filters to wrap */
-  gap: 15px; /* Add spacing between filters */
-  justify-content: left; /* Center filters for smaller screens */
+button {
+  cursor: pointer;
 }
 
-mat-form-field {
-  width: 20%; /* Full width for filters on smaller screens */
-}
-.green-bar .mat-progress-bar-fill {
-  background-color: #4caf50 !important; /* Green for > 70% */
-}
-
-.default-bar .mat-progress-bar-fill {
-  background-color: #f44336 !important; /* Red for <= 70% */
-}
 .loader-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 200px; /* Adjust height as needed */
+  height: 200px;
+}
+
+/* Progress Bar Colors */
+.green-bar .mat-progress-bar-fill {
+  background-color: #4caf50 !important;
+}
+
+.default-bar .mat-progress-bar-fill {
+  background-color: #f44336 !important;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .content-writer-container {
+    margin-left: 0;
+    padding: 10px;
+  }
+
+  .toolbar {
+    font-size: 18px;
+  }
+
+  .filter-row,
+  .filter-container {
+    justify-content: center;
+    gap: 10px;
+  }
+
+  mat-form-field {
+    width: 100%; /* Full width for smaller screens */
+  }
+
+  table {
+    font-size: 14px;
+  }
+
+  th,
+  td {
+    padding: 8px;
+  }
+}
+
+@media (max-width: 576px) {
+  .filter-row,
+  .filter-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .table-container {
+    margin-top: 10px;
+  }
+
+  table {
+    font-size: 12px;
+  }
 }

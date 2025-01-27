@@ -25,6 +25,7 @@ import { MatCardModule } from '@angular/material/card'; // Import MatCardModule
 import { MatTableModule } from '@angular/material/table'; // Import MatTableModule
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import { MatInputModule } from '@angular/material/input';
     MatInputModule,     
     MatCardModule,
     MatTableModule,
+    MatProgressSpinnerModule,
   
   ]
 })

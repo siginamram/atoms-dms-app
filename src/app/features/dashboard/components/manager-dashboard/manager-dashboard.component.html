@@ -1,4 +1,3 @@
-<!-- manager-dashboard.component.html -->
 <div class="dashboard-container">
   <!-- Date Filters -->
   <div class="filters-container">
@@ -18,7 +17,9 @@
 
     <button mat-raised-button color="primary" (click)="applyDateFilter()">Apply Filter</button>
   </div>
-
+  <div  class="spinner" *ngIf="showSpinner">
+    <mat-spinner></mat-spinner>
+  </div>
   <!-- Deliverable Status -->
   <mat-card class="status-section">
     <mat-card-header class="card-header">
@@ -26,33 +27,53 @@
     </mat-card-header>
     <mat-card-content>
       <table mat-table [dataSource]="filteredDeliverables" class="mat-table">
-        <!-- Deliverable Name Column -->
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef> Deliverable </th>
+          <th mat-header-cell *matHeaderCellDef> 
+            <mat-icon class="header-icon">description</mat-icon> Deliverable 
+          </th>
           <td mat-cell *matCellDef="let item">
-            <mat-icon>assignment</mat-icon> {{ item.name }}
-          </td>
+          <button mat-icon-button color="primary" (click)="editRow(item)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          {{ item.name }}
+        </td>
         </ng-container>
-
-        <!-- To Be Promoted Column -->
-        <ng-container matColumnDef="toBePromoted">
-          <th mat-header-cell *matHeaderCellDef> To be Promoted </th>
-          <td mat-cell *matCellDef="let item">{{ item.toBePromoted }}</td>
+  
+        <ng-container matColumnDef="noOfPendingPosts">
+          <th mat-header-cell *matHeaderCellDef> 
+            <mat-icon class="header-icon">hourglass_empty</mat-icon> Pending 
+          </th>
+          <td mat-cell *matCellDef="let item">{{ item.noOfPendingPosts }}</td>
         </ng-container>
-
-        <!-- Promoted Column -->
-        <ng-container matColumnDef="promoted">
-          <th mat-header-cell *matHeaderCellDef> Promoted </th>
-          <td mat-cell *matCellDef="let item">{{ item.promoted }}</td>
+  
+        <ng-container matColumnDef="noOfPromotedPosts">
+          <th mat-header-cell *matHeaderCellDef> 
+            <mat-icon class="header-icon">check_circle</mat-icon> Promoted 
+          </th>
+          <td mat-cell *matCellDef="let item">{{ item.noOfPromotedPosts }}</td>
         </ng-container>
-
-        <!-- Pending Column -->
-        <ng-container matColumnDef="pending">
-          <th mat-header-cell *matHeaderCellDef> Pending </th>
-          <td mat-cell *matCellDef="let item">{{ item.pending }}</td>
+  
+        <ng-container matColumnDef="noOfOnTimePosts">
+          <th mat-header-cell *matHeaderCellDef> 
+            <mat-icon class="header-icon">schedule</mat-icon> On Time 
+          </th>
+          <td mat-cell *matCellDef="let item">{{ item.noOfOnTimePosts }}</td>
         </ng-container>
-
-        <!-- Header Row and Data Row -->
+  
+        <ng-container matColumnDef="noOfEarlyPosts">
+          <th mat-header-cell *matHeaderCellDef> 
+            <mat-icon class="header-icon">arrow_upward</mat-icon> Early 
+          </th>
+          <td mat-cell *matCellDef="let item">{{ item.noOfEarlyPosts }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="noOfLatePosts">
+          <th mat-header-cell *matHeaderCellDef> 
+            <mat-icon class="header-icon">arrow_downward</mat-icon> Late 
+          </th>
+          <td mat-cell *matCellDef="let item">{{ item.noOfLatePosts }}</td>
+        </ng-container>
+  
         <tr mat-header-row *matHeaderRowDef="deliverablesColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: deliverablesColumns;"></tr>
       </table>
@@ -66,55 +87,87 @@
     </mat-card-header>
     <mat-card-content>
       <table mat-table [dataSource]="filteredApprovalStatus" class="mat-table">
-        <ng-container matColumnDef="member">
-          <th mat-header-cell *matHeaderCellDef> Team Member </th>
-          <td mat-cell *matCellDef="let row">{{ row.member }}</td>
+        <ng-container matColumnDef="empName">
+          <th mat-header-cell *matHeaderCellDef> 
+            <mat-icon class="header-icon">person</mat-icon> Team Member 
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.empName }}</td>
         </ng-container>
-
-        <ng-container matColumnDef="role">
-          <th mat-header-cell *matHeaderCellDef> Role </th>
-          <td mat-cell *matCellDef="let row">{{ row.role }}</td>
+  
+        <ng-container matColumnDef="roleName">
+          <th mat-header-cell *matHeaderCellDef> 
+            <mat-icon class="header-icon">work</mat-icon> Role 
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.roleName }}</td>
         </ng-container>
-
-        <ng-container matColumnDef="toApprove">
-          <th mat-header-cell *matHeaderCellDef> Deliverables sent for Approval </th>
-          <td mat-cell *matCellDef="let row">{{ row.toApprove }}</td>
+  
+        <ng-container matColumnDef="sentForApprovalCount">
+          <th mat-header-cell *matHeaderCellDef> 
+            <mat-icon class="header-icon">send</mat-icon> Sent for Approval 
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.sentForApprovalCount }}</td>
         </ng-container>
-
-        <ng-container matColumnDef="approved">
-          <th mat-header-cell *matHeaderCellDef> Deliverables Approved </th>
-          <td mat-cell *matCellDef="let row">{{ row.approved }}</td>
+  
+        <ng-container matColumnDef="approvedCount">
+          <th mat-header-cell *matHeaderCellDef> 
+            <mat-icon class="header-icon">thumb_up</mat-icon> Approved 
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.approvedCount }}</td>
         </ng-container>
-
+  
+        <ng-container matColumnDef="pendingApprovalCount">
+          <th mat-header-cell *matHeaderCellDef> 
+            <mat-icon class="header-icon">pending</mat-icon> Pending Approval 
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.pendingApprovalCount }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="changesRecommenedCount">
+          <th mat-header-cell *matHeaderCellDef> 
+            <mat-icon class="header-icon">edit</mat-icon> Changes Recommended 
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.changesRecommenedCount }}</td>
+        </ng-container>
+  
         <ng-container matColumnDef="manager">
-          <th mat-header-cell *matHeaderCellDef> Approval Manager </th>
+          <th mat-header-cell *matHeaderCellDef> 
+            <mat-icon class="header-icon">supervisor_account</mat-icon> Manager 
+          </th>
           <td mat-cell *matCellDef="let row">{{ row.manager }}</td>
         </ng-container>
-
+  
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
     </mat-card-content>
   </mat-card>
-
-  <!-- Data Stats -->
-  <mat-card class="data-section">
-    <mat-card-header class="card-header">
-      <mat-card-title>Data</mat-card-title>
-    </mat-card-header>
-    <mat-card-content style="padding-top: 10px;">
-      <div class="data-grid">
-        <mat-card *ngFor="let stat of dataStats" class="data-card" [ngStyle]="{ 'background-color': getStatColor(stat.label) }">
-          <mat-card-header class="data-card-header">
-            <mat-card-title>{{ stat.label }}</mat-card-title>
-            <mat-icon class="stat-icon">{{ getStatIcon(stat.label) }}</mat-icon>
-          </mat-card-header>
-          <mat-card-content>
+  
+  <!-- Data Stats Section -->
+<mat-card class="data-section">
+  <mat-card-header class="card-header">
+    <mat-card-title>Data</mat-card-title>
+  </mat-card-header>
+  <mat-card-content style="padding-top: 10px;">
+    <div class="data-grid">
+      <mat-card
+        *ngFor="let stat of dataStats"
+        class="data-card"
+        [ngStyle]="{ 'background-color': getStatColor(stat.label) }"
+      >
+        <mat-card-header class="data-card-header">
+          <mat-card-title>{{ stat.label }}</mat-card-title>
+          <mat-icon class="stat-icon">{{ getStatIcon(stat.label) }}</mat-icon>
+        </mat-card-header>
+        <mat-card-content>
+          <button mat-icon-button color="white" (click)="getRow(stat)">
             <div>{{ stat.value }}</div>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </mat-card-content>
-  </mat-card>
+          </button>
+          <!-- <div>{{ stat.value }}</div> -->
+        </mat-card-content>
+       
+      </mat-card>
+    </div>
+  </mat-card-content>
+</mat-card>
 
 </div>

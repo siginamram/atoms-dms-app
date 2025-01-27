@@ -222,7 +222,12 @@ body {
     margin-top: 50px; /* Add margin to prevent overlap with header */
   }
 }
-
+@media (max-width: 768px) {
+  .sidebar {
+    width: 0px; /* Fixed width for desktop */
+  height: 0
+  }
+}
 @media (min-width: 769px) {
   .sidebar {
     display: flex; /* Show sidebar on desktop */

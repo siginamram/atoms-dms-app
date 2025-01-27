@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { DashboardService } from '../../services/dashboard.service';
 
 @Component({
   selector: 'app-manager-dashboard',
@@ -7,99 +8,147 @@ import { MatTableDataSource } from '@angular/material/table';
   templateUrl: './manager-dashboard.component.html',
   styleUrls: ['./manager-dashboard.component.css'],
 })
-export class ManagerDashboardComponent {
-  displayedColumns: string[] = ['member', 'role', 'toApprove', 'approved', 'manager'];
-
-  deliverablesColumns: string[] = ['name', 'toBePromoted', 'promoted', 'pending'];
-
-   // Sample data for deliverables and approval status
-   deliverables = [
-    { name: 'Posters', toBePromoted: 35, promoted: 30, pending: 5, date: new Date(2023, 5, 10) },
-    { name: 'Graphic Reel', toBePromoted: 15, promoted: 14, pending: 1, date: new Date(2023, 6, 15) },
-    { name: 'Educational Reels', toBePromoted: 8, promoted: 6, pending: 2, date: new Date(2023, 6, 5) },
-    { name: 'YouTube Videos', toBePromoted: 6, promoted: 5, pending: 1, date: new Date(2023, 5, 20) },
+export class ManagerDashboardComponent implements OnInit {
+  deliverablesColumns: string[] = [
+    'name',
+    'noOfPendingPosts',
+    'noOfPromotedPosts',
+    'noOfOnTimePosts',
+    'noOfEarlyPosts',
+    'noOfLatePosts',
   ];
 
-  approvalStatus = [
-    { member: 'Pavani', role: 'Content Writer', toApprove: 32, approved: 30, manager: 'Durgesh' },
-    { member: 'Renukeswara Rao', role: 'Content Writer', toApprove: 25, approved: 14, manager: 'Durgesh' },
-    { member: 'Manikanta', role: 'Poster Designer', toApprove: 14, approved: 6, manager: 'Manjunadha' },
-    { member: 'Dariya', role: 'Video Editor', toApprove: 8, approved: 5, manager: 'Anvesh' },
+  displayedColumns: string[] = [
+    'empName',
+    'roleName',
+    'sentForApprovalCount',
+    'approvedCount',
+    'pendingApprovalCount',
+    'changesRecommenedCount',
+    'manager',
   ];
- // Date Filter Bindings
- fromDateValue: Date | null = null;
- toDateValue: Date | null = null;
 
- filteredDeliverables = new MatTableDataSource(this.deliverables);
- filteredApprovalStatus = new MatTableDataSource(this.approvalStatus);
+  fromDateValue: Date | null = null;
+  toDateValue: Date | null = null;
 
- // Method to apply date filter
- applyDateFilter(): void {
-   const fromDate = this.fromDateValue;
-   const toDate = this.toDateValue;
+  filteredDeliverables = new MatTableDataSource<any>([]);
+  filteredApprovalStatus = new MatTableDataSource<any>([]);
+  dataStats: any[] = [];
+  showSpinner: boolean = false; // Default value
+  constructor(private dashboardService: DashboardService) {}
 
-   // Filter deliverables based on the selected date range
-   this.filteredDeliverables.data = this.deliverables.filter(item => {
-     return (!fromDate || item.date >= fromDate) && (!toDate || item.date <= toDate);
-   });
+  ngOnInit(): void {
+     const today = new Date();
+     this.toDateValue = today;
+     this.fromDateValue = today;
+    this.fetchDashboardData();
+  }
 
-   // Filter approval status based on the selected date range (if applicable)
-   this.filteredApprovalStatus.data = this.approvalStatus; // Assuming approval status does not require date filtering
- }
-  dataStats = [
-    { label: 'Number of Clients', value: 40 },
-    { label: 'K.T Sessions', value: 10 },
-    { label: 'Shoot Status', value: 5 },
-    { label: 'Content Writer', value: 3 },
-    { label: 'Poster Designer', value: 5 },
-    { label: 'Video Editor', value: 4 },
-    { label: 'D.M.A', value: 5 },
-    { label: 'Statistics', value: 2 },
-  ];
+  fetchDashboardData(): void {
+    this.showSpinner = true;
+    const userId = +localStorage.getItem('UserID')!; 
+    const fdate = this.formatDate(this.fromDateValue);
+    const tdate = this.formatDate(this.toDateValue);
+
+    this.dashboardService.getManagerDashboardData(userId, fdate, tdate).subscribe(
+      (data) => {
+        this.showSpinner = false;
+        this.updateDeliverables(data.deliverableStatus);
+        this.updateApprovalStatus(data.approvalStatus);
+        this.updateDataStats(data);
+      },
+      (error) => {
+        this.showSpinner = false;
+        console.error('Error fetching dashboard data:', error);
+      }
+    );
+  }
+
+  applyDateFilter(): void {
+    this.fetchDashboardData();
+  }
+
+  updateDeliverables(deliverableStatus: any[]): void {
+    this.filteredDeliverables.data = deliverableStatus.map((item) => ({
+      name: item.creativeTypeName,
+      noOfPendingPosts: item.noOfPendingPosts,
+      noOfPromotedPosts: item.noOfPromotedPosts,
+      noOfOnTimePosts: item.noOfOnTimePosts,
+      noOfEarlyPosts: item.noOfEarlyPosts,
+      noOfLatePosts: item.noOfLatePosts,
+    }));
+  }
+
+  updateApprovalStatus(approvalStatus: any[]): void {
+    this.filteredApprovalStatus.data = approvalStatus.map((item) => ({
+      empName: item.empName,
+      roleName: item.roleName,
+      sentForApprovalCount: item.sentForApprovalCount,
+      approvedCount: item.approvedCount,
+      pendingApprovalCount: item.pendingApprovalCount,
+      changesRecommenedCount: item.changesRecommenedCount,
+      manager: item.manager || 'N/A',
+    }));
+  }
+
+  updateDataStats(data: any): void {
+    const userCounts = data.usersCount.map((user:any) => ({
+      label: user.roleName,
+      value: user.noOfUsers,
+    }));
+
+    this.dataStats = [
+      { label: 'Number of Clients', value: data.clientSCount.clientCount },
+      { label: 'K.T Sessions', value: data.clientSCount.ktPendingCount },
+      ...userCounts,
+      { label: 'Statistics', value:'' },
+    ];
+  }
+
+  formatDate(date: Date | null): string {
+    if (!date) return '';
+    const d = new Date(date);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  }
 
   getStatIcon(label: string): string {
-    switch (label) {
-      case 'Number of Clients':
-        return 'group';
-      case 'K.T Sessions':
-        return 'event';
-      case 'Shoot Status':
-        return 'camera_alt';
-      case 'Content Writer':
-        return 'create';
-      case 'Poster Designer':
-        return 'brush';
-      case 'Video Editor':
-        return 'movie';
-      case 'D.M.A':
-        return 'settings';
-      case 'Statistics':
-        return 'bar_chart';
-      default:
-        return 'info';
-    }
+    const icons: { [key: string]: string } = {
+      'Number of Clients': 'group',
+      'K.T Sessions':'event',
+      'Content Writer': 'create',
+      'Poster Designer': 'brush',
+      'Video Editor': 'movie',
+      'DMA': 'settings',
+      'Videographer': 'videocam',
+      'Statistics':'bar_chart',
+    };
+    return icons[label] || 'info';
   }
 
   getStatColor(label: string): string {
-    switch (label) {
-      case 'Number of Clients':
-        return '#4caf50'; // Green
-      case 'K.T Sessions':
-        return '#ff9800'; // Orange
-      case 'Shoot Status':
-        return '#2196f3'; // Blue
-      case 'Content Writer':
-        return '#3f51b5'; // Indigo
-      case 'Poster Designer':
-        return '#9c27b0'; // Purple
-      case 'Video Editor':
-        return '#f44336'; // Red
-      case 'D.M.A':
-        return '#00bcd4'; // Cyan
-      case 'Statistics':
-        return '#795548'; // Brown
-      default:
-        return '#607d8b'; // Default Gray
-    }
+    const colors: { [key: string]: string } = {
+      'Number of Clients': '#4caf50',
+      'K.T Sessions':'#ff9800',
+      'Content Writer': '#3f51b5',
+      'Poster Designer': '#9c27b0',
+      'Video Editor': '#f44336',
+      'DMA': '#00bcd4',
+      'Videographer': '#00bcd4',
+      'Statistics':'#795548',
+    };
+    return colors[label] || '#607d8b';
   }
+
+  editRow(lead: any): void {
+  console.log(lead);
+   // this.router.navigate(['/home/operations/operations-content-writer'], {
+     // queryParams: {date:this.selectedDate,clientId:lead.clientId },
+    //});
+} 
+getRow(lead: any): void {
+  console.log(lead);
+   // this.router.navigate(['/home/operations/operations-content-writer'], {
+     // queryParams: {date:this.selectedDate,clientId:lead.clientId },
+    //});
+}
 }
