@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { DashboardService } from '../../services/dashboard.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manager-dashboard',
@@ -35,7 +36,10 @@ export class ManagerDashboardComponent implements OnInit {
   filteredApprovalStatus = new MatTableDataSource<any>([]);
   dataStats: any[] = [];
   showSpinner: boolean = false; // Default value
-  constructor(private dashboardService: DashboardService) {}
+  constructor(
+    private dashboardService: DashboardService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
      const today = new Date();
@@ -101,7 +105,7 @@ export class ManagerDashboardComponent implements OnInit {
       { label: 'Number of Clients', value: data.clientSCount.clientCount },
       { label: 'K.T Sessions', value: data.clientSCount.ktPendingCount },
       ...userCounts,
-      { label: 'Statistics', value:'' },
+      { label: 'Statistics', value:'View' },
     ];
   }
 
@@ -147,8 +151,23 @@ export class ManagerDashboardComponent implements OnInit {
 } 
 getRow(lead: any): void {
   console.log(lead);
-   // this.router.navigate(['/home/operations/operations-content-writer'], {
-     // queryParams: {date:this.selectedDate,clientId:lead.clientId },
-    //});
-}
+  if(lead.label=='Number of Clients'){
+    this.router.navigate(['/home/dashboard/clients-list'],{
+      queryParams: {type:'manager'},
+    });
+  }
+  else if(lead.label=='Statistics'){
+    const userId = +localStorage.getItem('UserID')!;
+    const formattedFromDate = this.formatDate(this.fromDateValue);
+    const formattedToDate = this.formatDate(this.toDateValue); 
+    this.router.navigate(['/home/dashboard/statistics'],{
+      queryParams: {
+        fromDateValue: formattedFromDate,
+         toDateValue:formattedToDate,
+         type:'manager',
+         userId:userId
+        },
+    });
+  }
+ }
 }

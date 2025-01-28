@@ -8,6 +8,8 @@ import { CwDashboardComponent } from './components/cw-dashboard/cw-dashboard.com
 import { SlDashboardComponent } from './components/sl-dashboard/sl-dashboard.component';
 import { SaDashboardComponent } from './components/sa-dashboard/sa-dashboard.component';
 import { PdDashboardComponent } from './components/pd-dashboard/pd-dashboard.component';
+import { ClientsListComponent } from './components/reports/clients-list/clients-list.component';
+import { StatisticsComponent } from './components/reports/statistics/statistics.component';
 
 const routes: Routes = [
   {
@@ -22,6 +24,8 @@ const routes: Routes = [
       { path: 'cw-dashboard', component: CwDashboardComponent },
       { path: 'sl-dashboard', component: SlDashboardComponent },
       { path: 'sa-dashboard', component: SaDashboardComponent },
+      { path: 'clients-list', component: ClientsListComponent },
+      { path: 'statistics', component: StatisticsComponent },
     ],
   },
 ];

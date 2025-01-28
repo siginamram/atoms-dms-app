@@ -1,0 +1,68 @@
+<div class="statistics-container">
+<!-- Toolbar -->
+<mat-toolbar color="primary" class="toolbar" style="border-radius: 10px;">
+    <button mat-icon-button  (click)="goBack()" aria-label="Back">
+        <mat-icon>arrow_back</mat-icon>
+        </button>
+        <span>Statistics</span>
+    </mat-toolbar>
+    <!-- Filters Section -->
+    <div class="filters-container">
+      <mat-form-field appearance="outline">
+        <mat-label>From Date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="fromDatePicker"
+          [(ngModel)]="fromDateValue"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="fromDatePicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #fromDatePicker></mat-datepicker>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline">
+        <mat-label>To Date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="toDatePicker"
+          [(ngModel)]="toDateValue"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="toDatePicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #toDatePicker></mat-datepicker>
+      </mat-form-field>
+  
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="applyFilters()"
+      >
+        Apply Filters
+      </button>
+    </div>
+    <div  class="spinner" *ngIf="showSpinner">
+        <mat-spinner></mat-spinner>
+      </div>
+    <!-- Statistics Cards -->
+    <div class="statistics-grid">
+      <mat-card
+        *ngFor="let stat of statistics"
+        class="statistics-card"
+        [style.backgroundColor]="stat.color"
+      >
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon class="card-icon">{{ stat.icon }}</mat-icon> {{ stat.label }}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="stat-value">{{ stat.value }}</div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  

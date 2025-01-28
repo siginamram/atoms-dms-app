@@ -12,7 +12,7 @@ import { ManagerDashboardComponent } from './components/manager-dashboard/manage
 import { PdDashboardComponent } from './components/pd-dashboard/pd-dashboard.component';
 import { PgDashboardComponent } from './components/pg-dashboard/pg-dashboard.component';
 import { VeDashboardComponent } from './components/ve-dashboard/ve-dashboard.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgChartsModule } from 'ng2-charts';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -26,6 +26,10 @@ import { MatTableModule } from '@angular/material/table'; // Import MatTableModu
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ClientsListComponent } from './components/reports/clients-list/clients-list.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { StatisticsComponent } from './components/reports/statistics/statistics.component';
 
 
 @NgModule({
@@ -43,6 +47,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     VeDashboardComponent,
     SlDashboardComponent,
     SaDashboardComponent,
+    ClientsListComponent,
+    StatisticsComponent,
   ],
   imports: [
     CommonModule,
@@ -58,6 +64,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatCardModule,
     MatTableModule,
     MatProgressSpinnerModule,
+     MatToolbarModule,
+     MatPaginatorModule,
+     ReactiveFormsModule, 
   
   ]
 })

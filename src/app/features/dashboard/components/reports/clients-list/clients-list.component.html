@@ -1,0 +1,64 @@
+<div class="content-writer-container">
+    <!-- Toolbar -->
+    <mat-toolbar color="primary" class="toolbar" style="border-radius: 10px;">
+    <button mat-icon-button  (click)="goBack()" aria-label="Back">
+        <mat-icon>arrow_back</mat-icon>
+        </button>
+      <span>Clients List</span>
+    </mat-toolbar>
+
+  <!-- Loader -->
+  <div class="loader-container" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+  </div>
+  <!-- Table -->
+  <div class="table-container">
+    <table mat-table [dataSource]="onboardingData" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>S.No</th>
+            <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+          </ng-container>
+    
+          <ng-container matColumnDef="clientName">
+            <th mat-header-cell *matHeaderCellDef> Name of the Client </th>
+            <td mat-cell *matCellDef="let element"> {{ element.clientName }} </td>
+          </ng-container>
+          <ng-container matColumnDef="dealClosingDate">
+            <th mat-header-cell *matHeaderCellDef> Service Start Date </th>
+            <td mat-cell *matCellDef="let element"> {{ element.dealCloseDate | date: 'dd-MM-yyyy' }} </td>
+          </ng-container>
+          <ng-container matColumnDef="domain">
+            <th mat-header-cell *matHeaderCellDef> Domain </th>
+            <td mat-cell *matCellDef="let element"> {{ element.domain }} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef> Category </th>
+            <td mat-cell *matCellDef="let element"> {{ element.category }} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="package">
+            <th mat-header-cell *matHeaderCellDef> Package </th>
+            <td mat-cell *matCellDef="let element"> {{ element.package }} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="ktDocument">
+            <th mat-header-cell *matHeaderCellDef> K.T Document </th>
+            <td mat-cell *matCellDef="let element"> {{ element.ktDocument }} </td>
+          </ng-container>
+    
+          <ng-container matColumnDef="city">
+            <th mat-header-cell *matHeaderCellDef> City </th>
+            <td mat-cell *matCellDef="let element"> {{ element.city }} </td>
+          </ng-container>
+    
+  
+        <tr mat-header-row *matHeaderRowDef="onboardingColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: onboardingColumns;"></tr>
+      </table>
+      <div *ngIf="onboardingData.data.length === 0" class="no-data-message">
+        <p>No data available.</p>
+      </div>
+      <mat-paginator #onboardingPaginator [pageSize]="30" [pageSizeOptions]="[10, 20,40,50,70]" aria-label="Select page"></mat-paginator>
+  </div>
+</div>

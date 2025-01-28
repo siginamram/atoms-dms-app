@@ -1,4 +1,28 @@
 <div class="dashboard-container">
+    <!-- Date Filters -->
+    <div class="filters-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Month and Year</mat-label>
+        <input
+          matInput
+          [matDatepicker]="dp"
+          [formControl]="date"
+          placeholder="MM/YYYY"
+          readonly
+        />
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker
+          #dp
+          startView="multi-year"
+          (monthSelected)="setMonthAndYear($event, dp)"
+          panelClass="example-month-picker"
+        ></mat-datepicker>
+      </mat-form-field>
+    </div>
+    
+    <div  class="spinner" *ngIf="showSpinner">
+      <mat-spinner></mat-spinner>
+    </div>
   <!-- KPI Section -->
   <div class="kpi-section">
     <div
@@ -14,27 +38,10 @@
     </div>
   </div>
 
-  <!-- Date Filters -->
-  <!-- Date Filters -->
-  <div class="filters-container">
-    <mat-form-field appearance="outline">
-      <mat-label>From Date</mat-label>
-      <input matInput [matDatepicker]="fromDate" [(ngModel)]="fromDateValue">
-      <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
-      <mat-datepicker #fromDate></mat-datepicker>
-    </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>To Date</mat-label>
-      <input matInput [matDatepicker]="toDate" [(ngModel)]="toDateValue">
-      <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
-      <mat-datepicker #toDate></mat-datepicker>
-    </mat-form-field>
 
-    <button mat-raised-button color="primary" (click)="applyDateFilter()">Apply Filter</button>
-  </div>
   <!-- Chart Section -->
-  <div class="charts-section">
+  <div class="charts-section" style="padding-top: 20px;">
     <div class="chart-card" *ngFor="let graph of graphs">
       <h4>{{ graph.title }}</h4>
       <div class="chart-wrapper">
@@ -48,29 +55,57 @@
       </div>
     </div>
   </div>
+
   <!-- Table Section -->
-  <div class="table-section">
+  <div class="table-section" style="padding-top: 20px;">
     <table>
       <thead>
         <tr>
-          <th>Name of the Client</th>
-          <th>Actual Content</th>
-          <th>Content Written</th>
-          <th>Content Approved</th>
-          <th>Pending Approvals</th>
-          <th>Pending Contents</th>
+          <th>
+            S.NO
+          </th>
+          <th>
+            <mat-icon class="header-icon">business</mat-icon> Name of the Client
+          </th>
+          <th>
+            <mat-icon class="header-icon">description</mat-icon> Actual Content
+          </th>
+          <th>
+            <mat-icon class="header-icon">edit_note</mat-icon> Content Written
+          </th>
+          <th>
+            <mat-icon class="header-icon">check_circle</mat-icon> Content Approved
+          </th>
+          <th>
+            <mat-icon class="header-icon">hourglass_empty</mat-icon> Pending Approvals
+          </th>
+          <th>
+            <mat-icon class="header-icon">pending</mat-icon> Pending Contents
+          </th>
         </tr>
+        
       </thead>
       <tbody>
-        <tr *ngFor="let row of tableData">
-          <td>{{ row.name }}</td>
-          <td>{{ row.actualContent }}</td>
-          <td>{{ row.contentWritten }}</td>
-          <td>{{ row.contentApproved }}</td>
-          <td>{{ row.pendingApprovals }}</td>
-          <td>{{ row.pendingContents }}</td>
+        <tr *ngFor="let row of clientWiseData; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ row.organizationName }}</td>
+          <td>{{ row.noOfRequiredContent }}</td>
+          <td>{{ row.totalContentWritten }}</td>
+          <td>{{ row.totalContentApproved }}</td>
+          <td>{{ row.totalPendingApprovals }}</td>
+          <td>{{ row.totalPendingContent }}</td>
+        </tr>
+        <!-- Totals Row -->
+        <tr>
+          <td colspan="2"><strong>Totals</strong></td>
+          <td>{{ totals.noOfRequiredContent }}</td>
+          <td>{{ totals.totalContentWritten }}</td>
+          <td>{{ totals.totalContentApproved }}</td>
+          <td>{{ totals.totalPendingApprovals }}</td>
+          <td>{{ totals.totalPendingContent }}</td>
         </tr>
       </tbody>
     </table>
   </div>
+  
 </div>
