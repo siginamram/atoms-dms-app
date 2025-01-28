@@ -30,7 +30,7 @@ export const MY_FORMATS = {
 })
 export class PosterDesignerApprovalComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
+  showSpinner: boolean = false;
   readonly date = new FormControl(moment());
   organizationFilter = new FormControl('');
   resourceFilter = new FormControl('');
@@ -73,9 +73,10 @@ export class PosterDesignerApprovalComponent implements OnInit {
     const userId = parseInt(localStorage.getItem('UserID') || '1', 10); // Default to 1 if user ID is not found
     const selectedDate = this.date.value?.format('YYYY-MM') || moment().format('YYYY-MM');
     const creativeType = 1; // Default creativeType
-  
+    this.showSpinner = true;
     this.operationsService.graphicApprovalRequests(userId, `${selectedDate}-01`, creativeType).subscribe({
       next: (response) => {
+        this.showSpinner = false;
         this.dataSource.data = response.map((item: any) => ({
           ...item,
           graphicStatus: this.getPostStatusText(item.graphicStatus), // Map postStatus to text
@@ -87,6 +88,7 @@ export class PosterDesignerApprovalComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
       },
       error: (error) => {
+        this.showSpinner = false;
         console.error('Error fetching graphic approval requests:', error);
       },
     });

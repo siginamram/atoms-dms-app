@@ -28,6 +28,7 @@ export const MY_FORMATS = {
 })
 export class PhotoGrapherCompleteHistoryComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  showSpinner: boolean = false;
   date = new FormControl(moment()); // Form control for Month/Year filter
   dataSource = new MatTableDataSource<any>(); // Data source for the table
   displayedColumns: string[] = [
@@ -63,12 +64,15 @@ export class PhotoGrapherCompleteHistoryComponent implements OnInit {
 
   // Fetch data from the API
   fetchData(date: string = moment().format('YYYY-MM-01')): void {
+    this.showSpinner = true;
     this.operationsService.ShootHistoryByMonth(date).subscribe({
       next: (response) => {
+        this.showSpinner = false;
         console.log('Fetched Data:', response);
         this.dataSource.data = response; // Update table data
       },
       error: (error) => {
+        this.showSpinner = false;
         console.error('Error fetching data:', error);
       },
     });

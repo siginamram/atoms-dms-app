@@ -29,6 +29,7 @@ export const MY_FORMATS = {
 export class ContentWritersApprovalHistoryComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('fullTextDialog') fullTextDialog: any;
+  showSpinner: boolean = false;
 readonly date = new FormControl(moment().add(1, 'month').startOf('month'));
   activeFilter: string | null = null;
   organizationFilter = new FormControl('');
@@ -67,10 +68,12 @@ readonly date = new FormControl(moment().add(1, 'month').startOf('month'));
   }
 
   fetchApprovalRequests(): void {
+    this.showSpinner = true;
     const userId = parseInt(localStorage.getItem('UserID') || '1', 10);
     const selectedDate = this.date.value?.format('YYYY-MM') || moment().format('YYYY-MM');
     this.operationsService.contentApprovalHistory(userId, `${selectedDate}-01`).subscribe({
       next: (response) => {
+        this.showSpinner = false;
         this.dataSource.data = response.map((item: any) => ({
           ...item,
           contentStatus: this.getStatusText(item.contentStatus),
@@ -84,6 +87,7 @@ readonly date = new FormControl(moment().add(1, 'month').startOf('month'));
         this.dataSource.paginator = this.paginator;
       },
       error: (error) => {
+        this.showSpinner = false;
         console.error('Error fetching approval requests:', error);
       },
     });

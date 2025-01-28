@@ -28,7 +28,7 @@ export const MY_FORMATS = {
 })
 export class VideoEditorApprovalHistoryComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
+  showSpinner: boolean = false;
   readonly date = new FormControl(moment());
   organizationFilter = new FormControl('');
   resourceFilter = new FormControl('');
@@ -71,9 +71,10 @@ export class VideoEditorApprovalHistoryComponent implements OnInit {
   fetchGraphicApprovalRequests(): void {
     const userId = parseInt(localStorage.getItem('UserID') || '1', 10); // Default to 1 if user ID is not found
     const selectedDate = this.date.value?.format('YYYY-MM') || moment().format('YYYY-MM');
-  
+    this.showSpinner = true;
     this.operationsService.videoEditorApprovalHistory(userId, `${selectedDate}-01`).subscribe({
       next: (response) => {
+        this.showSpinner = false;
         this.dataSource.data = response.map((item: any) => ({
           ...item,
           status: this.getPostStatusText(item.status), // Map postStatus to text
@@ -86,6 +87,7 @@ export class VideoEditorApprovalHistoryComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
       },
       error: (error) => {
+        this.showSpinner = false;
         console.error('Error fetching graphic approval requests:', error);
       },
     });

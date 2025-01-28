@@ -31,6 +31,9 @@
    
    <!-- Table -->
    <table mat-table [dataSource]="contentData" class="mat-elevation-z8">
+    <div  class="spinner" *ngIf="showSpinner">
+      <mat-spinner></mat-spinner>
+    </div>
     <!-- ID Column -->
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>S.No</th>

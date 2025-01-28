@@ -37,6 +37,7 @@ export class GraphicReelDesignerOperationsComponent implements OnInit {
   creativeType: number = 2; // Default creativeType
   clientName:string=''; 
   clientForm: FormGroup;
+  showSpinner: boolean = false;
   displayedColumns: string[] = [
    'id',
    'postScheduleOn',
@@ -100,11 +101,12 @@ export class GraphicReelDesignerOperationsComponent implements OnInit {
       console.warn('Missing clientId or date for table data');
       return;
     }
-
+    this.showSpinner = true;
     this.operationsService
       .GraphicDesignerMonthlyTracker(this.clientId, this.selectedDate, this.creativeType)
       .subscribe({
         next: (response: any[]) => {
+          this.showSpinner = false;
           this.contentData.data = response.map((item) => ({
             date: moment(item.specialDayDate).format('YYYY-MM-DD'),
             client: this.clientForm.value.clientName,
@@ -124,6 +126,7 @@ export class GraphicReelDesignerOperationsComponent implements OnInit {
           this.cdr.markForCheck(); // Trigger change detection
         },
         error: (error) => {
+          this.showSpinner = false;
           console.error('Error fetching table data:', error);
           this.contentData.data = []; // Clear table on error
         },

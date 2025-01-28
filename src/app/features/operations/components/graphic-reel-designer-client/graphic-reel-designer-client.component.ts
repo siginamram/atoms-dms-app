@@ -31,6 +31,7 @@ export const MY_FORMATS = {
 export class GraphicReelDesignerClientComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   selectedDate:any='';
+  showSpinner: boolean = false;
   dataSource1 = new MatTableDataSource<any>([]);
   displayedColumns: string[] = [
     'id',
@@ -65,9 +66,10 @@ export class GraphicReelDesignerClientComponent implements OnInit {
       console.warn('Missing date or userId');
       return;
     }
-
+    this.showSpinner = true;
     this.operationsService.getClientsByGraphicReelEditor(this.userId, this.selectedDate).subscribe({
       next: (response: any[]) => {
+        this.showSpinner = false;
         console.log('Fetched Clients:', response);
         this.dataSource1.data = response.map((client, index) => ({
           ...client,
@@ -75,6 +77,7 @@ export class GraphicReelDesignerClientComponent implements OnInit {
         }));
       },
       error: (error) => {
+        this.showSpinner = false;
         console.error('Error fetching clients:', error);
         this.dataSource1.data = []; // Clear table on error
       },

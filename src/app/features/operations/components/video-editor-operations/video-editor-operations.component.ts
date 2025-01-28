@@ -34,7 +34,7 @@ export const MY_FORMATS = {
 })
 export class VideoEditorOperationsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator; // Reference to MatPaginator
-
+  showSpinner: boolean = false;
   // Filters
   clientId: number = 0;
   selectedDate: any = '';
@@ -102,11 +102,12 @@ export class VideoEditorOperationsComponent implements OnInit {
       console.warn('Missing clientId or date');
       return;
     }
-
+    this.showSpinner = true;
     this.operationsService
       .videoEditorMonthlyTracker(this.clientId, this.selectedDate)
       .subscribe({
         next: (response: any[]) => {
+          this.showSpinner = false;
           this.contentData.data = response.map((item, index) => ({
             id: index + 1,
             creativeType:item.creativeType,

@@ -30,6 +30,7 @@ export const MY_FORMATS = {
 })
 export class VideoEditorClientsComponent implements OnInit {
   selectedDate: any = '';
+  showSpinner: boolean = false;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   formattedMonthYear: string = '';
   readonly date = new FormControl(moment());
@@ -65,10 +66,10 @@ export class VideoEditorClientsComponent implements OnInit {
       console.warn('Missing date or userId');
       return;
     }
-
+    this.showSpinner = true;
     this.operationsService.getclientsByVideoEditor(this.userId, this.selectedDate).subscribe({
       next: (response: any[]) => {
-        console.log('Fetched Clients:', response);
+        this.showSpinner = false;
         this.dataSource1.data = response.map((client, index) => ({
           id: index + 1,
           organizationName: client.organizationName,
@@ -85,6 +86,7 @@ export class VideoEditorClientsComponent implements OnInit {
         this.cdr.markForCheck(); // Trigger change detection
       },
       error: (error) => {
+        this.showSpinner = false;
         console.error('Error fetching clients:', error);
         this.dataSource1.data = []; // Clear table on error
       },

@@ -12,7 +12,7 @@ import { FormControl } from '@angular/forms';
 })
 export class KtDocListComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
+  showSpinner: boolean = false;
   activeFilter: string | null = null;
   organizationFilter = new FormControl('');
   displayedColumns: string[] = ['id', 'organizationName', 'ktDocUrl'];
@@ -34,8 +34,10 @@ export class KtDocListComponent {
   }
 
   getKTDocumentsByUserId(): void {
+    this.showSpinner = true;
     this.operationsService.getKTDocumentByUserId(this.userId).subscribe({
       next: (response: any[]) => {
+        this.showSpinner = false;
         // Map response data to add serial numbers
         const formattedData = response?.map((item, index) => ({
           ...item,
@@ -50,6 +52,7 @@ export class KtDocListComponent {
         };
       },
       error: (error) => {
+        this.showSpinner = false;
         console.error('Error fetching clients:', error);
         this.dataSource.data = []; // Clear table on error
       },

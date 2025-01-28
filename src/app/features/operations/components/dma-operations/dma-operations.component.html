@@ -1,6 +1,4 @@
-<div  class="spinner" *ngIf="showSpinner">
-  <mat-spinner></mat-spinner>
-</div>
+
 <div class="dma-container">
     <!-- Toolbar -->
     <mat-toolbar color="primary" class="toolbar" style="border-radius: 10px;">
@@ -9,37 +7,7 @@
       </button>
         <span>{{this.clientName}}</span>
         </mat-toolbar>
-    <!-- Filters -->
-    <!-- <div class="filters-container">
-      <mat-form-field appearance="outline">
-        <mat-label>Client</mat-label>
-        <input
-          matInput
-          [formControl]="clientControl"
-          (input)="filterClients($event)"
-          [matAutocomplete]="auto"
-          placeholder="Search Client"
-        />
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onClientSelected($event)">
-          <mat-option *ngFor="let client of filteredClients" [value]="client.organizationName">
-            {{ client.organizationName }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-  
-      <mat-form-field appearance="outline">
-        <mat-label>Date</mat-label>
-        <input matInput [matDatepicker]="picker" [formControl]="dateControl" readonly />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker
-          #picker
-          startView="multi-year"
-          (monthSelected)="setMonthAndYear($event, picker)"
-          panelClass="month-picker"
-        ></mat-datepicker>
-      </mat-form-field>
-    </div> -->
-  
+   
       <!-- Filter Section -->
   <div [formGroup]="clientForm" class="filters-container">
     <mat-form-field appearance="outline">
@@ -65,6 +33,9 @@
     </mat-form-field>
   </div>
   <div class="table-container">
+    <div  class="spinner" *ngIf="showSpinner">
+      <mat-spinner></mat-spinner>
+    </div>
     <!-- Table -->
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="id">
