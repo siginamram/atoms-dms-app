@@ -30,4 +30,24 @@ export class DashboardService {
     const apiUrl = `${this.baseApiUrl}/api/Dashboard/GetcontentDashboardByUser/${userId}/${date}`;
     return this.http.get(apiUrl);
   }
+
+  pendingPostsDashboard(userId: number, fdate: string,tdate: string,creativeTypeId:number): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Dashboard/pendingPostsDashboard/${userId}/${fdate}/${tdate}/${creativeTypeId}`;
+    return this.http.get(apiUrl);
+  }
+
+  promotedPostsDashboard(userId: number, fdate: string,tdate: string,creativeTypeId:number): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Dashboard/promotedPostsDashboard/${userId}/${fdate}/${tdate}/${creativeTypeId}`;
+    return this.http.get(apiUrl);
+  }
+
+  resourcesDataDashboard(roleId: number, creativeTypeId: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Dashboard/resourcesDataDashboard/${roleId}/${creativeTypeId}`;
+    return this.http.get(apiUrl);
+  }
+
+  KTStatusDashboard(userId: number): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Dashboard/KTStatusDashboard/${userId}`;
+    return this.http.get(apiUrl);
+  }
 }

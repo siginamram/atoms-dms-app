@@ -38,6 +38,7 @@ export class CwDashboardComponent implements OnInit {
     totalContentApproved: 0,
     totalPendingApprovals: 0,
     totalPendingContent: 0,
+    totalChangesRecommended:0,
   };
   constructor(private dashboardService: DashboardService) {}
 
@@ -168,6 +169,7 @@ export class CwDashboardComponent implements OnInit {
         acc.totalContentApproved += row.totalContentApproved || 0;
         acc.totalPendingApprovals += row.totalPendingApprovals || 0;
         acc.totalPendingContent += row.totalPendingContent || 0;
+        acc.totalChangesRecommended += row.totalChangesRecommended || 0;
         return acc;
       },
       {
@@ -176,6 +178,7 @@ export class CwDashboardComponent implements OnInit {
         totalContentApproved: 0,
         totalPendingApprovals: 0,
         totalPendingContent: 0,
+        totalChangesRecommended:0,
       }
     );
   }

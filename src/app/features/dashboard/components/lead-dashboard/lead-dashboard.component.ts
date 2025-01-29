@@ -81,6 +81,7 @@ export class LeadDashboardComponent implements OnInit {
       noOfOnTimePosts: item.noOfOnTimePosts,
       noOfEarlyPosts: item.noOfEarlyPosts,
       noOfLatePosts: item.noOfLatePosts,
+      creativeTypeId:item.creativeTypeId,
     }));
   }
 
@@ -97,16 +98,18 @@ export class LeadDashboardComponent implements OnInit {
   }
 
   updateDataStats(data: any): void {
-    const userCounts = data.usersCount.map((user:any) => ({
-      label: user.roleName,
-      value: user.noOfUsers,
-    }));
-
+    const userCounts = data.usersCount
+      .filter((user: any) => user.roleName !== 'Team Lead') // Exclude 'Team Lead'
+      .map((user: any) => ({
+        label: user.roleName,
+        value: user.noOfUsers,
+      }));
+  
     this.dataStats = [
       { label: 'Number of Clients', value: data.clientSCount.clientCount },
       { label: 'K.T Sessions', value: data.clientSCount.ktPendingCount },
       ...userCounts,
-      { label: 'Statistics', value:'View' },
+      { label: 'Statistics', value: 'View' },
     ];
   }
 
@@ -146,10 +149,36 @@ export class LeadDashboardComponent implements OnInit {
 
   editRow(lead: any): void {
   console.log(lead);
-   // this.router.navigate(['/home/operations/operations-content-writer'], {
-     // queryParams: {date:this.selectedDate,clientId:lead.clientId },
-    //});
+  const userId = +localStorage.getItem('UserID')!;
+  const formattedFromDate = this.formatDate(this.fromDateValue);
+  const formattedToDate = this.formatDate(this.toDateValue); 
+  this.router.navigate(['/home/dashboard/pending-posts'],{
+    queryParams: {
+      fromDateValue: formattedFromDate,
+       toDateValue:formattedToDate,
+       type:'lead',
+       userId:userId,
+       creativeTypeId:lead.creativeTypeId
+      },
+  });
 } 
+
+editRownew(lead: any): void {
+  console.log(lead);
+  const userId = +localStorage.getItem('UserID')!;
+  const formattedFromDate = this.formatDate(this.fromDateValue);
+  const formattedToDate = this.formatDate(this.toDateValue); 
+  this.router.navigate(['/home/dashboard/promoted-posts'],{
+    queryParams: {
+      fromDateValue: formattedFromDate,
+       toDateValue:formattedToDate,
+       type:'lead',
+       userId:userId,
+       creativeTypeId:lead.creativeTypeId
+      },
+  });
+} 
+
 getRow(lead: any): void {
   console.log(lead);
   if(lead.label=='Number of Clients'){
@@ -170,5 +199,67 @@ getRow(lead: any): void {
         },
     });
   }
+  else if(lead.label=='Content Writer'){
+    console.log(lead.label);
+    this.router.navigate(['/home/dashboard/resource-list'],{
+      queryParams: {
+        roleid:10,
+        creativeTypeId:1,
+        name:'Content Writer',
+        type:'lead'
+      },
+    });
+  }
+  else if(lead.label=='Poster Designer'){
+    this.router.navigate(['/home/dashboard/resource-list'],{
+      queryParams: {
+        roleid:11,
+        creativeTypeId:2,
+        name:'Poster Designer',
+        type:'lead'
+      },
+    });
+  }
+  else if(lead.label=='Video Editor'){
+    this.router.navigate(['/home/dashboard/resource-list'],{
+      queryParams: {
+        roleid:12,
+        creativeTypeId:3,
+        name:'Video Editor',
+        type:'lead'
+      },
+    });
+  }
+  else if(lead.label=='DMA'){
+    this.router.navigate(['/home/dashboard/resource-list'],{
+      queryParams: {
+        roleid:9,
+        creativeTypeId:1,
+        name:'DMA',
+        type:'lead'
+      },
+    });
+  }
+  else if(lead.label=='Videographer'){
+    this.router.navigate(['/home/dashboard/resource-list'],{
+      queryParams: {
+        roleid:13,
+        creativeTypeId:1,
+        name:'Videographer',
+        type:'lead'
+      },
+    });
+  }
+  else if(lead.label=='K.T Sessions'){
+    this.router.navigate(['/home/dashboard/kt-sessions'],{
+      queryParams: {
+        userId:+localStorage.getItem('UserID')!,
+        name:'K.T Sessions',
+        type:'lead'
+      },
+    });
+  }
  }
 }
+
+

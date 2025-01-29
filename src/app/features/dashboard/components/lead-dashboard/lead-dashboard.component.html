@@ -32,27 +32,36 @@
             <mat-icon class="header-icon">description</mat-icon> Deliverable 
           </th>
           <td mat-cell *matCellDef="let item">
-          <button mat-icon-button color="primary" (click)="editRow(item)">
-            <mat-icon>edit</mat-icon>
-          </button>
+        
           {{ item.name }}
         </td>
         </ng-container>
-  
+
         <ng-container matColumnDef="noOfPendingPosts">
-          <th mat-header-cell *matHeaderCellDef> 
-            <mat-icon class="header-icon">hourglass_empty</mat-icon> Pending 
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-icon class="header-icon" color="primary">hourglass_empty</mat-icon> Pending
           </th>
-          <td mat-cell *matCellDef="let item">{{ item.noOfPendingPosts }}</td>
+          <td mat-cell *matCellDef="let item">
+            <button mat-icon-button color="primary" (click)="editRow(item)" *ngIf="item.noOfPendingPosts !== 0" class="number-button">
+              {{ item.noOfPendingPosts }}
+            </button>
+            <span *ngIf="item.noOfPendingPosts === 0" >{{ item.noOfPendingPosts }}</span>
+          </td>
         </ng-container>
-  
+        
         <ng-container matColumnDef="noOfPromotedPosts">
-          <th mat-header-cell *matHeaderCellDef> 
-            <mat-icon class="header-icon">check_circle</mat-icon> Promoted 
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-icon class="header-icon" color="accent">check_circle</mat-icon> Promoted
           </th>
-          <td mat-cell *matCellDef="let item">{{ item.noOfPromotedPosts }}</td>
+          <td mat-cell *matCellDef="let item">
+            <button mat-icon-button color="primary" (click)="editRownew(item)" *ngIf="item.noOfPromotedPosts !== 0" class="number-button">
+              {{ item.noOfPromotedPosts }}
+            </button>
+            <span *ngIf="item.noOfPromotedPosts === 0" >{{ item.noOfPromotedPosts }}</span>
+          </td>
         </ng-container>
-  
+        
+        
         <ng-container matColumnDef="noOfOnTimePosts">
           <th mat-header-cell *matHeaderCellDef> 
             <mat-icon class="header-icon">schedule</mat-icon> On Time 
@@ -131,7 +140,7 @@
   
         <ng-container matColumnDef="manager">
           <th mat-header-cell *matHeaderCellDef> 
-            <mat-icon class="header-icon">supervisor_account</mat-icon> Manager 
+            <mat-icon class="header-icon">supervisor_account</mat-icon> Lead 
           </th>
           <td mat-cell *matCellDef="let row">{{ row.manager }}</td>
         </ng-container>

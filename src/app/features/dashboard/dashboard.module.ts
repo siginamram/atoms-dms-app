@@ -30,6 +30,10 @@ import { ClientsListComponent } from './components/reports/clients-list/clients-
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { StatisticsComponent } from './components/reports/statistics/statistics.component';
+import { PendingPostsDashboardComponent } from './components/reports/pending-posts-dashboard/pending-posts-dashboard.component';
+import { PromotedPostsDashboardComponent } from './components/reports/promoted-posts-dashboard/promoted-posts-dashboard.component';
+import { ResourcesListDashboardComponent } from './components/reports/resources-list-dashboard/resources-list-dashboard.component';
+import { KtSessionDashboardComponent } from './components/reports/kt-session-dashboard/kt-session-dashboard.component';
 
 
 @NgModule({
@@ -49,6 +53,10 @@ import { StatisticsComponent } from './components/reports/statistics/statistics.
     SaDashboardComponent,
     ClientsListComponent,
     StatisticsComponent,
+    PendingPostsDashboardComponent,
+    PromotedPostsDashboardComponent,
+    ResourcesListDashboardComponent,
+    KtSessionDashboardComponent,
   ],
   imports: [
     CommonModule,

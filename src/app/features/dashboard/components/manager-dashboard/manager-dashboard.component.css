@@ -151,3 +151,22 @@ td.mat-cell {
     font-size: 20px; /* Adjust content size for smaller screens */
   }
 }
+.number-button,
+.number-text {
+  font-size: 14px; /* Adjust size as needed */
+  color: #3f51b5; /* Optional: Match the color theme */
+  font-weight: bold; /* Optional: Add emphasis */
+  text-decoration: none; /* Ensure no underline by default */
+}
+
+.number-button:hover,
+.number-text:hover {
+  text-decoration: underline; /* Add underline on hover */
+  cursor: pointer; /* Indicate interactivity */
+}
+
+.mat-header-cell {
+  font-size: 12px; /* Adjust header font size */
+  font-weight: bold;
+  color: #616161; /* Adjust header color */
+}

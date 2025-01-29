@@ -1,0 +1,48 @@
+<div class="dashboard-container">
+        <!-- Toolbar -->
+<mat-toolbar color="primary" class="toolbar" style="border-radius: 10px;">
+    <button mat-icon-button  (click)="goBack()" aria-label="Back">
+        <mat-icon>arrow_back</mat-icon>
+        </button>
+        <span>{{this.name}}</span>
+    </mat-toolbar>
+    <!-- Loading Spinner -->
+    <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
+  
+    <div *ngIf="!isLoading">
+      <!-- Table Section -->
+      <div class="table-section">
+        <table mat-table [dataSource]="statistics" class="mat-elevation-z8" matSort>
+          
+          <!-- S.No Column -->
+          <ng-container matColumnDef="sno">
+            <th mat-header-cell *matHeaderCellDef>S.NO</th>
+            <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+          </ng-container>
+  
+          <!-- Employee Name Column -->
+          <ng-container matColumnDef="empName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              <mat-icon class="header-icon">person</mat-icon> Employee Name
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.empName }}</td>
+          </ng-container>
+  
+          <!-- No. of Clients Column -->
+          <ng-container matColumnDef="noOfClients">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              <mat-icon class="header-icon">groups</mat-icon> No. of Clients
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.noOfClients }}</td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        
+        <!-- Pagination -->
+        <mat-paginator [length]="statistics.data.length" [pageSize]="30" [pageSizeOptions]="[ 20,50,100]" showFirstLastButtons> </mat-paginator>
+      </div>
+    </div>
+  </div>
+  

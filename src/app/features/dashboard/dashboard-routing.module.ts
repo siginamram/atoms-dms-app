@@ -10,6 +10,11 @@ import { SaDashboardComponent } from './components/sa-dashboard/sa-dashboard.com
 import { PdDashboardComponent } from './components/pd-dashboard/pd-dashboard.component';
 import { ClientsListComponent } from './components/reports/clients-list/clients-list.component';
 import { StatisticsComponent } from './components/reports/statistics/statistics.component';
+import { PendingPostsDashboardComponent } from './components/reports/pending-posts-dashboard/pending-posts-dashboard.component';
+import { PromotedPostsDashboardComponent } from './components/reports/promoted-posts-dashboard/promoted-posts-dashboard.component';
+import { ResourcesListDashboardComponent } from './components/reports/resources-list-dashboard/resources-list-dashboard.component';
+import { KtSessionDashboardComponent } from './components/reports/kt-session-dashboard/kt-session-dashboard.component';
+
 
 const routes: Routes = [
   {
@@ -26,6 +31,10 @@ const routes: Routes = [
       { path: 'sa-dashboard', component: SaDashboardComponent },
       { path: 'clients-list', component: ClientsListComponent },
       { path: 'statistics', component: StatisticsComponent },
+      { path: 'pending-posts', component: PendingPostsDashboardComponent },
+      { path: 'promoted-posts', component: PromotedPostsDashboardComponent },
+      { path: 'resource-list', component: ResourcesListDashboardComponent },
+      { path: 'kt-sessions', component: KtSessionDashboardComponent },
     ],
   },
 ];

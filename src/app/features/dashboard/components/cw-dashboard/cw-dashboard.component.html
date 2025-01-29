@@ -80,6 +80,9 @@
             <mat-icon class="header-icon">hourglass_empty</mat-icon> Pending Approvals
           </th>
           <th>
+            <mat-icon class="header-icon">edit</mat-icon> Changes Recommended
+          </th>
+          <th>
             <mat-icon class="header-icon">pending</mat-icon> Pending Contents
           </th>
         </tr>
@@ -93,16 +96,18 @@
           <td>{{ row.totalContentWritten }}</td>
           <td>{{ row.totalContentApproved }}</td>
           <td>{{ row.totalPendingApprovals }}</td>
+          <td>{{ row.totalChangesRecommended }}</td>
           <td>{{ row.totalPendingContent }}</td>
         </tr>
         <!-- Totals Row -->
         <tr>
           <td colspan="2"><strong>Totals</strong></td>
-          <td>{{ totals.noOfRequiredContent }}</td>
-          <td>{{ totals.totalContentWritten }}</td>
-          <td>{{ totals.totalContentApproved }}</td>
-          <td>{{ totals.totalPendingApprovals }}</td>
-          <td>{{ totals.totalPendingContent }}</td>
+          <td><strong>{{ totals.noOfRequiredContent }}</strong></td>
+          <td><strong>{{ totals.totalContentWritten }}</strong></td>
+          <td><strong>{{ totals.totalContentApproved }}</strong></td>
+          <td><strong>{{ totals.totalPendingApprovals }}</strong></td>
+          <td><strong>{{ totals.totalChangesRecommended }}</strong></td>
+          <td><strong>{{ totals.totalPendingContent }}</strong></td>
         </tr>
       </tbody>
     </table>

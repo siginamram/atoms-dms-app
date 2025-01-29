@@ -1,0 +1,107 @@
+<div class="dashboard-container">
+    <!-- Toolbar -->
+<mat-toolbar color="primary" class="toolbar" style="border-radius: 10px;">
+    <button mat-icon-button  (click)="goBack()" aria-label="Back">
+        <mat-icon>arrow_back</mat-icon>
+        </button>
+        <span>Pending Deliverables</span>
+    </mat-toolbar>
+    <!-- Filters Section -->
+    <div class="filters-container" style="padding-top: 20px;">
+      <mat-form-field appearance="outline">
+        <mat-label>From Date</mat-label>
+        <input matInput [matDatepicker]="fromDate" [(ngModel)]="fromDateValue" placeholder="DD/MM/YYYY">
+        <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+        <mat-datepicker #fromDate></mat-datepicker>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline">
+        <mat-label>To Date</mat-label>
+        <input matInput [matDatepicker]="toDate" [(ngModel)]="toDateValue" placeholder="DD/MM/YYYY">
+        <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+        <mat-datepicker #toDate></mat-datepicker>
+      </mat-form-field>
+      <button
+      mat-raised-button
+      color="primary"
+      (click)="fetchPendingPosts()"
+    >
+      Apply Filters
+    </button>
+    </div>
+    <div  class="spinner" *ngIf="showSpinner">
+        <mat-spinner></mat-spinner>
+      </div>
+    <!-- Pending Posts Table -->
+    <div class="table-section">
+      <table mat-table [dataSource]="statistics" matSort matPaginator class="mat-elevation-z8">
+        <!-- S.No Column -->
+        <ng-container matColumnDef="index">
+          <th mat-header-cell *matHeaderCellDef>S.NO</th>
+          <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+        </ng-container>
+  
+        <!-- Organization Name Column -->
+        <ng-container matColumnDef="organizationName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <mat-icon class="header-icon">business</mat-icon> Organization
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.organizationName }}</td>
+        </ng-container>
+  
+        <!-- Scheduled Date Column -->
+        <ng-container matColumnDef="postScheduleOn">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <mat-icon class="header-icon">event</mat-icon> Schedule Date
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.postScheduleOn | date: 'dd/MM/yyyy' }}</td>
+        </ng-container>
+  
+        <!-- Content Writer Column -->
+        <ng-container matColumnDef="contentWriter">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <mat-icon class="header-icon">person</mat-icon> Content Writer
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.contentWriter || 'N/A' }}</td>
+        </ng-container>
+  
+        <!-- Editor Column -->
+        <ng-container matColumnDef="editor">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <mat-icon class="header-icon">edit</mat-icon> Editor
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.editor }}</td>
+        </ng-container>
+  
+        <!-- Content Status Column -->
+        <ng-container matColumnDef="contentStatus">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <mat-icon class="header-icon">description</mat-icon> Content Status
+          </th>
+          <td mat-cell *matCellDef="let row">{{ getStatus(row.contentStatus) }}</td>
+        </ng-container>
+  
+        <!-- Graphic Status Column -->
+        <ng-container matColumnDef="graphicStatus">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <mat-icon class="header-icon">brush</mat-icon> Graphic Status
+          </th>
+          <td mat-cell *matCellDef="let row">{{ getStatus(row.graphicStatus) }}</td>
+        </ng-container>
+  
+        <!-- Post Status Column -->
+        <ng-container matColumnDef="postStatus">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <mat-icon class="header-icon">publish</mat-icon> Post Status
+          </th>
+          <td mat-cell *matCellDef="let row">{{ getpostStatus(row.postStatus) }}</td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [length]="statistics.data.length" [pageSize]="30" [pageSizeOptions]="[ 20,50,100]" showFirstLastButtons>
+    </mat-paginator>
+    </div>
+  </div>
+  
