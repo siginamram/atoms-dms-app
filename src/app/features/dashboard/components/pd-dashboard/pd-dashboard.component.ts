@@ -1,77 +1,197 @@
-import { Component } from '@angular/core';
-import { ChartOptions, ChartType, ChartData } from 'chart.js';
+import { Component, OnInit } from '@angular/core';
+import { MatDatepicker } from '@angular/material/datepicker';
+import { FormControl } from '@angular/forms';
+import { DashboardService } from '../../services/dashboard.service';
+import { ChartOptions } from 'chart.js';
+import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
+import * as moment from 'moment';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'MM/YYYY',
+  },
+  display: {
+    dateInput: 'MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'app-pd-dashboard',
-  standalone:false,
+  standalone: false,
   templateUrl: './pd-dashboard.component.html',
-  styleUrl: './pd-dashboard.component.css'
+  styleUrl: './pd-dashboard.component.css',
+  providers: [provideMomentDateAdapter(MY_FORMATS)],
 })
-export class PdDashboardComponent {
-// Date Filter Bindings
-fromDateValue: Date | null = null;
-toDateValue: Date | null = null;
-// Top Section Data
-kpis = [
- { title: 'Number of Clients', value: 20, icon: 'group', color: '#4CAF50' },
- { title: 'No. of Days of Posters Designed', value: 25, icon: 'edit', color: '#2196F3' },
- { title: 'No. of Pending Posters', value: 25, icon: 'hourglass_empty', color: '#FFC107' },
- { title: 'No. of Posters Approved', value: 120, icon: 'check_circle', color: '#8BC34A' },
- { title: 'No. of Posters to be Approval', value: 80, icon: 'pending', color: '#FF5722' },
-];
+export class PdDashboardComponent implements OnInit {
+  showSpinner: boolean = false;
+  kpis: any[] = [];
+  graphs: any[] = [];
+  clientWiseData: any[] = [];
+  date = new FormControl(moment());
+  userId: number = parseInt(localStorage.getItem('UserID') || '0', 10);
+  
+  totals = {
+    noOfRequiredPosters: 0,
+    totalPostersDesigned: 0,
+    totalPostersApproved: 0,
+    totalPendingApprovals: 0,
+    totalPendingContent: 0,
+    totalChangesRecommended: 0,
+  };
 
-graphs = [
- {
-   title: 'Total No. of Posters',
-   labels: ['01', '02', '03', '04', '05', '06', '07'],
-   data: {
-     datasets: [
-       {
-         label: 'Posters',
-         data: [10, 20, 30, 25, 40, 35, 50],
-         borderColor: '#007BFF',
-         fill: false,
-       },
-     ],
-     labels: ['01', '02', '03', '04', '05', '06', '07'],
-   },
- },
+  constructor(private dashboardService: DashboardService) {}
 
-];
+  ngOnInit(): void {
+    this.fetchDashboardData();
+  }
 
-chartOptions: ChartOptions<'line'> = {
- responsive: true,
- maintainAspectRatio: false,
- plugins: {
-   legend: {
-     display: true,
-     position: 'top',
-   },
- },
- scales: {
-   x: {
-     grid: {
-       display: false,
-     },
-   },
-   y: {
-     beginAtZero: true,
-   },
- },
-};
+  fetchDashboardData(): void {
+    this.showSpinner = true;
+    const selectedDate = this.date.value?.format('YYYY-MM') + '-01';
 
-tableData = [
- { name: 'John Doe', actualContent: 50, contentWritten: 40, contentApproved: 30, pendingApprovals: 5, pendingContents: 10 },
- { name: 'Jane Smith', actualContent: 70, contentWritten: 60, contentApproved: 55, pendingApprovals: 10, pendingContents: 15 },
- { name: 'Chris Johnson', actualContent: 80, contentWritten: 70, contentApproved: 65, pendingApprovals: 8, pendingContents: 12 },
-];
+    this.dashboardService
+      .GetPosterDesignerDashboardByUser(this.userId, selectedDate)
+      .subscribe(
+        (data: any) => {
+          if (data) {
+            this.showSpinner = false;
+            this.updateKPI(data.posterDesignerMonthlyTask);
+            this.updateGraphs(data.posterDesignerDayTrackers);
+            this.clientWiseData = data.clientWiseMonthlyPosterDesignerTrackers || [];
+            this.calculateTotals();
+          }
+        },
+        (error) => {
+          this.showSpinner = false;
+          console.error('Error fetching data:', error);
+        }
+      );
+  }
 
-fromDate: string = '';
-toDate: string = '';
+  updateKPI(kpiData: any): void {
+    this.kpis = [
+      {
+        title: 'Total Clients',
+        value: kpiData.totalClients,
+        icon: 'groups',
+        color: '#4CAF50',
+      },
+      {
+        title: 'Posters Designed',
+        value: kpiData.totalPostersDesigned,
+        icon: 'photo_library',
+        color: '#2196F3',
+      },
+      {
+        title: 'Approved Posters',
+        value: kpiData.totalApprovedPosters,
+        icon: 'check_circle',
+        color: '#8BC34A',
+      },
+      {
+        title: 'Lead Approvals Pending',
+        value: kpiData.totalManagerApprovalPending,
+        icon: 'supervisor_account',
+        color: '#FFC107',
+      },
+      {
+        title: 'Client Approvals Pending',
+        value: kpiData.totalClientApprovalPending,
+        icon: 'how_to_reg',
+        color: '#FF9800',
+      },
+      {
+        title: 'Changes Recommended',
+        value: kpiData.totalChangesRecommended,
+        icon: 'edit',
+        color: '#FF5722',
+      },
+      {
+        title: 'Total Posters Pending',
+        value: kpiData.totalPostersPending,
+        icon: 'hourglass_empty',
+        color: '#FF7043',
+      },
+    ];
+  }
 
-applyDateFilter() {
- console.log('From Date:', this.fromDate);
- console.log('To Date:', this.toDate);
- // Add filtering logic here
-}
+  updateGraphs(dayTrackerData: any[]): void {
+    const labels = dayTrackerData.map((item) =>
+      moment(item.day).format('DD')
+    );
+    const dataPoints = dayTrackerData.map((item) => item.totalPostersDesigned);
+
+    this.graphs = [
+      {
+        title: 'Posters Designed Over Time',
+        labels,
+        data: {
+          datasets: [
+            {
+              label: 'Posters Designed',
+              data: dataPoints,
+              borderColor: '#007BFF',
+              fill: false,
+            },
+          ],
+          labels,
+        },
+      },
+    ];
+  }
+
+  chartOptions: ChartOptions<'line'> = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top',
+      },
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false,
+        },
+      },
+      y: {
+        beginAtZero: true,
+      },
+    },
+  };
+
+  calculateTotals(): void {
+    this.totals = this.clientWiseData.reduce(
+      (acc, row) => {
+        acc.noOfRequiredPosters += row.noOfRequiredPosters || 0;
+        acc.totalPostersDesigned += row.totalPostersDesigned || 0;
+        acc.totalPostersApproved += row.totalPostersApproved || 0;
+        acc.totalPendingApprovals += row.totalPendingApprovals || 0;
+        acc.totalPendingContent += row.totalPendingContent || 0;
+        acc.totalChangesRecommended += row.totalChangesRecommended || 0;
+        return acc;
+      },
+      {
+        noOfRequiredPosters: 0,
+        totalPostersDesigned: 0,
+        totalPostersApproved: 0,
+        totalPendingApprovals: 0,
+        totalPendingContent: 0,
+        totalChangesRecommended: 0,
+      }
+    );
+  }
+
+  setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
+    const ctrlValue = this.date.value || moment();
+    ctrlValue.month(normalizedMonthAndYear.month());
+    ctrlValue.year(normalizedMonthAndYear.year());
+    this.date.setValue(ctrlValue);
+    datepicker.close();
+    this.fetchDashboardData();
+  }
 }

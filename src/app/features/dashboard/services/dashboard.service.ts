@@ -50,4 +50,9 @@ export class DashboardService {
     const apiUrl = `${this.baseApiUrl}/api/Dashboard/KTStatusDashboard/${userId}`;
     return this.http.get(apiUrl);
   }
+
+  GetPosterDesignerDashboardByUser(userId: number, date: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Dashboard/GetPosterDesignerDashboardByUser/${userId}/${date}`;
+    return this.http.get(apiUrl);
+  }
 }

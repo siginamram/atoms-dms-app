@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { DashboardService } from '../../services/dashboard.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-manager-dashboard',
@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class ManagerDashboardComponent implements OnInit {
   deliverablesColumns: string[] = [
     'name',
+    'total',
     'noOfPendingPosts',
     'noOfPromotedPosts',
     'noOfOnTimePosts',
@@ -29,8 +30,8 @@ export class ManagerDashboardComponent implements OnInit {
     'manager',
   ];
 
-  fromDateValue: Date | null = null;
-  toDateValue: Date | null = null;
+  fromDateValue: any | null = null;
+  toDateValue: any | null = null;
 
   filteredDeliverables = new MatTableDataSource<any>([]);
   filteredApprovalStatus = new MatTableDataSource<any>([]);
@@ -39,12 +40,24 @@ export class ManagerDashboardComponent implements OnInit {
   constructor(
     private dashboardService: DashboardService,
     private router: Router,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
-     const today = new Date();
-     this.toDateValue = today;
-     this.fromDateValue = today;
+    this.route.queryParams.subscribe((params) => {
+      console.log('From Date:', this.fromDateValue);
+     console.log('To Date:', this.toDateValue);
+      if (params['fromDateValue'] && params['toDateValue']) {
+        // Parse queryParams and set them as valid Date objects
+        this.fromDateValue = new Date(params['fromDateValue']);
+        this.toDateValue = new Date(params['toDateValue']);
+      } else {
+        // Default to today's date
+        const today = new Date();
+        this.fromDateValue = today;
+        this.toDateValue = today;
+      }
+    });
     this.fetchDashboardData();
   }
 

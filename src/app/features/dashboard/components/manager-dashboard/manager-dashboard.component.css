@@ -157,6 +157,7 @@ td.mat-cell {
   color: #3f51b5; /* Optional: Match the color theme */
   font-weight: bold; /* Optional: Add emphasis */
   text-decoration: none; /* Ensure no underline by default */
+  align-items: center;
 }
 
 .number-button:hover,

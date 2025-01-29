@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { DashboardService } from '../../services/dashboard.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 export class LeadDashboardComponent implements OnInit {
   deliverablesColumns: string[] = [
     'name',
+    'total',
     'noOfPendingPosts',
     'noOfPromotedPosts',
     'noOfOnTimePosts',
@@ -40,12 +41,24 @@ export class LeadDashboardComponent implements OnInit {
   constructor(
     private dashboardService: DashboardService,
     private router: Router,
+     private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
-     const today = new Date();
-     this.toDateValue = today;
-     this.fromDateValue = today;
+    this.route.queryParams.subscribe((params) => {
+      console.log('From Date:', this.fromDateValue);
+     console.log('To Date:', this.toDateValue);
+      if (params['fromDateValue'] && params['toDateValue']) {
+        // Parse queryParams and set them as valid Date objects
+        this.fromDateValue = new Date(params['fromDateValue']);
+        this.toDateValue = new Date(params['toDateValue']);
+      } else {
+        // Default to today's date
+        const today = new Date();
+        this.fromDateValue = today;
+        this.toDateValue = today;
+      }
+    });
     this.fetchDashboardData();
   }
 

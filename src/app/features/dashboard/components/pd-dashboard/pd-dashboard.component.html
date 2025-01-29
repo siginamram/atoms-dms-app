@@ -1,77 +1,82 @@
 <div class="dashboard-container">
-    <!-- KPI Section -->
-    <div class="kpi-section">
-      <div
-        class="kpi-card"
-        *ngFor="let kpi of kpis"
-        [ngStyle]="{ 'background-color': kpi.color }"
-      >
-        <div class="kpi-icon">
-          <mat-icon>{{ kpi.icon }}</mat-icon>
-        </div>
-        <h3>{{ kpi.title }}</h3>
-        <h2>{{ kpi.value }}</h2>
+  <!-- Date Filters -->
+  <div class="filters-container">
+    <mat-form-field appearance="outline">
+      <mat-label>Month and Year</mat-label>
+      <input matInput [matDatepicker]="dp" [formControl]="date" placeholder="MM/YYYY" readonly />
+      <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+      <mat-datepicker #dp startView="multi-year" (monthSelected)="setMonthAndYear($event, dp)" panelClass="example-month-picker"></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <div class="spinner" *ngIf="showSpinner">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <!-- KPI Section -->
+  <div class="kpi-section">
+    <div class="kpi-card" *ngFor="let kpi of kpis" [ngStyle]="{ 'background-color': kpi.color }">
+      <div class="kpi-icon">
+        <mat-icon>{{ kpi.icon }}</mat-icon>
       </div>
-    </div>
-  
-    <!-- Date Filters -->
-    <!-- Date Filters -->
-    <div class="filters-container">
-      <mat-form-field appearance="outline">
-        <mat-label>From Date</mat-label>
-        <input matInput [matDatepicker]="fromDate" [(ngModel)]="fromDateValue">
-        <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
-        <mat-datepicker #fromDate></mat-datepicker>
-      </mat-form-field>
-  
-      <mat-form-field appearance="outline">
-        <mat-label>To Date</mat-label>
-        <input matInput [matDatepicker]="toDate" [(ngModel)]="toDateValue">
-        <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
-        <mat-datepicker #toDate></mat-datepicker>
-      </mat-form-field>
-  
-      <button mat-raised-button color="primary" (click)="applyDateFilter()">Apply Filter</button>
-    </div>
-    <!-- Chart Section -->
-    <div class="charts-section">
-      <div class="chart-card" *ngFor="let graph of graphs">
-        <h4>{{ graph.title }}</h4>
-        <div class="chart-wrapper">
-          <canvas
-            baseChart
-            [data]="graph.data"
-            [labels]="graph.labels"
-            [options]="chartOptions"
-            [type]="'line'"
-          ></canvas>
-        </div>
-      </div>
-    </div>
-    <!-- Table Section -->
-    <div class="table-section">
-      <table>
-        <thead>
-          <tr>
-            <th>Name of the Client</th>
-            <th>Actual Posters</th>
-            <th>Designed Posters</th>
-            <th>Posters Approved</th>
-            <th>Pending Approvals</th>
-            <th>Pending Posters</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let row of tableData">
-            <td>{{ row.name }}</td>
-            <td>{{ row.actualContent }}</td>
-            <td>{{ row.contentWritten }}</td>
-            <td>{{ row.contentApproved }}</td>
-            <td>{{ row.pendingApprovals }}</td>
-            <td>{{ row.pendingContents }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <h3>{{ kpi.title }}</h3>
+      <h2>{{ kpi.value }}</h2>
     </div>
   </div>
-  
+
+  <!-- Chart Section -->
+  <div class="charts-section">
+    <div class="chart-card" *ngFor="let graph of graphs">
+      <h4>{{ graph.title }}</h4>
+      <div class="chart-wrapper">
+        <canvas
+          baseChart
+          [data]="graph.data"
+          [labels]="graph.labels"
+          [options]="chartOptions"
+          [type]="'line'">
+        </canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table Section -->
+  <div class="table-section">
+    <table>
+      <thead>
+        <tr>
+          <th>S.NO</th>
+          <th><mat-icon class="header-icon">business</mat-icon> Client Name</th>
+          <th><mat-icon class="header-icon">description</mat-icon> Required Posters</th>
+          <th><mat-icon class="header-icon">brush</mat-icon> Posters Designed</th>
+          <th><mat-icon class="header-icon">check_circle</mat-icon> Posters Approved</th>
+          <th><mat-icon class="header-icon">hourglass_empty</mat-icon> Pending Approvals</th>
+          <th><mat-icon class="header-icon">edit</mat-icon> Changes Recommended</th>
+          <th><mat-icon class="header-icon">pending</mat-icon> Pending Posters</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of clientWiseData; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ row.organizationName }}</td>
+          <td>{{ row.noOfRequiredPosters }}</td>
+          <td>{{ row.totalPostersDesigned }}</td>
+          <td>{{ row.totalPostersApproved }}</td>
+          <td>{{ row.totalPendingApprovals }}</td>
+          <td>{{ row.totalChangesRecommended }}</td>
+          <td>{{ row.totalPendingContent }}</td>
+        </tr>
+            <!-- Totals Row -->
+            <tr>
+              <td colspan="2"><strong>Totals</strong></td>
+              <td><strong>{{ totals.noOfRequiredPosters }}</strong></td>
+              <td><strong>{{ totals.totalPostersDesigned }}</strong></td>
+              <td><strong>{{ totals.totalPostersApproved }}</strong></td>
+              <td><strong>{{ totals.totalPendingApprovals }}</strong></td>
+              <td><strong>{{ totals.totalChangesRecommended }}</strong></td>
+              <td><strong>{{ totals.totalPendingContent }}</strong></td>
+            </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

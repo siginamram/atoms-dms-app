@@ -18,6 +18,7 @@ export class PendingPostsDashboardComponent implements OnInit {
   statistics = new MatTableDataSource<any>([]); // Table data with pagination
   clientName: any;
   showSpinner: boolean = false; // Default value
+  activeFilters: { [key: string]: boolean } = {}; // Track active filters for each column
   displayedColumns: string[] = [
     'index',
     'organizationName',
@@ -33,9 +34,9 @@ export class PendingPostsDashboardComponent implements OnInit {
 
   constructor(
     private dashboardService: DashboardService,
-     private route: ActivatedRoute,
-     private router: Router
-    ) {}
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -46,12 +47,40 @@ export class PendingPostsDashboardComponent implements OnInit {
       this.clientName = params['type'];
       this.fetchPendingPosts();
     });
-
     this.statistics.paginator = this.paginator;
   }
+
   ngAfterViewInit(): void {
     this.statistics.paginator = this.paginator;
   }
+
+  toggleFilterVisibility(column: string): void {
+    this.activeFilters[column] = !this.activeFilters[column];
+  }
+
+  applyFilter(event: Event, column: string): void {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+
+    this.statistics.filterPredicate = (data, filter) => {
+      switch (column) {
+        case 'organizationName':
+          return data.organizationName?.toLowerCase().includes(filter);
+        case 'contentWriter':
+          return data.contentWriter?.toLowerCase().includes(filter);
+        case 'editor':
+          return data.editor?.toLowerCase().includes(filter);
+        case 'contentStatus':
+          return this.getStatus(data.contentStatus)?.toLowerCase().includes(filter);
+        case 'graphicStatus':
+          return this.getStatus(data.graphicStatus)?.toLowerCase().includes(filter);
+        default:
+          return false;
+      }
+    };
+
+    this.statistics.filter = filterValue;
+  }
+
   fetchPendingPosts(): void {
     this.showSpinner = true;
     const fdate = this.formatDate(this.fromDateValue);
@@ -86,7 +115,6 @@ export class PendingPostsDashboardComponent implements OnInit {
         return 'N/A';
     }
   }
-
   getpostStatus(status: number): string {
     switch (status) {
       case 1:
@@ -101,17 +129,34 @@ export class PendingPostsDashboardComponent implements OnInit {
         return 'N/A';
     }
   }
-
+  
   formatDate(date: Date): string {
     const d = new Date(date);
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
   }
+
   goBack(): void {
-    if(this.clientName=='manager'){
-    this.router.navigate(['/home/dashboard/manager-dashboard']); 
-    }
-    else{
-      this.router.navigate(['/home/dashboard/lead-dashboard']); 
+    if (this.clientName === 'manager') {
+     // this.router.navigate(['/home/dashboard/manager-dashboard']);
+     const formattedFromDate = this.formatDate(this.fromDateValue);
+     const formattedToDate = this.formatDate(this.toDateValue); 
+     this.router.navigate(['/home/dashboard/manager-dashboard'],{
+       queryParams: {
+         fromDateValue:formattedFromDate,
+          toDateValue:formattedToDate,
+         },
+     });
+    } else {
+      //this.router.navigate(['/home/dashboard/lead-dashboard']);
+      const formattedFromDate = this.formatDate(this.fromDateValue);
+      const formattedToDate = this.formatDate(this.toDateValue); 
+      this.router.navigate(['/home/dashboard/lead-dashboard'],{
+        queryParams: {
+          fromDateValue:formattedFromDate,
+           toDateValue:formattedToDate,
+          },
+      });
     }
   }
 }
+

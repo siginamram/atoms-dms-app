@@ -19,6 +19,7 @@ export class PromotedPostsDashboardComponent implements OnInit {
   clientName: any;
   postStatus:any;
   showSpinner: boolean = false; // Default value
+  activeFilters: { [key: string]: boolean } = {}; // Track active filters for each column
   displayedColumns: string[] = [
     'index',
     'organizationName',
@@ -45,14 +46,44 @@ export class PromotedPostsDashboardComponent implements OnInit {
       this.userId = +params['userId'] || 1;
       this.creativeTypeId = +params['creativeTypeId'] || 0;
       this.clientName = params['type'];
-      this.postStatus=params['postStatus'] || 0;
+      this.postStatus=+params['postStatus'] || 0;
       this.fetchPendingPosts();
     });
 
+    // Custom filterPredicate for filtering based on 'organizationName'
+ this.statistics.filterPredicate = (data, filter) =>
+  data.organizationName.toLowerCase().includes(filter);
     this.statistics.paginator = this.paginator;
   }
   ngAfterViewInit(): void {
     this.statistics.paginator = this.paginator;
+  }
+
+  toggleFilterVisibility(column: string): void {
+    this.activeFilters[column] = !this.activeFilters[column];
+  }
+
+  applyFilter(event: Event, column: string): void {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+
+    this.statistics.filterPredicate = (data, filter) => {
+      switch (column) {
+        case 'organizationName':
+          return data.organizationName?.toLowerCase().includes(filter);
+        case 'contentWriter':
+          return data.contentWriter?.toLowerCase().includes(filter);
+        case 'editor':
+          return data.editor?.toLowerCase().includes(filter);
+        case 'contentStatus':
+          return this.getStatus(data.contentStatus)?.toLowerCase().includes(filter);
+        case 'graphicStatus':
+          return this.getStatus(data.graphicStatus)?.toLowerCase().includes(filter);
+        default:
+          return false;
+      }
+    };
+
+    this.statistics.filter = filterValue;
   }
 
   fetchPendingPosts(): void {
@@ -63,22 +94,34 @@ export class PromotedPostsDashboardComponent implements OnInit {
   
     this.dashboardService.promotedPostsDashboard(this.userId, fdate, tdate, this.creativeTypeId).subscribe(
       (data: any[]) => {
-        console.log('API Response:', data); // Debug API Response
-        console.log('postStatus:', this.postStatus); // Debug postStatus
+        //console.log('API Response:', data); // Debug API Response
+        //console.log('postStatus:', this.postStatus); // Debug postStatus
   
-        // Apply Filtering
-        const filteredData = this.postStatus === 0
-          ? data
-          : data.filter((item: { postStatus: number }) => {
-              console.log('Item Post Status:', item.postStatus); // Debug each item's postStatus
+        let filteredData: any[] = [];
+  
+        // Validate that the API response is an array
+        if (Array.isArray(data) && data.length > 0) {
+          if (this.postStatus === 0) {
+            //console.log('RK Response:', data);
+            // If postStatus is 0, assign the entire data
+            filteredData = data;
+          } else {
+            // Filter data for other postStatus values
+            filteredData = data.filter((item: { postStatus: number }) => {
+             // console.log('Filtering Item:', item); // Debug individual items
               return Number(item.postStatus) === Number(this.postStatus);
             });
+          }
+        } else {
+          console.warn('No valid data received from the API');
+        }
   
-        console.log('Filtered Data:', filteredData); // Debug Filtered Data
+       // console.log('Filtered Data:', filteredData); // Debug filtered data
   
+        // Update table data and ensure the table refreshes
+        this.statistics.data = filteredData || [];
+        this.statistics._updateChangeSubscription(); // Update table
         this.showSpinner = false;
-        this.statistics.data = filteredData; // Assign Filtered Data to Table
-        this.statistics._updateChangeSubscription(); // Update Table
       },
       (error) => {
         this.showSpinner = false;
@@ -126,12 +169,29 @@ export class PromotedPostsDashboardComponent implements OnInit {
     const d = new Date(date);
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
   }
+  
   goBack(): void {
-    if(this.clientName=='manager'){
-    this.router.navigate(['/home/dashboard/manager-dashboard']); 
-    }
-    else{
-      this.router.navigate(['/home/dashboard/lead-dashboard']); 
+    if (this.clientName === 'manager') {
+     // this.router.navigate(['/home/dashboard/manager-dashboard']);
+     const formattedFromDate = this.formatDate(this.fromDateValue);
+     const formattedToDate = this.formatDate(this.toDateValue); 
+     this.router.navigate(['/home/dashboard/manager-dashboard'],{
+       queryParams: {
+         fromDateValue:formattedFromDate,
+          toDateValue:formattedToDate,
+         },
+     });
+    } else {
+      //this.router.navigate(['/home/dashboard/lead-dashboard']);
+      const formattedFromDate = this.formatDate(this.fromDateValue);
+      const formattedToDate = this.formatDate(this.toDateValue); 
+      this.router.navigate(['/home/dashboard/lead-dashboard'],{
+        queryParams: {
+          fromDateValue:formattedFromDate,
+           toDateValue:formattedToDate,
+          },
+      });
     }
   }
+
 }

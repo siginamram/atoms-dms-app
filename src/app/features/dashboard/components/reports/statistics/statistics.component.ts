@@ -77,11 +77,26 @@ export class StatisticsComponent implements OnInit {
   }
 
   goBack(): void {
-    if(this.clientName=='manager'){
-    this.router.navigate(['/home/dashboard/manager-dashboard']); 
-    }
-    else{
-      this.router.navigate(['/home/dashboard/lead-dashboard']); 
+    if (this.clientName === 'manager') {
+     // this.router.navigate(['/home/dashboard/manager-dashboard']);
+     const formattedFromDate = this.formatDate(this.fromDateValue);
+     const formattedToDate = this.formatDate(this.toDateValue); 
+     this.router.navigate(['/home/dashboard/manager-dashboard'],{
+       queryParams: {
+         fromDateValue:formattedFromDate,
+          toDateValue:formattedToDate,
+         },
+     });
+    } else {
+      //this.router.navigate(['/home/dashboard/lead-dashboard']);
+      const formattedFromDate = this.formatDate(this.fromDateValue);
+      const formattedToDate = this.formatDate(this.toDateValue); 
+      this.router.navigate(['/home/dashboard/lead-dashboard'],{
+        queryParams: {
+          fromDateValue:formattedFromDate,
+           toDateValue:formattedToDate,
+          },
+      });
     }
   }
 }
