@@ -17,6 +17,7 @@ export class PromotedPostsDashboardComponent implements OnInit {
   creativeTypeId: number = 0; // Default creative type ID
   statistics = new MatTableDataSource<any>([]); // Table data with pagination
   clientName: any;
+  postStatus:any;
   showSpinner: boolean = false; // Default value
   displayedColumns: string[] = [
     'index',
@@ -44,6 +45,7 @@ export class PromotedPostsDashboardComponent implements OnInit {
       this.userId = +params['userId'] || 1;
       this.creativeTypeId = +params['creativeTypeId'] || 0;
       this.clientName = params['type'];
+      this.postStatus=params['postStatus'] || 0;
       this.fetchPendingPosts();
     });
 
@@ -52,14 +54,31 @@ export class PromotedPostsDashboardComponent implements OnInit {
   ngAfterViewInit(): void {
     this.statistics.paginator = this.paginator;
   }
+
   fetchPendingPosts(): void {
     this.showSpinner = true;
+  
     const fdate = this.formatDate(this.fromDateValue);
     const tdate = this.formatDate(this.toDateValue);
+  
     this.dashboardService.promotedPostsDashboard(this.userId, fdate, tdate, this.creativeTypeId).subscribe(
-      (data: any) => {
+      (data: any[]) => {
+        console.log('API Response:', data); // Debug API Response
+        console.log('postStatus:', this.postStatus); // Debug postStatus
+  
+        // Apply Filtering
+        const filteredData = this.postStatus === 0
+          ? data
+          : data.filter((item: { postStatus: number }) => {
+              console.log('Item Post Status:', item.postStatus); // Debug each item's postStatus
+              return Number(item.postStatus) === Number(this.postStatus);
+            });
+  
+        console.log('Filtered Data:', filteredData); // Debug Filtered Data
+  
         this.showSpinner = false;
-        this.statistics.data = data || [];
+        this.statistics.data = filteredData; // Assign Filtered Data to Table
+        this.statistics._updateChangeSubscription(); // Update Table
       },
       (error) => {
         this.showSpinner = false;
@@ -67,7 +86,8 @@ export class PromotedPostsDashboardComponent implements OnInit {
       }
     );
   }
-
+  
+  
   getStatus(status: number): string {
     switch (status) {
       case 1:

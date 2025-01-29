@@ -61,26 +61,40 @@
           </td>
         </ng-container>
         
-        
         <ng-container matColumnDef="noOfOnTimePosts">
-          <th mat-header-cell *matHeaderCellDef> 
-            <mat-icon class="header-icon">schedule</mat-icon> On Time 
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-icon class="header-icon" color="accent">check_circle</mat-icon> On Time 
           </th>
-          <td mat-cell *matCellDef="let item">{{ item.noOfOnTimePosts }}</td>
+          <td mat-cell *matCellDef="let item">
+            <button mat-icon-button color="primary" (click)="OnTime(item)" *ngIf="item.noOfOnTimePosts !== 0" class="number-button">
+              {{ item.noOfOnTimePosts }}
+            </button>
+            <span *ngIf="item.noOfOnTimePosts === 0" >{{ item.noOfOnTimePosts }}</span>
+          </td>
         </ng-container>
-  
+   
         <ng-container matColumnDef="noOfEarlyPosts">
-          <th mat-header-cell *matHeaderCellDef> 
-            <mat-icon class="header-icon">arrow_upward</mat-icon> Early 
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-icon class="header-icon" color="accent">check_circle</mat-icon> Early
           </th>
-          <td mat-cell *matCellDef="let item">{{ item.noOfEarlyPosts }}</td>
+          <td mat-cell *matCellDef="let item">
+            <button mat-icon-button color="primary" (click)="early(item)" *ngIf="item.noOfEarlyPosts !== 0" class="number-button">
+              {{ item.noOfEarlyPosts }}
+            </button>
+            <span *ngIf="item.noOfEarlyPosts === 0" >{{ item.noOfEarlyPosts }}</span>
+          </td>
         </ng-container>
   
         <ng-container matColumnDef="noOfLatePosts">
-          <th mat-header-cell *matHeaderCellDef> 
-            <mat-icon class="header-icon">arrow_downward</mat-icon> Late 
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-icon class="header-icon" color="accent">check_circle</mat-icon> Late
           </th>
-          <td mat-cell *matCellDef="let item">{{ item.noOfLatePosts }}</td>
+          <td mat-cell *matCellDef="let item">
+            <button mat-icon-button color="primary" (click)="Late(item)" *ngIf="item.noOfLatePosts !== 0" class="number-button">
+              {{ item.noOfLatePosts }}
+            </button>
+            <span *ngIf="item.noOfLatePosts === 0" >{{ item.noOfLatePosts }}</span>
+          </td>
         </ng-container>
   
         <tr mat-header-row *matHeaderRowDef="deliverablesColumns"></tr>

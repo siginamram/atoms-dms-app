@@ -171,10 +171,62 @@ editRownew(lead: any): void {
        toDateValue:formattedToDate,
        type:'manager',
        userId:userId,
-       creativeTypeId:lead.creativeTypeId
+       creativeTypeId:lead.creativeTypeId,
+       postStatus:0,
       },
   });
 } 
+
+early(lead: any): void {
+  console.log(lead);
+  const userId = +localStorage.getItem('UserID')!;
+  const formattedFromDate = this.formatDate(this.fromDateValue);
+  const formattedToDate = this.formatDate(this.toDateValue); 
+  this.router.navigate(['/home/dashboard/promoted-posts'],{
+    queryParams: {
+      fromDateValue: formattedFromDate,
+       toDateValue:formattedToDate,
+       type:'manager',
+       userId:userId,
+       creativeTypeId:lead.creativeTypeId,
+       postStatus:2,
+      },
+  });
+}
+
+OnTime(lead: any): void {
+  console.log(lead);
+  const userId = +localStorage.getItem('UserID')!;
+  const formattedFromDate = this.formatDate(this.fromDateValue);
+  const formattedToDate = this.formatDate(this.toDateValue); 
+  this.router.navigate(['/home/dashboard/promoted-posts'],{
+    queryParams: {
+      fromDateValue: formattedFromDate,
+       toDateValue:formattedToDate,
+       type:'manager',
+       userId:userId,
+       creativeTypeId:lead.creativeTypeId,
+       postStatus:3,
+      },
+  });
+}
+
+Late(lead: any): void {
+  console.log(lead);
+  const userId = +localStorage.getItem('UserID')!;
+  const formattedFromDate = this.formatDate(this.fromDateValue);
+  const formattedToDate = this.formatDate(this.toDateValue); 
+  this.router.navigate(['/home/dashboard/promoted-posts'],{
+    queryParams: {
+      fromDateValue: formattedFromDate,
+       toDateValue:formattedToDate,
+       type:'manager',
+       userId:userId,
+       creativeTypeId:lead.creativeTypeId,
+       postStatus:4,
+      },
+  });
+}
 
 getRow(lead: any): void {
   console.log(lead);
