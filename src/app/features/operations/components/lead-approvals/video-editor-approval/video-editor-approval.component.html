@@ -102,6 +102,9 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
+      <div *ngIf="dataSource.data.length === 0" class="no-data-message">
+        <p>No Records Found...</p>
+      </div>
       <mat-paginator [pageSize]="30" [pageSizeOptions]="[5, 10, 20, 30]"></mat-paginator>
     </div>
   </div>

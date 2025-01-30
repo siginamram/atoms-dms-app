@@ -14,7 +14,8 @@ import { PendingPostsDashboardComponent } from './components/reports/pending-pos
 import { PromotedPostsDashboardComponent } from './components/reports/promoted-posts-dashboard/promoted-posts-dashboard.component';
 import { ResourcesListDashboardComponent } from './components/reports/resources-list-dashboard/resources-list-dashboard.component';
 import { KtSessionDashboardComponent } from './components/reports/kt-session-dashboard/kt-session-dashboard.component';
-
+import { DmaDashboardComponent } from './components/dma-dashboard/dma-dashboard.component';
+import { PgDashboardComponent } from './components/pg-dashboard/pg-dashboard.component';
 
 const routes: Routes = [
   {
@@ -35,6 +36,8 @@ const routes: Routes = [
       { path: 'promoted-posts', component: PromotedPostsDashboardComponent },
       { path: 'resource-list', component: ResourcesListDashboardComponent },
       { path: 'kt-sessions', component: KtSessionDashboardComponent },
+      { path: 'dma-dashboard', component: DmaDashboardComponent },
+      { path: 'pg-dashboard', component: PgDashboardComponent },
     ],
   },
 ];

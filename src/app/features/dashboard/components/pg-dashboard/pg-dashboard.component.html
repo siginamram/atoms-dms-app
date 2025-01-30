@@ -1,1 +1,145 @@
-<p>pg-dashboard works!</p>
+<div class="dashboard-container">
+    <h2>Photographer Dashboard</h2>
+      <!-- Filters Section -->
+      <div class="filter-container">
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-label>From</mat-label>
+          <input matInput [matDatepicker]="fromDatePicker" [(ngModel)]="filter.fromDate" />
+          <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #fromDatePicker></mat-datepicker>
+        </mat-form-field>
+    
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-label>To</mat-label>
+          <input matInput [matDatepicker]="toDatePicker" [(ngModel)]="filter.toDate" />
+          <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #toDatePicker></mat-datepicker>
+        </mat-form-field>
+    
+        <button mat-raised-button color="primary" (click)="applyFilter()">Apply Filter</button>
+      </div>
+    <!-- Metrics Section -->
+    <div class="metrics-container">
+      <mat-card class="metric-card metric-required">
+        <mat-card-content>
+          <div class="metric-content">
+            <mat-icon >camera_alt</mat-icon>
+            <div class="metric-info">
+              <p class="metric-title">No. of Shoots Required</p>
+              <h3>{{ totalShootsRequired }}</h3>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+  
+      <mat-card class="metric-card metric-completed">
+        <mat-card-content>
+          <div class="metric-content">
+            <mat-icon >check_circle</mat-icon>
+            <div class="metric-info">
+              <p class="metric-title">No. of Shoots Completed</p>
+              <h3>{{ totalShootsCompleted }}</h3>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+  
+      <mat-card class="metric-card metric-videos">
+        <mat-card-content>
+          <div class="metric-content">
+            <mat-icon >videocam</mat-icon>
+            <div class="metric-info">
+              <p class="metric-title">No. of Videos Required</p>
+              <h3>{{ totalVideosRequired }}</h3>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="metric-card metric-completed1">
+        <mat-card-content>
+          <div class="metric-content">
+            <mat-icon >videocam</mat-icon>
+            <div class="metric-info">
+              <p class="metric-title">No. of Videos Shoot</p>
+              <h3>{{ totalShootsCompleted }}</h3>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  
+
+  
+<!-- Table Section -->
+<mat-card class="table-card">
+    <mat-card-header>
+      <mat-card-title>Data Overview</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table mat-table [dataSource]="filteredData" class="mat-elevation-z8">
+  
+        <!-- Client Column -->
+        <ng-container matColumnDef="client">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-icon class="table-icon">person</mat-icon> Client
+          </th>
+          <td mat-cell *matCellDef="let element"> {{ element.client }} </td>
+        </ng-container>
+  
+        <!-- Tentative Shoot Date Column -->
+        <ng-container matColumnDef="tentativeShootDate">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-icon class="table-icon">event</mat-icon> Tentative Shoot Date
+          </th>
+          <td mat-cell *matCellDef="let element"> {{ element.tentativeShootDate | date }} </td>
+        </ng-container>
+  
+        <!-- Scheduled Date Column -->
+        <ng-container matColumnDef="scheduledDate">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-icon class="table-icon">schedule</mat-icon> Scheduled Date
+          </th>
+          <td mat-cell *matCellDef="let element"> {{ element.scheduledDate | date }} </td>
+        </ng-container>
+  
+        <!-- No. of Reels Required Column -->
+        <ng-container matColumnDef="noOfReelsRequired">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-icon class="table-icon">movie</mat-icon> No. of Reels Required
+          </th>
+          <td mat-cell *matCellDef="let element"> {{ element.noOfReelsRequired }} </td>
+        </ng-container>
+  
+        <!-- No. of Reels Shoot Column -->
+        <ng-container matColumnDef="noOfReelsShoot">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-icon class="table-icon">videocam</mat-icon> No. of Reels Shoot
+          </th>
+          <td mat-cell *matCellDef="let element"> {{ element.noOfReelsShoot }} </td>
+        </ng-container>
+  
+        <!-- No. of YouTube Videos Required Column -->
+        <ng-container matColumnDef="noOfYoutubeVideosRequired">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-icon class="table-icon">subscriptions</mat-icon> No. of YouTube Videos Required
+          </th>
+          <td mat-cell *matCellDef="let element"> {{ element.noOfYoutubeVideosRequired }} </td>
+        </ng-container>
+  
+        <!-- No. of YouTube Videos Shoot Column -->
+        <ng-container matColumnDef="noOfYoutubeVideosShoot">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-icon class="table-icon">play_circle_filled</mat-icon> No. of YouTube Videos Shoot
+          </th>
+          <td mat-cell *matCellDef="let element"> {{ element.noOfYoutubeVideosShoot }} </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  
+  </div>
+  

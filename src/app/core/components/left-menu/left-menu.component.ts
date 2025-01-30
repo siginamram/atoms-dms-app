@@ -59,15 +59,28 @@ export class LeftMenuComponent implements OnInit {
       this.menuItems = [
         { title: 'Dashboard', icon: 'home', route: '/home/dashboard/cw-dashboard' },
       ];
-    } else if (roleID === 11) {
+    }
+     else if (roleID === 11) {
       this.menuItems = [
         { title: 'Dashboard', icon: 'home', route: '/home/dashboard/pd-dashboard' },
       ];
-    } else if (roleID === 8) {
+    } 
+    else if (roleID === 13) {
+      this.menuItems = [
+        { title: 'Dashboard', icon: 'home', route: '/home/dashboard/pg-dashboard' },
+      ];
+    } 
+    else if (roleID === 9) {
+      this.menuItems = [
+        { title: 'Dashboard', icon: 'home', route: '/home/dashboard/dma-dashboard' },
+      ];
+    } 
+    else if (roleID === 8) {
       this.menuItems = [
         { title: 'Dashboard', icon: 'home', route: '/home/dashboard/sl-dashboard' },
       ];
-    } else if (roleID === 7) {
+    } 
+    else if (roleID === 7) {
       this.menuItems = [
         { title: 'Dashboard', icon: 'home', route: '/home/dashboard/sa-dashboard' },
       ];

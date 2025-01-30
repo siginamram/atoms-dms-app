@@ -54,3 +54,16 @@
     }
   }
   
+  .no-data-message {
+    display: flex; /* Center alignment */
+    justify-content: center; /* Horizontal center */
+    align-items: center; /* Vertical center */
+    height: 200px; /* Adjust height for alignment */
+    color: #ff5722; /* Add a custom color (e.g., orange-red) */
+    font-size: 18px; /* Adjust font size */
+    font-weight: bold; /* Make the text bold */
+    text-align: center; /* Center-align the text */
+    background-color: #f9f9f9; /* Optional: Light background for contrast */
+    border: 1px solid #ddd; /* Optional: Add a subtle border */
+    border-radius: 8px; /* Optional: Rounded corners */
+  }

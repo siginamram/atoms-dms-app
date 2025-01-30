@@ -1,1 +1,190 @@
-<p>dma-dashboard works!</p>
+<div class="dashboard-container">
+    <h2>DMA Dashboard</h2>
+  
+    <!-- Filter Section -->
+    <div class="filter-container">
+      <mat-form-field appearance="outline" class="filter-field">
+        <mat-label>From</mat-label>
+        <input matInput [matDatepicker]="fromDatePicker" [(ngModel)]="filter.fromDate" />
+        <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #fromDatePicker></mat-datepicker>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline" class="filter-field">
+        <mat-label>To</mat-label>
+        <input matInput [matDatepicker]="toDatePicker" [(ngModel)]="filter.toDate" />
+        <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #toDatePicker></mat-datepicker>
+      </mat-form-field>
+  
+      <button mat-raised-button color="primary" (click)="applyFilter()">Apply Filter</button>
+    </div>
+  
+    <!-- Metrics Section -->
+    <div class="metrics-container">
+      <mat-card class="metric-card metric-clients">
+        <mat-card-content>
+          <mat-icon class="metric-icon">groups</mat-icon>
+          <p class="metric-title">Number of Clients</p>
+          <h3>{{ metrics.numberOfClients }}</h3>
+        </mat-card-content>
+      </mat-card>
+  
+      <mat-card class="metric-card metric-posts">
+        <mat-card-content>
+          <mat-icon class="metric-icon">post_add</mat-icon>
+          <p class="metric-title">Posts Promoted/Scheduled</p>
+          <h3>{{ metrics.postsPromoted }}</h3>
+        </mat-card-content>
+      </mat-card>
+  
+      <mat-card class="metric-card metric-pending-posts">
+        <mat-card-content>
+          <mat-icon class="metric-icon">pending_actions</mat-icon>
+          <p class="metric-title">Pending Posts</p>
+          <h3>{{ metrics.pendingPosts }}</h3>
+        </mat-card-content>
+      </mat-card>
+  
+      <mat-card class="metric-card metric-approvals">
+        <mat-card-content>
+          <mat-icon class="metric-icon">thumb_up</mat-icon>
+          <p class="metric-title">Pending Approvals</p>
+          <h3>{{ metrics.pendingApprovals }}</h3>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  
+    <div class="metrics-container">
+      <mat-card class="metric-card metric-updated">
+        <mat-card-content>
+          <mat-icon class="metric-icon">campaign</mat-icon>
+          <p class="metric-title">Ad Campaigns Updated</p>
+          <h3>{{ metrics.adCampaignsUpdated }}</h3>
+        </mat-card-content>
+      </mat-card>
+  
+      <mat-card class="metric-card metric-to-update">
+        <mat-card-content>
+          <mat-icon class="metric-icon">refresh</mat-icon>
+          <p class="metric-title">Ad Campaigns to Update</p>
+          <h3>{{ metrics.adCampaignsToBeUpdated }}</h3>
+        </mat-card-content>
+      </mat-card>
+  
+      <mat-card class="metric-card metric-budget">
+        <mat-card-content>
+          <mat-icon class="metric-icon">attach_money</mat-icon>
+          <p class="metric-title">Budget to Be Spent</p>
+          <h3>{{ metrics.budgetToBeSpent | currency }}</h3>
+        </mat-card-content>
+      </mat-card>
+  
+      <mat-card class="metric-card metric-budget-spent">
+        <mat-card-content>
+          <mat-icon class="metric-icon">money_off</mat-icon>
+          <p class="metric-title">Budget Spent</p>
+          <h3>{{ metrics.budgetSpent | currency }}</h3>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  
+    <div class="performance-container">
+      <mat-card class="metric-card metric-clients">
+        <mat-card-content>
+          <mat-icon class="metric-icon">insights</mat-icon>
+          <p class="metric-title">Ad Reach</p>
+          <h3>{{ metrics.adReach | number }}</h3>
+        </mat-card-content>
+      </mat-card>
+  
+      <mat-card class="metric-card metric-budget">
+        <mat-card-content>
+          <mat-icon class="metric-icon">visibility</mat-icon>
+          <p class="metric-title">Impressions</p>
+          <h3>{{ metrics.impressions | number }}</h3>
+        </mat-card-content>
+      </mat-card>
+  
+      <mat-card class="metric-card metric-to-update">
+        <mat-card-content>
+          <mat-icon class="metric-icon">person_search</mat-icon>
+          <p class="metric-title">Profile Visits</p>
+          <h3>{{ metrics.profileVisits }}</h3>
+        </mat-card-content>
+      </mat-card>
+  
+      <mat-card class="metric-card metric-updated">
+        <mat-card-content>
+          <mat-icon class="metric-icon">person</mat-icon>
+          <p class="metric-title">Followers</p>
+          <h3>{{ metrics.followers }}</h3>
+        </mat-card-content>
+      </mat-card>
+  
+      <mat-card class="metric-card metric-approvals">
+        <mat-card-content>
+          <mat-icon class="metric-icon">message</mat-icon>
+          <p class="metric-title">Messages</p>
+          <h3>{{ metrics.messages }}</h3>
+        </mat-card-content>
+      </mat-card>
+  
+      <mat-card class="metric-card metric-to-update">
+        <mat-card-content>
+          <mat-icon class="metric-icon">person_add</mat-icon>
+          <p class="metric-title">Leads</p>
+          <h3>{{ metrics.leads }}</h3>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  
+    <!-- Table Section -->
+    <mat-card class="table-card">
+      <mat-card-header>
+        <mat-card-title>Client Promotion Overview</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <table mat-table [dataSource]="clientData" class="mat-elevation-z8">
+          <ng-container matColumnDef="clientName">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-icon class="table-icon">person</mat-icon> Name of the Client
+            </th>
+            <td mat-cell *matCellDef="let element"> {{ element.clientName }} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="postersPromoted">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-icon class="table-icon">image</mat-icon> Posters Promoted
+            </th>
+            <td mat-cell *matCellDef="let element"> {{ element.postersPromoted }} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="gReelsPromoted">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-icon class="table-icon">movie</mat-icon> GReels Promoted
+            </th>
+            <td mat-cell *matCellDef="let element"> {{ element.gReelsPromoted }} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="edReelsPromoted">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-icon class="table-icon">edit</mat-icon> EdReels Promoted
+            </th>
+            <td mat-cell *matCellDef="let element"> {{ element.edReelsPromoted }} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="youtubeVideosPromoted">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-icon class="table-icon">video_library</mat-icon> YouTube Videos Promoted
+            </th>
+            <td mat-cell *matCellDef="let element"> {{ element.youtubeVideosPromoted }} </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  

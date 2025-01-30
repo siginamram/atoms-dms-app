@@ -94,6 +94,14 @@ export class LoginComponent implements OnInit {
     console.log('Navigating to Employee Dashboard');
     this.router.navigateByUrl('/home/dashboard/pd-dashboard');
   } 
+  else if (roleID === 13) {
+    console.log('Navigating to Employee Dashboard');
+    this.router.navigateByUrl('/home/dashboard/pg-dashboard');
+  } 
+  else if (roleID === 9) {
+    console.log('Navigating to Employee Dashboard');
+    this.router.navigateByUrl('/home/dashboard/dma-dashboard');
+  } 
     else if (roleID === 8) {
       console.log('Navigating to Employee Dashboard');
       this.router.navigateByUrl('/home/dashboard/sl-dashboard');
