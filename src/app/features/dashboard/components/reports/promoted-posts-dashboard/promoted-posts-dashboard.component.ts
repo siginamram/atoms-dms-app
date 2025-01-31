@@ -24,10 +24,10 @@ export class PromotedPostsDashboardComponent implements OnInit {
     'index',
     'organizationName',
     'postScheduleOn',
-    'contentWriter',
-    'editor',
     'contentStatus',
+    'contentWriter',
     'graphicStatus',
+    'editor',
     'postStatus',
   ];
 

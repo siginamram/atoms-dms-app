@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-dma-dashboard',
@@ -8,7 +9,16 @@ import { Component } from '@angular/core';
 })
 export class DmaDashboardComponent {
   filter = { fromDate: '', toDate: '' };
-
+  deliverablesColumns: string[] = [
+    'name',
+    'total',
+    'noOfPendingPosts',
+    'noOfPromotedPosts',
+    'noOfOnTimePosts',
+    'noOfEarlyPosts',
+    'noOfLatePosts',
+  ];
+    filteredDeliverables = new MatTableDataSource<any>([]);
   metrics = {
     numberOfClients: 20,
     postsPromoted: 25,
@@ -29,6 +39,7 @@ export class DmaDashboardComponent {
   clientData = [
     {
       clientName: 'Client A',
+      totalpending:5,
       postersPromoted: 10,
       gReelsPromoted: 5,
       edReelsPromoted: 3,
@@ -36,6 +47,7 @@ export class DmaDashboardComponent {
     },
     {
       clientName: 'Client B',
+      totalpending:4,
       postersPromoted: 8,
       gReelsPromoted: 4,
       edReelsPromoted: 2,
@@ -45,6 +57,7 @@ export class DmaDashboardComponent {
 
   displayedColumns = [
     'clientName',
+    'totalpending',
     'postersPromoted',
     'gReelsPromoted',
     'edReelsPromoted',

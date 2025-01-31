@@ -17,6 +17,7 @@ import { KtSessionDashboardComponent } from './components/reports/kt-session-das
 import { DmaDashboardComponent } from './components/dma-dashboard/dma-dashboard.component';
 import { PgDashboardComponent } from './components/pg-dashboard/pg-dashboard.component';
 import { VideoEditerDashboardComponent } from './components/reports/video-editer-dashboard/video-editer-dashboard.component';
+import { ClientDashboardComponent } from './components/reports/client-dashboard/client-dashboard.component';
 
 const routes: Routes = [
   {
@@ -40,6 +41,7 @@ const routes: Routes = [
       { path: 'dma-dashboard', component: DmaDashboardComponent },
       { path: 'pg-dashboard', component: PgDashboardComponent },
       { path: 'video-editor-dashboard', component: VideoEditerDashboardComponent },
+      { path: 'client-dashboard', component: ClientDashboardComponent },
     ],
   },
 ];

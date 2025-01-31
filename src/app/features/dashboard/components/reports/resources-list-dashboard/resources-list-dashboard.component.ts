@@ -63,4 +63,53 @@ export class ResourcesListDashboardComponent implements OnInit, AfterViewInit {
       this.router.navigate(['/home/dashboard/lead-dashboard']); 
     }
   }
+
+  editRow(lead: any): void {
+    console.log(lead);
+  if(this.name=='Content Writer')
+  {
+    this.router.navigate(['/home/dashboard/cw-dashboard'],{
+      queryParams: {
+         userId:lead.userId,
+        },
+    });
+  }
+  else if(this.name=='Poster Designer'){
+    this.router.navigate(['/home/dashboard/pd-dashboard'],{
+      queryParams: {
+         userId:lead.userId,
+        },
+    });
+  }
+  else if(this.name=='Video Editor'){
+    this.router.navigate(['/home/dashboard/video-editor-dashboard'],{
+      queryParams: {
+         userId:lead.userId,
+        },
+    });
+  }
+  else if(this.name=='DMA'){
+    this.router.navigate(['/home/dashboard/dma-dashboard'],{
+      queryParams: {
+         userId:lead.userId,
+        },
+    });
+  }
+  else if(this.name=='Videographer'){
+    this.router.navigate(['/home/dashboard/pg-dashboard'],{
+      queryParams: {
+         userId:lead.userId,
+        },
+    });
+  }
+  else if(this.name=='Team Lead'){
+    this.router.navigate(['/home/dashboard/lead-dashboard'],{
+      queryParams: {
+         userId:lead.userId,
+        },
+    });
+  }
+
+  } 
+ 
 }

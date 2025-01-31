@@ -25,7 +25,13 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
               <mat-icon class="header-icon">person</mat-icon> Employee Name
             </th>
-            <td mat-cell *matCellDef="let row">{{ row.empName }}</td>
+            <td mat-cell *matCellDef="let row">
+              <button mat-icon-button color="primary" (click)="editRow(row)"  class="number-button">
+                {{row.empName}}
+              </button>
+              <!-- {{ row.empName }} -->
+
+            </td>
           </ng-container>
   
           <!-- No. of Clients Column -->

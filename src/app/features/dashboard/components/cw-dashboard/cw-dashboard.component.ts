@@ -5,6 +5,7 @@ import { DashboardService } from '../../services/dashboard.service';
 import { ChartOptions } from 'chart.js';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import * as moment from 'moment';
+import { ActivatedRoute } from '@angular/router';
 
 export const MY_FORMATS = {
   parse: {
@@ -31,7 +32,7 @@ export class CwDashboardComponent implements OnInit {
   graphs: any[] = [];
   clientWiseData: any[] = [];
   date = new FormControl(moment()); // Default to current month and year
-  userId: number = parseInt(localStorage.getItem('UserID') || '0', 10); // Get userId from local storage
+  userId: number =0 // Get userId from local storage
   totals = {
     noOfRequiredContent: 0,
     totalContentWritten: 0,
@@ -40,14 +41,32 @@ export class CwDashboardComponent implements OnInit {
     totalPendingContent: 0,
     totalChangesRecommended:0,
   };
-  constructor(private dashboardService: DashboardService) {}
+  constructor(private dashboardService: DashboardService, private route: ActivatedRoute,) {}
 
   ngOnInit(): void {
-    this.fetchDashboardData(); // Fetch data on page load
+    this.route.queryParams.subscribe((params) => {
+      // Check if `userId` exists in query params and is a valid number
+      const queryUserId = +params['userId'];
+      if (!isNaN(queryUserId) && queryUserId > 0) {
+        this.userId = queryUserId;
+      } else {
+        // Fallback to `localStorage` if `userId` is not present or invalid
+        this.userId = parseInt(localStorage.getItem('UserID') || '0', 10);
+      }
+    });
+  
+    // Ensure `userId` is valid before fetching data
+    if (this.userId && this.userId > 0) {
+      this.fetchDashboardData(); // Fetch data on page load
+    } else {
+      console.error('Invalid userId: Unable to fetch dashboard data');
+    }
   }
+  
 
   fetchDashboardData(): void {
     this.showSpinner = true;
+ 
     const selectedDate = this.date.value?.format('YYYY-MM') + '-01'; // Format date as YYYY-MM-01
     this.dashboardService
       .GetcontentDashboardByUser(this.userId, selectedDate)

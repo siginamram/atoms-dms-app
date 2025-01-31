@@ -99,7 +99,7 @@
         <!-- Editor Column with Toggleable Filter -->
         <ng-container matColumnDef="editor">
           <th mat-header-cell *matHeaderCellDef>
-            <mat-icon class="header-icon">edit</mat-icon> Editor
+            <mat-icon class="header-icon">edit</mat-icon> Designer
             <button mat-icon-button (click)="toggleFilterVisibility('editor')">
               <mat-icon *ngIf="!activeFilters['editor']">filter_list</mat-icon>
               <mat-icon *ngIf="activeFilters['editor']">close</mat-icon>
@@ -143,7 +143,7 @@
         <!-- Graphic Status Column with Toggleable Filter -->
         <ng-container matColumnDef="graphicStatus">
           <th mat-header-cell *matHeaderCellDef>
-            <mat-icon class="header-icon">brush</mat-icon> Graphic Status
+            <mat-icon class="header-icon">brush</mat-icon> Design Status
             <button mat-icon-button (click)="toggleFilterVisibility('graphicStatus')">
               <mat-icon *ngIf="!activeFilters['graphicStatus']">filter_list</mat-icon>
               <mat-icon *ngIf="activeFilters['graphicStatus']">close</mat-icon>

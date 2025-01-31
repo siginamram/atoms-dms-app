@@ -23,11 +23,12 @@ export class PendingPostsDashboardComponent implements OnInit {
     'index',
     'organizationName',
     'postScheduleOn',
-    'contentWriter',
-    'editor',
     'contentStatus',
+    'contentWriter',
     'graphicStatus',
+    'editor',
     'postStatus',
+   
   ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
