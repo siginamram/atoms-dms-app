@@ -16,14 +16,15 @@ import { ResourcesListDashboardComponent } from './components/reports/resources-
 import { KtSessionDashboardComponent } from './components/reports/kt-session-dashboard/kt-session-dashboard.component';
 import { DmaDashboardComponent } from './components/dma-dashboard/dma-dashboard.component';
 import { PgDashboardComponent } from './components/pg-dashboard/pg-dashboard.component';
+import { VideoEditerDashboardComponent } from './components/reports/video-editer-dashboard/video-editer-dashboard.component';
 
 const routes: Routes = [
   {
     path: '',
     component: DashboardComponent,
     children: [
-      { path: '', component: DashboardHomeComponent }, // Default child route
-      { path: 'home-dashboard', component: DashboardHomeComponent }, // Explicit route for home if needed
+      { path: '', component: DashboardHomeComponent }, 
+      { path: 'home-dashboard', component: DashboardHomeComponent }, 
       { path: 'manager-dashboard', component: ManagerDashboardComponent },
       { path: 'lead-dashboard', component: LeadDashboardComponent },
       { path: 'pd-dashboard', component: PdDashboardComponent },
@@ -38,6 +39,7 @@ const routes: Routes = [
       { path: 'kt-sessions', component: KtSessionDashboardComponent },
       { path: 'dma-dashboard', component: DmaDashboardComponent },
       { path: 'pg-dashboard', component: PgDashboardComponent },
+      { path: 'video-editor-dashboard', component: VideoEditerDashboardComponent },
     ],
   },
 ];

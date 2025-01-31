@@ -1,0 +1,21 @@
+<div class="approvals-container">
+    <!-- Toolbar -->
+<mat-toolbar color="primary" class="toolbar">
+  <span>Dashboard</span>
+</mat-toolbar>
+  <div class="tabs">
+    <button [class.active]="activeTab === 'graphic'" (click)="activeTab = 'graphic'">
+      <mat-icon>movie</mat-icon>Graphic Videos
+    </button>
+    <button [class.active]="activeTab === 'video'" (click)="activeTab = 'video'">
+      <mat-icon>video_library</mat-icon>General Educational Videos
+    </button>
+  </div>
+
+  <div *ngIf="activeTab === 'graphic'">
+    <app-gd-dashboard></app-gd-dashboard>
+  </div>
+  <div *ngIf="activeTab === 'video'">
+    <app-ve-dashboard></app-ve-dashboard>
+  </div>
+</div>

@@ -65,6 +65,11 @@ export class LeftMenuComponent implements OnInit {
         { title: 'Dashboard', icon: 'home', route: '/home/dashboard/pd-dashboard' },
       ];
     } 
+    else if (roleID === 12) {
+      this.menuItems = [
+        { title: 'Dashboard', icon: 'home', route: '/home/dashboard/video-editor-dashboard' },
+      ];
+    }
     else if (roleID === 13) {
       this.menuItems = [
         { title: 'Dashboard', icon: 'home', route: '/home/dashboard/pg-dashboard' },

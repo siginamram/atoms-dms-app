@@ -1,13 +1,12 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef,ViewChild } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { FormControl } from '@angular/forms';
-import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
 import { OperationsService } from '../../services/operations.service';
 import { MatPaginator } from '@angular/material/paginator';
-
 
 export const MY_FORMATS = {
   parse: {
@@ -26,17 +25,19 @@ export const MY_FORMATS = {
   standalone: false,
   templateUrl: './ad-campaign-management.component.html',
   styleUrls: ['./ad-campaign-management.component.css'],
-  providers: [provideMomentDateAdapter(MY_FORMATS)],
+  providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdCampaignManagementComponent implements OnInit {
-    @ViewChild(MatPaginator) paginator!: MatPaginator;
-  readonly date = new FormControl(moment());
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  readonly date = new FormControl(moment()); // Form control for date
   dataSource = new MatTableDataSource<any>();
   displayedColumns: string[] = ['sno', 'client', 'noOfCompletedCampaigns', 'action'];
   campaigns: any[] = [];
   selectedDate: string = '';
-  userId: number = parseInt(localStorage.getItem('UserID') || '0', 10); // Get UserID from local storage
+  userId: number = parseInt(localStorage.getItem('UserID') || '0', 10);
+
   constructor(
     private cdr: ChangeDetectorRef,
     private router: Router,
@@ -44,41 +45,38 @@ export class AdCampaignManagementComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.fetchClients(); // Initial fetch with the current date
+    this.fetchClients(); // Fetch data for the current date
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator; // Assign paginator after view initialization
+    this.dataSource.paginator = this.paginator; // Attach paginator
   }
-  // Handle Month and Year selection
+
   setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
     const ctrlValue = this.date.value ?? moment();
     ctrlValue.month(normalizedMonthAndYear.month());
     ctrlValue.year(normalizedMonthAndYear.year());
-    this.date.setValue(ctrlValue);
+    this.date.setValue(ctrlValue); // Update the form control value
     datepicker.close();
 
- 
-    this.fetchClients(); // Fetch data for the selected month/year
+    this.fetchClients(); // Fetch data for the selected date
   }
 
   fetchClients(): void {
-    
-      // Format date as MM/YYYY
-      this.selectedDate =this.date.value?.format('YYYY-MM') + '-01'; // Format date as YYYY-MM-DD
+    this.selectedDate = this.date.value?.format('YYYY-MM') + '-01'; // Format date as YYYY-MM-DD
 
-    this.operationsService.getAdCampaignByMonthAndUserId(this.userId,  this.selectedDate).subscribe({
+    this.operationsService.getAdCampaignByMonthAndUserId(this.userId, this.selectedDate).subscribe({
       next: (response) => {
-        this.dataSource = response.map((campaign: any) => ({
+        this.dataSource.data = response.map((campaign: any) => ({
           clientId: campaign.clientId,
           client: campaign.clientName,
           noOfCompletedCampaigns: campaign.noOfCampaignsCompleted,
         }));
-        this.cdr.markForCheck(); // Trigger UI update
+        this.cdr.markForCheck();
       },
       error: (error) => {
         console.error('Error fetching campaigns:', error);
-        this.campaigns = []; // Clear campaigns on error
+        this.dataSource.data = []; // Clear data on error
         this.cdr.markForCheck();
       },
     });

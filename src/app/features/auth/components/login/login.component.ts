@@ -4,17 +4,18 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../../features/auth/services/auth.service';
 import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/alert-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: false,
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
   loginObj: any = {
     UserName: '',
-    Password: ''
+    Password: '',
   };
   showSpinner: boolean = false;
   errorMessage: string = '';
@@ -23,11 +24,12 @@ export class LoginComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private commanApiService: AuthService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private location: Location
   ) {}
 
   ngOnInit() {
-    // Any initialization logic if required
+    this.disableBrowserNavigation();
   }
 
   onLogin() {
@@ -64,11 +66,7 @@ export class LoginComponent implements OnInit {
       },
       (error) => {
         // Handle error
-        this.openAlertDialog(
-          'Error',
-          `Login Error: ${error.error}`,
-          'error'
-        );
+        this.openAlertDialog('Error', `Login Error: ${error.error}`, 'error');
         console.error('Login Error:', error);
         this.showSpinner = false;
       }
@@ -77,43 +75,22 @@ export class LoginComponent implements OnInit {
 
   navigateBasedOnRole(roleID: number) {
     // Dynamically navigate based on roleID
-    if (roleID === 1) {
-      console.log('Navigating to Admin Dashboard');
-      this.router.navigateByUrl('/home/admin-dashboard');
-    } else if (roleID === 2) {
-      console.log('Navigating to Manager Dashboard');
-      this.router.navigateByUrl('/home/dashboard/manager-dashboard');
-    } else if (roleID === 3) {
-      console.log('Navigating to Team Lead Dashboard');
-      this.router.navigateByUrl('/home/dashboard/lead-dashboard');
-    } else if (roleID === 10) {
-      console.log('Navigating to Employee Dashboard');
-      this.router.navigateByUrl('/home/dashboard/cw-dashboard');
-    } 
-   else if (roleID === 11) {
-    console.log('Navigating to Employee Dashboard');
-    this.router.navigateByUrl('/home/dashboard/pd-dashboard');
-  } 
-  else if (roleID === 13) {
-    console.log('Navigating to Employee Dashboard');
-    this.router.navigateByUrl('/home/dashboard/pg-dashboard');
-  } 
-  else if (roleID === 9) {
-    console.log('Navigating to Employee Dashboard');
-    this.router.navigateByUrl('/home/dashboard/dma-dashboard');
-  } 
-    else if (roleID === 8) {
-      console.log('Navigating to Employee Dashboard');
-      this.router.navigateByUrl('/home/dashboard/sl-dashboard');
-    } 
-    else if (roleID === 7) {
-      console.log('Navigating to Employee Dashboard');
-      this.router.navigateByUrl('/home/dashboard/sa-dashboard');
-    } 
-    else {
-      console.log('Navigating to Default Dashboard');
-      this.router.navigateByUrl('/home/dashboard');
-    }
+    const routes: { [key: number]: string } = {
+      1: '/home/admin-dashboard',
+      2: '/home/dashboard/manager-dashboard',
+      3: '/home/dashboard/lead-dashboard',
+      10: '/home/dashboard/cw-dashboard',
+      11: '/home/dashboard/pd-dashboard',
+      12: '/home/dashboard/video-editor-dashboard',
+      13: '/home/dashboard/pg-dashboard',
+      9: '/home/dashboard/dma-dashboard',
+      8: '/home/dashboard/sl-dashboard',
+      7: '/home/dashboard/sa-dashboard',
+    };
+
+    const route = routes[roleID] || '/home/dashboard';
+    console.log(`Navigating to ${route}`);
+    this.router.navigateByUrl(route);
   }
 
   openAlertDialog(title: string, message: string, type: string): void {
@@ -122,8 +99,22 @@ export class LoginComponent implements OnInit {
       data: {
         title,
         message,
-        type
-      }
+        type,
+      },
     });
+  }
+
+  disableBrowserNavigation(): void {
+    // Prevent back navigation
+    history.pushState(null, '', window.location.href);
+
+    window.onpopstate = () => {
+      history.pushState(null, '', window.location.href);
+    };
+
+    // Prevent forward navigation
+    window.onunload = () => {
+      history.replaceState(null, '', window.location.href);
+    };
   }
 }

@@ -16,13 +16,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgChartsModule } from 'ng2-charts';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MatButtonModule } from '@angular/material/button'; // If you want calendar navigation buttons
+import { MatButtonModule } from '@angular/material/button'; 
 import { SlDashboardComponent } from './components/sl-dashboard/sl-dashboard.component';
 import { SaDashboardComponent } from './components/sa-dashboard/sa-dashboard.component';
 import { MatIconModule } from '@angular/material/icon';
-
-import { MatCardModule } from '@angular/material/card'; // Import MatCardModule
-import { MatTableModule } from '@angular/material/table'; // Import MatTableModule
+import { MatCardModule } from '@angular/material/card'; 
+import { MatTableModule } from '@angular/material/table'; 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -34,6 +33,7 @@ import { PendingPostsDashboardComponent } from './components/reports/pending-pos
 import { PromotedPostsDashboardComponent } from './components/reports/promoted-posts-dashboard/promoted-posts-dashboard.component';
 import { ResourcesListDashboardComponent } from './components/reports/resources-list-dashboard/resources-list-dashboard.component';
 import { KtSessionDashboardComponent } from './components/reports/kt-session-dashboard/kt-session-dashboard.component';
+import { VideoEditerDashboardComponent } from './components/reports/video-editer-dashboard/video-editer-dashboard.component';
 
 
 @NgModule({
@@ -57,6 +57,7 @@ import { KtSessionDashboardComponent } from './components/reports/kt-session-das
     PromotedPostsDashboardComponent,
     ResourcesListDashboardComponent,
     KtSessionDashboardComponent,
+    VideoEditerDashboardComponent,
   ],
   imports: [
     CommonModule,
