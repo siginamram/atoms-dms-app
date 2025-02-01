@@ -55,4 +55,14 @@ export class DashboardService {
     const apiUrl = `${this.baseApiUrl}/api/Dashboard/GetPosterDesignerDashboardByUser/${userId}/${date}`;
     return this.http.get(apiUrl);
   }
+
+  GetGraphicDesignerDashboardByMonth(userId: number, date: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Dashboard/GetGraphicDesignerDashboardByMonth/${userId}/${date}`;
+    return this.http.get(apiUrl);
+  }
+
+  GetVideoEditorDashboardByMonth(userId: number, date: string,creativeTypeId:number): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Dashboard/GetVideoEditorDashboardByMonth/${userId}/${date}/${creativeTypeId}`;
+    return this.http.get(apiUrl);
+  }
 }

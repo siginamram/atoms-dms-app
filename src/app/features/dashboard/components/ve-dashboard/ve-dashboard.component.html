@@ -7,8 +7,9 @@
         <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
         <mat-datepicker #dp startView="multi-year" (monthSelected)="setMonthAndYear($event, dp)" panelClass="example-month-picker"></mat-datepicker>
       </mat-form-field>
+     
     </div>
-  
+    
     <div class="spinner" *ngIf="showSpinner">
       <mat-spinner></mat-spinner>
     </div>
@@ -56,26 +57,28 @@
           </tr>
         </thead>
         <tbody>
+          <!-- Table Rows -->
           <tr *ngFor="let row of clientWiseData; let i = index">
             <td>{{ i + 1 }}</td>
             <td>{{ row.organizationName }}</td>
-            <td>{{ row.noOfRequiredPosters }}</td>
-            <td>{{ row.totalPostersDesigned }}</td>
-            <td>{{ row.totalPostersApproved }}</td>
+            <td>{{ row.noOfRequiredVideos }}</td>
+            <td>{{ row.totalVideosEdited }}</td>
+            <td>{{ row.totalVideosApproved }}</td>
             <td>{{ row.totalPendingApprovals }}</td>
             <td>{{ row.totalChangesRecommended }}</td>
-            <td>{{ row.totalPendingContent }}</td>
+            <td>{{ row.totalPendingVideos }}</td>
           </tr>
-              <!-- Totals Row -->
-              <tr>
-                <td colspan="2"><strong>Totals</strong></td>
-                <td><strong>{{ totals.noOfRequiredPosters }}</strong></td>
-                <td><strong>{{ totals.totalPostersDesigned }}</strong></td>
-                <td><strong>{{ totals.totalPostersApproved }}</strong></td>
-                <td><strong>{{ totals.totalPendingApprovals }}</strong></td>
-                <td><strong>{{ totals.totalChangesRecommended }}</strong></td>
-                <td><strong>{{ totals.totalPendingContent }}</strong></td>
-              </tr>
+  
+          <!-- Totals Row -->
+          <tr>
+            <td colspan="2"><strong>Totals</strong></td>
+            <td><strong>{{ totals.noOfRequiredVideos }}</strong></td>
+            <td><strong>{{ totals.totalVideosEdited }}</strong></td>
+            <td><strong>{{ totals.totalVideosApproved }}</strong></td>
+            <td><strong>{{ totals.totalPendingApprovals }}</strong></td>
+            <td><strong>{{ totals.totalChangesRecommended }}</strong></td>
+            <td><strong>{{ totals.totalPendingVideos }}</strong></td>
+          </tr>
         </tbody>
       </table>
     </div>

@@ -19,26 +19,26 @@ export const MY_FORMATS = {
 };
 
 @Component({
-  selector: 'app-gd-dashboard',
-  standalone:false,
-  templateUrl: './gd-dashboard.component.html',
-  styleUrl: './gd-dashboard.component.css',
-   providers: [provideMomentDateAdapter(MY_FORMATS)],
+  selector: 'app-youtube-videos-dashboard',
+  standalone: false,
+  templateUrl: './youtube-videos-dashboard.component.html',
+  styleUrls: ['./youtube-videos-dashboard.component.css'],
+  providers: [provideMomentDateAdapter(MY_FORMATS)],
 })
-export class GdDashboardComponent implements OnInit {
+export class YoutubeVideosDashboardComponent implements OnInit {
   showSpinner: boolean = false;
   kpis: any[] = [];
   graphs: any[] = [];
   clientWiseData: any[] = [];
   date = new FormControl(moment());
   userId: number = parseInt(localStorage.getItem('UserID') || '0', 10);
-  
+
   totals = {
-    noOfRequiredPosters: 0,
-    totalPostersDesigned: 0,
-    totalPostersApproved: 0,
+    noOfRequiredVideos: 0,
+    totalVideosEdited: 0,
+    totalVideosApproved: 0,
     totalPendingApprovals: 0,
-    totalPendingContent: 0,
+    totalPendingVideos: 0,
     totalChangesRecommended: 0,
   };
 
@@ -53,14 +53,14 @@ export class GdDashboardComponent implements OnInit {
     const selectedDate = this.date.value?.format('YYYY-MM') + '-01';
 
     this.dashboardService
-      .GetGraphicDesignerDashboardByMonth(this.userId, selectedDate)
+      .GetVideoEditorDashboardByMonth(this.userId, selectedDate, 3)
       .subscribe(
         (data: any) => {
           if (data) {
             this.showSpinner = false;
-            this.updateKPI(data.posterDesignerMonthlyTask);
-            this.updateGraphs(data.posterDesignerDayTrackers);
-            this.clientWiseData = data.clientWiseMonthlyPosterDesignerTrackers || [];
+            this.updateKPI(data.videoEditorMonthlyTask);
+            this.updateGraphs(data.videoEditorDayTrackers);
+            this.clientWiseData = data.clientWiseMonthlyVideoEditorTrackers || [];
             this.calculateTotals();
           }
         },
@@ -80,14 +80,14 @@ export class GdDashboardComponent implements OnInit {
         color: '#4CAF50',
       },
       {
-        title: 'Graphic Videos Designed',
-        value: kpiData.totalPostersDesigned,
+        title: 'Youtube Videos Edited',
+        value: kpiData.totalVideosEdited,
         icon: 'photo_library',
         color: '#2196F3',
       },
       {
-        title: 'Approved Graphic Videos',
-        value: kpiData.totalApprovedPosters,
+        title: 'Approved Youtube Videos',
+        value: kpiData.totalApprovedVideos,
         icon: 'check_circle',
         color: '#8BC34A',
       },
@@ -110,8 +110,8 @@ export class GdDashboardComponent implements OnInit {
         color: '#FF5722',
       },
       {
-        title: 'Total Graphic Videos Pending',
-        value: kpiData.totalPostersPending,
+        title: 'Total Youtube Videos Pending',
+        value: kpiData.totalVideosPending,
         icon: 'hourglass_empty',
         color: '#FF7043',
       },
@@ -119,19 +119,17 @@ export class GdDashboardComponent implements OnInit {
   }
 
   updateGraphs(dayTrackerData: any[]): void {
-    const labels = dayTrackerData.map((item) =>
-      moment(item.day).format('DD')
-    );
-    const dataPoints = dayTrackerData.map((item) => item.totalPostersDesigned);
+    const labels = dayTrackerData.map((item) => moment(item.day).format('DD'));
+    const dataPoints = dayTrackerData.map((item) => item.totalVideosEdited);
 
     this.graphs = [
       {
-        title: 'Graphic Videos Designed Over Time',
+        title: 'Youtube Videos Over Time',
         labels,
         data: {
           datasets: [
             {
-              label: 'Graphic Videos Designed',
+              label: 'Youtube Videos',
               data: dataPoints,
               borderColor: '#007BFF',
               fill: false,
@@ -167,20 +165,20 @@ export class GdDashboardComponent implements OnInit {
   calculateTotals(): void {
     this.totals = this.clientWiseData.reduce(
       (acc, row) => {
-        acc.noOfRequiredPosters += row.noOfRequiredPosters || 0;
-        acc.totalPostersDesigned += row.totalPostersDesigned || 0;
-        acc.totalPostersApproved += row.totalPostersApproved || 0;
+        acc.noOfRequiredVideos += row.noOfRequiredVideos || 0;
+        acc.totalVideosEdited += row.totalVideosEdited || 0;
+        acc.totalVideosApproved += row.totalVideosApproved || 0;
         acc.totalPendingApprovals += row.totalPendingApprovals || 0;
-        acc.totalPendingContent += row.totalPendingContent || 0;
+        acc.totalPendingVideos += row.totalPendingVideos || 0;
         acc.totalChangesRecommended += row.totalChangesRecommended || 0;
         return acc;
       },
       {
-        noOfRequiredPosters: 0,
-        totalPostersDesigned: 0,
-        totalPostersApproved: 0,
+        noOfRequiredVideos: 0,
+        totalVideosEdited: 0,
+        totalVideosApproved: 0,
         totalPendingApprovals: 0,
-        totalPendingContent: 0,
+        totalPendingVideos: 0,
         totalChangesRecommended: 0,
       }
     );

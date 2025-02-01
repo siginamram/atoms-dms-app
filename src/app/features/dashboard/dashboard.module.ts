@@ -35,6 +35,7 @@ import { ResourcesListDashboardComponent } from './components/reports/resources-
 import { KtSessionDashboardComponent } from './components/reports/kt-session-dashboard/kt-session-dashboard.component';
 import { VideoEditerDashboardComponent } from './components/reports/video-editer-dashboard/video-editer-dashboard.component';
 import { ClientDashboardComponent } from './components/reports/client-dashboard/client-dashboard.component';
+import { YoutubeVideosDashboardComponent } from './components/youtube-videos-dashboard/youtube-videos-dashboard.component';
 
 
 @NgModule({
@@ -60,6 +61,7 @@ import { ClientDashboardComponent } from './components/reports/client-dashboard/
     KtSessionDashboardComponent,
     VideoEditerDashboardComponent,
     ClientDashboardComponent,
+    YoutubeVideosDashboardComponent,
   ],
   imports: [
     CommonModule,
