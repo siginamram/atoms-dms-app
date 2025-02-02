@@ -69,15 +69,34 @@ export class AdCampaignTrakerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Retrieve clientId from query params
     this.route.queryParams.subscribe((params) => {
-      this.clientId = Number(params['clientId']) || 0;
-
-      // Fetch client details
+      const queryDate = params['date']; // Get 'date' query parameter
+      const clientId = params['clientId']; // Get 'clientId' query parameter
+      
+      if (queryDate) {
+        // Parse the query date and set it for both fromDate and toDate
+        const selectedDate = moment(queryDate, 'YYYY-MM-DD').startOf('month').toDate();
+        this.clientForm.patchValue({
+          fromDate: selectedDate,
+          toDate: moment(selectedDate).endOf('month').toDate(),
+        });
+      } else {
+        // Default to the current month
+        this.clientForm.patchValue({
+          fromDate: moment().startOf('month').toDate(),
+          toDate: moment().endOf('month').toDate(),
+        });
+      }
+  
+      // Set clientId if provided in params
+      this.clientId = Number(clientId) || 0;
+  
+      // Fetch client details and campaign data
       this.fetchClientDetails(this.clientId);
       this.fetchFilteredData();
     });
   }
+  
   // Handle Month Selection
   onMonthSelected(controlName: string, event: moment.Moment, datepicker: any): void {
     if (event && event.isValid()) {

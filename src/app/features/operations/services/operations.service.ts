@@ -219,12 +219,12 @@ export class OperationsService {
     return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
   }
 
-  GetAdCampaignItemsByClientIdAndMonth(clientId: number, from: any,to:any): Observable<any> {
+  GetAdCampaignItemsByClientIdAndMonth(clientId: number, startMonth: any,endMonth:any): Observable<any> {
     const apiUrl = `${this.baseApiUrl}/api/Client/GetAdCampaignItemsByClientIdAndMonth`;
     const payload = {
       clientId,
-      from,
-      to
+      startMonth,
+      endMonth
     };
     return this.http.post(apiUrl, payload);
   }
