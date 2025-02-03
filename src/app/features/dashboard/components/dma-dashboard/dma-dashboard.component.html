@@ -2,22 +2,24 @@
     <h2>DMA Dashboard</h2>
   
     <!-- Filter Section -->
-    <div class="filter-container">
-      <mat-form-field appearance="outline" class="filter-field">
-        <mat-label>From</mat-label>
-        <input matInput [matDatepicker]="fromDatePicker" [(ngModel)]="filter.fromDate" />
-        <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
-        <mat-datepicker #fromDatePicker></mat-datepicker>
+    <div class="filters-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Month and Year</mat-label>
+        <input
+          matInput
+          [matDatepicker]="dp"
+          [formControl]="date"
+          placeholder="MM/YYYY"
+          readonly
+        />
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker
+          #dp
+          startView="multi-year"
+          (monthSelected)="setMonthAndYear($event, dp)"
+          panelClass="example-month-picker"
+        ></mat-datepicker>
       </mat-form-field>
-  
-      <mat-form-field appearance="outline" class="filter-field">
-        <mat-label>To</mat-label>
-        <input matInput [matDatepicker]="toDatePicker" [(ngModel)]="filter.toDate" />
-        <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
-        <mat-datepicker #toDatePicker></mat-datepicker>
-      </mat-form-field>
-  
-      <button mat-raised-button color="primary" (click)="applyFilter()">Apply Filter</button>
     </div>
     <!-- Deliverable Status -->
     <mat-card class="status-section">
@@ -109,41 +111,7 @@
         </table>
       </mat-card-content>
     </mat-card>
-    <!-- Metrics Section -->
-    <!-- <div class="metrics-container">
-      <mat-card class="metric-card metric-clients">
-        <mat-card-content>
-          <mat-icon class="metric-icon">groups</mat-icon>
-          <p class="metric-title">Number of Clients</p>
-          <h3>{{ metrics.numberOfClients }}</h3>
-        </mat-card-content>
-      </mat-card> -->
-  
-      <!-- <mat-card class="metric-card metric-posts">
-        <mat-card-content>
-          <mat-icon class="metric-icon">post_add</mat-icon>
-          <p class="metric-title">Posts Promoted/Scheduled</p>
-          <h3>{{ metrics.postsPromoted }}</h3>
-        </mat-card-content>
-      </mat-card>
-  
-      <mat-card class="metric-card metric-pending-posts">
-        <mat-card-content>
-          <mat-icon class="metric-icon">pending_actions</mat-icon>
-          <p class="metric-title">Pending Posts</p>
-          <h3>{{ metrics.pendingPosts }}</h3>
-        </mat-card-content>
-      </mat-card>
-  
-      <mat-card class="metric-card metric-approvals">
-        <mat-card-content>
-          <mat-icon class="metric-icon">thumb_up</mat-icon>
-          <p class="metric-title">Pending Approvals</p>
-          <h3>{{ metrics.pendingApprovals }}</h3>
-        </mat-card-content>
-      </mat-card> -->
-   
-    <!-- </div> -->
+ 
     <h2>Ad's Overview </h2>
   
     <div class="metrics-container">
@@ -172,17 +140,17 @@
   
       <mat-card class="metric-card metric-budget">
         <mat-card-content>
-          <mat-icon class="metric-icon">attach_money</mat-icon>
+          <span class="rupee-symbol">₹</span>
           <p class="metric-title">Budget to Be Spent</p>
-          <h3>{{ metrics.budgetToBeSpent | currency }}</h3>
+          <h3>{{ metrics.budgetToBeSpent | number }}</h3>
         </mat-card-content>
       </mat-card>
   
       <mat-card class="metric-card metric-budget-spent">
         <mat-card-content>
-          <mat-icon class="metric-icon">money_off</mat-icon>
+          <span class="rupee-symbol">₹</span>
           <p class="metric-title">Budget Spent</p>
-          <h3>{{ metrics.budgetSpent | currency }}</h3>
+          <h3>{{ metrics.budgetSpent | number }}</h3>
         </mat-card-content>
       </mat-card>
     </div>
@@ -236,60 +204,92 @@
         </mat-card-content>
       </mat-card>
     </div>
-  
-    <!-- Table Section -->
-    <mat-card class="table-card">
-      <mat-card-header>
-        <mat-card-title>Client Promotion Overview</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <table mat-table [dataSource]="clientData" class="mat-elevation-z8">
-          <ng-container matColumnDef="clientName">
-            <th mat-header-cell *matHeaderCellDef>
-              <mat-icon class="table-icon">person</mat-icon> Name of the Client
-            </th>
-            <td mat-cell *matCellDef="let element"> {{ element.clientName }} </td>
-          </ng-container>
 
-          <ng-container matColumnDef="totalpending">
-            <th mat-header-cell *matHeaderCellDef>
-              <mat-icon class="table-icon">image</mat-icon> Total Pending
-            </th>
-            <td mat-cell *matCellDef="let element"> {{ element.totalpending }} </td>
-          </ng-container>
-  
-          <ng-container matColumnDef="postersPromoted">
-            <th mat-header-cell *matHeaderCellDef>
-              <mat-icon class="table-icon">image</mat-icon> Posters Promoted
-            </th>
-            <td mat-cell *matCellDef="let element"> {{ element.postersPromoted }} </td>
-          </ng-container>
-  
-          <ng-container matColumnDef="gReelsPromoted">
-            <th mat-header-cell *matHeaderCellDef>
-              <mat-icon class="table-icon">movie</mat-icon> GReels Promoted
-            </th>
-            <td mat-cell *matCellDef="let element"> {{ element.gReelsPromoted }} </td>
-          </ng-container>
-  
-          <ng-container matColumnDef="edReelsPromoted">
-            <th mat-header-cell *matHeaderCellDef>
-              <mat-icon class="table-icon">edit</mat-icon> EdReels Promoted
-            </th>
-            <td mat-cell *matCellDef="let element"> {{ element.edReelsPromoted }} </td>
-          </ng-container>
-  
-          <ng-container matColumnDef="youtubeVideosPromoted">
-            <th mat-header-cell *matHeaderCellDef>
-              <mat-icon class="table-icon">video_library</mat-icon> YouTube Videos Promoted
-            </th>
-            <td mat-cell *matCellDef="let element"> {{ element.youtubeVideosPromoted }} </td>
-          </ng-container>
-  
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-      </mat-card-content>
-    </mat-card>
+  <!-- Table Section -->
+<mat-card class="table-card">
+  <mat-card-header>
+    <mat-card-title>Client Promotion Overview</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <table mat-table [dataSource]="clientData" class="mat-elevation-z8">
+      <ng-container matColumnDef="clientName">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-icon class="table-icon">person</mat-icon> Name of the Client
+        </th>
+        <td mat-cell *matCellDef="let element"> {{ element.clientName }} </td>
+        <td mat-footer-cell *matFooterCellDef><strong>Total</strong></td>
+      </ng-container>
+
+      <ng-container matColumnDef="posterspending">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-icon class="table-icon">hourglass_empty</mat-icon> Posters Pending
+        </th>
+        <td mat-cell *matCellDef="let element"> {{ element.posterspending }} </td>
+        <td mat-footer-cell *matFooterCellDef><strong>{{ totalPostersPending }}</strong></td>
+      </ng-container>
+
+      <ng-container matColumnDef="postersPromoted">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-icon class="table-icon">image</mat-icon> Posters Promoted
+        </th>
+        <td mat-cell *matCellDef="let element"> {{ element.postersPromoted }} </td>
+        <td mat-footer-cell *matFooterCellDef><strong>{{ totalPostersPromoted }}</strong></td>
+      </ng-container>
+
+      <ng-container matColumnDef="gReelspending">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-icon class="table-icon">hourglass_empty</mat-icon> GReels Pending
+        </th>
+        <td mat-cell *matCellDef="let element"> {{ element.gReelspending }} </td>
+        <td mat-footer-cell *matFooterCellDef><strong>{{ totalGReelsPending }}</strong></td>
+      </ng-container>
+
+      <ng-container matColumnDef="gReelsPromoted">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-icon class="table-icon">movie</mat-icon> GReels Promoted
+        </th>
+        <td mat-cell *matCellDef="let element"> {{ element.gReelsPromoted }} </td>
+        <td mat-footer-cell *matFooterCellDef><strong>{{ totalGReelsPromoted }}</strong></td>
+      </ng-container>
+
+      <ng-container matColumnDef="edReelspending">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-icon class="table-icon">hourglass_empty</mat-icon> EdReels Pending
+        </th>
+        <td mat-cell *matCellDef="let element"> {{ element.edReelspending }} </td>
+        <td mat-footer-cell *matFooterCellDef><strong>{{ totalEdReelsPending }}</strong></td>
+      </ng-container>
+
+      <ng-container matColumnDef="edReelsPromoted">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-icon class="table-icon">edit</mat-icon> EdReels Promoted
+        </th>
+        <td mat-cell *matCellDef="let element"> {{ element.edReelsPromoted }} </td>
+        <td mat-footer-cell *matFooterCellDef><strong>{{ totalEdReelsPromoted }}</strong></td>
+      </ng-container>
+
+      <ng-container matColumnDef="youtubeVideospending">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-icon class="table-icon">hourglass_empty</mat-icon> YT Videos Pending
+        </th>
+        <td mat-cell *matCellDef="let element"> {{ element.youtubeVideospending }} </td>
+        <td mat-footer-cell *matFooterCellDef><strong>{{ totalYTVideosPending }}</strong></td>
+      </ng-container>
+
+      <ng-container matColumnDef="youtubeVideosPromoted">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-icon class="table-icon">video_library</mat-icon> YouTube Videos Promoted
+        </th>
+        <td mat-cell *matCellDef="let element"> {{ element.youtubeVideosPromoted }} </td>
+        <td mat-footer-cell *matFooterCellDef><strong>{{ totalYTVideosPromoted }}</strong></td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>
+
   </div>
   

@@ -1,55 +1,121 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { MatDatepicker } from '@angular/material/datepicker';
+import { FormControl } from '@angular/forms';
+import { DashboardService } from '../../services/dashboard.service';
+import * as moment from 'moment';
+import { ActivatedRoute } from '@angular/router';
+import { MatTableDataSource } from '@angular/material/table';
+import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'MM/YYYY',
+  },
+  display: {
+    dateInput: 'MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'app-pg-dashboard',
-  standalone:false,
+  standalone: false,
   templateUrl: './pg-dashboard.component.html',
-  styleUrl: './pg-dashboard.component.css'
+  styleUrl: './pg-dashboard.component.css',
+  providers: [provideMomentDateAdapter(MY_FORMATS)],
 })
-export class PgDashboardComponent {
-  filter = {
-    fromDate: '',
-    toDate: '',
-  };
+export class PgDashboardComponent implements OnInit {
+  date = new FormControl(moment()); // Default to current month and year
+  userId: number = 0;
+  filteredData = new MatTableDataSource<any>([]);
+  
+  // Metrics from API
+  // API metrics variables
+  totalClients = 0;
+  totalShootsRequired = 0;
+  totalShootsCompleted = 0;
+  totalYTRequired = 0;
+  totalYTShooted = 0;
+  totalEDRequired = 0;
+  totalEDShooted = 0;
+  // Initialize totals
+totalYtRequired: number = 0;
+totalYtShooted: number = 0;
+totalEdRequired: number = 0;
+totalEdShooted: number = 0;
 
-  data = [
-    { client: 'ssssssss', tentativeShootDate: '2025-02-10', scheduledDate: '2025-02-12', noOfReelsRequired: 10, noOfReelsShoot: 8, noOfYoutubeVideosRequired: 3, noOfYoutubeVideosShoot: 2 },
-    { client: 'PPPPPP', tentativeShootDate: '2025-02-15', scheduledDate: '2025-02-17', noOfReelsRequired: 5, noOfReelsShoot: 4, noOfYoutubeVideosRequired: 2, noOfYoutubeVideosShoot: 1 },
-    { client: 'ssssss', tentativeShootDate: '2025-02-20', scheduledDate: '2025-02-22', noOfReelsRequired: 8, noOfReelsShoot: 7, noOfYoutubeVideosRequired: 4, noOfYoutubeVideosShoot: 3 },
-  ];
-
+  // Table data columns
   displayedColumns: string[] = [
-    'client',
-    'tentativeShootDate',
-    'scheduledDate',
-    'noOfReelsRequired',
-    'noOfReelsShoot',
-    'noOfYoutubeVideosRequired',
-    'noOfYoutubeVideosShoot',
+    'sno',
+    'organizationName',
+    'dates',
+    'noOfYtRequired',
+    'noOfYTShooted',
+    'noOfEDRequired',
+    'noOfEDShooted',
   ];
 
-  filteredData = [...this.data];
+  constructor(private dashboardService: DashboardService, private route: ActivatedRoute) {}
 
-  // Calculated metrics
-  get totalShootsRequired(): number {
-    return this.data.reduce((sum, entry) => sum + entry.noOfReelsRequired, 0);
-  }
-
-  get totalShootsCompleted(): number {
-    return this.data.reduce((sum, entry) => sum + entry.noOfReelsShoot, 0);
-  }
-
-  get totalVideosRequired(): number {
-    return this.data.reduce((sum, entry) => sum + entry.noOfYoutubeVideosRequired, 0);
-  }
-
-  applyFilter() {
-    const from = this.filter.fromDate ? new Date(this.filter.fromDate).getTime() : null;
-    const to = this.filter.toDate ? new Date(this.filter.toDate).getTime() : null;
-
-    this.filteredData = this.data.filter((entry) => {
-      const date = new Date(entry.tentativeShootDate).getTime();
-      return (!from || date >= from) && (!to || date <= to);
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      const queryUserId = +params['userId'];
+      this.userId = !isNaN(queryUserId) && queryUserId > 0 ? queryUserId : parseInt(localStorage.getItem('UserID') || '0', 10);
     });
+
+    if (this.userId && this.userId > 0) {
+      this.fetchDashboardData(); // Fetch data on page load
+    } else {
+      console.error('Invalid userId: Unable to fetch dashboard data');
+    }
+  }
+
+  fetchDashboardData(): void {
+    const selectedDate = this.date.value?.format('YYYY-MM') + '-01'; // Default day is 01
+    this.dashboardService.GetVideoGrapherDashboardByMonth(this.userId, selectedDate).subscribe(
+      (response: any) => {
+        // Assign API metrics
+        this.totalClients = response.videoGrapherSummary.totalClients;
+        this.totalShootsRequired = response.videoGrapherSummary.noOfShootsRequired;
+        this.totalShootsCompleted = response.videoGrapherSummary.noOfShootsCompleted;
+        this.totalYTRequired = response.videoGrapherSummary.noOfYTRequired;
+        this.totalYTShooted = response.videoGrapherSummary.noOfYTShooted;
+        this.totalEDRequired = response.videoGrapherSummary.noOfEDRequired;
+        this.totalEDShooted = response.videoGrapherSummary.noOfEDShooted;
+
+     
+ // Assuming `response` is already fetched from the API
+ this.filteredData.data = response.videoGrapherShootSummary.map((item: any) => {
+  // Update totals
+  this.totalYtRequired += item.noOfYtRequired || 0;
+  this.totalYtShooted += item.noOfYTShooted || 0;
+  this.totalEdRequired += item.noOfEDRequired || 0;
+  this.totalEdShooted += item.noOfEDShooted || 0;
+
+  return {
+    organizationName: item.organizationName,
+    dates: item.dates ? moment(item.dates).format('YYYY-MM-DD hh:mm A') : 'N/A',
+    noOfYtRequired: item.noOfYtRequired,
+    noOfYTShooted: item.noOfYTShooted,
+    noOfEDRequired: item.noOfEDRequired,
+    noOfEDShooted: item.noOfEDShooted,
+  };
+});
+      },
+      (error) => {
+        console.error('Error fetching Photographer Dashboard data:', error);
+      }
+    );
+  }
+
+  setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
+    const ctrlValue = this.date.value || moment();
+    ctrlValue.month(normalizedMonthAndYear.month());
+    ctrlValue.year(normalizedMonthAndYear.year());
+    this.date.setValue(ctrlValue);
+    datepicker.close();
+    this.fetchDashboardData(); // Fetch data on month/year change
   }
 }

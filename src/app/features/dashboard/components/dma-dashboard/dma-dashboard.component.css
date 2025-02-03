@@ -75,4 +75,20 @@
     font-size: 18px;
     margin-right: 8px;
     vertical-align: middle;
+    color: #ff9800;
   }
+
+  .number-button,
+.number-text {
+  font-size: 14px; /* Adjust size as needed */
+  color: #3f51b5; /* Optional: Match the color theme */
+  font-weight: bold; /* Optional: Add emphasis */
+  text-decoration: none; /* Ensure no underline by default */
+  align-items: center;
+}
+
+.number-button:hover,
+.number-text:hover {
+  text-decoration: underline; /* Add underline on hover */
+  cursor: pointer; /* Indicate interactivity */
+}

@@ -65,4 +65,14 @@ export class DashboardService {
     const apiUrl = `${this.baseApiUrl}/api/Dashboard/GetVideoEditorDashboardByMonth/${userId}/${date}/${creativeTypeId}`;
     return this.http.get(apiUrl);
   }
+
+  GetDMADashboardByMonth(userId: number, date: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Dashboard/GetDMADashboardByMonth/${userId}/${date}`;
+    return this.http.get(apiUrl);
+  }
+
+  GetVideoGrapherDashboardByMonth(userId: number, date: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Dashboard/GetVideoGrapherDashboardByMonth/${userId}/${date}`;
+    return this.http.get(apiUrl);
+  }
 }
