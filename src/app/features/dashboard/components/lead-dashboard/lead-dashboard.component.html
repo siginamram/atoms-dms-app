@@ -51,10 +51,10 @@
             <mat-icon class="header-icon" color="primary">hourglass_empty</mat-icon> Pending
           </th>
           <td mat-cell *matCellDef="let item">
-            <button mat-icon-button color="primary" (click)="editRow(item)" *ngIf="item.noOfPendingPosts !== 0" class="number-button">
-              {{ item.noOfPendingPosts }}
+            <button mat-icon-button color="primary" (click)="editRow(item)"  class="number-button">
+              {{ item.noOfPendingPosts || 0}}
             </button>
-            <span *ngIf="item.noOfPendingPosts === 0"  class="number-text" >{{ item.noOfPendingPosts }}</span>
+            <!-- <span *ngIf="item.noOfPendingPosts === 0"  class="number-text" >{{ item.noOfPendingPosts }}</span> -->
           </td>
         </ng-container>
         
@@ -63,10 +63,10 @@
             <mat-icon class="header-icon" color="accent">check_circle</mat-icon> Promoted
           </th>
           <td mat-cell *matCellDef="let item">
-            <button mat-icon-button color="primary" (click)="editRownew(item)" *ngIf="item.noOfPromotedPosts !== 0" class="number-button">
-              {{ item.noOfPromotedPosts }}
+            <button mat-icon-button color="primary" (click)="editRownew(item)"  class="number-button">
+              {{ item.noOfPromotedPosts || 0}}
             </button>
-            <span *ngIf="item.noOfPromotedPosts === 0"  class="number-text" >{{ item.noOfPromotedPosts }}</span>
+            <!-- <span *ngIf="item.noOfPromotedPosts === 0"  class="number-text" >{{ item.noOfPromotedPosts }}</span> -->
           </td>
         </ng-container>
         
@@ -75,10 +75,10 @@
             <mat-icon class="header-icon" color="accent">check_circle</mat-icon> On Time 
           </th>
           <td mat-cell *matCellDef="let item">
-            <button mat-icon-button color="primary" (click)="OnTime(item)" *ngIf="item.noOfOnTimePosts !== 0" class="number-button">
-              {{ item.noOfOnTimePosts }}
+            <button mat-icon-button color="primary" (click)="OnTime(item)"  class="number-button">
+              {{ item.noOfOnTimePosts || 0}}
             </button>
-            <span *ngIf="item.noOfOnTimePosts === 0"  class="number-text">{{ item.noOfOnTimePosts }}</span>
+            <!-- <span *ngIf="item.noOfOnTimePosts === 0"  class="number-text">{{ item.noOfOnTimePosts }}</span> -->
           </td>
         </ng-container>
    
@@ -87,10 +87,10 @@
             <mat-icon class="header-icon" color="accent">check_circle</mat-icon> Early
           </th>
           <td mat-cell *matCellDef="let item">
-            <button mat-icon-button color="primary" (click)="early(item)" *ngIf="item.noOfEarlyPosts !== 0" class="number-button">
-              {{ item.noOfEarlyPosts }}
+            <button mat-icon-button color="primary" (click)="early(item)" class="number-button">
+              {{ item.noOfEarlyPosts || 0}}
             </button>
-            <span *ngIf="item.noOfEarlyPosts === 0" class="number-text" >{{ item.noOfEarlyPosts }}</span>
+            <!-- <span *ngIf="item.noOfEarlyPosts === 0" class="number-text" >{{ item.noOfEarlyPosts }}</span> -->
           </td>
         </ng-container>
   
@@ -99,10 +99,10 @@
             <mat-icon class="header-icon" color="accent">check_circle</mat-icon> Late
           </th>
           <td mat-cell *matCellDef="let item">
-            <button mat-icon-button color="primary" (click)="Late(item)" *ngIf="item.noOfLatePosts !== 0" class="number-button">
-              {{ item.noOfLatePosts }}
+            <button mat-icon-button color="primary" (click)="Late(item)" class="number-button">
+              {{ item.noOfLatePosts || 0}}
             </button>
-            <span *ngIf="item.noOfLatePosts === 0"  class="number-text" >{{ item.noOfLatePosts }}</span>
+            <!-- <span *ngIf="item.noOfLatePosts === 0"  class="number-text" >{{ item.noOfLatePosts }}</span> -->
           </td>
         </ng-container>
   

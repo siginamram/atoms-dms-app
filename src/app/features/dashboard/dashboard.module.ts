@@ -36,6 +36,8 @@ import { KtSessionDashboardComponent } from './components/reports/kt-session-das
 import { VideoEditerDashboardComponent } from './components/reports/video-editer-dashboard/video-editer-dashboard.component';
 import { ClientDashboardComponent } from './components/reports/client-dashboard/client-dashboard.component';
 import { YoutubeVideosDashboardComponent } from './components/youtube-videos-dashboard/youtube-videos-dashboard.component';
+import { DmaPendingPostsDashboardComponent } from './components/reports/dma-pending-posts-dashboard/dma-pending-posts-dashboard.component';
+import { DmaPromotedPostsDashboardComponent } from './components/reports/dma-promoted-posts-dashboard/dma-promoted-posts-dashboard.component';
 
 
 @NgModule({
@@ -62,6 +64,8 @@ import { YoutubeVideosDashboardComponent } from './components/youtube-videos-das
     VideoEditerDashboardComponent,
     ClientDashboardComponent,
     YoutubeVideosDashboardComponent,
+    DmaPendingPostsDashboardComponent,
+    DmaPromotedPostsDashboardComponent,
   ],
   imports: [
     CommonModule,

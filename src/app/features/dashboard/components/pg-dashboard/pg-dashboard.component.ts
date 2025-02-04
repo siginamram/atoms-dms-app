@@ -29,6 +29,7 @@ export const MY_FORMATS = {
 export class PgDashboardComponent implements OnInit {
   date = new FormControl(moment()); // Default to current month and year
   userId: number = 0;
+  showSpinner: boolean = false; // Default value
   filteredData = new MatTableDataSource<any>([]);
   
   // Metrics from API
@@ -73,9 +74,11 @@ totalEdShooted: number = 0;
   }
 
   fetchDashboardData(): void {
+    this.showSpinner = true;
     const selectedDate = this.date.value?.format('YYYY-MM') + '-01'; // Default day is 01
     this.dashboardService.GetVideoGrapherDashboardByMonth(this.userId, selectedDate).subscribe(
       (response: any) => {
+        this.showSpinner = false;
         // Assign API metrics
         this.totalClients = response.videoGrapherSummary.totalClients;
         this.totalShootsRequired = response.videoGrapherSummary.noOfShootsRequired;
@@ -105,6 +108,7 @@ totalEdShooted: number = 0;
 });
       },
       (error) => {
+        this.showSpinner = false;
         console.error('Error fetching Photographer Dashboard data:', error);
       }
     );

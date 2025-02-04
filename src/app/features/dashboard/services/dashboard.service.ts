@@ -75,4 +75,14 @@ export class DashboardService {
     const apiUrl = `${this.baseApiUrl}/api/Dashboard/GetVideoGrapherDashboardByMonth/${userId}/${date}`;
     return this.http.get(apiUrl);
   }
+
+  DMAPendingPostsDashboard(userId: number, date: string,creativeTypeId:number): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Dashboard/DMAPendingPostsDashboard/${userId}/${date}/${creativeTypeId}`;
+    return this.http.get(apiUrl);
+  }
+
+  DMAPromotedPostsDashboard(userId: number, date: string,creativeTypeId:number): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Dashboard/DMAPromotedPostsDashboard/${userId}/${date}/${creativeTypeId}`;
+    return this.http.get(apiUrl);
+  }
 }

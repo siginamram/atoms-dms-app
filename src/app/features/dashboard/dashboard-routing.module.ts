@@ -18,6 +18,9 @@ import { DmaDashboardComponent } from './components/dma-dashboard/dma-dashboard.
 import { PgDashboardComponent } from './components/pg-dashboard/pg-dashboard.component';
 import { VideoEditerDashboardComponent } from './components/reports/video-editer-dashboard/video-editer-dashboard.component';
 import { ClientDashboardComponent } from './components/reports/client-dashboard/client-dashboard.component';
+import { DmaPendingPostsDashboardComponent } from './components/reports/dma-pending-posts-dashboard/dma-pending-posts-dashboard.component';
+import { DmaPromotedPostsDashboardComponent } from './components/reports/dma-promoted-posts-dashboard/dma-promoted-posts-dashboard.component';
+
 
 const routes: Routes = [
   {
@@ -42,6 +45,8 @@ const routes: Routes = [
       { path: 'pg-dashboard', component: PgDashboardComponent },
       { path: 'video-editor-dashboard', component: VideoEditerDashboardComponent },
       { path: 'client-dashboard', component: ClientDashboardComponent },
+      { path: 'dma-pending-posts', component: DmaPendingPostsDashboardComponent },
+      { path: 'dma-promoted-posts', component: DmaPromotedPostsDashboardComponent },
     ],
   },
 ];

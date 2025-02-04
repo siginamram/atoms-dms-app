@@ -1,0 +1,171 @@
+<div class="dashboard-container">
+  <!-- Toolbar -->
+  <mat-toolbar color="primary" class="toolbar" style="border-radius: 10px;">
+    <button mat-icon-button (click)="goBack()" aria-label="Back">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span>Pending Deliverables</span>
+  </mat-toolbar>
+
+  <!-- Filters Section -->
+  <!-- <div class="filters-container" style="padding-top: 20px;">
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Month and Year</mat-label>
+      <input
+        matInput
+        [matDatepicker]="monthPicker"
+        [(ngModel)]="selectedMonthYear"
+        placeholder="MM/YYYY"
+      />
+      <mat-datepicker-toggle matSuffix [for]="monthPicker"></mat-datepicker-toggle>
+      <mat-datepicker
+        #monthPicker
+        startView="multi-year"
+        (monthSelected)="setMonthAndYear($event, monthPicker)"
+        panelClass="month-picker"
+      ></mat-datepicker>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="fetchPendingPosts()">
+      Apply Filter
+    </button>
+  </div> -->
+
+  <!-- Spinner -->
+  <div class="spinner" *ngIf="showSpinner">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <!-- Pending Posts Table -->
+  <div class="table-section">
+    <table mat-table [dataSource]="statistics" matSort class="mat-elevation-z8">
+      <!-- S.No Column -->
+      <ng-container matColumnDef="index">
+        <th mat-header-cell *matHeaderCellDef>S.NO</th>
+        <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="organizationName">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-icon class="header-icon">business</mat-icon> Organization
+          <button mat-icon-button (click)="toggleFilterVisibility('organizationName')">
+            <mat-icon *ngIf="!filterVisibility['organizationName']">filter_list</mat-icon>
+            <mat-icon *ngIf="filterVisibility['organizationName']">close</mat-icon>
+          </button>
+          <div *ngIf="filterVisibility['organizationName']" class="filter-input">
+            <mat-form-field appearance="outline" style="width: 100%;">
+              <mat-label>Filter Organization</mat-label>
+              <input
+                matInput
+                placeholder="Search Organization"
+                (keyup)="applyFilter($event, 'organizationName')"
+              />
+            </mat-form-field>
+          </div>
+        </th>
+        
+        <td mat-cell *matCellDef="let row">{{ row.organizationName }}</td>
+      </ng-container>
+
+      <!-- Scheduled Date Column -->
+      <ng-container matColumnDef="postScheduleOn">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <mat-icon class="header-icon">event</mat-icon> Schedule Date
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.postScheduleOn | date: 'dd/MM/yyyy' }}</td>
+      </ng-container>
+
+   <!-- Content Writer Column with Filter -->
+<ng-container matColumnDef="contentWriter">
+  <th mat-header-cell *matHeaderCellDef>
+    <mat-icon class="header-icon">person</mat-icon> Content Writer
+    <button mat-icon-button (click)="toggleFilterVisibility('contentWriter')">
+      <mat-icon *ngIf="!filterVisibility['contentWriter']">filter_list</mat-icon>
+      <mat-icon *ngIf="filterVisibility['contentWriter']">close</mat-icon>
+    </button>
+    <div *ngIf="filterVisibility['contentWriter']" class="filter-input">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Filter Content Writer</mat-label>
+        <input matInput placeholder="Search Content Writer" (keyup)="applyFilter($event, 'contentWriter')" />
+      </mat-form-field>
+    </div>
+  </th>
+  <td mat-cell *matCellDef="let row">{{ row.contentWriter || 'N/A' }}</td>
+</ng-container>
+
+<!-- Designer Column with Filter -->
+<ng-container matColumnDef="editor">
+  <th mat-header-cell *matHeaderCellDef>
+    <mat-icon class="header-icon">edit</mat-icon> Designer
+    <button mat-icon-button (click)="toggleFilterVisibility('editor')">
+      <mat-icon *ngIf="!filterVisibility['editor']">filter_list</mat-icon>
+      <mat-icon *ngIf="filterVisibility['editor']">close</mat-icon>
+    </button>
+    <div *ngIf="filterVisibility['editor']" class="filter-input">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Filter Designer</mat-label>
+        <input matInput placeholder="Search Designer" (keyup)="applyFilter($event, 'editor')" />
+      </mat-form-field>
+    </div>
+  </th>
+  <td mat-cell *matCellDef="let row">{{ row.editor }}</td>
+</ng-container>
+
+<!-- Content Status Column with Filter -->
+<ng-container matColumnDef="contentStatus">
+  <th mat-header-cell *matHeaderCellDef>
+    <mat-icon class="header-icon">description</mat-icon> Content Status
+    <button mat-icon-button (click)="toggleFilterVisibility('contentStatus')">
+      <mat-icon *ngIf="!filterVisibility['contentStatus']">filter_list</mat-icon>
+      <mat-icon *ngIf="filterVisibility['contentStatus']">close</mat-icon>
+    </button>
+    <div *ngIf="filterVisibility['contentStatus']" class="filter-input">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Filter Content Status</mat-label>
+        <input matInput placeholder="Search Content Status" (keyup)="applyFilter($event, 'contentStatus')" />
+      </mat-form-field>
+    </div>
+  </th>
+  <td mat-cell *matCellDef="let row">{{ getStatus(row.contentStatus) }}</td>
+</ng-container>
+
+<!-- Graphic Status Column with Filter -->
+<ng-container matColumnDef="graphicStatus">
+  <th mat-header-cell *matHeaderCellDef>
+    <mat-icon class="header-icon">brush</mat-icon> Design Status
+    <button mat-icon-button (click)="toggleFilterVisibility('graphicStatus')">
+      <mat-icon *ngIf="!filterVisibility['graphicStatus']">filter_list</mat-icon>
+      <mat-icon *ngIf="filterVisibility['graphicStatus']">close</mat-icon>
+    </button>
+    <div *ngIf="filterVisibility['graphicStatus']" class="filter-input">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Filter Design Status</mat-label>
+        <input matInput placeholder="Search Design Status" (keyup)="applyFilter($event, 'graphicStatus')" />
+      </mat-form-field>
+    </div>
+  </th>
+  <td mat-cell *matCellDef="let row">{{ getStatus(row.graphicStatus) }}</td>
+</ng-container>
+
+
+      <!-- Post Status Column -->
+      <ng-container matColumnDef="postStatus">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <mat-icon class="header-icon">publish</mat-icon> Post Status
+        </th>
+        <td mat-cell *matCellDef="let row">{{ getPostStatus(row.postStatus) }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <!-- Paginator -->
+    <mat-paginator
+      [length]="statistics.data.length"
+      [pageSize]="30"
+      [pageSizeOptions]="[20, 50, 100]"
+      showFirstLastButtons
+    >
+    </mat-paginator>
+  </div>
+</div>

@@ -10,7 +10,10 @@
       <mat-datepicker #dp startView="multi-year" (monthSelected)="setMonthAndYear($event, dp)" panelClass="example-month-picker"></mat-datepicker>
     </mat-form-field>
   </div>
-
+  
+  <div  class="spinner" *ngIf="showSpinner">
+    <mat-spinner></mat-spinner>
+  </div>
 
 <!-- Metrics Section -->
 <div class="metrics-container">

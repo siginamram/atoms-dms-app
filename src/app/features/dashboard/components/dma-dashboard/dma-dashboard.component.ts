@@ -3,7 +3,7 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import { FormControl } from '@angular/forms';
 import { DashboardService } from '../../services/dashboard.service';
 import * as moment from 'moment';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 
@@ -29,6 +29,8 @@ export const MY_FORMATS = {
 export class DmaDashboardComponent implements OnInit {
   date = new FormControl(moment()); // Default to current month and year
   userId: number = 0;
+  formattedDate:any;
+  showSpinner: boolean = false; // Default value
     // Declare total properties
     totalPostersPending = 0;
     totalPostersPromoted = 0;
@@ -62,7 +64,7 @@ export class DmaDashboardComponent implements OnInit {
     'youtubeVideosPromoted',
   ];
 
-  constructor(private dashboardService: DashboardService, private route: ActivatedRoute) {}
+  constructor(private dashboardService: DashboardService, private route: ActivatedRoute, private router: Router,) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -94,12 +96,14 @@ export class DmaDashboardComponent implements OnInit {
   }
 
   fetchDashboardData(): void {
-    const formattedDate =  this.date.value?.format('YYYY-MM') + '-01';
+    this.showSpinner = true;
+    this.formattedDate =  this.date.value?.format('YYYY-MM') + '-01';
    // this.userId = parseInt(localStorage.getItem('UserID') || '0', 10);
 
-    this.dashboardService.GetDMADashboardByMonth(this.userId, formattedDate).subscribe({
+    this.dashboardService.GetDMADashboardByMonth(this.userId, this.formattedDate).subscribe({
       next: (response) => {
         if (response) {
+          this.showSpinner = false;
           // Populate Deliverable Status Data
           this.filteredDeliverables.data = response.deliverableStatus.map((item: any) => ({
             name: item.creativeTypeName,
@@ -109,6 +113,7 @@ export class DmaDashboardComponent implements OnInit {
             noOfOnTimePosts: item.noOfOnTimePosts,
             noOfEarlyPosts: item.noOfEarlyPosts,
             noOfLatePosts: item.noOfLatePosts,
+            creativeTypeId:item.creativeTypeId,
           }));
 
           // Populate Metrics
@@ -151,8 +156,75 @@ export class DmaDashboardComponent implements OnInit {
         }
       },
       error: (error) => {
+        this.showSpinner = false;
         console.error('Error fetching DMA Dashboard data:', error);
       },
+    });
+  }
+
+  editRow(lead: any): void {
+    console.log(lead);
+    const userId = +localStorage.getItem('UserID')!;
+
+    this.router.navigate(['/home/dashboard/dma-pending-posts'],{
+      queryParams: {
+        fromDateValue: this.formattedDate,
+         userId:userId,
+         creativeTypeId:lead.creativeTypeId
+        },
+    });
+  } 
+  
+  editRownew(lead: any): void {
+    console.log(lead);
+    const userId = +localStorage.getItem('UserID')!;
+
+    this.router.navigate(['/home/dashboard/dma-promoted-posts'],{
+      queryParams: {
+        fromDateValue: this.formattedDate,
+         userId:userId,
+         creativeTypeId:lead.creativeTypeId
+        },
+    });
+  } 
+  
+  early(lead: any): void {
+    console.log(lead);
+    const userId = +localStorage.getItem('UserID')!;
+
+    this.router.navigate(['/home/dashboard/dma-promoted-posts'],{
+      queryParams: {
+        fromDateValue: this.formattedDate,
+         userId:userId,
+         creativeTypeId:lead.creativeTypeId,
+         postStatus:2,
+        },
+    });
+  }
+  
+  OnTime(lead: any): void {
+    console.log(lead);
+    const userId = +localStorage.getItem('UserID')!;
+    this.router.navigate(['/home/dashboard/dma-promoted-posts'],{
+      queryParams: {
+        fromDateValue: this.formattedDate,
+        userId:userId,
+        creativeTypeId:lead.creativeTypeId,
+         postStatus:3,
+        },
+    });
+  }
+  
+  Late(lead: any): void {
+    console.log(lead);
+    const userId = +localStorage.getItem('UserID')!;
+    this.router.navigate(['/home/dashboard/dma-promoted-posts'],{
+      queryParams: {
+        fromDateValue: this.formattedDate,
+         userId:userId,
+         creativeTypeId:lead.creativeTypeId,
+         postStatus:4,
+        },
     });
   }
 }
