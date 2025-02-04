@@ -23,6 +23,7 @@ export class AdCampaignTrakerEditComponent implements OnInit {
     { value: 1, label: 'Facebook' },
     { value: 2, label: 'Instagram' },
     { value: 3, label: 'YouTube' },
+    { value: 4, label: 'Both' },
   ];
 
   objectives = [

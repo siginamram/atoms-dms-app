@@ -119,6 +119,7 @@ export class DmaDashboardComponent implements OnInit {
           // Populate Metrics
           this.metrics = {
             numberOfClients: response.dmaAdCampain.totalClients,
+            totalAdClients:response.dmaAdCampain.totalAdClients,
             adCampaignsUpdated: response.dmaAdCampain.adCampaignsUpdated,
             adCampaignsToBeUpdated: response.dmaAdCampain.totalAdAdCampaignsToBeUpdated,
             budgetToBeSpent: response.dmaAdCampain.budgetToBeSpent,

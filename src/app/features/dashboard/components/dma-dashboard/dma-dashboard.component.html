@@ -122,22 +122,31 @@
         <mat-card-content>
           <mat-icon class="metric-icon">groups</mat-icon>
           <p class="metric-title">Number of Clients</p>
-          <h3>{{ metrics.numberOfClients }}</h3>
+          <h2>{{ metrics.numberOfClients }}</h2>
         </mat-card-content>
       </mat-card>
-      <mat-card class="metric-card metric-updated">
+
+      <mat-card class="metric-card metric-budget-spent">
         <mat-card-content>
-          <mat-icon class="metric-icon">campaign</mat-icon>
-          <p class="metric-title">Ad Campaigns Updated</p>
-          <h3>{{ metrics.adCampaignsUpdated }}</h3>
+          <mat-icon class="metric-icon">groups</mat-icon>
+          <p class="metric-title">Number of Ad Campaigns Clients</p>
+          <h2>{{ metrics.totalAdClients }}</h2>
         </mat-card-content>
       </mat-card>
-  
+
       <mat-card class="metric-card metric-to-update">
         <mat-card-content>
           <mat-icon class="metric-icon">refresh</mat-icon>
           <p class="metric-title">Ad Campaigns to Update</p>
-          <h3>{{ metrics.adCampaignsToBeUpdated }}</h3>
+          <h2>{{ metrics.adCampaignsToBeUpdated }}</h2>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="metric-card metric-updated">
+        <mat-card-content>
+          <mat-icon class="metric-icon">campaign</mat-icon>
+          <p class="metric-title">Ad Campaigns Updated</p>
+          <h2>{{ metrics.adCampaignsUpdated }}</h2>
         </mat-card-content>
       </mat-card>
   
@@ -145,7 +154,7 @@
         <mat-card-content>
           <span class="rupee-symbol">₹</span>
           <p class="metric-title">Budget to Be Spent</p>
-          <h3>{{ metrics.budgetToBeSpent | number }}</h3>
+          <h2>{{ metrics.budgetToBeSpent | number }}</h2>
         </mat-card-content>
       </mat-card>
   
@@ -153,7 +162,7 @@
         <mat-card-content>
           <span class="rupee-symbol">₹</span>
           <p class="metric-title">Budget Spent</p>
-          <h3>{{ metrics.budgetSpent | number }}</h3>
+          <h2>{{ metrics.budgetSpent | number }}</h2>
         </mat-card-content>
       </mat-card>
     </div>
@@ -163,7 +172,7 @@
         <mat-card-content>
           <mat-icon class="metric-icon">insights</mat-icon>
           <p class="metric-title">Ad Reach</p>
-          <h3>{{ metrics.adReach | number }}</h3>
+          <h2>{{ metrics.adReach | number }}</h2>
         </mat-card-content>
       </mat-card>
   
@@ -171,7 +180,7 @@
         <mat-card-content>
           <mat-icon class="metric-icon">visibility</mat-icon>
           <p class="metric-title">Impressions</p>
-          <h3>{{ metrics.impressions | number }}</h3>
+          <h2>{{ metrics.impressions | number }}</h2>
         </mat-card-content>
       </mat-card>
   
@@ -179,7 +188,7 @@
         <mat-card-content>
           <mat-icon class="metric-icon">person_search</mat-icon>
           <p class="metric-title">Profile Visits</p>
-          <h3>{{ metrics.profileVisits }}</h3>
+          <h2>{{ metrics.profileVisits }}</h2>
         </mat-card-content>
       </mat-card>
   
@@ -187,7 +196,7 @@
         <mat-card-content>
           <mat-icon class="metric-icon">person</mat-icon>
           <p class="metric-title">Followers</p>
-          <h3>{{ metrics.followers }}</h3>
+          <h2>{{ metrics.followers }}</h2>
         </mat-card-content>
       </mat-card>
   
@@ -195,7 +204,7 @@
         <mat-card-content>
           <mat-icon class="metric-icon">message</mat-icon>
           <p class="metric-title">Messages</p>
-          <h3>{{ metrics.messages }}</h3>
+          <h2>{{ metrics.messages }}</h2>
         </mat-card-content>
       </mat-card>
   
@@ -203,7 +212,7 @@
         <mat-card-content>
           <mat-icon class="metric-icon">person_add</mat-icon>
           <p class="metric-title">Leads</p>
-          <h3>{{ metrics.leads }}</h3>
+          <h2>{{ metrics.leads }}</h2>
         </mat-card-content>
       </mat-card>
     </div>
@@ -213,6 +222,7 @@
   <mat-card-header>
     <mat-card-title>Client Promotion Overview</mat-card-title>
   </mat-card-header>
+
   <mat-card-content>
     <table mat-table [dataSource]="clientData" class="mat-elevation-z8">
       <ng-container matColumnDef="clientName">

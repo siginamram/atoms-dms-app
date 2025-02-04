@@ -163,6 +163,8 @@ export class AdCampaignTrakerComponent implements OnInit {
         return 'Instagram';
       case 3:
         return 'YouTube';
+      case 4:
+          return 'Both';
       default:
         return 'Unknown status';
     }
