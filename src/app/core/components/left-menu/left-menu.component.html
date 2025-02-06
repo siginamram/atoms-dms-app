@@ -158,6 +158,20 @@
             <i class="material-icons">person_add</i>Create Employee
           </a>
         </li>
+
+        <li>
+          <a [routerLink]="['/home', 'employees', 'leave-applications']" 
+             routerLinkActive="active">
+            <i class="material-icons">person_add</i>Leave Management
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/home', 'employees', 'leave-approvals']" 
+          *ngIf="roleService.hasRole(['Manager','Team Lead'])"
+             routerLinkActive="active">
+            <i class="material-icons">person_add</i>Leave Approvals
+          </a>
+        </li>
       </ul>
       
       <!-- Logout Button -->

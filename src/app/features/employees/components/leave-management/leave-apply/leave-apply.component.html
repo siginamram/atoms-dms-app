@@ -1,0 +1,48 @@
+<mat-dialog-content>
+    <mat-toolbar color="primary" style="border-radius: 10px; margin-bottom: 20px;">
+        <span>Apply Leave</span>
+      </mat-toolbar>
+    <form>
+      <div class="form-grid">
+        <!-- Leave Type -->
+        <mat-form-field appearance="outline" class="grid-item">
+          <mat-label>Leave Type</mat-label>
+          <mat-select>
+            <mat-option value="casual">Casual Leave</mat-option>
+            <mat-option value="sick">Sick Leave</mat-option>
+            <mat-option value="unpaid">Unpaid Leave</mat-option>
+            <mat-option value="menstrual">Menstrual Leave</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <!-- From Date -->
+        <mat-form-field appearance="outline" class="grid-item">
+          <mat-label>From Date</mat-label>
+          <input matInput [matDatepicker]="fromPicker" />
+          <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+          <mat-datepicker #fromPicker></mat-datepicker>
+        </mat-form-field>
+  
+        <!-- To Date -->
+        <mat-form-field appearance="outline" class="grid-item">
+          <mat-label>To Date</mat-label>
+          <input matInput [matDatepicker]="toPicker" />
+          <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+          <mat-datepicker #toPicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+  
+      <!-- Description -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea matInput rows="2"></textarea>
+      </mat-form-field>
+  
+      <!-- Actions -->
+      <div class="actions">
+        <button mat-button mat-dialog-close color="warn">Cancel</button>
+        <button mat-raised-button color="primary">Submit</button>
+      </div>
+    </form>
+  </mat-dialog-content>
+  

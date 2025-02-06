@@ -1,0 +1,96 @@
+<div class="dashboard-container">
+    <!-- Toolbar -->
+    <mat-toolbar color="primary" style="border-radius: 10px;">
+      <span>Leave Approvals</span>
+    </mat-toolbar>
+  
+    <!-- Filters Section -->
+    <div class="filters-container">
+      <mat-form-field appearance="outline" >
+        <mat-label>From Date</mat-label>
+        <input matInput [matDatepicker]="fromPicker" />
+        <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+        <mat-datepicker #fromPicker></mat-datepicker>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline" >
+        <mat-label>To Date</mat-label>
+        <input matInput [matDatepicker]="toPicker" />
+        <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+        <mat-datepicker #toPicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+  
+    <!-- Tabs Section -->
+    <mat-tab-group>
+      <mat-tab label="Applications">
+        <div class="tab-content">
+          <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container matColumnDef="employeeName">
+              <mat-header-cell *matHeaderCellDef> Name of the Employee </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{ row.employeeName }} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="leaveType">
+              <mat-header-cell *matHeaderCellDef> Leave Type </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{ row.leaveType }} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="startDate">
+              <mat-header-cell *matHeaderCellDef> Start Date </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{ row.startDate }} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="endDate">
+              <mat-header-cell *matHeaderCellDef> End Date </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{ row.endDate }} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="noOfDays">
+              <mat-header-cell *matHeaderCellDef> No.of Days </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{ row.noOfDays }} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="description">
+              <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{ row.description }} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="status">
+              <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{ row.status }} </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="action">
+                <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                  <button mat-icon-button color="primary" (click)="editRow(row)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <!-- <button mat-icon-button color="warn" (click)="deleteRow(row)">
+                    <mat-icon>delete</mat-icon>
+                  </button> -->
+                </mat-cell>
+              </ng-container>
+              
+  
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+          </mat-table>
+        </div>
+      </mat-tab>
+  
+      <mat-tab label="Approved">
+        <div class="tab-content">No approved leaves.</div>
+      </mat-tab>
+  
+      <mat-tab label="Rejected">
+        <div class="tab-content">No rejected leaves.</div>
+      </mat-tab>
+  
+      <mat-tab label="Late Coming">
+        <div class="tab-content">No data for late coming.</div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  

@@ -1,0 +1,117 @@
+<div class="dashboard-container">
+  <!-- Toolbar -->
+  <mat-toolbar color="primary" style="border-radius: 10px;">
+    <span>Leave Management</span>
+    <span class="spacer"></span>
+    <button mat-raised-button color="accent" (click)="openApplyLeavePopup()">
+      <i class="material-icons">add</i> Apply Leave
+    </button>
+  </mat-toolbar>
+  
+
+<!-- Leave Summary -->
+<div class="summary-container">
+  <mat-card class="leave-summary">
+    <h3><mat-icon>calculate</mat-icon> Total Leaves</h3>
+    <p><mat-icon>event</mat-icon> Total Casual Leaves: <strong>8</strong></p>
+    <p><mat-icon>favorite</mat-icon> Total Menstrual Leaves: <strong>3</strong></p>
+    <p><mat-icon>medical_services</mat-icon> Total Sick Leaves: <strong>9</strong></p>
+    <p><mat-icon>money_off</mat-icon> Total Unpaid Leaves: <strong>Unlimited</strong></p>
+  </mat-card>
+  <mat-card class="leave-summary">
+    <h3><mat-icon>check_circle</mat-icon> Available Leaves</h3>
+    <p><mat-icon>event</mat-icon> Casual Leaves: <strong>5</strong></p>
+    <p><mat-icon>favorite</mat-icon> Menstrual Leaves: <strong>2</strong></p>
+    <p><mat-icon>medical_services</mat-icon> Sick Leaves: <strong>7</strong></p>
+    <p><mat-icon>money_off</mat-icon> Unpaid Leaves: <strong>Unlimited</strong></p>
+  </mat-card>
+  <mat-card class="leave-summary">
+    <h3><mat-icon>assignment_turned_in</mat-icon> Used Leaves</h3>
+    <p><mat-icon>event_busy</mat-icon> Casual Leaves: <strong>3</strong></p>
+    <p><mat-icon>favorite_border</mat-icon> Menstrual Leaves: <strong>1</strong></p>
+    <p><mat-icon>local_hospital</mat-icon> Sick Leaves: <strong>2</strong></p>
+    <p><mat-icon>money_off_csred</mat-icon> Unpaid Leaves: <strong>5</strong></p>
+  </mat-card>
+</div>
+
+  <!-- Tabs Section -->
+  <mat-tab-group>
+    <mat-tab label="Applied" class="applied-tab">
+      <ng-template mat-tab-label>
+        <mat-icon>send</mat-icon>
+        <span>Applied</span>
+      </ng-template>
+      <div class="tab-content">
+        <mat-table [dataSource]="appliedData" class="mat-elevation-z8">
+          <ng-container matColumnDef="startDate">
+            <mat-header-cell *matHeaderCellDef><mat-icon>calendar_today</mat-icon> Start Date </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{ row.startDate }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="endDate">
+            <mat-header-cell *matHeaderCellDef><mat-icon>date_range</mat-icon> End Date </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{ row.endDate }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="leaveType">
+            <mat-header-cell *matHeaderCellDef><mat-icon>category</mat-icon> Leave Type </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{ row.leaveType }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="noOfDays">
+            <mat-header-cell *matHeaderCellDef><mat-icon>hourglass_bottom</mat-icon> No. of Days </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{ row.noOfDays }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="reason">
+            <mat-header-cell *matHeaderCellDef><mat-icon>note</mat-icon> Reason </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{ row.reason }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="approvalStatus">
+            <mat-header-cell *matHeaderCellDef><mat-icon>done_all</mat-icon> Approval Status </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{ row.approvalStatus }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="remarks">
+            <mat-header-cell *matHeaderCellDef><mat-icon>comment</mat-icon> Remarks </mat-header-cell>
+            <mat-cell *matCellDef="let row"> {{ row.remarks }} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        </mat-table>
+      </div>
+    </mat-tab>
+    <mat-tab class="rejected-tab">
+      <ng-template mat-tab-label>
+        <mat-icon>error</mat-icon>
+        <span>Rejected</span>
+      </ng-template>
+      <div class="tab-content">
+        <h3><mat-icon>error</mat-icon> Rejected Leaves</h3>
+        <p>No rejected leaves.</p>
+      </div>
+    </mat-tab>
+    <mat-tab class="approved-tab">
+      <ng-template mat-tab-label>
+        <mat-icon>check_circle</mat-icon>
+        <span>Approved</span>
+      </ng-template>
+      <div class="tab-content">
+        <h3><mat-icon>check_circle</mat-icon> Approved Leaves</h3>
+        <p>No approved leaves.</p>
+      </div>
+    </mat-tab>
+    <mat-tab class="late-tab">
+      <ng-template mat-tab-label>
+        <mat-icon>watch_later</mat-icon>
+        <span>Late Coming</span>
+      </ng-template>
+      <div class="tab-content">
+        <h3><mat-icon>watch_later</mat-icon> Late Coming</h3>
+        <p>No data for late coming.</p>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

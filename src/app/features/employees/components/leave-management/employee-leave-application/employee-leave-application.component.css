@@ -1,0 +1,72 @@
+.dashboard-container {
+  padding-left: 140px;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+}
+
+.summary-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.leave-summary {
+  flex: 1;
+  background-color: #ffffff;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.leave-summary h3 {
+  color: #3f51b5;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.actions-container {
+  display: flex;
+  gap: 10px;
+}
+
+.mat-tab-group {
+  margin-top: 20px;
+}
+
+.tab-content {
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mat-elevation-z8 {
+  border-radius: 8px;
+}
+
+.applied-tab {
+  background-color: #1a0680;
+}
+
+.rejected-tab {
+  background-color: #fa4e05;
+}
+
+.approved-tab {
+  background-color: #13e925;
+}
+
+.late-tab {
+  background-color: #f4456b;
+}
+mat-toolbar {
+  margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+}
+.spacer {
+  flex: 1 1 auto;
+}
