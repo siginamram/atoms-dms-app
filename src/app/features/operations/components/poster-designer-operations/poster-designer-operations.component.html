@@ -108,12 +108,12 @@
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let row">
         <button mat-button color="accent" (click)="openEditPopup(row)" 
-         [disabled]="row.status === 'Approved' || row.status === 'Sent for client approval'">
+       >
           <mat-icon>edit</mat-icon>
         </button>
       </td>
     </ng-container>
-    
+    <!-- [disabled]="row.status === 'Approved' || row.status === 'Sent for client approval'" -->
     <!-- Popup Dialog -->
   <ng-template #fullTextDialog let-dialogData>
     <h2 mat-dialog-title>{{ dialogData.title }}</h2>
