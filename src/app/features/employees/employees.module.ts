@@ -25,6 +25,7 @@ import { LeaveApplyComponent } from './components/leave-management/leave-apply/l
 import { MatDialogModule } from '@angular/material/dialog';
 import { ApproveLeavesComponent } from './components/leave-management/approve-leaves/approve-leaves.component';
 import { ApproveLeavesEditComponent } from './components/leave-management/approve-leaves-edit/approve-leaves-edit.component';
+import { LateCommingApplyComponent } from './components/leave-management/late-comming-apply/late-comming-apply.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { ApproveLeavesEditComponent } from './components/leave-management/approv
     LeaveApplyComponent,
     ApproveLeavesComponent,
     ApproveLeavesEditComponent,
+    LateCommingApplyComponent,
     
   ],
   imports: [

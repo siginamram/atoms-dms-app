@@ -1,0 +1,43 @@
+<mat-dialog-content>
+    <mat-toolbar color="primary" style="border-radius: 10px; margin-bottom: 20px;">
+        <span>Apply Late Comming</span>
+    </mat-toolbar>
+    <form>
+      <!-- First Row -->
+      <div class="row">
+        <!-- Date Field -->
+        <mat-form-field appearance="outline" class="third-width">
+          <mat-label>Date</mat-label>
+          <input matInput [matDatepicker]="datePicker" [(ngModel)]="date" name="date" />
+          <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+          <mat-datepicker #datePicker></mat-datepicker>
+        </mat-form-field>
+  
+        <!-- Delay By Dropdown -->
+        <mat-form-field appearance="outline" class="third-width">
+          <mat-label>Delay By</mat-label>
+          <mat-select [(ngModel)]="delayBy" name="delayBy">
+            <mat-option value="1hr">1 Hour</mat-option>
+            <mat-option value="2hr">2 Hours</mat-option>
+            <mat-option value="3hr">3 Hours</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+  
+      <!-- Second Row -->
+      <div class="row">
+        <!-- Delay Reason -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Delay Reason</mat-label>
+          <textarea matInput placeholder="Enter the reason" [(ngModel)]="delayReason" name="delayReason"></textarea>
+        </mat-form-field>
+      </div>
+  
+      <!-- Action Buttons -->
+      <div class="actions">
+        <button mat-button mat-dialog-close color="warn">Cancel</button>
+        <button mat-raised-button color="primary" (click)="submit()">Submit</button>
+      </div>
+    </form>
+  </mat-dialog-content>
+  

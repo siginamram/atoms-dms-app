@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LeaveApplyComponent } from '../leave-apply/leave-apply.component'; 
+import { LateCommingApplyComponent } from '../late-comming-apply/late-comming-apply.component';
 
 @Component({
   selector: 'app-employee-leave-application',
@@ -51,6 +52,13 @@ export class EmployeeLeaveApplicationComponent {
   ];
   openApplyLeavePopup(): void {
     this.dialog.open(LeaveApplyComponent, {
+      width: '400px',
+      panelClass: 'custom-dialog-container',
+    });
+  }
+
+  openLatecommingPopup(): void {
+    this.dialog.open(LateCommingApplyComponent, {
       width: '400px',
       panelClass: 'custom-dialog-container',
     });
