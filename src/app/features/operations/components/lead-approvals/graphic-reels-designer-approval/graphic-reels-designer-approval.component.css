@@ -111,3 +111,18 @@
     border: 1px solid #ddd; /* Optional: Add a subtle border */
     border-radius: 8px; /* Optional: Rounded corners */
   }
+  * Styling for content cells */
+.truncated-cell {
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* Limit content to 1 line */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* Do not wrap */
+  cursor: pointer;
+}
+
+.truncated-cell:hover {
+  text-decoration: underline; /* Indicate clickable text */
+  color: blue; /* Optional: Highlight on hover */
+}

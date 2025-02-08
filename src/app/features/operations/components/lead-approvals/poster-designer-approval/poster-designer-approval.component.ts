@@ -30,6 +30,7 @@ export const MY_FORMATS = {
 })
 export class PosterDesignerApprovalComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('fullTextDialog') fullTextDialog: any;
   showSpinner: boolean = false;
   readonly date = new FormControl(moment());
   organizationFilter = new FormControl('');
@@ -43,6 +44,7 @@ export class PosterDesignerApprovalComponent implements OnInit {
     'postScheduleOn',
     'resourceName',
     'language',
+    'contentInPost',
     'link',
     'postStatus',
     'postRemarks',
@@ -159,6 +161,16 @@ export class PosterDesignerApprovalComponent implements OnInit {
       if (result) {
         this.fetchGraphicApprovalRequests(); // Refresh table after edit
       }
+    });
+  }
+
+  showFullText(text: string, title: string): void {
+    this.dialog.open(this.fullTextDialog, {
+      width: '400px',
+      data: {
+        text: text,
+        title: title,
+      },
     });
   }
 }
