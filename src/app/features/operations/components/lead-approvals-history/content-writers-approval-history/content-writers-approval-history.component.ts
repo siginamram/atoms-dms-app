@@ -7,6 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { OperationsService } from '../../../services/operations.service'; 
 import { MatDialog } from '@angular/material/dialog';
+import { EditStatusApprovalsComponent } from '../../lead-approvals/edit-status-approvals/edit-status-approvals.component';
 export const MY_FORMATS = {
   parse: {
     dateInput: 'MM/YYYY',
@@ -48,6 +49,7 @@ readonly date = new FormControl(moment().add(1, 'month').startOf('month'));
     'contentCaption',
     'contentStatus',
     'approvedon',
+    'action'
   ];
   dataSource = new MatTableDataSource<any>();
 
@@ -165,6 +167,18 @@ readonly date = new FormControl(moment().add(1, 'month').startOf('month'));
     this.fetchApprovalRequests();
   }
 
+  onEdit(row: any): void {
+    const dialogRef = this.dialog.open(EditStatusApprovalsComponent, {
+      width: '600px',
+      data: row,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.fetchApprovalRequests(); // Refresh table after edit
+      }
+    });
+  }
 
   showFullText(text: string, title: string): void {
     this.dialog.open(this.fullTextDialog, {

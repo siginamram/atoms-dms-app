@@ -122,14 +122,14 @@
           <td mat-cell *matCellDef="let row">{{ row.date | date: 'dd-MM-yyyy' }}</td>
         </ng-container>
   
-        <!-- <ng-container matColumnDef="action">
+        <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef>Action</th>
           <td mat-cell *matCellDef="let row">
             <button mat-icon-button color="accent" (click)="onEdit(row)">
                 <mat-icon>edit</mat-icon>
             </button>
           </td>
-        </ng-container> -->
+        </ng-container>
 
         <!-- Popup Dialog -->
       <ng-template #fullTextDialog let-dialogData>

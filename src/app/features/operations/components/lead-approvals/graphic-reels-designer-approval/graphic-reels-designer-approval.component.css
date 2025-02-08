@@ -111,7 +111,7 @@
     border: 1px solid #ddd; /* Optional: Add a subtle border */
     border-radius: 8px; /* Optional: Rounded corners */
   }
-  * Styling for content cells */
+
 .truncated-cell {
   display: -webkit-box;
   -webkit-line-clamp: 1; /* Limit content to 1 line */

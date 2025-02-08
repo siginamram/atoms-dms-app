@@ -55,7 +55,9 @@ export class EditStatusApprovalsComponent implements OnInit {
         status: formData.status,
         userId: this.data.userId, // Assume this is passed via MAT_DIALOG_DATA
         remarks: formData.remarks || '', // Optional field
-        creativeTypeId: this.data.creativeType // Assume this is passed via MAT_DIALOG_DATA
+        creativeTypeId: this.data.creativeType ,// Assume this is passed via MAT_DIALOG_DATA
+        contentInPost:formData.contentInPost,
+        caption:formData.contentCaption
       };
   
       this.operationsService.UpdateApprovalStatus(payload).subscribe({
