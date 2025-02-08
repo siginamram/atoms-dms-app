@@ -49,19 +49,19 @@ export class StatisticsComponent implements OnInit {
         (data: any) => {
           this.showSpinner = false;
           this.statistics = [
-            { label: 'Days of Content Written', value: data.totalContent, color: '#4caf50', icon: 'description' },
-            { label: 'Days of Poster Designed', value: data.totalPoster, color: '#ff9800', icon: 'image' },
-            { label: 'Days of Videos Edited', value: data.totalVideosEdited, color: '#2196f3', icon: 'video_library' },
-            { label: 'Ad Campaign Pro', value: data.totalCampaigns, color: '#f44336', icon: 'campaign' },
-            { label: 'Reach', value: data.totalReach, color: '#673ab7', icon: 'public' },
-            { label: 'Impressions', value: data.totalImpressions, color: '#3f51b5', icon: 'visibility' },
+            { label: 'Total Clients', value: data.totalClients, color: '#795548', icon: 'account_box' },
+            { label: 'Newly Added Clients', value: data.totalNewClients, color: '#795548', icon: 'account_box' },
+            { label: 'Content Written', value: data.totalContent, color: '#4caf50', icon: 'description' },
+            { label: 'Posters Designed', value: data.totalPoster, color: '#ff9800', icon: 'image' },
+            { label: 'Videos Designed', value: data.totalVideosEdited, color: '#2196f3', icon: 'video_library' },
+            { label: 'Shoots Conducted', value: data.totalShootConducted, color: '#8bc34a', icon: 'photo_camera' },
+            { label: 'Videos Shot', value: data.totalVideosRecorded, color: '#607d8b', icon: 'videocam' },
+            { label: 'Ad Campaigns', value: data.totalCampaigns, color: '#f44336', icon: 'campaign' },
+            { label: 'Leads Generated', value: data.totalLeadGenerated, color: '#ffc107', icon: 'emoji_people' },
             { label: 'Profile Visits', value: data.totalProfileVisits, color: '#9c27b0', icon: 'person' },
             { label: 'Followers Increased', value: data.followersIncreased, color: '#ff5722', icon: 'group_add' },
-            { label: 'Messages Converted', value: data.totalMessagesConverted, color: '#00bcd4', icon: 'chat' },
-            { label: 'Shoots Conducted', value: data.totalShootConducted, color: '#8bc34a', icon: 'photo_camera' },
-            { label: 'Leads Generated', value: data.totalLeadGenerated, color: '#ffc107', icon: 'emoji_people' },
-            { label: 'Videos Recorded', value: data.totalVideosRecorded, color: '#607d8b', icon: 'videocam' },
-            { label: 'Clients', value: data.totalClients, color: '#795548', icon: 'account_box' },
+            { label: 'Reach', value: data.totalReach, color: '#673ab7', icon: 'public' },
+            { label: 'Impressions', value: data.totalImpressions, color: '#3f51b5', icon: 'visibility' }
           ];
         },
         (error) => {
