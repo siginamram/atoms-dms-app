@@ -190,7 +190,6 @@ getpostStatus(status: number): string {
 }
 editRow(meet: any): void {
   const isFirstCase = meet.postStatus === 'Yet to start'; // Check if it's the first case
-  console.log('Operation Successful:', meet);
 
   const dialogRef = this.dialog.open(DmaOperationsEditComponent, {
     width: '600px',

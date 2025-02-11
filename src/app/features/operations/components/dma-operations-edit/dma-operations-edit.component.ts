@@ -35,6 +35,7 @@ export class DmaOperationsEditComponent implements OnInit {
     this.editForm = this.fb.group({
       monthlyTrackerId: [data.meetingData?.monthlyTrackerId || 0, Validators.required],
       contentCaption:[data.meetingData?.contentCaption || null],
+      contentInPost: [data.meetingData?.contentInPost || null],
       link:[data.meetingData?.link || null],
       scheduleDate: [data.meetingData?.postScheduleOn || null],
       status: [data.meetingData?.postStatus || 3, Validators.required],
@@ -122,7 +123,7 @@ export class DmaOperationsEditComponent implements OnInit {
     }
     else if(value == 4){
       this.minDate = new Date(this.data.meetingData?.postScheduleOn);
-      this.minDate.setDate(this.maxDate.getDate() + 1);
+      this.minDate.setDate(this.minDate.getDate() + 1);
       this.maxDate = new Date('3000-01-31');
     }
 

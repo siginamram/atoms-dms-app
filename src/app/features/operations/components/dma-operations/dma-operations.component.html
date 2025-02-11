@@ -137,9 +137,10 @@
           <button 
             mat-button 
             color="accent" 
-            [disabled]="row.postedOn || row.contentStatus !== 'Approved' || row.graphicStatus !==  'Approved' " 
+            [disabled]="row.contentStatus !== 'Approved' || row.graphicStatus !==  'Approved' " 
             (click)="editRow(row)"
           >
+          <!--row.postedOn || -->
             <mat-icon>edit</mat-icon> 
           </button>
         </td>
