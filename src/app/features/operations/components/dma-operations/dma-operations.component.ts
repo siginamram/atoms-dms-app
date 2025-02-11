@@ -48,6 +48,7 @@ export class DmaOperationsComponent implements OnInit {
     'promotionType',
     'language',
     'speciality',
+    'contentInPost',
     'contentCaption',
     'link',
     'thumbNail',
