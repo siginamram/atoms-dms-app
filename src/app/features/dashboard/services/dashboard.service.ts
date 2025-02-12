@@ -76,13 +76,13 @@ export class DashboardService {
     return this.http.get(apiUrl);
   }
 
-  DMAPendingPostsDashboard(userId: number, date: string,creativeTypeId:number): Observable<any> {
-    const apiUrl = `${this.baseApiUrl}/api/Dashboard/DMAPendingPostsDashboard/${userId}/${date}/${creativeTypeId}`;
+  DMAPendingPostsDashboard(userId: number,  fdate: any,tdate: any,creativeTypeId:number): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Dashboard/DMAPendingPostsDashboard/${userId}/${fdate}/${tdate}/${creativeTypeId}`;
     return this.http.get(apiUrl);
   }
 
-  DMAPromotedPostsDashboard(userId: number, date: string,creativeTypeId:number): Observable<any> {
-    const apiUrl = `${this.baseApiUrl}/api/Dashboard/DMAPromotedPostsDashboard/${userId}/${date}/${creativeTypeId}`;
+  DMAPromotedPostsDashboard(userId: number, fdate: any,tdate: any,creativeTypeId:number): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Dashboard/DMAPromotedPostsDashboard/${userId}/${fdate}/${tdate}/${creativeTypeId}`;
     return this.http.get(apiUrl);
   }
 }

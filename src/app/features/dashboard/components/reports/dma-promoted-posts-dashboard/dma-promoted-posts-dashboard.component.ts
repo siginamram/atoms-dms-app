@@ -4,31 +4,20 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DashboardService } from '../../../services/dashboard.service';
 import * as moment from 'moment';
-import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { FormControl } from '@angular/forms';
 
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'MM/YYYY',
-  },
-  display: {
-    dateInput: 'MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
+
 
 @Component({
   selector: 'app-dma-promoted-posts-dashboard',
   standalone:false,
   templateUrl: './dma-promoted-posts-dashboard.component.html',
-  styleUrl: './dma-promoted-posts-dashboard.component.css',
-   providers: [provideMomentDateAdapter(MY_FORMATS)],
+  styleUrl: './dma-promoted-posts-dashboard.component.css'
 })
 export class DmaPromotedPostsDashboardComponent implements OnInit {
-  selectedMonthYear = new FormControl(moment()); // Default to the current month
+  fromDate = new FormControl(moment()); // Default to the current month
+  toDate = new FormControl(moment()); // Default to the current month
   userId: number = 4;
   postStatus:any;
   creativeTypeId: number = 0;
@@ -59,12 +48,14 @@ export class DmaPromotedPostsDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       const fromDateParam = params['fromDateValue']; // Get date from URL
+      const toDateParam = params['toDateValue']; // Get date from URL
       this.userId = +params['userId'] || 4;
       this.creativeTypeId = +params['creativeTypeId'] || 0;
       this.postStatus=+params['postStatus'] || 0;
       // Bind calendar to the Month and Year from `fromDateValue`
       if (fromDateParam) {
-        this.selectedMonthYear.setValue(moment(fromDateParam, 'YYYY-MM-DD')); // Set the form control correctly
+          this.fromDate.setValue(moment(fromDateParam, 'YYYY-MM-DD')); // Set the form control correctly
+          this.toDate.setValue(moment(toDateParam, 'YYYY-MM-DD'));
       }
 
       this.fetchPendingPosts();
@@ -96,25 +87,13 @@ export class DmaPromotedPostsDashboardComponent implements OnInit {
     };
   }
 
-  setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
-    if (!this.selectedMonthYear) {
-      this.selectedMonthYear = new FormControl(moment()); // Ensure FormControl is initialized
-    }
-    
-    const ctrlValue = this.selectedMonthYear.value ? this.selectedMonthYear.value.clone() : moment();
-    ctrlValue.month(normalizedMonthAndYear.month());
-    ctrlValue.year(normalizedMonthAndYear.year());
-    this.selectedMonthYear.setValue(ctrlValue);
-    datepicker.close();
-    this.fetchPendingPosts(); // Fetch data on month/year change
-  }
-  
 
   fetchPendingPosts(): void {
     this.showSpinner = true;
-    const formattedDate = this.selectedMonthYear.value?.format('YYYY-MM') + '-01'; // Format to YYYY-MM-01
+    const formattedDate = this.fromDate.value?.format('YYYY-MM') + '-01'; // Format to YYYY-MM-01
+    const toattedDate = this.toDate.value?.format('YYYY-MM') + '-01'; // Format to YYYY-MM-01
     this.dashboardService
-      .DMAPromotedPostsDashboard(this.userId, formattedDate, this.creativeTypeId)
+      .DMAPromotedPostsDashboard(this.userId, formattedDate,toattedDate, this.creativeTypeId)
       .subscribe(
         (data: any[]) => {
           //console.log('API Response:', data); // Debug API Response
