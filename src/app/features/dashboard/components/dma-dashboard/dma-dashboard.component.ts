@@ -128,6 +128,17 @@ export class DmaDashboardComponent implements OnInit {
           youtubeVideospending: item.noOfYTPromotPendig,
           youtubeVideosPromoted: item.noOfYTPromoted,
         })) || [];
+
+        // Calculate Totals
+        this.totalPostersPending = this.clientData.data.reduce((sum, item) => sum + item.posterspending, 0);
+        this.totalPostersPromoted = this.clientData.data.reduce((sum, item) => sum + item.postersPromoted, 0);
+        this.totalGReelsPending = this.clientData.data.reduce((sum, item) => sum + item.gReelspending, 0);
+        this.totalGReelsPromoted = this.clientData.data.reduce((sum, item) => sum + item.gReelsPromoted, 0);
+        this.totalEdReelsPending = this.clientData.data.reduce((sum, item) => sum + item.edReelspending, 0);
+        this.totalEdReelsPromoted = this.clientData.data.reduce((sum, item) => sum + item.edReelsPromoted, 0);
+        this.totalYTVideosPending = this.clientData.data.reduce((sum, item) => sum + item.youtubeVideospending, 0);
+        this.totalYTVideosPromoted = this.clientData.data.reduce((sum, item) => sum + item.youtubeVideosPromoted, 0);
+         
       },
       error: (error) => {
         this.showSpinner = false;
