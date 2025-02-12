@@ -16,8 +16,8 @@ import { FormControl } from '@angular/forms';
   styleUrl: './dma-promoted-posts-dashboard.component.css'
 })
 export class DmaPromotedPostsDashboardComponent implements OnInit {
-  fromDate = new FormControl(moment()); // Default to the current month
-  toDate = new FormControl(moment()); // Default to the current month
+  fromDate: any; // Default to the current month
+  toDate :any; // Default to the current month
   userId: number = 4;
   postStatus:any;
   creativeTypeId: number = 0;
@@ -47,16 +47,16 @@ export class DmaPromotedPostsDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      const fromDateParam = params['fromDateValue']; // Get date from URL
-      const toDateParam = params['toDateValue']; // Get date from URL
+      this.fromDate = params['fromDateValue']; // Get date from URL
+      this.toDate = params['toDateValue']; // Get date from URL
       this.userId = +params['userId'] || 4;
       this.creativeTypeId = +params['creativeTypeId'] || 0;
       this.postStatus=+params['postStatus'] || 0;
       // Bind calendar to the Month and Year from `fromDateValue`
-      if (fromDateParam) {
-          this.fromDate.setValue(moment(fromDateParam, 'YYYY-MM-DD')); // Set the form control correctly
-          this.toDate.setValue(moment(toDateParam, 'YYYY-MM-DD'));
-      }
+      // if (fromDateParam) {
+      //     this.fromDate.setValue(moment(fromDateParam, 'YYYY-MM-DD')); // Set the form control correctly
+      //     this.toDate.setValue(moment(toDateParam, 'YYYY-MM-DD'));
+      // }
 
       this.fetchPendingPosts();
     });
@@ -86,12 +86,17 @@ export class DmaPromotedPostsDashboardComponent implements OnInit {
       });
     };
   }
-
-
+  ngAfterViewInit(): void {
+    this.statistics.paginator = this.paginator;
+  }
+  formatDate(date: Date): string {
+    const d = new Date(date);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  }
   fetchPendingPosts(): void {
     this.showSpinner = true;
-    const formattedDate = this.fromDate.value?.format('YYYY-MM') + '-01'; // Format to YYYY-MM-01
-    const toattedDate = this.toDate.value?.format('YYYY-MM') + '-01'; // Format to YYYY-MM-01
+    const formattedDate =  this.formatDate(this.fromDate); 
+    const toattedDate = this.formatDate(this.toDate); 
     this.dashboardService
       .DMAPromotedPostsDashboard(this.userId, formattedDate,toattedDate, this.creativeTypeId)
       .subscribe(
@@ -188,6 +193,14 @@ export class DmaPromotedPostsDashboardComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/home/dashboard/dma-dashboard']);
+    //this.router.navigate(['/home/dashboard/dma-dashboard']);
+    const formattedFromDate = this.formatDate(this.fromDate);
+    const formattedToDate = this.formatDate(this.toDate); 
+    this.router.navigate(['/home/dashboard/dma-dashboard'],{
+      queryParams: {
+        fromDateValue:formattedFromDate,
+         toDateValue:formattedToDate,
+        },
+    });
   }
 }

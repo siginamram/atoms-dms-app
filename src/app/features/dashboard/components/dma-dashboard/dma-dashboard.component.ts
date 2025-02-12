@@ -15,8 +15,8 @@ import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
   providers: [provideMomentDateAdapter()],
 })
 export class DmaDashboardComponent implements OnInit {
-  fromDate = new FormControl(moment()); // Default: Today’s Date
-  toDate = new FormControl(moment());   // Default: Today’s Date
+  fromDate = new FormControl(moment().format('YYYY-MM-DD')); // Default: Today’s Date
+  toDate = new FormControl(moment().format('YYYY-MM-DD'));   // Default: Today’s Date
   userId: number = 0;
   showSpinner: boolean = false;
   filteredDeliverables = new MatTableDataSource<any>([]);
@@ -60,20 +60,24 @@ export class DmaDashboardComponent implements OnInit {
   constructor(private dashboardService: DashboardService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
-    this.fromDate.valueChanges.subscribe(() => this.setFromAndToDate());
-    this.toDate.valueChanges.subscribe(() => this.setFromAndToDate());
     this.route.queryParams.subscribe((params) => {
-      const queryUserId = +params['userId'];
-      this.userId = !isNaN(queryUserId) && queryUserId > 0 ? queryUserId : parseInt(localStorage.getItem('UserID') || '0', 10);
+      this.userId = +params['userId'] || parseInt(localStorage.getItem('UserID') || '0', 10);
+
+      // ✅ Fix: Ensure correct date parsing
+      this.fromDate.setValue(moment(params['fromDateValue'], 'YYYY-MM-DD').isValid() ? params['fromDateValue'] : moment().format('YYYY-MM-DD'));
+      this.toDate.setValue(moment(params['toDateValue'], 'YYYY-MM-DD').isValid() ? params['toDateValue'] : moment().format('YYYY-MM-DD'));
+
+      if (this.userId > 0) {
+        this.fetchDashboardData();
+      } else {
+        console.error('Invalid userId: Unable to fetch dashboard data');
+      }
     });
 
-    if (this.userId && this.userId > 0) {
-      this.fetchDashboardData(); // Fetch data on page load
-    } else {
-      console.error('Invalid userId: Unable to fetch dashboard data');
-    }
+    // ✅ Ensure the function is called when dates are changed
+    this.fromDate.valueChanges.subscribe(() => this.setFromAndToDate());
+    this.toDate.valueChanges.subscribe(() => this.setFromAndToDate());
   }
-
   setFromAndToDate(): void {
     this.fetchDashboardData(); // Fetch data based on updated dates
   }
@@ -82,8 +86,8 @@ export class DmaDashboardComponent implements OnInit {
     this.showSpinner = true;
 
     // Format the selected dates
-    const formattedFromDate = this.fromDate.value?.format('YYYY-MM-DD');
-    const formattedToDate = this.toDate.value?.format('YYYY-MM-DD');
+    const formattedFromDate = moment(this.fromDate.value).format('YYYY-MM-DD');
+    const formattedToDate = moment(this.toDate.value).format('YYYY-MM-DD');
 
     // ✅ **Corrected API call with `fromDate` and `toDate`**
     this.dashboardService.GetDMADashboardByMonth(this.userId, formattedFromDate, formattedToDate).subscribe({
@@ -151,8 +155,8 @@ export class DmaDashboardComponent implements OnInit {
     const userId = +localStorage.getItem('UserID')!;
     this.router.navigate(['/home/dashboard/dma-pending-posts'], {
       queryParams: {
-        fromDateValue: this.fromDate.value?.format('YYYY-MM-DD'),
-        toDateValue: this.toDate.value?.format('YYYY-MM-DD'),
+        fromDateValue: moment(this.fromDate.value).format('YYYY-MM-DD'),
+        toDateValue: moment(this.toDate.value).format('YYYY-MM-DD'),
         userId: userId,
         creativeTypeId: lead.creativeTypeId,
       },
@@ -163,8 +167,8 @@ export class DmaDashboardComponent implements OnInit {
     const userId = +localStorage.getItem('UserID')!;
     this.router.navigate(['/home/dashboard/dma-promoted-posts'], {
       queryParams: {
-        fromDateValue: this.fromDate.value?.format('YYYY-MM-DD'),
-        toDateValue: this.toDate.value?.format('YYYY-MM-DD'),
+        fromDateValue: moment(this.fromDate.value).format('YYYY-MM-DD'),
+        toDateValue: moment(this.toDate.value).format('YYYY-MM-DD'),
         userId: userId,
         creativeTypeId: lead.creativeTypeId,
       },
@@ -175,8 +179,8 @@ export class DmaDashboardComponent implements OnInit {
     const userId = +localStorage.getItem('UserID')!;
     this.router.navigate(['/home/dashboard/dma-promoted-posts'], {
       queryParams: {
-        fromDateValue: this.fromDate.value?.format('YYYY-MM-DD'),
-        toDateValue: this.toDate.value?.format('YYYY-MM-DD'),
+        fromDateValue: moment(this.fromDate.value).format('YYYY-MM-DD'),
+        toDateValue: moment(this.toDate.value).format('YYYY-MM-DD'),
         userId: userId,
         creativeTypeId: lead.creativeTypeId,
         postStatus: 2,
@@ -188,8 +192,8 @@ export class DmaDashboardComponent implements OnInit {
     const userId = +localStorage.getItem('UserID')!;
     this.router.navigate(['/home/dashboard/dma-promoted-posts'], {
       queryParams: {
-        fromDateValue: this.fromDate.value?.format('YYYY-MM-DD'),
-        toDateValue: this.toDate.value?.format('YYYY-MM-DD'),
+        fromDateValue: moment(this.fromDate.value).format('YYYY-MM-DD'),
+        toDateValue: moment(this.toDate.value).format('YYYY-MM-DD'),
         userId: userId,
         creativeTypeId: lead.creativeTypeId,
         postStatus: 3,
@@ -201,8 +205,8 @@ export class DmaDashboardComponent implements OnInit {
     const userId = +localStorage.getItem('UserID')!;
     this.router.navigate(['/home/dashboard/dma-promoted-posts'], {
       queryParams: {
-        fromDateValue: this.fromDate.value?.format('YYYY-MM-DD'),
-        toDateValue: this.toDate.value?.format('YYYY-MM-DD'),
+        fromDateValue: moment(this.fromDate.value).format('YYYY-MM-DD'),
+        toDateValue: moment(this.toDate.value).format('YYYY-MM-DD'),
         userId: userId,
         creativeTypeId: lead.creativeTypeId,
         postStatus: 4,
@@ -214,12 +218,13 @@ export class DmaDashboardComponent implements OnInit {
     const userId = +localStorage.getItem('UserID')!;
     this.router.navigate(['/home/dashboard/dma-promoted-posts'], {
       queryParams: {
-        fromDateValue: this.fromDate.value?.format('YYYY-MM-DD'),
-        toDateValue: this.toDate.value?.format('YYYY-MM-DD'),
+        fromDateValue: moment(this.fromDate.value).format('YYYY-MM-DD'),
+        toDateValue: moment(this.toDate.value).format('YYYY-MM-DD'),
         userId: userId,
         creativeTypeId: lead.creativeTypeId,
         postStatus: 5,
       },
     });
   }
+
 }
