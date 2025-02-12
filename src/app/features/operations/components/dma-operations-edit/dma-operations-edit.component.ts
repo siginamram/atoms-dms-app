@@ -19,7 +19,8 @@ export class DmaOperationsEditComponent implements OnInit {
   statusOptions = [
     { value: 2, label: 'Early Post' },
     { value: 3, label: 'On Time Post' },
-    { value: 4, label: 'Late Posted' }
+    { value: 4, label: 'Late Posted' },
+    { value: 5, label: 'Client Rejected' }
   ];
 
   constructor(
@@ -125,6 +126,15 @@ export class DmaOperationsEditComponent implements OnInit {
       this.minDate = new Date(this.data.meetingData?.postScheduleOn);
       this.minDate.setDate(this.minDate.getDate() + 1);
       this.maxDate = new Date('3000-01-31');
+    }
+    else if(value == 5){
+      const currentDate = new Date(); // Get current date
+      this.minDate = currentDate;
+      this.maxDate = currentDate;
+      
+      this.editForm.patchValue({
+        postedOn: currentDate // Set the form field to current date
+      });
     }
 
   }

@@ -66,8 +66,8 @@ export class DashboardService {
     return this.http.get(apiUrl);
   }
 
-  GetDMADashboardByMonth(userId: number, date: string): Observable<any> {
-    const apiUrl = `${this.baseApiUrl}/api/Dashboard/GetDMADashboardByMonth/${userId}/${date}`;
+  GetDMADashboardByMonth(userId: number, fdate: any,tdate: any): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Dashboard/GetDMADashboardByMonth/${userId}/${fdate}/${tdate}`;
     return this.http.get(apiUrl);
   }
 

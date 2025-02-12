@@ -1,26 +1,25 @@
 <div class="dashboard-container">
     <h2>DMA Dashboard</h2>
-  
+
     <!-- Filter Section -->
     <div class="filters-container">
+      <!-- From Date Filter -->
       <mat-form-field appearance="outline">
-        <mat-label>Month and Year</mat-label>
-        <input
-          matInput
-          [matDatepicker]="dp"
-          [formControl]="date"
-          placeholder="MM/YYYY"
-          readonly
-        />
-        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-        <mat-datepicker
-          #dp
-          startView="multi-year"
-          (monthSelected)="setMonthAndYear($event, dp)"
-          panelClass="example-month-picker"
-        ></mat-datepicker>
+        <mat-label>From Date</mat-label>
+        <input matInput [matDatepicker]="fromPicker" [formControl]="fromDate" placeholder="DD/MM/YYYY" />
+        <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+        <mat-datepicker #fromPicker (dateInput)="setFromAndToDate()"></mat-datepicker>
       </mat-form-field>
+      
+      <mat-form-field appearance="outline">
+        <mat-label>To Date</mat-label>
+        <input matInput [matDatepicker]="toPicker" [formControl]="toDate" placeholder="DD/MM/YYYY" />
+        <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+        <mat-datepicker #toPicker (dateInput)="setFromAndToDate()"></mat-datepicker>
+      </mat-form-field>
+      
     </div>
+
     <div  class="spinner" *ngIf="showSpinner">
       <mat-spinner></mat-spinner>
     </div>
@@ -106,6 +105,18 @@
                 {{ item.noOfLatePosts || 0}}
               </button>
               <!-- <span *ngIf="item.noOfLatePosts === 0"  class="number-text" >{{ item.noOfLatePosts }}</span> -->
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="noOfRejectedPosts">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-icon class="header-icon" color="accent">check_circle</mat-icon> Client Rejected
+            </th>
+            <td mat-cell *matCellDef="let item">
+              <button mat-icon-button color="primary"  (click)="Rejected(item)"  class="number-button">
+                {{ item.noOfRejectedPosts || 0}}
+              </button>
+              <!-- <span *ngIf="item.noOfRejectedPosts === 0"  class="number-text" >{{ item.noOfRejectedPosts }}</span> -->
             </td>
           </ng-container>
     

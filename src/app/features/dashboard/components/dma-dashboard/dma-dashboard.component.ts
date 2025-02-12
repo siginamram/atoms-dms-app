@@ -7,39 +7,32 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'MM/YYYY',
-  },
-  display: {
-    dateInput: 'MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
-
 @Component({
   selector: 'app-dma-dashboard',
   standalone: false,
   templateUrl: './dma-dashboard.component.html',
   styleUrls: ['./dma-dashboard.component.css'],
-    providers: [provideMomentDateAdapter(MY_FORMATS)],
+  providers: [provideMomentDateAdapter()],
 })
 export class DmaDashboardComponent implements OnInit {
-  date = new FormControl(moment()); // Default to current month and year
+  fromDate = new FormControl(moment()); // Default: Today’s Date
+  toDate = new FormControl(moment());   // Default: Today’s Date
   userId: number = 0;
-  formattedDate:any;
-  showSpinner: boolean = false; // Default value
-    // Declare total properties
-    totalPostersPending = 0;
-    totalPostersPromoted = 0;
-    totalGReelsPending = 0;
-    totalGReelsPromoted = 0;
-    totalEdReelsPending = 0;
-    totalEdReelsPromoted = 0;
-    totalYTVideosPending = 0;
-    totalYTVideosPromoted = 0;
+  showSpinner: boolean = false;
+  filteredDeliverables = new MatTableDataSource<any>([]);
+  clientData = new MatTableDataSource<any>([]);
+  metrics: any = {}; // ✅ Fix for metrics property
+
+  // Declare total properties
+  totalPostersPending = 0;
+  totalPostersPromoted = 0;
+  totalGReelsPending = 0;
+  totalGReelsPromoted = 0;
+  totalEdReelsPending = 0;
+  totalEdReelsPromoted = 0;
+  totalYTVideosPending = 0;
+  totalYTVideosPromoted = 0;
+
   deliverablesColumns: string[] = [
     'name',
     'total',
@@ -48,10 +41,9 @@ export class DmaDashboardComponent implements OnInit {
     'noOfOnTimePosts',
     'noOfEarlyPosts',
     'noOfLatePosts',
+    'noOfRejectedPosts',
   ];
-  filteredDeliverables = new MatTableDataSource<any>([]);
-  metrics: any = {};
-  clientData = new MatTableDataSource<any>([]);
+
   displayedColumns = [
     'clientName',
     'posterspending',
@@ -64,21 +56,17 @@ export class DmaDashboardComponent implements OnInit {
     'youtubeVideosPromoted',
   ];
 
-  constructor(private dashboardService: DashboardService, private route: ActivatedRoute, private router: Router,) {}
+
+  constructor(private dashboardService: DashboardService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
+    this.fromDate.valueChanges.subscribe(() => this.setFromAndToDate());
+    this.toDate.valueChanges.subscribe(() => this.setFromAndToDate());
     this.route.queryParams.subscribe((params) => {
-      // Check if `userId` exists in query params and is a valid number
       const queryUserId = +params['userId'];
-      if (!isNaN(queryUserId) && queryUserId > 0) {
-        this.userId = queryUserId;
-      } else {
-        // Fallback to `localStorage` if `userId` is not present or invalid
-        this.userId = parseInt(localStorage.getItem('UserID') || '0', 10);
-      }
+      this.userId = !isNaN(queryUserId) && queryUserId > 0 ? queryUserId : parseInt(localStorage.getItem('UserID') || '0', 10);
     });
-  
-    // Ensure `userId` is valid before fetching data
+
     if (this.userId && this.userId > 0) {
       this.fetchDashboardData(); // Fetch data on page load
     } else {
@@ -86,75 +74,60 @@ export class DmaDashboardComponent implements OnInit {
     }
   }
 
-  setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
-    const ctrlValue = this.date.value || moment();
-    ctrlValue.month(normalizedMonthAndYear.month());
-    ctrlValue.year(normalizedMonthAndYear.year());
-    this.date.setValue(ctrlValue);
-    datepicker.close();
-    this.fetchDashboardData(); // Fetch data on month/year change
+  setFromAndToDate(): void {
+    this.fetchDashboardData(); // Fetch data based on updated dates
   }
 
   fetchDashboardData(): void {
     this.showSpinner = true;
-    this.formattedDate =  this.date.value?.format('YYYY-MM') + '-01';
-   // this.userId = parseInt(localStorage.getItem('UserID') || '0', 10);
 
-    this.dashboardService.GetDMADashboardByMonth(this.userId, this.formattedDate).subscribe({
+    // Format the selected dates
+    const formattedFromDate = this.fromDate.value?.format('YYYY-MM-DD');
+    const formattedToDate = this.toDate.value?.format('YYYY-MM-DD');
+
+    // ✅ **Corrected API call with `fromDate` and `toDate`**
+    this.dashboardService.GetDMADashboardByMonth(this.userId, formattedFromDate, formattedToDate).subscribe({
       next: (response) => {
-        if (response) {
-          this.showSpinner = false;
-          // Populate Deliverable Status Data
-          this.filteredDeliverables.data = response.deliverableStatus.map((item: any) => ({
-            name: item.creativeTypeName,
-            total: item.noOfPendingPosts + item.noOfPromotedPosts,
-            noOfPendingPosts: item.noOfPendingPosts,
-            noOfPromotedPosts: item.noOfPromotedPosts,
-            noOfOnTimePosts: item.noOfOnTimePosts,
-            noOfEarlyPosts: item.noOfEarlyPosts,
-            noOfLatePosts: item.noOfLatePosts,
-            creativeTypeId:item.creativeTypeId,
-          }));
+        this.showSpinner = false;
 
-          // Populate Metrics
-          this.metrics = {
-            numberOfClients: response.dmaAdCampain.totalClients,
-            totalAdClients:response.dmaAdCampain.totalAdClients,
-            adCampaignsUpdated: response.dmaAdCampain.adCampaignsUpdated,
-            adCampaignsToBeUpdated: response.dmaAdCampain.totalAdAdCampaignsToBeUpdated,
-            budgetToBeSpent: response.dmaAdCampain.budgetToBeSpent,
-            budgetSpent: response.dmaAdCampain.budgetSpent,
-            adReach: response.dmaAdCampain.noOfReach,
-            impressions: response.dmaAdCampain.noOfImpressions,
-            profileVisits: response.dmaAdCampain.noOfProfileVisits,
-            followers: response.dmaAdCampain.noOfFollowers,
-            messages: response.dmaAdCampain.noOfMessages,
-            leads: response.dmaAdCampain.noOfLeads,
-          };
+        this.filteredDeliverables.data = response.deliverableStatus?.map((item: any) => ({
+          name: item.creativeTypeName,
+          total: item.noOfPendingPosts + item.noOfPromotedPosts,
+          noOfPendingPosts: item.noOfPendingPosts,
+          noOfPromotedPosts: item.noOfPromotedPosts,
+          noOfOnTimePosts: item.noOfOnTimePosts,
+          noOfEarlyPosts: item.noOfEarlyPosts,
+          noOfLatePosts: item.noOfLatePosts,
+          noOfRejectedPosts:item.noOfRejectedPosts,
+          creativeTypeId: item.creativeTypeId,
+        })) || [];
 
-          this.clientData.data = response.dmaPromotionOverview.map((item: any) => ({
-            clientName: item.organizationName,
-            posterspending: item.noOfPostersPromotPendig,
-            postersPromoted: item.noOfPostersPromoted,
-            gReelspending: item.noOfGDPromotPendig,
-            gReelsPromoted: item.noOfGDPromoted,
-            edReelspending: item.noOfEDPromotPendig,
-            edReelsPromoted: item.noOfEDPromoted,
-            youtubeVideospending: item.noOfYTPromotPendig,
-            youtubeVideosPromoted: item.noOfYTPromoted,
-          }));
-          
-          // Calculate Totals
-          this.totalPostersPending = this.clientData.data.reduce((sum, item) => sum + item.posterspending, 0);
-          this.totalPostersPromoted = this.clientData.data.reduce((sum, item) => sum + item.postersPromoted, 0);
-          this.totalGReelsPending = this.clientData.data.reduce((sum, item) => sum + item.gReelspending, 0);
-          this.totalGReelsPromoted = this.clientData.data.reduce((sum, item) => sum + item.gReelsPromoted, 0);
-          this.totalEdReelsPending = this.clientData.data.reduce((sum, item) => sum + item.edReelspending, 0);
-          this.totalEdReelsPromoted = this.clientData.data.reduce((sum, item) => sum + item.edReelsPromoted, 0);
-          this.totalYTVideosPending = this.clientData.data.reduce((sum, item) => sum + item.youtubeVideospending, 0);
-          this.totalYTVideosPromoted = this.clientData.data.reduce((sum, item) => sum + item.youtubeVideosPromoted, 0);
-          
-        }
+        this.metrics = {
+          numberOfClients: response.dmaAdCampain?.totalClients || 0,
+          totalAdClients: response.dmaAdCampain?.totalAdClients || 0,
+          adCampaignsUpdated: response.dmaAdCampain?.adCampaignsUpdated || 0,
+          adCampaignsToBeUpdated: response.dmaAdCampain?.totalAdAdCampaignsToBeUpdated || 0,
+          budgetToBeSpent: response.dmaAdCampain?.budgetToBeSpent || 0,
+          budgetSpent: response.dmaAdCampain?.budgetSpent || 0,
+          adReach: response.dmaAdCampain?.noOfReach || 0,
+          impressions: response.dmaAdCampain?.noOfImpressions || 0,
+          profileVisits: response.dmaAdCampain?.noOfProfileVisits || 0,
+          followers: response.dmaAdCampain?.noOfFollowers || 0,
+          messages: response.dmaAdCampain?.noOfMessages || 0,
+          leads: response.dmaAdCampain?.noOfLeads || 0,
+        };
+
+        this.clientData.data = response.dmaPromotionOverview?.map((item: any) => ({
+          clientName: item.organizationName,
+          posterspending: item.noOfPostersPromotPendig,
+          postersPromoted: item.noOfPostersPromoted,
+          gReelspending: item.noOfGDPromotPendig,
+          gReelsPromoted: item.noOfGDPromoted,
+          edReelspending: item.noOfEDPromotPendig,
+          edReelsPromoted: item.noOfEDPromoted,
+          youtubeVideospending: item.noOfYTPromotPendig,
+          youtubeVideosPromoted: item.noOfYTPromoted,
+        })) || [];
       },
       error: (error) => {
         this.showSpinner = false;
@@ -164,68 +137,78 @@ export class DmaDashboardComponent implements OnInit {
   }
 
   editRow(lead: any): void {
-    console.log(lead);
     const userId = +localStorage.getItem('UserID')!;
-
-    this.router.navigate(['/home/dashboard/dma-pending-posts'],{
+    this.router.navigate(['/home/dashboard/dma-pending-posts'], {
       queryParams: {
-        fromDateValue: this.formattedDate,
-         userId:userId,
-         creativeTypeId:lead.creativeTypeId
-        },
+        fromDateValue: this.fromDate.value?.format('YYYY-MM-DD'),
+        toDateValue: this.toDate.value?.format('YYYY-MM-DD'),
+        userId: userId,
+        creativeTypeId: lead.creativeTypeId,
+      },
     });
-  } 
-  
+  }
+
   editRownew(lead: any): void {
-    console.log(lead);
     const userId = +localStorage.getItem('UserID')!;
-
-    this.router.navigate(['/home/dashboard/dma-promoted-posts'],{
+    this.router.navigate(['/home/dashboard/dma-promoted-posts'], {
       queryParams: {
-        fromDateValue: this.formattedDate,
-         userId:userId,
-         creativeTypeId:lead.creativeTypeId
-        },
+        fromDateValue: this.fromDate.value?.format('YYYY-MM-DD'),
+        toDateValue: this.toDate.value?.format('YYYY-MM-DD'),
+        userId: userId,
+        creativeTypeId: lead.creativeTypeId,
+      },
     });
-  } 
-  
+  }
+
   early(lead: any): void {
-    console.log(lead);
     const userId = +localStorage.getItem('UserID')!;
+    this.router.navigate(['/home/dashboard/dma-promoted-posts'], {
+      queryParams: {
+        fromDateValue: this.fromDate.value?.format('YYYY-MM-DD'),
+        toDateValue: this.toDate.value?.format('YYYY-MM-DD'),
+        userId: userId,
+        creativeTypeId: lead.creativeTypeId,
+        postStatus: 2,
+      },
+    });
+  }
 
-    this.router.navigate(['/home/dashboard/dma-promoted-posts'],{
-      queryParams: {
-        fromDateValue: this.formattedDate,
-         userId:userId,
-         creativeTypeId:lead.creativeTypeId,
-         postStatus:2,
-        },
-    });
-  }
-  
   OnTime(lead: any): void {
-    console.log(lead);
     const userId = +localStorage.getItem('UserID')!;
-    this.router.navigate(['/home/dashboard/dma-promoted-posts'],{
+    this.router.navigate(['/home/dashboard/dma-promoted-posts'], {
       queryParams: {
-        fromDateValue: this.formattedDate,
-        userId:userId,
-        creativeTypeId:lead.creativeTypeId,
-         postStatus:3,
-        },
+        fromDateValue: this.fromDate.value?.format('YYYY-MM-DD'),
+        toDateValue: this.toDate.value?.format('YYYY-MM-DD'),
+        userId: userId,
+        creativeTypeId: lead.creativeTypeId,
+        postStatus: 3,
+      },
     });
   }
-  
+
   Late(lead: any): void {
-    console.log(lead);
     const userId = +localStorage.getItem('UserID')!;
-    this.router.navigate(['/home/dashboard/dma-promoted-posts'],{
+    this.router.navigate(['/home/dashboard/dma-promoted-posts'], {
       queryParams: {
-        fromDateValue: this.formattedDate,
-         userId:userId,
-         creativeTypeId:lead.creativeTypeId,
-         postStatus:4,
-        },
+        fromDateValue: this.fromDate.value?.format('YYYY-MM-DD'),
+        toDateValue: this.toDate.value?.format('YYYY-MM-DD'),
+        userId: userId,
+        creativeTypeId: lead.creativeTypeId,
+        postStatus: 4,
+      },
+    });
+  }
+
+  Rejected(lead: any): void {
+    const userId = +localStorage.getItem('UserID')!;
+    this.router.navigate(['/home/dashboard/dma-promoted-posts'], {
+      queryParams: {
+        fromDateValue: this.fromDate.value?.format('YYYY-MM-DD'),
+        toDateValue: this.toDate.value?.format('YYYY-MM-DD'),
+        userId: userId,
+        creativeTypeId: lead.creativeTypeId,
+        postStatus: 5,
+      },
     });
   }
 }

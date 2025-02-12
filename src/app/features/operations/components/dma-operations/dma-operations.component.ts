@@ -184,6 +184,8 @@ getpostStatus(status: number): string {
       return 'On Time Post';
     case 4:
       return 'Late Posted';
+    case 5:
+        return 'Client Rejected';
     default:
       return 'N/A';
   }
