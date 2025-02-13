@@ -1,0 +1,83 @@
+<div class="spinner" *ngIf="showSpinner">
+    <mat-spinner></mat-spinner>
+  </div>
+  
+  <div class="popup-container">
+    <mat-toolbar color="primary" style="border-radius: 10px; margin-bottom: 20px;">
+      <span>Add Emergency Request</span>
+    </mat-toolbar>
+  
+    <form [formGroup]="emergencyRequestForm">
+      <div class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Date</mat-label>
+          <input matInput formControlName="date" [matDatepicker]="picker" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Creative Type</mat-label>
+          <mat-select formControlName="creativeTypeId">
+            <mat-option *ngFor="let creative of creativeTypes" [value]="creative.id">
+              {{ creative.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Title</mat-label>
+          <input matInput formControlName="title" />
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Emergency Type</mat-label>
+            <mat-select formControlName="emergencyType">
+              <mat-option *ngFor="let emergency of emergencyType" [value]="emergency.id">
+                {{ emergency.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+        <mat-label>Thumbnail Link</mat-label>
+        <input matInput formControlName="thumbNail" />
+        <mat-error *ngIf="emergencyRequestForm.get('thumbNail')?.invalid && emergencyRequestForm.get('thumbNail')?.touched">
+        Invalid URL! Please enter a valid link.
+        </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+        <mat-label>Editor Link</mat-label>
+        <input matInput formControlName="editorLink" />
+        <mat-error *ngIf="emergencyRequestForm.get('editorLink')?.hasError('required')">
+            Video Link is required.
+          </mat-error>
+          <mat-error *ngIf="emergencyRequestForm.get('editorLink')?.hasError('pattern')">
+            Please enter a valid URL (e.g., https://example.com).
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+        <mat-label>Shoot Link</mat-label>
+        <input matInput formControlName="shootLink" />
+        <mat-error *ngIf="emergencyRequestForm.get('shootLink')?.invalid && emergencyRequestForm.get('shootLink')?.touched">
+        Invalid URL! Please enter a valid link.
+        </mat-error>
+        </mat-form-field>
+
+      </div>
+    </form>
+  </div>
+  
+  <div mat-dialog-actions align="end">
+    <button mat-raised-button color="accent" (click)="saveDraft()">Save Draft</button>
+    <button mat-raised-button color="primary" (click)="sendForApproval()">Send To Approval</button>
+    <button mat-raised-button color="warn" (click)="close()">Cancel</button>
+  </div>
+  
