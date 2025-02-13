@@ -131,7 +131,7 @@
           <a [routerLink]="['/home', 'operations', 'client-dma']" 
              *ngIf="roleService.hasRole([ 'DMA'])" 
              routerLinkActive="active">
-            <i class="material-icons">upload_file</i>Daily Tasks
+            <i class="material-icons">trending_up</i>Daily Tasks
           </a>
         </li>
 
@@ -139,7 +139,15 @@
           <a [routerLink]="['/home', 'operations', 'ad-campaign-dma']" 
              *ngIf="roleService.hasRole([ 'DMA'])" 
              routerLinkActive="active">
-            <i class="material-icons">upload_file</i>Ad Campaign Management
+            <i class="material-icons">campaign</i>Ad Campaign Management
+          </a>
+        </li>
+
+        <li>
+          <a [routerLink]="['/home', 'operations', 'ad-campaign-report']" 
+             *ngIf="roleService.hasRole([ 'DMA'])" 
+             routerLinkActive="active">
+            <i class="material-icons">analytics</i>Ad Campaign Report
           </a>
         </li>
 

@@ -68,6 +68,7 @@ import { VideoEditorApprovalHistoryComponent } from './components/lead-approvals
 import { PosterDesignerApprovalHistoryComponent } from './components/lead-approvals-history/poster-designer-approval-history/poster-designer-approval-history.component';
 import { KtDocListComponent } from './components/kt-doc-list/kt-doc-list.component';
 import { ContentWritersCalendarExportComponent } from './components/content-writers-calendar-export/content-writers-calendar-export.component';
+import { AdCampaignReportsComponent } from './components/ad-campaign-reports/ad-campaign-reports.component';
 
 const MY_FORMATS = {
   parse: {
@@ -124,6 +125,7 @@ const MY_FORMATS = {
     PosterDesignerApprovalHistoryComponent,
     KtDocListComponent,
     ContentWritersCalendarExportComponent,
+    AdCampaignReportsComponent,
   ],
   imports: [
     CommonModule,
@@ -155,7 +157,7 @@ const MY_FORMATS = {
   ],
   providers: [
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-    { provide: MAT_DATE_LOCALE, useValue: 'en-US' }, // Set your preferred locale
+    { provide: MAT_DATE_LOCALE, useValue: 'en-IN' }, // Set your preferred locale
   ],
 })
 export class OperationsModule { }

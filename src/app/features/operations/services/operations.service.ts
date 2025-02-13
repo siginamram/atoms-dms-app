@@ -233,4 +233,9 @@ export class OperationsService {
     const apiUrl = `${this.baseApiUrl}/api/Client/GetKTDocumentsByUserId/${userId}`;
     return this.http.get(apiUrl);
   }
+
+  getAdCampaignReportByDateRangeAndDmaId(userId: number,startDate: any,endDate:any): Observable<any>{
+    const apiUrl = `${this.baseApiUrl}/api/Client/GetAdCampaignReportByDateRangeAndDmaId/${userId}/${startDate}/${endDate}`;
+    return this.http.get(apiUrl);
+  }
 }
