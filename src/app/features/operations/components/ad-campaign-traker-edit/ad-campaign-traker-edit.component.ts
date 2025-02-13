@@ -163,8 +163,21 @@ export class AdCampaignTrakerEditComponent implements OnInit {
   }
 
   addCommas(value: string): string {
-    return value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    let num = value.toString();
+    // Extract the last 3 digits 
+    let lastThree = num.slice(-3);
+    // Extract the remaining part before last 3 digits
+    let rest = num.slice(0, -3);
+    // Format the 'rest' part with commas after every 2 digits
+    if (rest !== "") {
+      rest = rest.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
+      return rest + "," + lastThree;
+    } else {
+      return lastThree; // If there are no more than 3 digits, return as is
+    }
   }
+  
+  
   onCancel(): void {
     this.dialogRef.close();
   }
