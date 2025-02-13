@@ -1,5 +1,5 @@
 <div class="dashboard-container">
-  <h2>Photographer Dashboard</h2>
+  <h2>Videographer Dashboard</h2>
 
   <div class="filters-container">
     <mat-form-field appearance="outline">
@@ -24,16 +24,19 @@
       <h3>No. of Shoots Offered Clients</h3>
       <p>{{ noOfShootOfferedClients }}</p>
     </mat-card>
-    <mat-card class="metric-card teal">
-      <mat-icon class="icon">check_circle</mat-icon>
-      <h3>No. of Shoots Pending</h3>
-      <p>{{ noOfShootsPending }}</p>
-    </mat-card>
+
     <mat-card class="metric-card cyan">
       <mat-icon class="icon">done</mat-icon>
       <h3>No. of Shoots Completed</h3>
       <p>{{ noOfShootsCompleted }}</p>
     </mat-card>
+    
+    <mat-card class="metric-card teal">
+      <mat-icon class="icon">check_circle</mat-icon>
+      <h3>No. of Shoots Pending</h3>
+      <p>{{ noOfShootsPending }}</p>
+    </mat-card>
+  
   </div>
 
   <!-- Row 2 -->
@@ -47,6 +50,11 @@
       <mat-icon class="icon">play_circle_filled</mat-icon>
       <h3>No. of YouTube Videos Shot</h3>
       <p>{{ noOfYTShooted }}</p>
+    </mat-card>
+    <mat-card class="metric-card cyan">
+      <mat-icon class="icon">videocam</mat-icon>
+      <h3>Total Pending Videos</h3>
+      <p>{{(noOfYTOffered)-(noOfYTShooted - noOfYTExcessVideos)  }}</p>
     </mat-card>
     <mat-card class="metric-card red">
       <mat-icon class="icon">add_circle</mat-icon>
@@ -67,6 +75,13 @@
       <h3>No. of ED Videos Shot</h3>
       <p>{{ noOfEDShooted }}</p>
     </mat-card>
+
+    <mat-card class="metric-card cyan">
+      <mat-icon class="icon">movie</mat-icon>
+      <h3>Total Pending ED Videos</h3>
+      <p>{{(noOfEDOffered)-(noOfEDShooted - noOfEDExcessVideos)  }}</p>
+    </mat-card>
+
     <mat-card class="metric-card indigo">
       <mat-icon class="icon">add_circle</mat-icon>
       <h3>No. of ED Excess Videos</h3>
