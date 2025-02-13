@@ -68,6 +68,7 @@ import { VideoEditorApprovalHistoryComponent } from './components/lead-approvals
 import { PosterDesignerApprovalHistoryComponent } from './components/lead-approvals-history/poster-designer-approval-history/poster-designer-approval-history.component';
 import { KtDocListComponent } from './components/kt-doc-list/kt-doc-list.component';
 import { ContentWritersCalendarExportComponent } from './components/content-writers-calendar-export/content-writers-calendar-export.component';
+import { AddClientVideosEmergrncyRequestComponent } from './components/add-client-videos-emergrncy-request/add-client-videos-emergrncy-request.component';
 
 const MY_FORMATS = {
   parse: {
@@ -124,6 +125,7 @@ const MY_FORMATS = {
     PosterDesignerApprovalHistoryComponent,
     KtDocListComponent,
     ContentWritersCalendarExportComponent,
+    AddClientVideosEmergrncyRequestComponent,
   ],
   imports: [
     CommonModule,

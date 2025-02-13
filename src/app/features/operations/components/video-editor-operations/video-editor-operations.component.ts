@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { OperationsService } from '../../services/operations.service';
 import { VideoEditorOperationsEditComponent } from '../video-editor-operations-edit/video-editor-operations-edit.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AddClientVideosEmergrncyRequestComponent } from '../add-client-videos-emergrncy-request/add-client-videos-emergrncy-request.component';
 export const MY_FORMATS = {
   parse: {
     dateInput: 'MM/YYYY',
@@ -157,7 +158,25 @@ export class VideoEditorOperationsComponent implements OnInit {
     datepicker.close();
     this.fetchTableData(); // Fetch table data for the new date
   }
+  
+ addNewEntry() {
+    if (!this.clientId) {
+      alert('Client ID is missing. Please select a client.');
+      return;
+    }
 
+    const dialogRef = this.dialog.open(AddClientVideosEmergrncyRequestComponent, {
+      width: '600px',
+      data: { clientId: this.clientId }, // Pass the clientId
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log('Operation Successful:', result);
+        this.fetchTableData(); // Refresh the table after edit or save
+      }
+    });
+  }
   openEditPopup(row: any): void {
     console.log('edit', row);
     const dialogRef = this.dialog.open(VideoEditorOperationsEditComponent, {
