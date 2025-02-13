@@ -239,9 +239,28 @@
       <ng-container matColumnDef="clientName">
         <th mat-header-cell *matHeaderCellDef>
           <mat-icon class="table-icon">person</mat-icon> Name of the Client
+          <button mat-icon-button (click)="toggleFilter('clientName')">
+            <mat-icon *ngIf="!activeFilters['clientName']">filter_list</mat-icon>
+            <mat-icon *ngIf="activeFilters['clientName']">close</mat-icon>
+          </button>
+          <div *ngIf="activeFilters['clientName']" class="table-filter">
+            <mat-form-field appearance="outline" style="width: 100%;">
+              <mat-label>Filter Client</mat-label>
+              <input matInput [formControl]="clientNameFilter" placeholder="Search Client" />
+            </mat-form-field>
+          </div>
         </th>
         <td mat-cell *matCellDef="let element"> {{ element.clientName }} </td>
         <td mat-footer-cell *matFooterCellDef><strong>Total</strong></td>
+      </ng-container>
+      
+
+      <ng-container matColumnDef="totalposters">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-icon class="table-icon">hourglass_empty</mat-icon> Total Posters 
+        </th>
+        <td mat-cell *matCellDef="let element"> {{ element.posterspending +  element.postersPromoted }} </td>
+        <td mat-footer-cell *matFooterCellDef><strong>{{ totalPostersPending + totalPostersPromoted }}</strong></td>
       </ng-container>
 
       <ng-container matColumnDef="posterspending">
@@ -260,6 +279,14 @@
         <td mat-footer-cell *matFooterCellDef><strong>{{ totalPostersPromoted }}</strong></td>
       </ng-container>
 
+      <ng-container matColumnDef="totalgReels">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-icon class="table-icon">hourglass_empty</mat-icon> Total GReels 
+        </th>
+        <td mat-cell *matCellDef="let element"> {{ element.gReelspending + element.gReelsPromoted }} </td>
+        <td mat-footer-cell *matFooterCellDef><strong>{{ totalGReelsPending + totalGReelsPromoted }}</strong></td>
+      </ng-container>
+
       <ng-container matColumnDef="gReelspending">
         <th mat-header-cell *matHeaderCellDef>
           <mat-icon class="table-icon">hourglass_empty</mat-icon> GReels Pending
@@ -276,6 +303,14 @@
         <td mat-footer-cell *matFooterCellDef><strong>{{ totalGReelsPromoted }}</strong></td>
       </ng-container>
 
+      <ng-container matColumnDef="totaledReels">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-icon class="table-icon">hourglass_empty</mat-icon> Total EdReels 
+        </th>
+        <td mat-cell *matCellDef="let element"> {{ element.edReelspending + element.edReelsPromoted }} </td>
+        <td mat-footer-cell *matFooterCellDef><strong>{{ totalEdReelsPending + totalEdReelsPromoted }}</strong></td>
+      </ng-container>
+
       <ng-container matColumnDef="edReelspending">
         <th mat-header-cell *matHeaderCellDef>
           <mat-icon class="table-icon">hourglass_empty</mat-icon> EdReels Pending
@@ -290,6 +325,14 @@
         </th>
         <td mat-cell *matCellDef="let element"> {{ element.edReelsPromoted }} </td>
         <td mat-footer-cell *matFooterCellDef><strong>{{ totalEdReelsPromoted }}</strong></td>
+      </ng-container>
+
+      <ng-container matColumnDef="totalYTVideos">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-icon class="table-icon">hourglass_empty</mat-icon> Total YT Videos 
+        </th>
+        <td mat-cell *matCellDef="let element"> {{ element.youtubeVideospending + element.youtubeVideosPromoted }} </td>
+        <td mat-footer-cell *matFooterCellDef><strong>{{ totalYTVideosPending + totalYTVideosPromoted }}</strong></td>
       </ng-container>
 
       <ng-container matColumnDef="youtubeVideospending">

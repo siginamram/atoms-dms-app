@@ -22,6 +22,8 @@ export class DmaDashboardComponent implements OnInit {
   filteredDeliverables = new MatTableDataSource<any>([]);
   clientData = new MatTableDataSource<any>([]);
   metrics: any = {}; // ✅ Fix for metrics property
+  clientNameFilter = new FormControl(''); // **Filter for Client Name**
+  activeFilters: { [key: string]: boolean } = {}; // **Track Active Filters**
 
   // Declare total properties
   totalPostersPending = 0;
@@ -46,12 +48,16 @@ export class DmaDashboardComponent implements OnInit {
 
   displayedColumns = [
     'clientName',
+    'totalposters',
     'posterspending',
     'postersPromoted',
+    'totalgReels',
     'gReelspending',
     'gReelsPromoted',
+    'totaledReels',
     'edReelspending',
     'edReelsPromoted',
+    'totalYTVideos',
     'youtubeVideospending',
     'youtubeVideosPromoted',
   ];
@@ -77,6 +83,9 @@ export class DmaDashboardComponent implements OnInit {
     // ✅ Ensure the function is called when dates are changed
     this.fromDate.valueChanges.subscribe(() => this.setFromAndToDate());
     this.toDate.valueChanges.subscribe(() => this.setFromAndToDate());
+
+     // ✅ Apply client name filter dynamically
+     this.clientNameFilter.valueChanges.subscribe(() => this.applyFilter());
   }
   setFromAndToDate(): void {
     this.fetchDashboardData(); // Fetch data based on updated dates
@@ -142,13 +151,28 @@ export class DmaDashboardComponent implements OnInit {
         this.totalEdReelsPromoted = this.clientData.data.reduce((sum, item) => sum + item.edReelsPromoted, 0);
         this.totalYTVideosPending = this.clientData.data.reduce((sum, item) => sum + item.youtubeVideospending, 0);
         this.totalYTVideosPromoted = this.clientData.data.reduce((sum, item) => sum + item.youtubeVideosPromoted, 0);
-         
+        
+        this.applyFilter();
       },
       error: (error) => {
         this.showSpinner = false;
         console.error('Error fetching DMA Dashboard data:', error);
       },
     });
+  }
+   // **Filter Function**
+   applyFilter(): void {
+    const clientName = this.clientNameFilter.value?.toLowerCase() || '';
+
+    this.clientData.filterPredicate = (data: any) =>
+      (!clientName || data.clientName.toLowerCase().includes(clientName));
+
+    this.clientData.filter = Math.random().toString(); // Trigger filter refresh
+  }
+
+  // **Toggle filter visibility**
+  toggleFilter(column: string): void {
+    this.activeFilters[column] = !this.activeFilters[column];
   }
 
   editRow(lead: any): void {
