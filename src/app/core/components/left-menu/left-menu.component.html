@@ -152,10 +152,10 @@
         </li>
 
         <li>
-          <a [routerLink]="['/home', 'employees', 'AddComponent']" 
+          <a [routerLink]="['/home', 'employees', 'listofemployees']" 
           *ngIf="roleService.hasRole([ 'HR'])"
              routerLinkActive="active">
-            <i class="material-icons">person_add</i>Create Employee
+            <i class="material-icons">list</i>Employees List
           </a>
         </li>
 

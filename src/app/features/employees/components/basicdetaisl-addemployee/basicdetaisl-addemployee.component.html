@@ -1,0 +1,82 @@
+
+    <mat-dialog-content>
+        <mat-toolbar color="primary" style="border-radius: 10px; margin-bottom: 20px;">
+            <span>Add Employee</span>
+          </mat-toolbar>
+        <form>
+          <div class="form-grid">
+            <!-- First Name -->
+            <mat-form-field class="grid-item" appearance="outline">
+                <mat-label>First Name</mat-label>
+                <input matInput [(ngModel)]="firstName" name="firstName"/>
+             </mat-form-field>
+      
+            <!-- Last name-->
+            <mat-form-field class="grid-item" appearance="outline">
+                <mat-label>Last Name</mat-label>
+                <input matInput [(ngModel)]="lastName" name="lastName"/>
+             </mat-form-field>
+      
+            <!-- Dob -->
+            <mat-form-field class="grid-item" appearance="outline">
+                <mat-label>Date Of Birth</mat-label>
+                <input matInput [matDatepicker]="picker1" [(ngModel)]="dateOfBirth" name="dateOfBirth"/>
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+             </mat-form-field>
+             <!-- email -->
+             <mat-form-field class="grid-item" appearance="outline">
+                <mat-label>Email Id</mat-label>
+                <input matInput [(ngModel)]="EmailId" name="EmailId" />
+             </mat-form-field>
+
+               <!-- department Field -->
+  <mat-form-field appearance="outline" class="dialog-field">
+    <mat-label>Department</mat-label>
+    <input
+      type="text"
+      matInput
+      placeholder="Search Department"
+      [(ngModel)]="selecteddepartmentName"
+      [matAutocomplete]="auto"
+      (input)="filterDeparments($event)"
+      
+    />
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onDeparmentSelected($event)">
+      <mat-option *ngFor="let department of filteredDeparments" [value]="department.departmentName">
+        {{ department.departmentName }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+              <!-- Role Field -->
+              <mat-form-field appearance="outline" class="dialog-field">
+                <mat-label>Role</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  placeholder="Search Role"
+                  [(ngModel)]="selectedRoleName"
+                  [matAutocomplete]="autoRole"
+                  (input)="filterRoles($event)"
+                  
+                />
+                <mat-autocomplete #autoRole="matAutocomplete" (optionSelected)="onRoleSelected($event)">
+                  <mat-option *ngFor="let role of filteredRoles" [value]="role.roleName">
+                    {{ role.roleName }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+
+
+          </div>
+      
+      
+          <!-- Actions -->
+          <div class="actions">
+            <button mat-button mat-dialog-close (click)="closeDialog()" color="warn">Cancel</button>
+            <button mat-raised-button color="primary" (click)="submit()">Submit</button>
+          </div>
+        </form>
+      </mat-dialog-content>
+      
