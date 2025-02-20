@@ -39,9 +39,26 @@
         </ng-container>
   
         <!-- Client Column -->
-        <ng-container matColumnDef="organizationName">
+        <!-- <ng-container matColumnDef="organizationName">
           <th mat-header-cell *matHeaderCellDef>Client Name</th>
           <td mat-cell *matCellDef="let element">{{ element.organizationName }}</td>
+        </ng-container> -->
+
+        <ng-container matColumnDef="organizationName">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-icon class="table-icon">person</mat-icon> Name of the Client
+            <button mat-icon-button (click)="toggleFilter('organizationName')">
+              <mat-icon *ngIf="!activeFilters['organizationName']">filter_list</mat-icon>
+              <mat-icon *ngIf="activeFilters['organizationName']">close</mat-icon>
+            </button>
+            <div *ngIf="activeFilters['organizationName']" class="table-filter">
+              <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Filter Client</mat-label>
+                <input matInput [formControl]="clientNameFilter" placeholder="Search Client" />
+              </mat-form-field>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let element"> {{ element.organizationName }} </td>
         </ng-container>
   
         <!-- Campaign start Date -->

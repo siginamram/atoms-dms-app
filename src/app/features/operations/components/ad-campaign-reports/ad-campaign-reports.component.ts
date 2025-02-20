@@ -3,7 +3,7 @@ import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { OperationsService } from '../../services/operations.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-ad-campaign-reports',
@@ -19,6 +19,8 @@ export class AdCampaignReportsComponent {
   showSpinner: boolean = false;
   fromDateValue: any | null = null;
   toDateValue: any | null = null;
+    clientNameFilter = new FormControl(''); // **Filter for Client Name**
+    activeFilters: { [key: string]: boolean } = {}; // **Track Active Filters**
   dataSource = new MatTableDataSource<any>();
   displayedColumns: string[] = ['sno', 'organizationName', 'campaignStartDate', 'campaignEndDate', 'reach', 'impressions','resultType','result','followersIncreased','currentFollowers'];
   resultType:any = {
@@ -36,6 +38,11 @@ export class AdCampaignReportsComponent {
     const today = new Date();
     this.fromDateValue = today;
     this.toDateValue = today;
+    this.dataSource.filterPredicate = (data: any) => 
+      !this.clientNameFilter.value || 
+      data.organizationName.toLowerCase().includes(this.clientNameFilter.value.toLowerCase());
+  
+    this.clientNameFilter.valueChanges.subscribe(() => this.applyFilter());
   }
 
   ngAfterViewInit(): void {
@@ -74,6 +81,20 @@ export class AdCampaignReportsComponent {
     );
   }
 
+  applyFilter(): void {
+    const clientName = this.clientNameFilter.value?.toLowerCase() || '';
+  
+    this.dataSource.filterPredicate = (data: any) =>
+      !clientName || data.organizationName.toLowerCase().includes(clientName);
+  
+    this.dataSource.filter = Math.random().toString(); // Trigger filter refresh
+  }
+  
+
+  // **Toggle filter visibility**
+  toggleFilter(column: string): void {
+    this.activeFilters[column] = !this.activeFilters[column];
+  }
 
   formatDate(date: Date | null): string {
     if (!date) return '';
