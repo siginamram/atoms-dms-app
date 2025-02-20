@@ -26,6 +26,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ApproveLeavesComponent } from './components/leave-management/approve-leaves/approve-leaves.component';
 import { ApproveLeavesEditComponent } from './components/leave-management/approve-leaves-edit/approve-leaves-edit.component';
 import { LateCommingApplyComponent } from './components/leave-management/late-comming-apply/late-comming-apply.component';
+import { EmployeesListComponent } from './components/employees-list/employees-list.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { BasicdetaislAddemployeeComponent } from './components/basicdetaisl-addemployee/basicdetaisl-addemployee.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { EmployeeDashboardComponent } from './components/employee-dashboard/employee-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +43,9 @@ import { LateCommingApplyComponent } from './components/leave-management/late-co
     ApproveLeavesComponent,
     ApproveLeavesEditComponent,
     LateCommingApplyComponent,
-    
+    EmployeesListComponent,
+    BasicdetaislAddemployeeComponent,
+    EmployeeDashboardComponent
   ],
   imports: [
     CommonModule,
@@ -48,6 +55,7 @@ import { LateCommingApplyComponent } from './components/leave-management/late-co
     MatInputModule,
     MatDatepickerModule,
     MatSelectModule,
+    MatAutocompleteModule,
     MatOptionModule,
     MatButtonModule,
     MatIconModule,
@@ -59,6 +67,7 @@ import { LateCommingApplyComponent } from './components/leave-management/late-co
     MatToolbarModule,
     MatDialogModule,
     FormsModule,
+    MatProgressSpinnerModule 
    
   ]
 })

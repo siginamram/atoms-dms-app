@@ -1,6 +1,6 @@
 .employee-container {
   max-width: 900px;
-  margin-left: 300px;
+  margin-left: 200px;
   padding: 20px;
   border-radius: 10px;
   background-color:  #FFFFFF;
@@ -16,6 +16,17 @@
   justify-content: space-evenly;
   align-items: center;
 }
+.personal-details
+{
+background: #F7FBFFCC;
+  
+}
+.contact-details
+{
+  background: #FFF6EE;
+
+}
+
 
 
 .circle {
