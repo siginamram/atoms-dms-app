@@ -50,4 +50,10 @@ employeeLeaveRequest(payload: any): Observable<any> {
   // Set responseType to 'text' since the API returns plain text
   return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
 }
+employeeLateRequest(payload: any): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Employee/employeeLateRequest`;
+  // Set responseType to 'text' since the API returns plain text
+  return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+}
+
 }

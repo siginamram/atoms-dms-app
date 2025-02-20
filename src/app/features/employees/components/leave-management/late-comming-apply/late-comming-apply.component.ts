@@ -1,4 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
+import { EmployeesService } from '../../../services/employees.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/alert-dialog.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-late-comming-apply',
@@ -6,17 +12,61 @@ import { Component } from '@angular/core';
   templateUrl: './late-comming-apply.component.html',
   styleUrls: ['./late-comming-apply.component.css']
 })
-export class LateCommingApplyComponent {
-  date: Date | null = null;
-  delayBy: string = '';
-  delayReason: string = '';
+export class LateCommingApplyComponent implements OnInit {
+  lateRequestForm: FormGroup;
+  employeeId: number = parseInt(localStorage.getItem('empID') || '0', 10);
+
+  constructor(
+    private fb: FormBuilder,
+    private dialogRef: MatDialogRef<LateCommingApplyComponent>,
+    private employeesService: EmployeesService,
+    private dialog: MatDialog
+  ) {
+    this.lateRequestForm = this.fb.group({
+      requestDate: ['', Validators.required],
+      delayHours: ['', Validators.required],
+      reason: ['', Validators.required]
+    });
+  }
+
+  ngOnInit(): void {}
 
   submit(): void {
-    console.log({
-      date: this.date,
-      delayBy: this.delayBy,
-      delayReason: this.delayReason
+    if (this.lateRequestForm.valid) {
+      const payload = {
+        employeeId: this.employeeId,
+        requestDate: moment(this.lateRequestForm.get('requestDate')?.value).toISOString(),
+        delayHours: parseInt(this.lateRequestForm.get('delayHours')?.value, 10),
+        reason: this.lateRequestForm.get('reason')?.value
+      };
+
+      this.employeesService.employeeLateRequest(payload).subscribe({
+        next: (response: string) => {
+          if (response === 'Success') {
+            this.openAlertDialog('Success', 'Late Coming Request Submitted Successfully!');
+            this.dialogRef.close(true);
+          } else {
+            this.openAlertDialog('Error', response || 'Unexpected error. Please try again.');
+          }
+        },
+        error: (error: any) => {
+          console.error('API Error:', error);
+          this.openAlertDialog('Error', 'An unexpected error occurred. Please try again.');
+        }
+      });
+    } else {
+      this.openAlertDialog('Error', 'Please fill in all required fields.');
+    }
+  }
+
+  openAlertDialog(title: string, message: string): void {
+    this.dialog.open(AlertDialogComponent, {
+      width: '400px',
+      data: { title, message, type: title.toLowerCase() }
     });
-    // Logic to handle submission
+  }
+
+  close(): void {
+    this.dialogRef.close();
   }
 }
