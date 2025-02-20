@@ -7,6 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { OperationsService } from '../../../services/operations.service';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatDialog } from '@angular/material/dialog';
+import { EditStatusApprovalsComponent } from '../../lead-approvals/edit-status-approvals/edit-status-approvals.component';
 export const MY_FORMATS = {
   parse: {
     dateInput: 'MM/YYYY',
@@ -46,6 +47,7 @@ export class VideoEditorApprovalHistoryComponent implements OnInit {
     'editorLink',
     'status',
     'approvedon',
+    'action'
   ];
 
   dataSource = new MatTableDataSource<any>();
@@ -147,7 +149,19 @@ export class VideoEditorApprovalHistoryComponent implements OnInit {
     // Toggle the filter visibility for the clicked column
     this.activeFilter = this.activeFilter === column ? null : column;
   }
+  
+  onEdit(row: any): void {
+    const dialogRef = this.dialog.open(EditStatusApprovalsComponent, {
+      width: '600px',
+      data: row,
+    });
 
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.fetchGraphicApprovalRequests(); // Refresh table after edit
+      }
+    });
+  }
 
 }
 

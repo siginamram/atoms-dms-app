@@ -170,10 +170,11 @@
       
       <!-- Logout Button -->
       <div class="logout-btn">
-        <a routerLink="/login">
-          <i class="material-icons">exit_to_app</i> Log Out
-        </a>
+      <a (click)="logout()">
+      <i class="material-icons">exit_to_app</i> Log Out
+      </a>
       </div>
+
     </div>
   </nav>
   
@@ -327,7 +328,10 @@
       </ul>
     </li> -->
   </ul>
+  <!-- Logout Button -->
   <div class="logout-btn">
-    <a routerLink="/login"><i class="material-icons">group</i>Log Out</a>
-  </div>
+    <a (click)="logout()">
+    <i class="material-icons">exit_to_app</i> Log Out
+    </a>
+    </div>
 </div>
