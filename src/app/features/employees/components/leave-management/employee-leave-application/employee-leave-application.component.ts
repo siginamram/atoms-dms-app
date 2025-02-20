@@ -52,14 +52,14 @@ export class EmployeeLeaveApplicationComponent {
   ];
   openApplyLeavePopup(): void {
     this.dialog.open(LeaveApplyComponent, {
-      width: '400px',
+      width: '600px',
       panelClass: 'custom-dialog-container',
     });
   }
 
   openLatecommingPopup(): void {
     this.dialog.open(LateCommingApplyComponent, {
-      width: '400px',
+      width: '600px',
       panelClass: 'custom-dialog-container',
     });
   }
