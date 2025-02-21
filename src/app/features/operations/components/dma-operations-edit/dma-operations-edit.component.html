@@ -12,10 +12,18 @@
         <textarea matInput formControlName="contentCaption" readonly></textarea>
       </mat-form-field>
       </div>
+
+      <div class="content-field" *ngIf="data.meetingData?.contentInPost && data.meetingData?.contentInPost !== ''" >
+        <mat-form-field appearance="outline" >
+          <mat-label>Content In Post</mat-label>
+          <textarea matInput formControlName="contentInPost" readonly></textarea>
+        </mat-form-field>
+        </div>
+
       <div class="content-field" *ngIf="data.meetingData?.link && data.meetingData?.link !== ''" style="padding: 0 20px;">
         <label class="link-label">Link:</label>
         <a [href]="data.meetingData?.link" target="_blank" rel="noopener noreferrer" class="url-link">
-          {{ data.meetingData?.link }}
+          View Link
         </a>
       </div>
     </div>
@@ -50,7 +58,7 @@
 
       <mat-form-field appearance="outline" *ngIf="!isFirstCase">
         <mat-label>Remarks</mat-label>
-        <textarea matInput formControlName="remarks"></textarea>
+        <textarea rows="1" matInput formControlName="remarks"></textarea>
       </mat-form-field>
     </div>
   </form>

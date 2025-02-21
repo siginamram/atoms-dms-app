@@ -8,6 +8,7 @@ import { OperationsService } from '../../../services/operations.service';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { EditStatusApprovalsComponent } from '../edit-status-approvals/edit-status-approvals.component';
 import { MatDialog } from '@angular/material/dialog';
+
 export const MY_FORMATS = {
   parse: {
     dateInput: 'MM/YYYY',
@@ -22,10 +23,10 @@ export const MY_FORMATS = {
 
 @Component({
   selector: 'app-video-editor-approval',
-  standalone:false,
+  standalone: false,
   templateUrl: './video-editor-approval.component.html',
   styleUrl: './video-editor-approval.component.css',
-   providers: [provideMomentDateAdapter(MY_FORMATS)],
+  providers: [provideMomentDateAdapter(MY_FORMATS)],
 })
 export class VideoEditorApprovalComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -54,7 +55,7 @@ export class VideoEditorApprovalComponent implements OnInit {
 
   constructor(
     private operationsService: OperationsService,
-    private dialog: MatDialog,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -79,40 +80,41 @@ export class VideoEditorApprovalComponent implements OnInit {
         this.showSpinner = false;
         this.dataSource.data = response.map((item: any) => ({
           ...item,
-          status: this.getPostStatusText(item.status), // Map postStatus to text
+          status: this.getPostStatusText(item.status), // ✅ Ensure correct mapping
           monthlyTrackerId: item.monthlyTrackerId,
           userId: userId,
-          creativeTypeName:item.creativeType,
-          creativeType:item.creativeTypeId,
-          role:'Video'
+          creativeTypeName: item.creativeType,
+          creativeType: item.creativeTypeId,
+          role: 'Video',
         }));
         this.dataSource.paginator = this.paginator;
       },
       error: (error) => {
         this.showSpinner = false;
-        console.error('Error fetching graphic approval requests:', error);
+        console.error('Error fetching video editor approval requests:', error);
       },
     });
   }
-    // Helper method to map status numbers to text
-    getPostStatusText(status: number): string {
-      switch (status) {
-        case 1:
-          return 'Yet to start';
-        case 2:
-          return 'Saved in draft';
-        case 3:
-          return 'Sent for approval';
-        case 4:
-          return 'Changes recommended';
-        case 5:
-          return 'Approved';
-        case 6:
-            return 'Sent for client approval';
-        default:
-          return 'Unknown status';
-      }
+
+  // Helper method to map status numbers to text
+  getPostStatusText(status: number): string {
+    switch (status) {
+      case 1:
+        return 'Yet to start';
+      case 2:
+        return 'Saved in draft';
+      case 3:
+        return 'Sent for approval';
+      case 4:
+        return 'Changes recommended';
+      case 5:
+        return 'Approved';
+      case 6:
+        return 'Sent for client approval';
+      default:
+        return 'Unknown status';
     }
+  }
 
   setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
     const ctrlValue = this.date.value || moment();
@@ -128,25 +130,22 @@ export class VideoEditorApprovalComponent implements OnInit {
     const resource = this.resourceFilter.value?.toLowerCase() || '';
     const postStatus = this.postStatusFilter.value?.toLowerCase() || '';
 
-    this.dataSource.filterPredicate = (data: any) =>
+    this.dataSource.filterPredicate = (data: any, filter: string) =>
       (!organization || data.organizationName?.toLowerCase().includes(organization)) &&
       (!resource || data.resourceName?.toLowerCase().includes(resource)) &&
-      (!postStatus || data.postStatus?.toLowerCase().includes(postStatus));
+      (!postStatus || data.status?.toLowerCase().includes(postStatus)); // ✅ **Fixed field reference**
 
-    this.dataSource.filter = Math.random().toString();
+    this.dataSource.filter = Math.random().toString(); // Trigger filter refresh
   }
 
   toggleFilter(column: string, event?: MouseEvent): void {
-    // Check if the clicked element is part of the filter input
     if (
       event?.target instanceof HTMLElement &&
       event.target.closest('.column-filter-container') &&
       this.activeFilter === column
     ) {
-      return; // Do nothing if clicking inside the filter container
+      return;
     }
-
-    // Toggle the filter visibility for the clicked column
     this.activeFilter = this.activeFilter === column ? null : column;
   }
 
@@ -163,4 +162,3 @@ export class VideoEditorApprovalComponent implements OnInit {
     });
   }
 }
-

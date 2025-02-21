@@ -18,6 +18,7 @@ export class ManagerDashboardComponent implements OnInit {
     'noOfOnTimePosts',
     'noOfEarlyPosts',
     'noOfLatePosts',
+    'noOfRejectedPosts'
   ];
 
   displayedColumns: string[] = [
@@ -93,6 +94,7 @@ export class ManagerDashboardComponent implements OnInit {
       noOfOnTimePosts: item.noOfOnTimePosts,
       noOfEarlyPosts: item.noOfEarlyPosts,
       noOfLatePosts: item.noOfLatePosts,
+      noOfRejectedPosts:item.noOfRejectedPosts,
       creativeTypeId:item.creativeTypeId,
     }));
   }
@@ -240,7 +242,22 @@ Late(lead: any): void {
       },
   });
 }
-
+Rejected(lead: any): void {
+  console.log(lead);
+  const userId = +localStorage.getItem('UserID')!;
+  const formattedFromDate = this.formatDate(this.fromDateValue);
+  const formattedToDate = this.formatDate(this.toDateValue); 
+  this.router.navigate(['/home/dashboard/promoted-posts'],{
+    queryParams: {
+      fromDateValue: formattedFromDate,
+       toDateValue:formattedToDate,
+       type:'manager',
+       userId:userId,
+       creativeTypeId:lead.creativeTypeId,
+       postStatus:5,
+      },
+  });
+}
 getRow(lead: any): void {
   console.log(lead);
   if(lead.label=='Number of Clients'){

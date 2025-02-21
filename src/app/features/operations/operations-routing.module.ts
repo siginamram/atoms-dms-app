@@ -25,6 +25,7 @@ import { AdCampaignTrakerComponent } from './components/ad-campaign-traker/ad-ca
 import { LeadApprovalHistoryComponent } from './components/lead-approvals-history/lead-approval-history/lead-approval-history.component';
 import { KtDocListComponent } from './components/kt-doc-list/kt-doc-list.component';
 import { ContentWritersCalendarExportComponent } from './components/content-writers-calendar-export/content-writers-calendar-export.component';
+import { AdCampaignReportsComponent } from './components/ad-campaign-reports/ad-campaign-reports.component';
 
 const routes: Routes = [
   {
@@ -61,6 +62,7 @@ const routes: Routes = [
       { path: 'client-dma', component: DmaClientsComponent },
       { path: 'ad-campaign-dma', component: AdCampaignManagementComponent },
       { path: 'ad-campaign-operations-dma', component: AdCampaignTrakerComponent },
+      { path:'ad-campaign-report', component:AdCampaignReportsComponent},
 
       { path: 'lead-approvals', component: LeadApprovalsComponent },
       { path: 'lead-approvals-history', component: LeadApprovalHistoryComponent },

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { RoleService } from 'src/app/services/role.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class LeftMenuComponent implements OnInit {
   isDropdownActive: { [key: string]: boolean } = {}; // Store active state for each dropdown
   roleID: number | null = null; // To store the role ID from localStorage
   menuItems: any[] = []; // Menu items to display dynamically
-  constructor(public roleService: RoleService) {}
+  constructor(public roleService: RoleService , private router: Router) {}
 
   ngOnInit(): void {
     // Retrieve user roles from local storage
@@ -95,6 +96,19 @@ export class LeftMenuComponent implements OnInit {
         { title: 'Dashboard', icon: 'home', route: '/home/dashboard' },
       ];
     }
+  }
+
+
+  logout() {
+    // Clear session and local storage
+    sessionStorage.clear();
+    localStorage.clear();
+    document.cookie = "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+    // Redirect to login page and reload
+    this.router.navigate(['/login']).then(() => {
+      window.location.reload();
+    });
   }
   
 }

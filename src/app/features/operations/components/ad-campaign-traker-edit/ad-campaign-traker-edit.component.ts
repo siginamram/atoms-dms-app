@@ -41,6 +41,11 @@ export class AdCampaignTrakerEditComponent implements OnInit {
     { value: 5, label: 'WA Messages' },
     { value: 6, label: 'Leads Generated' },
   ];
+  formattedReach = '';
+  formattedImpressions = '';
+  formattedResult = '';
+  formattedFollowersBeforeCampaign = '';
+  formattedFollowersAfterCampaign = '';
 
   constructor(
     private fb: FormBuilder,
@@ -54,7 +59,7 @@ export class AdCampaignTrakerEditComponent implements OnInit {
     this.campaignForm = this.fb.group({
       fromDate: ['', Validators.required],
       toDate: ['', Validators.required],
-      targetAmount: ['', [Validators.required, Validators.min(1)]],
+      targetAmount: ['', Validators.required],
       platform: ['', Validators.required],
       objective: ['', Validators.required],
       resultType: ['', Validators.required],
@@ -114,8 +119,65 @@ export class AdCampaignTrakerEditComponent implements OnInit {
       isCampaignCompleted: campaignData.isCampaignCompleted,
       remarks: campaignData.remarks,
     });
+
+    this.formattedReach = this.addCommas(String(campaignData.reach || ''));
+    this.formattedImpressions = this.addCommas(String(campaignData.impressions || ''));
+    this.formattedResult = this.addCommas(String(campaignData.result || ''));
+    this.formattedFollowersBeforeCampaign = this.addCommas(String(campaignData.followersBeforeCampaign || ''));
+    this.formattedFollowersAfterCampaign = this.addCommas(String(campaignData.followersAfterCampaign || ''));
   }
 
+  onNumberInput(event: any, field: string): void {
+    let value = event.target.value.replace(/,/g, '');
+    if (field === 'reach') {
+      this.formattedReach = this.addCommas(value);
+      this.campaignForm.get('reach')?.setValue(value);
+    } else if (field === 'impressions') {
+      this.formattedImpressions = this.addCommas(value);
+      this.campaignForm.get('impressions')?.setValue(value);
+    }else if (field === 'result') {
+      this.formattedResult = this.addCommas(value);
+      this.campaignForm.get('result')?.setValue(value);
+    }else if (field === 'followersBeforeCampaign') {
+      this.formattedFollowersBeforeCampaign = this.addCommas(value);
+      this.campaignForm.get('followersBeforeCampaign')?.setValue(value);
+    }else if (field === 'followersAfterCampaign') {
+      this.formattedFollowersAfterCampaign = this.addCommas(value);
+      this.campaignForm.get('followersAfterCampaign')?.setValue(value);
+    }
+  }
+
+  formatNumber(field: string): void {
+    if (field === 'reach') {
+      this.formattedReach = this.addCommas(this.campaignForm.get('reach')?.value);
+    } else if (field === 'impressions') {
+      this.formattedImpressions = this.addCommas(this.campaignForm.get('impressions')?.value);
+    }else if (field === 'result') {
+      this.formattedResult = this.addCommas(this.campaignForm.get('result')?.value);
+    }else if (field === 'followersBeforeCampaign') {
+      this.formattedFollowersBeforeCampaign = this.addCommas(this.campaignForm.get('followersBeforeCampaign')?.value);
+    }
+    else if (field === 'followersAfterCampaign') {
+      this.formattedFollowersAfterCampaign = this.addCommas(this.campaignForm.get('followersAfterCampaign')?.value);
+    }
+  }
+
+  addCommas(value: string): string {
+    let num = value.toString();
+    // Extract the last 3 digits 
+    let lastThree = num.slice(-3);
+    // Extract the remaining part before last 3 digits
+    let rest = num.slice(0, -3);
+    // Format the 'rest' part with commas after every 2 digits
+    if (rest !== "") {
+      rest = rest.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
+      return rest + "," + lastThree;
+    } else {
+      return lastThree; // If there are no more than 3 digits, return as is
+    }
+  }
+  
+  
   onCancel(): void {
     this.dialogRef.close();
   }

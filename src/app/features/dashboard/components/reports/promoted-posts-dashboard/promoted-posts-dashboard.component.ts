@@ -160,6 +160,8 @@ export class PromotedPostsDashboardComponent implements OnInit {
         return 'On Time Post';
       case 4:
         return 'Late Posted';
+      case 5:
+          return 'Client Rejected';
       default:
         return 'N/A';
     }

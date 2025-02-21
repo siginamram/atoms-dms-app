@@ -27,22 +27,12 @@
         matInput
         formControlName="targetAmount"
         type="text"
-        inputmode="numeric"
-        pattern="\d*"
+        inputmode="decimal" step="any"
+        pattern="^\d+(\.\d{1,2})?$"
       />
       </mat-form-field>
   
-      <mat-form-field appearance="outline">
-        <mat-label>Amount Spent</mat-label>
-        <!-- <input matInput type="number" formControlName="amountSpent" class="no-arrows" /> -->
-        <input
-        matInput
-        formControlName="amountSpent"
-        type="text"
-        inputmode="numeric"
-        pattern="\d*"
-      />
-      </mat-form-field>
+    
     </div>
   
     <!-- Row 2 -->
@@ -73,6 +63,18 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Amount Spent</mat-label>
+        <!-- <input matInput type="number" formControlName="amountSpent" class="no-arrows" /> -->
+        <input
+        matInput
+        formControlName="amountSpent"
+        type="text"
+        inputmode="decimal" step="any"
+        pattern="^\d+(\.\d{1,2})?$"
+      />
+      </mat-form-field>
     </div>
   
     <!-- Row 3 -->
@@ -80,10 +82,10 @@
       <mat-form-field appearance="outline">
         <mat-label>Result</mat-label>
         <!-- <input matInput type="number" formControlName="result" class="no-arrows" /> -->
-        <input
-        matInput
-        formControlName="result"
-        type="text"
+        <input matInput type="text"
+        [value]="formattedResult"
+        (input)="onNumberInput($event, 'result')"
+        (blur)="formatNumber('result')"
         inputmode="numeric"
         pattern="\d*"
       />
@@ -96,18 +98,18 @@
         matInput
         formControlName="costPerResult"
         type="text"
-        inputmode="numeric"
-        pattern="\d*"
+        inputmode="decimal" step="any"
+        pattern="^\d+(\.\d{1,2})?$"
       />
       </mat-form-field>
   
       <mat-form-field appearance="outline">
         <mat-label>Reach</mat-label>
         <!-- <input matInput type="number" formControlName="reach" class="no-arrows" /> -->
-        <input
-        matInput
-        formControlName="reach"
-        type="text"
+        <input matInput type="text"
+        [value]="formattedReach"
+        (input)="onNumberInput($event, 'reach')"
+        (blur)="formatNumber('reach')"
         inputmode="numeric"
         pattern="\d*"
       />
@@ -116,10 +118,10 @@
       <mat-form-field appearance="outline">
         <mat-label>Impressions</mat-label>
         <!-- <input matInput type="number" formControlName="impressions" class="no-arrows" /> -->
-        <input
-        matInput
-        formControlName="impressions"
-        type="text"
+        <input matInput type="text"
+        [value]="formattedImpressions"
+        (input)="onNumberInput($event, 'impressions')"
+        (blur)="formatNumber('impressions')"
         inputmode="numeric"
         pattern="\d*"
       />
@@ -131,10 +133,10 @@
       <mat-form-field appearance="outline">
         <mat-label>Followers Before Campaign</mat-label>
         <!-- <input matInput type="number" formControlName="followersBeforeCampaign" class="no-arrows" /> -->
-        <input
-        matInput
-        formControlName="followersBeforeCampaign"
-        type="text"
+        <input matInput type="text"
+        [value]="formattedFollowersBeforeCampaign"
+        (input)="onNumberInput($event, 'followersBeforeCampaign')"
+        (blur)="formatNumber('followersBeforeCampaign')"
         inputmode="numeric"
         pattern="\d*"
       />
@@ -143,17 +145,17 @@
       <mat-form-field appearance="outline">
         <mat-label>Followers After Campaign</mat-label>
         <!-- <input matInput type="number" formControlName="followersAfterCampaign" class="no-arrows" /> -->
-        <input
-        matInput
-        formControlName="followersAfterCampaign"
-        type="text"
+        <input matInput type="text"
+        [value]="formattedFollowersAfterCampaign"
+        (input)="onNumberInput($event, 'followersAfterCampaign')"
+        (blur)="formatNumber('followersAfterCampaign')"
         inputmode="numeric"
         pattern="\d*"
       />
       </mat-form-field>
   
       <mat-form-field appearance="outline">
-        <mat-label>Campaign Completed</mat-label>
+        <mat-label>Campaign Status</mat-label>
         <mat-select formControlName="isCampaignCompleted">
           <mat-option [value]="1">Completed</mat-option>
           <mat-option [value]="0">On Going</mat-option>

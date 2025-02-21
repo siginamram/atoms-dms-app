@@ -1,7 +1,6 @@
 <div class="dashboard-container">
-  <h2>Photographer Dashboard</h2>
+  <h2>Videographer Dashboard</h2>
 
-  <!-- Filter Section -->
   <div class="filters-container">
     <mat-form-field appearance="outline">
       <mat-label>Month and Year</mat-label>
@@ -10,175 +9,163 @@
       <mat-datepicker #dp startView="multi-year" (monthSelected)="setMonthAndYear($event, dp)" panelClass="example-month-picker"></mat-datepicker>
     </mat-form-field>
   </div>
+
+ <!-- Metrics Section -->
+ <div class="metrics-container">
+  <!-- Row 1 -->
+  <div class="metrics-row">
+    <mat-card class="metric-card blue">
+      <mat-icon class="icon">group</mat-icon>
+      <h3>Total Assigned Clients</h3>
+      <p>{{ totalAssignedClients }}</p>
+    </mat-card>
+    <mat-card class="metric-card green">
+      <mat-icon class="icon">camera_alt</mat-icon>
+      <h3>No. of Shoots Offered Clients</h3>
+      <p>{{ noOfShootOfferedClients }}</p>
+    </mat-card>
+
+    <mat-card class="metric-card cyan">
+      <mat-icon class="icon">done</mat-icon>
+      <h3>No. of Shoots Completed</h3>
+      <p>{{ noOfShootsCompleted }}</p>
+    </mat-card>
+    
+    <mat-card class="metric-card teal">
+      <mat-icon class="icon">check_circle</mat-icon>
+      <h3>No. of Shoots Pending</h3>
+      <p>{{ noOfShootsPending }}</p>
+    </mat-card>
   
-  <div  class="spinner" *ngIf="showSpinner">
-    <mat-spinner></mat-spinner>
   </div>
 
-<!-- Metrics Section -->
-<div class="metrics-container">
-  <!-- Row 1: 3 Cards -->
+  <!-- Row 2 -->
   <div class="metrics-row">
-    <mat-card class="metric-card group">
-      <mat-card-content>
-        <div class="metric-content">
-          <mat-icon>group</mat-icon>
-          <div class="metric-info">
-            <p class="metric-title">Total Clients</p>
-            <h3>{{ totalClients }}</h3>
-          </div>
-        </div>
-      </mat-card-content>
+    <mat-card class="metric-card orange">
+      <mat-icon class="icon">videocam</mat-icon>
+      <h3>No. of YouTube Videos Offered</h3>
+      <p>{{ noOfYTOffered }}</p>
     </mat-card>
-
-    <mat-card class="metric-card camera_alt">
-      <mat-card-content>
-        <div class="metric-content">
-          <mat-icon>camera_alt</mat-icon>
-          <div class="metric-info">
-            <p class="metric-title">No. of Shoots Required</p>
-            <h3>{{ totalShootsRequired }}</h3>
-          </div>
-        </div>
-      </mat-card-content>
+    <mat-card class="metric-card yellow">
+      <mat-icon class="icon">play_circle_filled</mat-icon>
+      <h3>No. of YouTube Videos Shot</h3>
+      <p>{{ noOfYTShooted }}</p>
     </mat-card>
-
-    <mat-card class="metric-card check_circle">
-      <mat-card-content>
-        <div class="metric-content">
-          <mat-icon>check_circle</mat-icon>
-          <div class="metric-info">
-            <p class="metric-title">No. of Shoots Completed</p>
-            <h3>{{ totalShootsCompleted }}</h3>
-          </div>
-        </div>
-      </mat-card-content>
+    <mat-card class="metric-card cyan">
+      <mat-icon class="icon">videocam</mat-icon>
+      <h3>Total Pending Videos</h3>
+      <p>{{(noOfYTOffered)-(noOfYTShooted - noOfYTExcessVideos)  }}</p>
+    </mat-card>
+    <mat-card class="metric-card red">
+      <mat-icon class="icon">add_circle</mat-icon>
+      <h3>No. of YT Excess Videos</h3>
+      <p>{{ noOfYTExcessVideos }}</p>
     </mat-card>
   </div>
 
-  <!-- Row 2: 4 Cards -->
+  <!-- Row 3 -->
   <div class="metrics-row">
-    <mat-card class="metric-card videocam">
-      <mat-card-content>
-        <div class="metric-content">
-          <mat-icon>videocam</mat-icon>
-          <div class="metric-info">
-            <p class="metric-title">No. of YouTube Videos Required</p>
-            <h3>{{ totalYTRequired }}</h3>
-          </div>
-        </div>
-      </mat-card-content>
+    <mat-card class="metric-card purple">
+      <mat-icon class="icon">movie</mat-icon>
+      <h3>No. of ED Videos Offered</h3>
+      <p>{{ noOfEDOffered }}</p>
+    </mat-card>
+    <mat-card class="metric-card deep-orange">
+      <mat-icon class="icon">videocam</mat-icon>
+      <h3>No. of ED Videos Shot</h3>
+      <p>{{ noOfEDShooted }}</p>
     </mat-card>
 
-    <mat-card class="metric-card play_circle_filled">
-      <mat-card-content>
-        <div class="metric-content">
-          <mat-icon>play_circle_filled</mat-icon>
-          <div class="metric-info">
-            <p class="metric-title">No. of YouTube Videos Shot</p>
-            <h3>{{ totalYTShooted }}</h3>
-          </div>
-        </div>
-      </mat-card-content>
+    <mat-card class="metric-card cyan">
+      <mat-icon class="icon">movie</mat-icon>
+      <h3>Total Pending ED Videos</h3>
+      <p>{{(noOfEDOffered)-(noOfEDShooted - noOfEDExcessVideos)  }}</p>
     </mat-card>
 
-    <mat-card class="metric-card movie">
-      <mat-card-content>
-        <div class="metric-content">
-          <mat-icon>movie</mat-icon>
-          <div class="metric-info">
-            <p class="metric-title">No. of ED Reels Required</p>
-            <h3>{{ totalEDRequired }}</h3>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-
-    <mat-card class="metric-card videocam">
-      <mat-card-content>
-        <div class="metric-content">
-          <mat-icon>videocam</mat-icon>
-          <div class="metric-info">
-            <p class="metric-title">No. of ED Reels Shot</p>
-            <h3>{{ totalEDShooted }}</h3>
-          </div>
-        </div>
-      </mat-card-content>
+    <mat-card class="metric-card indigo">
+      <mat-icon class="icon">add_circle</mat-icon>
+      <h3>No. of ED Excess Videos</h3>
+      <p>{{ noOfEDExcessVideos }}</p>
     </mat-card>
   </div>
 </div>
 
+<!-- Table Section -->
+<div class="table-card">
+  <h2>Data Overview</h2>
+  <table mat-table [dataSource]="filteredData" class="mat-elevation-z8">
+    <!-- S.No Column -->
+    <ng-container matColumnDef="sno">
+      <th mat-header-cell *matHeaderCellDef>S.No</th>
+      <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+      <td mat-footer-cell *matFooterCellDef><strong>Total</strong></td>
+    </ng-container>
 
-<h2>Data Overview</h2>
-<table mat-table [dataSource]="filteredData" class="mat-elevation-z8">
-  <!-- S.No Column -->
-  <ng-container matColumnDef="sno">
-    <th mat-header-cell *matHeaderCellDef>S.No</th>
-    <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
-    <td mat-footer-cell *matFooterCellDef></td>
-  </ng-container>
+    <!-- Organization Column -->
+    <ng-container matColumnDef="organizationName">
+      <th mat-header-cell *matHeaderCellDef>Organization</th>
+      <td mat-cell *matCellDef="let row">{{ row.organizationName }}</td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
 
-  <!-- Organization Column -->
-  <ng-container matColumnDef="organizationName">
-    <th mat-header-cell *matHeaderCellDef>
-      <mat-icon class="table-icon">business</mat-icon> Organization
-    </th>
-    <td mat-cell *matCellDef="let element"> {{ element.organizationName }} </td>
-    <td mat-footer-cell *matFooterCellDef><strong>Total</strong></td>
-  </ng-container>
+    <!-- Dates Column -->
+    <ng-container matColumnDef="dates">
+      <th mat-header-cell *matHeaderCellDef>Shoot On</th>
+      <td mat-cell *matCellDef="let row">{{ row.dates }}</td>
+      <td mat-footer-cell *matFooterCellDef></td>
+    </ng-container>
 
-  <!-- Dates Column -->
-  <ng-container matColumnDef="dates">
-    <th mat-header-cell *matHeaderCellDef>
-      <mat-icon class="table-icon">event</mat-icon> Scheduled Date
-    </th>
-    <td mat-cell *matCellDef="let element"> {{ element.dates }} </td>
-    <td mat-footer-cell *matFooterCellDef></td>
-  </ng-container>
+    <!-- YouTube Videos Offered Column -->
+    <ng-container matColumnDef="noOfYTVideosOffered">
+      <th mat-header-cell *matHeaderCellDef>YT Videos Offered</th>
+      <td mat-cell *matCellDef="let row">{{ row.noOfYTVideosOffered }}</td>
+      <td mat-footer-cell *matFooterCellDef>{{ totalYouTubeOffered }}</td>
+    </ng-container>
 
-  <!-- YouTube Videos Required Column -->
-  <ng-container matColumnDef="noOfYtRequired">
-    <th mat-header-cell *matHeaderCellDef>
-      <mat-icon class="table-icon">subscriptions</mat-icon> YouTube Videos Required
-    </th>
-    <td mat-cell *matCellDef="let element"> {{ element.noOfYtRequired }} </td>
-    <td mat-footer-cell *matFooterCellDef><strong>{{ totalYtRequired }}</strong></td>
-  </ng-container>
+    <!-- YouTube Videos Required Column -->
+    <ng-container matColumnDef="noOfYtRequired">
+      <th mat-header-cell *matHeaderCellDef>YT Videos Required</th>
+      <td mat-cell *matCellDef="let row">{{ row.noOfYtRequired }}</td>
+      <td mat-footer-cell *matFooterCellDef>{{ totalYouTubeRequired }}</td>
+    </ng-container>
 
-  <!-- YouTube Videos Shot Column -->
-  <ng-container matColumnDef="noOfYTShooted">
-    <th mat-header-cell *matHeaderCellDef>
-      <mat-icon class="table-icon">play_circle_filled</mat-icon> YouTube Videos Shot
-    </th>
-    <td mat-cell *matCellDef="let element"> {{ element.noOfYTShooted }} </td>
-    <td mat-footer-cell *matFooterCellDef><strong>{{ totalYtShooted }}</strong></td>
-  </ng-container>
+    <!-- YouTube Videos Shot Column -->
+    <ng-container matColumnDef="noOfYTShooted">
+      <th mat-header-cell *matHeaderCellDef>YT Videos Shot</th>
+      <td mat-cell *matCellDef="let row">{{ row.noOfYTShooted }}</td>
+      <td mat-footer-cell *matFooterCellDef>{{ totalYouTubeShooted }}</td>
+    </ng-container>
 
-  <!-- ED Reels Required Column -->
-  <ng-container matColumnDef="noOfEDRequired">
-    <th mat-header-cell *matHeaderCellDef>
-      <mat-icon class="table-icon">movie</mat-icon> ED Reels Required
-    </th>
-    <td mat-cell *matCellDef="let element"> {{ element.noOfEDRequired }} </td>
-    <td mat-footer-cell *matFooterCellDef><strong>{{ totalEdRequired }}</strong></td>
-  </ng-container>
+    <!-- ED Videos Offered Column -->
+    <ng-container matColumnDef="noOfEDVideosOffered">
+      <th mat-header-cell *matHeaderCellDef>ED Videos Offered</th>
+      <td mat-cell *matCellDef="let row">{{ row.noOfEDVideosOffered }}</td>
+      <td mat-footer-cell *matFooterCellDef>{{ totalEDOffered }}</td>
+    </ng-container>
 
-  <!-- ED Reels Shot Column -->
-  <ng-container matColumnDef="noOfEDShooted">
-    <th mat-header-cell *matHeaderCellDef>
-      <mat-icon class="table-icon">videocam</mat-icon> ED Reels Shot
-    </th>
-    <td mat-cell *matCellDef="let element"> {{ element.noOfEDShooted }} </td>
-    <td mat-footer-cell *matFooterCellDef><strong>{{ totalEdShooted }}</strong></td>
-  </ng-container>
+    <!-- ED Videos Required Column -->
+    <ng-container matColumnDef="noOfEDRequired">
+      <th mat-header-cell *matHeaderCellDef>ED Videos Required</th>
+      <td mat-cell *matCellDef="let row">{{ row.noOfEDRequired }}</td>
+      <td mat-footer-cell *matFooterCellDef>{{ totalEDRequired }}</td>
+    </ng-container>
 
-  <!-- Rows -->
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <!-- ED Videos Shot Column -->
+    <ng-container matColumnDef="noOfEDShooted">
+      <th mat-header-cell *matHeaderCellDef>ED Videos Shot</th>
+      <td mat-cell *matCellDef="let row">{{ row.noOfEDShooted }}</td>
+      <td mat-footer-cell *matFooterCellDef>{{ totalEDShooted }}</td>
+    </ng-container>
 
-  <!-- Footer Row -->
-  <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
-</table>
+    <!-- Header Row -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 
+    <!-- Data Rows -->
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+    <!-- Footer Row -->
+    <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+  </table>
+</div>
 
 </div>

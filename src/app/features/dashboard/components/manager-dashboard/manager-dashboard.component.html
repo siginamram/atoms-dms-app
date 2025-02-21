@@ -105,6 +105,18 @@
             <!-- <span *ngIf="item.noOfLatePosts === 0"  class="number-text" >{{ item.noOfLatePosts }}</span> -->
           </td>
         </ng-container>
+
+        <ng-container matColumnDef="noOfRejectedPosts">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-icon class="header-icon" color="accent">check_circle</mat-icon> Client Rejected
+          </th>
+          <td mat-cell *matCellDef="let item">
+            <button mat-icon-button color="primary"  (click)="Rejected(item)"  class="number-button">
+              {{ item.noOfRejectedPosts || 0}}
+            </button>
+            <!-- <span *ngIf="item.noOfRejectedPosts === 0"  class="number-text" >{{ item.noOfRejectedPosts }}</span> -->
+          </td>
+        </ng-container>
   
         <tr mat-header-row *matHeaderRowDef="deliverablesColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: deliverablesColumns;"></tr>

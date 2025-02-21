@@ -8,12 +8,12 @@
       <div class="form-row" *ngIf="data.role=='Content Writer'">
         <mat-form-field appearance="outline" class="content-field">
           <mat-label>Content In Post</mat-label>
-          <textarea matInput formControlName="contentInPost" readonly></textarea>
+          <textarea matInput formControlName="contentInPost" ></textarea>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="content-field">
           <mat-label>Caption</mat-label>
-          <textarea matInput formControlName="contentCaption" readonly></textarea>
+          <textarea matInput formControlName="contentCaption" ></textarea>
         </mat-form-field>
    <!-- Reference Doc Link -->
    <div class="content-field" *ngIf="data.referenceDoc && data.referenceDoc !== ''; " style="padding: 20px;">

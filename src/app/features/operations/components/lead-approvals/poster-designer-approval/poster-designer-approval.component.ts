@@ -30,6 +30,7 @@ export const MY_FORMATS = {
 })
 export class PosterDesignerApprovalComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('fullTextDialog') fullTextDialog: any;
   showSpinner: boolean = false;
   readonly date = new FormControl(moment());
   organizationFilter = new FormControl('');
@@ -43,6 +44,7 @@ export class PosterDesignerApprovalComponent implements OnInit {
     'postScheduleOn',
     'resourceName',
     'language',
+    'contentInPost',
     'link',
     'postStatus',
     'postRemarks',
@@ -53,7 +55,7 @@ export class PosterDesignerApprovalComponent implements OnInit {
 
   constructor(
     private operationsService: OperationsService,
-    private dialog: MatDialog,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -79,11 +81,11 @@ export class PosterDesignerApprovalComponent implements OnInit {
         this.showSpinner = false;
         this.dataSource.data = response.map((item: any) => ({
           ...item,
-          graphicStatus: this.getPostStatusText(item.graphicStatus), // Map postStatus to text
+          graphicStatus: this.getPostStatusText(item.graphicStatus), // ✅ Ensure correct mapping
           monthlyTrackerId: item.monthlyTrackerId,
           userId: userId,
-          creativeType:2,
-          role:'Poster',
+          creativeType: 2,
+          role: 'Poster',
         }));
         this.dataSource.paginator = this.paginator;
       },
@@ -93,25 +95,26 @@ export class PosterDesignerApprovalComponent implements OnInit {
       },
     });
   }
-    // Helper method to map status numbers to text
-    getPostStatusText(status: number): string {
-      switch (status) {
-        case 1:
-          return 'Yet to start';
-        case 2:
-          return 'Saved in draft';
-        case 3:
-          return 'Sent for approval';
-        case 4:
-          return 'Changes recommended';
-        case 5:
-          return 'Approved';
-        case 6:
-            return 'Sent for client approval';
-        default:
-          return 'Unknown status';
-      }
+
+  // Helper method to map status numbers to text
+  getPostStatusText(status: number): string {
+    switch (status) {
+      case 1:
+        return 'Yet to start';
+      case 2:
+        return 'Saved in draft';
+      case 3:
+        return 'Sent for approval';
+      case 4:
+        return 'Changes recommended';
+      case 5:
+        return 'Approved';
+      case 6:
+        return 'Sent for client approval';
+      default:
+        return 'Unknown status';
     }
+  }
 
   setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
     const ctrlValue = this.date.value || moment();
@@ -127,25 +130,22 @@ export class PosterDesignerApprovalComponent implements OnInit {
     const resource = this.resourceFilter.value?.toLowerCase() || '';
     const postStatus = this.postStatusFilter.value?.toLowerCase() || '';
 
-    this.dataSource.filterPredicate = (data: any) =>
+    this.dataSource.filterPredicate = (data: any, filter: string) =>
       (!organization || data.organizationName?.toLowerCase().includes(organization)) &&
       (!resource || data.resourceName?.toLowerCase().includes(resource)) &&
-      (!postStatus || data.postStatus?.toLowerCase().includes(postStatus));
+      (!postStatus || data.graphicStatus?.toLowerCase().includes(postStatus)); // ✅ **Fixed field reference**
 
-    this.dataSource.filter = Math.random().toString();
+    this.dataSource.filter = Math.random().toString(); // Trigger filter refresh
   }
 
   toggleFilter(column: string, event?: MouseEvent): void {
-    // Check if the clicked element is part of the filter input
     if (
       event?.target instanceof HTMLElement &&
       event.target.closest('.column-filter-container') &&
       this.activeFilter === column
     ) {
-      return; // Do nothing if clicking inside the filter container
+      return;
     }
-
-    // Toggle the filter visibility for the clicked column
     this.activeFilter = this.activeFilter === column ? null : column;
   }
 
@@ -159,6 +159,16 @@ export class PosterDesignerApprovalComponent implements OnInit {
       if (result) {
         this.fetchGraphicApprovalRequests(); // Refresh table after edit
       }
+    });
+  }
+
+  showFullText(text: string, title: string): void {
+    this.dialog.open(this.fullTextDialog, {
+      width: '400px',
+      data: {
+        text: text,
+        title: title,
+      },
     });
   }
 }

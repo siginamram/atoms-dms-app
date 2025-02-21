@@ -48,6 +48,7 @@ export class DmaOperationsComponent implements OnInit {
     'promotionType',
     'language',
     'speciality',
+    'contentInPost',
     'contentCaption',
     'link',
     'thumbNail',
@@ -183,13 +184,14 @@ getpostStatus(status: number): string {
       return 'On Time Post';
     case 4:
       return 'Late Posted';
+    case 5:
+        return 'Client Rejected';
     default:
       return 'N/A';
   }
 }
 editRow(meet: any): void {
   const isFirstCase = meet.postStatus === 'Yet to start'; // Check if it's the first case
-  console.log('Operation Successful:', meet);
 
   const dialogRef = this.dialog.open(DmaOperationsEditComponent, {
     width: '600px',

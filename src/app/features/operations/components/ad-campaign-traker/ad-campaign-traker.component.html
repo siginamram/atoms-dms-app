@@ -91,12 +91,12 @@
   
       <ng-container matColumnDef="reach">
         <th mat-header-cell *matHeaderCellDef>Reach</th>
-        <td mat-cell *matCellDef="let row">{{ row.reach }}</td>
+        <td mat-cell *matCellDef="let row">{{ row.reach | number }}</td>
       </ng-container>
   
       <ng-container matColumnDef="impressions">
         <th mat-header-cell *matHeaderCellDef>Impressions</th>
-        <td mat-cell *matCellDef="let row">{{ row.impressions }}</td>
+        <td mat-cell *matCellDef="let row">{{ row.impressions | number }}</td>
       </ng-container>
   
       <ng-container matColumnDef="resultType">
@@ -106,7 +106,7 @@
   
       <ng-container matColumnDef="result">
         <th mat-header-cell *matHeaderCellDef>Result</th>
-        <td mat-cell *matCellDef="let row">{{ row.result }}</td>
+        <td mat-cell *matCellDef="let row">{{ row.result | number}}</td>
       </ng-container>
   
       <ng-container matColumnDef="costPerResult">

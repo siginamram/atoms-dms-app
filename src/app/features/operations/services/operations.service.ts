@@ -49,6 +49,12 @@ export class OperationsService {
     return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
   }
   
+  AddClientVideoEmergencyRequest(payload: any): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/AddVideoEmergencyRequest`;
+    // Set responseType to 'text' since the API returns plain text
+    return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+  }
+
   UpdateContentWriterTracker(payload: any): Observable<any> {
     const apiUrl = `${this.baseApiUrl}/api/Operations/UpdateContentWriterTracker`;
     // Set responseType to 'text' since the API returns plain text
@@ -231,6 +237,11 @@ export class OperationsService {
 
   getKTDocumentByUserId(userId: number): Observable<any>{
     const apiUrl = `${this.baseApiUrl}/api/Client/GetKTDocumentsByUserId/${userId}`;
+    return this.http.get(apiUrl);
+  }
+
+  getAdCampaignReportByDateRangeAndDmaId(userId: number,startDate: any,endDate:any): Observable<any>{
+    const apiUrl = `${this.baseApiUrl}/api/Client/GetAdCampaignReportByDateRangeAndDmaId/${userId}/${startDate}/${endDate}`;
     return this.http.get(apiUrl);
   }
 }

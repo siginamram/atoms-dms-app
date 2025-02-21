@@ -4,31 +4,20 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DashboardService } from '../../../services/dashboard.service';
 import * as moment from 'moment';
-import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { FormControl } from '@angular/forms';
 
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'MM/YYYY',
-  },
-  display: {
-    dateInput: 'MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
+
 
 @Component({
   selector: 'app-dma-pending-posts-dashboard',
   standalone:false,
   templateUrl: './dma-pending-posts-dashboard.component.html',
   styleUrls: ['./dma-pending-posts-dashboard.component.css'],
-  providers: [provideMomentDateAdapter(MY_FORMATS)],
 })
 export class DmaPendingPostsDashboardComponent implements OnInit {
-  selectedMonthYear = new FormControl(moment()); // Default to the current month
+  fromDate :any; // Default to the current month
+  toDate :any; // Default to the current month
   userId: number = 4;
   creativeTypeId: number = 0;
   statistics = new MatTableDataSource<any>([]);
@@ -56,14 +45,16 @@ export class DmaPendingPostsDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      const fromDateParam = params['fromDateValue']; // Get date from URL
+      this.fromDate = params['fromDateValue']; // Get date from URL
+      this.toDate = params['toDateValue']; // Get date from URL
       this.userId = +params['userId'] || 4;
       this.creativeTypeId = +params['creativeTypeId'] || 0;
 
       // Bind calendar to the Month and Year from `fromDateValue`
-      if (fromDateParam) {
-        this.selectedMonthYear.setValue(moment(fromDateParam, 'YYYY-MM-DD')); // Set the form control correctly
-      }
+      // if (fromDateParam) {
+      //   this.fromDate.setValue(moment(fromDateParam, 'YYYY-MM-DD')); // Set the form control correctly
+      //   this.toDate.setValue(moment(toDateParam, 'YYYY-MM-DD'));
+      // }
 
       this.fetchPendingPosts();
     });
@@ -93,26 +84,22 @@ export class DmaPendingPostsDashboardComponent implements OnInit {
       });
     };
   }
-
-  setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
-    if (!this.selectedMonthYear) {
-      this.selectedMonthYear = new FormControl(moment()); // Ensure FormControl is initialized
-    }
-    
-    const ctrlValue = this.selectedMonthYear.value ? this.selectedMonthYear.value.clone() : moment();
-    ctrlValue.month(normalizedMonthAndYear.month());
-    ctrlValue.year(normalizedMonthAndYear.year());
-    this.selectedMonthYear.setValue(ctrlValue);
-    datepicker.close();
-    this.fetchPendingPosts(); // Fetch data on month/year change
-  }
   
+  ngAfterViewInit(): void {
+    this.statistics.paginator = this.paginator;
+  }
+
+  formatDate(date: Date): string {
+    const d = new Date(date);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  }
 
   fetchPendingPosts(): void {
     this.showSpinner = true;
-    const formattedDate = this.selectedMonthYear.value?.format('YYYY-MM') + '-01'; // Format to YYYY-MM-01
+    const formattedDate =  this.formatDate(this.fromDate); 
+    const toattedDate = this.formatDate(this.toDate); 
     this.dashboardService
-      .DMAPendingPostsDashboard(this.userId, formattedDate, this.creativeTypeId)
+      .DMAPendingPostsDashboard(this.userId, formattedDate,toattedDate, this.creativeTypeId)
       .subscribe(
         (data: any) => {
           this.showSpinner = false;
@@ -178,7 +165,15 @@ export class DmaPendingPostsDashboardComponent implements OnInit {
     this.statistics.filter = ''; // Clear all filters
   }
 
-  goBack(): void {
-    this.router.navigate(['/home/dashboard/dma-dashboard']);
+    goBack(): void {
+    //this.router.navigate(['/home/dashboard/dma-dashboard']);
+    const formattedFromDate = this.formatDate(this.fromDate);
+    const formattedToDate = this.formatDate(this.toDate); 
+    this.router.navigate(['/home/dashboard/dma-dashboard'],{
+      queryParams: {
+        fromDateValue:formattedFromDate,
+         toDateValue:formattedToDate,
+        },
+    });
   }
 }

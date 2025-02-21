@@ -29,36 +29,46 @@ export const MY_FORMATS = {
 export class PgDashboardComponent implements OnInit {
   date = new FormControl(moment()); // Default to current month and year
   userId: number = 0;
-  showSpinner: boolean = false; // Default value
+  showSpinner: boolean = false;
   filteredData = new MatTableDataSource<any>([]);
-  
-  // Metrics from API
-  // API metrics variables
-  totalClients = 0;
-  totalShootsRequired = 0;
-  totalShootsCompleted = 0;
-  totalYTRequired = 0;
-  totalYTShooted = 0;
-  totalEDRequired = 0;
-  totalEDShooted = 0;
-  // Initialize totals
-totalYtRequired: number = 0;
-totalYtShooted: number = 0;
-totalEdRequired: number = 0;
-totalEdShooted: number = 0;
+  activeFilters: { [key: string]: boolean } = {};
+  // Metrics
+  totalAssignedClients = 0;
+  noOfShootOfferedClients = 0;
+  noOfShootsPending = 0;
+  noOfShootsCompleted = 0;
+  noOfYTOffered = 0;
+  noOfYTShooted = 0;
+  noOfEDOffered = 0;
+  noOfEDShooted = 0;
+  noOfYTExcessVideos = 0;
+  noOfEDExcessVideos=0;
 
-  // Table data columns
+    // Totals for footer
+    totalYouTubeOffered = 0;
+    totalYouTubeRequired = 0;
+    totalYouTubeShooted = 0;
+    totalEDOffered = 0;
+    totalEDRequired = 0;
+    totalEDShooted = 0;
+
+  // Columns for table
   displayedColumns: string[] = [
     'sno',
     'organizationName',
     'dates',
+    'noOfYTVideosOffered',
     'noOfYtRequired',
     'noOfYTShooted',
+    'noOfEDVideosOffered',
     'noOfEDRequired',
     'noOfEDShooted',
   ];
 
-  constructor(private dashboardService: DashboardService, private route: ActivatedRoute) {}
+  constructor(private dashboardService: DashboardService, private route: ActivatedRoute) {
+    // Initialize filter visibility for each column
+    this.displayedColumns.forEach((column) => (this.activeFilters[column] = false));
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -67,49 +77,94 @@ totalEdShooted: number = 0;
     });
 
     if (this.userId && this.userId > 0) {
-      this.fetchDashboardData(); // Fetch data on page load
+      this.fetchDashboardData();
     } else {
       console.error('Invalid userId: Unable to fetch dashboard data');
     }
   }
+  toggleFilterVisibility(column: string): void {
+    this.activeFilters[column] = !this.activeFilters[column];
+  }
+
+  applyFilter(event: Event, column: string): void {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+
+    this.filteredData.filterPredicate = (data, filter) => {
+      switch (column) {
+        case 'organizationName':
+          return data.organizationName?.toLowerCase().includes(filter);
+        default:
+          return false;
+      }
+    };
+
+    this.filteredData.filter = filterValue;
+  }
+
 
   fetchDashboardData(): void {
     this.showSpinner = true;
-    const selectedDate = this.date.value?.format('YYYY-MM') + '-01'; // Default day is 01
+    const selectedDate = this.date.value?.format('YYYY-MM') + '-01';
     this.dashboardService.GetVideoGrapherDashboardByMonth(this.userId, selectedDate).subscribe(
       (response: any) => {
         this.showSpinner = false;
-        // Assign API metrics
-        this.totalClients = response.videoGrapherSummary.totalClients;
-        this.totalShootsRequired = response.videoGrapherSummary.noOfShootsRequired;
-        this.totalShootsCompleted = response.videoGrapherSummary.noOfShootsCompleted;
-        this.totalYTRequired = response.videoGrapherSummary.noOfYTRequired;
-        this.totalYTShooted = response.videoGrapherSummary.noOfYTShooted;
-        this.totalEDRequired = response.videoGrapherSummary.noOfEDRequired;
-        this.totalEDShooted = response.videoGrapherSummary.noOfEDShooted;
 
-     
- // Assuming `response` is already fetched from the API
- this.filteredData.data = response.videoGrapherShootSummary.map((item: any) => {
-  // Update totals
-  this.totalYtRequired += item.noOfYtRequired || 0;
-  this.totalYtShooted += item.noOfYTShooted || 0;
-  this.totalEdRequired += item.noOfEDRequired || 0;
-  this.totalEdShooted += item.noOfEDShooted || 0;
+        // Assign metrics
+        this.totalAssignedClients = response.videoGrapherSummary.totalAssignedClients;
+        this.noOfShootOfferedClients = response.videoGrapherSummary.noOfShootOfferedClients;
+        this.noOfShootsPending = response.videoGrapherSummary.noOfShootsPending;
+        this.noOfShootsCompleted = response.videoGrapherSummary.noOfShootsCompleted;
+        this.noOfYTOffered = response.videoGrapherSummary.noOfYTOffered;
+        this.noOfYTShooted = response.videoGrapherSummary.noOfYTShooted;
+        this.noOfEDOffered = response.videoGrapherSummary.noOfEDOffered;
+        this.noOfEDShooted = response.videoGrapherSummary.noOfEDShooted;
+        this.noOfYTExcessVideos = response.videoGrapherSummary.noOfYTExcessVideos;
+        this.noOfEDExcessVideos = response.videoGrapherSummary.noOfEDExcessVideos;
+        // Assigning totals
+        this.totalYouTubeOffered = response.videoGrapherShootSummary.reduce(
+          (sum: number, item: any) => sum + (item.noOfYTVideosOffered || 0),
+          0
+        );
 
-  return {
-    organizationName: item.organizationName,
-    dates: item.dates ? moment(item.dates).format('YYYY-MM-DD hh:mm A') : 'N/A',
-    noOfYtRequired: item.noOfYtRequired,
-    noOfYTShooted: item.noOfYTShooted,
-    noOfEDRequired: item.noOfEDRequired,
-    noOfEDShooted: item.noOfEDShooted,
-  };
-});
+        this.totalYouTubeRequired = response.videoGrapherShootSummary.reduce(
+          (sum: number, item: any) => sum + (item.noOfYtRequired || 0),
+          0
+        );
+
+        this.totalYouTubeShooted = response.videoGrapherShootSummary.reduce(
+          (sum: number, item: any) => sum + (item.noOfYTShooted || 0),
+          0
+        );
+
+        this.totalEDOffered = response.videoGrapherShootSummary.reduce(
+          (sum: number, item: any) => sum + (item.noOfEDVideosOffered || 0),
+          0
+        );
+
+        this.totalEDRequired = response.videoGrapherShootSummary.reduce(
+          (sum: number, item: any) => sum + (item.noOfEDRequired || 0),
+          0
+        );
+
+        this.totalEDShooted = response.videoGrapherShootSummary.reduce(
+          (sum: number, item: any) => sum + (item.noOfEDShooted || 0),
+          0
+        );
+        // Populate table
+        this.filteredData.data = response.videoGrapherShootSummary.map((item: any) => ({
+          organizationName: item.organizationName,
+          dates: item.dates ? moment(item.dates).format('DD-MM-YYYY') : 'N/A',
+          noOfYTVideosOffered: item.noOfYTVideosOffered,
+          noOfYtRequired: item.noOfYtRequired,
+          noOfYTShooted: item.noOfYTShooted,
+          noOfEDVideosOffered: item.noOfEDVideosOffered,
+          noOfEDRequired: item.noOfEDRequired,
+          noOfEDShooted: item.noOfEDShooted,
+        }));
       },
       (error) => {
         this.showSpinner = false;
-        console.error('Error fetching Photographer Dashboard data:', error);
+        console.error('Error fetching dashboard data:', error);
       }
     );
   }
@@ -120,6 +175,6 @@ totalEdShooted: number = 0;
     ctrlValue.year(normalizedMonthAndYear.year());
     this.date.setValue(ctrlValue);
     datepicker.close();
-    this.fetchDashboardData(); // Fetch data on month/year change
+    this.fetchDashboardData();
   }
 }
