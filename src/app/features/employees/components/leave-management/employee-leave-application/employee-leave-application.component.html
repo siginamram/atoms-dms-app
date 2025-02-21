@@ -1,0 +1,232 @@
+<div class="dashboard-container">
+  <!-- Toolbar -->
+  <mat-toolbar color="primary" style="border-radius: 10px;">
+    <span>Leave Management</span>
+    <span class="spacer"></span>
+    <button mat-raised-button color="accent" (click)="openApplyLeavePopup()">
+      <i class="material-icons">add</i> Apply Leave
+    </button>
+    <span class="spacer"></span>
+    <button mat-raised-button color="accent" (click)="openLatecommingPopup()">
+      <i class="material-icons">add</i> Apply Late Coming
+    </button>
+  </mat-toolbar>
+
+  <!-- Leave Summary -->
+  <div class="summary-container">
+    <mat-card class="leave-summary">
+      <h3><mat-icon>calculate</mat-icon> Total Leaves</h3>
+      <p><mat-icon>event</mat-icon> Casual Leaves: <strong>{{ leaveBalance?.totCasualLeave || 0 }}</strong></p>
+      <!-- <p><mat-icon>favorite</mat-icon> Menstrual Leaves: <strong>{{ leaveBalance?.totMaternityLeave || 0 }}</strong></p> -->
+      <p><mat-icon>medical_services</mat-icon> Sick Leaves: <strong>{{ leaveBalance?.totSickLeave || 0 }}</strong></p>
+      <p><mat-icon>money_off</mat-icon> Unpaid Leaves: <strong>{{ leaveBalance?.totUnpaidLeave || 'Unlimited' }}</strong></p>
+    </mat-card>
+    <mat-card class="leave-summary">
+      <h3><mat-icon>check_circle</mat-icon> Available Leaves</h3>
+      <p><mat-icon>event</mat-icon> Casual Leaves: <strong>{{ leaveBalance?.availableCasualLeave || 0 }}</strong></p>
+      <!-- <p><mat-icon>favorite</mat-icon> Menstrual Leaves: <strong>{{ leaveBalance?.availableMaternityLeave || 0 }}</strong></p> -->
+      <p><mat-icon>medical_services</mat-icon> Sick Leaves: <strong>{{ leaveBalance?.availableSickLeave || 0 }}</strong></p>
+      <p><mat-icon>money_off</mat-icon> Unpaid Leaves: <strong>{{ leaveBalance?.availableUnpaidLeave || 'Unlimited' }}</strong></p>
+    </mat-card>
+    <mat-card class="leave-summary">
+      <h3><mat-icon>assignment_turned_in</mat-icon> Used Leaves</h3>
+      <p><mat-icon>event_busy</mat-icon> Casual Leaves: <strong>{{ leaveBalance?.usedCasualLeave || 0 }}</strong></p>
+      <!-- <p><mat-icon>favorite_border</mat-icon> Menstrual Leaves: <strong>{{ leaveBalance?.usedMaternityLeave || 0 }}</strong></p> -->
+      <p><mat-icon>local_hospital</mat-icon> Sick Leaves: <strong>{{ leaveBalance?.usedSickLeave || 0 }}</strong></p>
+      <p><mat-icon>money_off_csred</mat-icon> Unpaid Leaves: <strong>{{ leaveBalance?.usedUnpaidLeave || 0 }}</strong></p>
+    </mat-card>
+  </div>
+
+ <!-- Tabs Section -->
+ <mat-tab-group>
+  <mat-tab label="Applied">
+    <ng-template mat-tab-label>
+      <mat-icon>hourglass_empty</mat-icon> Applied
+    </ng-template>
+    <div class="tab-content">
+      <mat-table [dataSource]="appliedData" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>S.No</th>
+          <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="startDate">
+          <mat-header-cell *matHeaderCellDef> Start Date </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.startDate | date: 'dd-MM-yyyy' }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="endDate">
+          <mat-header-cell *matHeaderCellDef> End Date </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.endDate | date: 'dd-MM-yyyy' }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="leaveType">
+          <mat-header-cell *matHeaderCellDef> Leave Type </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ leaveTypeMap[row.leaveType] }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="noOfDays">
+          <mat-header-cell *matHeaderCellDef> No. of Days </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.noOfDays }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="reason">
+          <mat-header-cell *matHeaderCellDef> Reason </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.reason }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ statusMap[row.status] }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="remarks">
+          <mat-header-cell *matHeaderCellDef> Remarks </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.remarks || 'N/A' }} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Approved">
+    <ng-template mat-tab-label>
+      <mat-icon>check_circle</mat-icon> Approved
+    </ng-template>
+    <div class="tab-content">
+      <mat-table [dataSource]="approvedData" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>S.No</th>
+          <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="startDate">
+          <mat-header-cell *matHeaderCellDef> Start Date </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.startDate | date: 'dd-MM-yyyy' }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="endDate">
+          <mat-header-cell *matHeaderCellDef> End Date </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.endDate | date: 'dd-MM-yyyy' }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="leaveType">
+          <mat-header-cell *matHeaderCellDef> Leave Type </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ leaveTypeMap[row.leaveType] }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="noOfDays">
+          <mat-header-cell *matHeaderCellDef> No. of Days </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.noOfDays }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="reason">
+          <mat-header-cell *matHeaderCellDef> Reason </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.reason }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ statusMap[row.status] }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="remarks">
+          <mat-header-cell *matHeaderCellDef> Remarks </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.remarks || 'N/A' }} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Rejected">
+    <ng-template mat-tab-label>
+      <mat-icon>cancel</mat-icon> Rejected
+    </ng-template>
+    <div class="tab-content">
+      <mat-table [dataSource]="rejectedData" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>S.No</th>
+          <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="startDate">
+          <mat-header-cell *matHeaderCellDef> Start Date </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.startDate | date: 'dd-MM-yyyy' }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="endDate">
+          <mat-header-cell *matHeaderCellDef> End Date </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.endDate | date: 'dd-MM-yyyy' }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="leaveType">
+          <mat-header-cell *matHeaderCellDef> Leave Type </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ leaveTypeMap[row.leaveType] }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="noOfDays">
+          <mat-header-cell *matHeaderCellDef> No. of Days </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.noOfDays }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="reason">
+          <mat-header-cell *matHeaderCellDef> Reason </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.reason }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ statusMap[row.status] }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="remarks">
+          <mat-header-cell *matHeaderCellDef> Remarks </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.remarks || 'N/A' }} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Late Coming">
+    <ng-template mat-tab-label>
+      <mat-icon>schedule</mat-icon> Late Coming
+    </ng-template>
+    <div class="tab-content">
+      <mat-table [dataSource]="lateComingData" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>S.No</th>
+          <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+        </ng-container>
+        <ng-container matColumnDef="requestDate">
+          <mat-header-cell *matHeaderCellDef> Request Date </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.requestDate | date: 'dd-MM-yyyy' }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="delayHours">
+          <mat-header-cell *matHeaderCellDef> Delay Hours </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.delayHours }} Hours</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="reason">
+          <mat-header-cell *matHeaderCellDef> Reason </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.reason }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ statusMap[row.status] }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="remarks">
+          <mat-header-cell *matHeaderCellDef> Remarks </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.remarks }} </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="lateColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: lateColumns"></mat-row>
+      </mat-table>
+    </div>
+  </mat-tab>
+</mat-tab-group>
+
+</div>

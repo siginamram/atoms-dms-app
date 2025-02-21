@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('Username', res.userName);
           localStorage.setItem('userRoles', JSON.stringify(res.roleName));
           localStorage.setItem('RoleId', JSON.stringify(res.roleID));
-
+          localStorage.setItem('empID', res.employeeID);
           // Navigate based on the role
           this.navigateBasedOnRole(res.roleID);
 

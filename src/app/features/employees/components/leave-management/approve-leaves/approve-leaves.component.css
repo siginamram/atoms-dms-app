@@ -1,0 +1,62 @@
+.dashboard-container {
+    padding-left: 140px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+  }
+  
+  .spacer {
+    flex: 1;
+  }
+  
+  .filters-container {
+    display: flex;
+    gap: 20px;
+    margin: 20px 0;
+  }
+  
+  .filter-field {
+    flex: 1;
+  }
+  
+  .mat-tab-group {
+    margin-top: 20px;
+  }
+  
+  .tab-content {
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #ffffff;
+  }
+  
+  .mat-elevation-z8 {
+    border-radius: 8px;
+  }
+  
+  .mat-header-cell {
+    font-weight: bold;
+  }
+  .mat-chip {
+    font-size: 14px;
+    padding: 5px;
+  }
+  
+  .status-approved {
+    background-color: #4caf50; /* Green */
+    color: white;
+  }
+  
+  .status-rejected {
+    background-color: #f44336; /* Red */
+    color: white;
+  }
+  
+  .status-pending {
+    background-color: #ff9800; /* Orange */
+    color: white;
+  }
+  
+  button {
+    margin-right: 5px;
+  }
+  

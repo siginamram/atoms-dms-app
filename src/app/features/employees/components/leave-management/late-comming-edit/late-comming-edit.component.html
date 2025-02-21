@@ -1,0 +1,35 @@
+<mat-dialog-content>
+    <mat-toolbar color="primary" style="border-radius: 10px; margin-bottom: 20px;">
+      <span>Update Late comming Status</span>
+    </mat-toolbar>
+  
+    <form [formGroup]="leaveStatusForm">
+      <!-- Status Dropdown -->
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status">
+          <mat-option [value]="2">Approved</mat-option>
+          <mat-option [value]="3">Rejected</mat-option>
+        </mat-select>
+        <mat-error *ngIf="leaveStatusForm.get('status')?.invalid">
+          Status is required
+        </mat-error>
+      </mat-form-field>
+  
+      <!-- Remarks -->
+      <mat-form-field appearance="outline">
+        <mat-label>Remarks</mat-label>
+        <textarea matInput placeholder="Add remarks" formControlName="remarks"></textarea>
+        <mat-error *ngIf="leaveStatusForm.get('remarks')?.invalid">
+          Remarks must be at least 5 characters
+        </mat-error>
+      </mat-form-field>
+  
+      <!-- Action Buttons -->
+      <div class="actions">
+        <button mat-button mat-dialog-close color="warn">Cancel</button>
+        <button mat-raised-button color="primary" [disabled]="leaveStatusForm.invalid" (click)="save()">Save</button>
+      </div>
+    </form>
+  </mat-dialog-content>
+  

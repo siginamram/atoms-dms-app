@@ -1,0 +1,254 @@
+<div class="dashboard-container">
+  <!-- Toolbar -->
+  <mat-toolbar color="primary" style="border-radius: 10px;">
+    <span>Leave Approvals</span>
+  </mat-toolbar>
+
+  <!-- Filters Section -->
+  <div class="filters-container">
+    <mat-form-field appearance="outline">
+      <mat-label>From Date</mat-label>
+      <input matInput [matDatepicker]="fromPicker" [(ngModel)]="fromDate" name="fromDate" (dateChange)="fetchAllRequests()" />
+      <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+      <mat-datepicker #fromPicker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>To Date</mat-label>
+      <input matInput [matDatepicker]="toPicker" [(ngModel)]="toDate" name="toDate" (dateChange)="fetchAllRequests()" />
+      <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+      <mat-datepicker #toPicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+ <!-- Tabs Section -->
+<mat-tab-group>
+  <!-- Applications Tab -->
+  <mat-tab label="Applications">
+    <ng-template mat-tab-label>
+      <mat-icon>hourglass_empty</mat-icon> Applied
+    </ng-template>
+    <div class="tab-content">
+      <mat-table [dataSource]="applications" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>S.No</th>
+          <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="employeeName">
+          <mat-header-cell *matHeaderCellDef>Employee Name</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.empName }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="leaveType">
+          <mat-header-cell *matHeaderCellDef>Leave Type</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ leaveTypeMap[row.leaveType] }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="startDate">
+          <mat-header-cell *matHeaderCellDef>Start Date</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.startDate | date: 'dd-MM-yyyy' }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="endDate">
+          <mat-header-cell *matHeaderCellDef>End Date</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.endDate | date: 'dd-MM-yyyy' }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="noOfDays">
+          <mat-header-cell *matHeaderCellDef>No. of Days</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.noOfDays }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="reason">
+          <mat-header-cell *matHeaderCellDef>Reason</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.reason }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ statusMap[row.status] }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <button mat-icon-button color="primary" (click)="editRow(row)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+    </div>
+  </mat-tab>
+
+  <!-- Approved Tab -->
+  <mat-tab label="Approved">
+    <ng-template mat-tab-label>
+      <mat-icon>check_circle</mat-icon> Approved
+    </ng-template>
+    <div class="tab-content">
+      <mat-table [dataSource]="approvedLeaves" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>S.No</th>
+          <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="employeeName">
+          <mat-header-cell *matHeaderCellDef>Employee Name</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.empName }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="leaveType">
+          <mat-header-cell *matHeaderCellDef>Leave Type</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ leaveTypeMap[row.leaveType] }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="startDate">
+          <mat-header-cell *matHeaderCellDef>Start Date</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.startDate | date: 'dd-MM-yyyy' }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="endDate">
+          <mat-header-cell *matHeaderCellDef>End Date</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.endDate | date: 'dd-MM-yyyy' }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="noOfDays">
+          <mat-header-cell *matHeaderCellDef>No. of Days</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.noOfDays }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="reason">
+          <mat-header-cell *matHeaderCellDef>Reason</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.reason }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+          <mat-cell *matCellDef="let row"> Approved </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <mat-header-cell *matHeaderCellDef>Remarks</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.remarks }} </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+    </div>
+  </mat-tab>
+
+  <!-- Rejected Tab -->
+  <mat-tab label="Rejected">
+    <ng-template mat-tab-label>
+      <mat-icon>cancel</mat-icon> Rejected
+    </ng-template>
+    <div class="tab-content">
+      <mat-table [dataSource]="rejectedLeaves" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>S.No</th>
+          <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="employeeName">
+          <mat-header-cell *matHeaderCellDef>Employee Name</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.empName }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="leaveType">
+          <mat-header-cell *matHeaderCellDef>Leave Type</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ leaveTypeMap[row.leaveType] }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="startDate">
+          <mat-header-cell *matHeaderCellDef>Start Date</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.startDate | date: 'dd-MM-yyyy' }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="endDate">
+          <mat-header-cell *matHeaderCellDef>End Date</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.endDate | date: 'dd-MM-yyyy' }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="noOfDays">
+          <mat-header-cell *matHeaderCellDef>No. of Days</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.noOfDays }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="reason">
+          <mat-header-cell *matHeaderCellDef>Reason</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.reason }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+          <mat-cell *matCellDef="let row"> Rejected </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <mat-header-cell *matHeaderCellDef>Remarks</mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{ row.remarks }} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+    </div>
+  </mat-tab>
+
+ <!-- Late Coming Tab -->
+<mat-tab label="Late Coming">
+  <ng-template mat-tab-label>
+    <mat-icon>schedule</mat-icon> Late Coming
+  </ng-template>
+  <div class="tab-content">
+    <mat-table [dataSource]="lateRequests" class="mat-elevation-z8">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>S.No</th>
+        <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+      </ng-container>
+      
+      <ng-container matColumnDef="employeeName">
+        <mat-header-cell *matHeaderCellDef>Employee Name</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{ row.empName }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="requestDate">
+        <mat-header-cell *matHeaderCellDef>Request Date</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{ row.requestDate | date: 'dd-MM-yyyy' }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="delayHours">
+        <mat-header-cell *matHeaderCellDef>Delay Hours</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{ row.delayHours }} Hours</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="reason">
+        <mat-header-cell *matHeaderCellDef>Reason</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{ row.reason }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{ statusMap[row.status] }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-icon-button color="primary" (click)="editlateRow(row)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumnsLate"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumnsLate"></mat-row>
+    </mat-table>
+  </div>
+</mat-tab>
+
+</mat-tab-group>
+
+</div>
