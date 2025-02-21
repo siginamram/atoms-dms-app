@@ -52,8 +52,8 @@ export class LeaveApplyComponent implements OnInit {
       const payload = {
         leaveId: 0,
         employeeId: this.employeeId,
-        startDate: moment(this.leaveForm.get('startDate')?.value).toISOString(),
-        endDate: moment(this.leaveForm.get('endDate')?.value).toISOString(),
+        startDate:this.formatDate(new Date(this.leaveForm.value.startDate)), 
+        endDate: this.formatDate(new Date(this.leaveForm.value.endDate)), 
         noOfDays: this.leaveForm.get('noOfDays')?.value,
         leaveType: this.leaveForm.get('leaveType')?.value,
         reason: this.leaveForm.get('reason')?.value
@@ -77,6 +77,14 @@ export class LeaveApplyComponent implements OnInit {
       this.openAlertDialog('Error', 'Please fill in all required fields.');
     }
   }
+
+    // Utility function to format date as YYYY-MM-DD
+    private formatDate(date: Date): string {
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const day = date.getDate().toString().padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
 
   openAlertDialog(title: string, message: string): void {
     this.dialog.open(AlertDialogComponent, {

@@ -35,7 +35,7 @@ export class LateCommingApplyComponent implements OnInit {
     if (this.lateRequestForm.valid) {
       const payload = {
         employeeId: this.employeeId,
-        requestDate: moment(this.lateRequestForm.get('requestDate')?.value).toISOString(),
+        requestDate:this.formatDate(new Date(this.lateRequestForm.value.requestDate)),  
         delayHours: parseInt(this.lateRequestForm.get('delayHours')?.value, 10),
         reason: this.lateRequestForm.get('reason')?.value
       };
@@ -58,7 +58,13 @@ export class LateCommingApplyComponent implements OnInit {
       this.openAlertDialog('Error', 'Please fill in all required fields.');
     }
   }
-
+ // Utility function to format date as YYYY-MM-DD
+ private formatDate(date: Date): string {
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
   openAlertDialog(title: string, message: string): void {
     this.dialog.open(AlertDialogComponent, {
       width: '400px',

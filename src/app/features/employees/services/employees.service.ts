@@ -56,4 +56,32 @@ employeeLateRequest(payload: any): Observable<any> {
   return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
 }
 
+// get User Id by details
+GetEmpLeaveDashboard(employeeId: number): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Employee/GetEmpLeaveDashboard/${employeeId}`;
+  return this.http.get(apiUrl);
+}
+
+GetApprovalLeaveRequests(empId: number, fdate: string, tdate: string): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Employee/GetApprovalLeaveRequests/${empId}/${fdate}/${tdate}`;
+  return this.http.get(apiUrl);
+}
+
+GetApprovalLateRequests(empId: number, fdate: string, tdate: string): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Employee/GetApprovalLateRequests/${empId}/${fdate}/${tdate}`;
+  return this.http.get(apiUrl);
+}
+
+ApproveLeaveRequest(payload: any): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Employee/ApproveLeaveRequest`;
+  // Set responseType to 'text' since the API returns plain text
+  return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+}
+
+ApproveLateRequest(payload: any): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Employee/ApproveLateRequest`;
+  // Set responseType to 'text' since the API returns plain text
+  return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+}
+
 }

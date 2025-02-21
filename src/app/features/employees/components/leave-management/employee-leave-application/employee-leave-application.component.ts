@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { LeaveApplyComponent } from '../leave-apply/leave-apply.component'; 
+import { EmployeesService } from '../../../services/employees.service';
+import { LeaveApplyComponent } from '../leave-apply/leave-apply.component';
 import { LateCommingApplyComponent } from '../late-comming-apply/late-comming-apply.component';
 
 @Component({
@@ -9,58 +10,71 @@ import { LateCommingApplyComponent } from '../late-comming-apply/late-comming-ap
   templateUrl: './employee-leave-application.component.html',
   styleUrls: ['./employee-leave-application.component.css']
 })
-export class EmployeeLeaveApplicationComponent {
+export class EmployeeLeaveApplicationComponent implements OnInit {
+  displayedColumns = ['id','startDate', 'endDate', 'leaveType', 'noOfDays', 'reason', 'status', 'remarks'];
+  lateColumns = ['id','requestDate', 'delayHours', 'reason', 'status', 'remarks'];
+  
+  employeeId = parseInt(localStorage.getItem('empID') || '0', 10);
+  leaveBalance: any;
+  appliedData: any[] = [];
+  approvedData: any[] = [];
+  rejectedData: any[] = [];
+  lateComingData: any[] = [];
 
-  displayedColumns: string[] = [
-    'startDate',
-    'endDate',
-    'leaveType',
-    'noOfDays',
-    'reason',
-    'approvalStatus',
-    'remarks',
-  ];
-  constructor(private dialog: MatDialog) {}
-  appliedData = [
-    {
-      startDate: '2023-02-01',
-      endDate: '2023-02-05',
-      leaveType: 'Casual Leave',
-      noOfDays: 5,
-      reason: 'Personal',
-      approvalStatus: 'Approved',
-      remarks: 'Approved by Manager',
-    },
-    {
-      startDate: '2023-02-10',
-      endDate: '2023-02-12',
-      leaveType: 'Sick Leave',
-      noOfDays: 3,
-      reason: 'Medical',
-      approvalStatus: 'Pending',
-      remarks: 'Awaiting approval',
-    },
-    {
-      startDate: '2023-03-01',
-      endDate: '2023-03-03',
-      leaveType: 'Unpaid Leave',
-      noOfDays: 3,
-      reason: 'Travel',
-      approvalStatus: 'Rejected',
-      remarks: 'Insufficient balance',
-    },
-  ];
+// Explicitly type the keys to ensure proper indexing
+leaveTypeMap: Record<number, string> = {
+  1: 'Sick Leave',
+  2: 'Casual Leave',
+  3: 'Annual Leave',
+  4: 'Maternity Leave',
+  5: 'Unpaid Leave'
+};
+
+statusMap: Record<number, string> = {
+  1: 'Pending',
+  2: 'Approved',
+  3: 'Rejected'
+};
+
+
+  constructor(private dialog: MatDialog, private employeeService: EmployeesService) {}
+
+  ngOnInit(): void {
+    this.feachdata();
+  }
+
+feachdata(){
+  this.employeeService.GetEmpLeaveDashboard(this.employeeId).subscribe((response) => {
+    this.leaveBalance = response.leaveBalanceSummary;
+    this.appliedData = response.empLeaveRequests.filter((req: any)=> req.status === 1);
+    this.approvedData = response.empLeaveRequests.filter((req: any)=> req.status === 2);
+    this.rejectedData = response.empLeaveRequests.filter((req: any)=> req.status === 3);
+    this.lateComingData = response.empLateRequests;
+  });
+}
   openApplyLeavePopup(): void {
-    this.dialog.open(LeaveApplyComponent, {
+    const dialogRef = this.dialog.open(LeaveApplyComponent, {
       width: '600px',
       panelClass: 'custom-dialog-container',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log('Operation Successful:', result);
+        this.feachdata(); // Refresh the table after edit or save
+      }
     });
   }
 
   openLatecommingPopup(): void {
-    this.dialog.open(LateCommingApplyComponent, {
+    const dialogRef = this.dialog.open(LateCommingApplyComponent, {
       width: '600px',
       panelClass: 'custom-dialog-container',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log('Operation Successful:', result);
+        this.feachdata(); // Refresh the table after edit or save
+      }
     });
   }
 }

@@ -36,4 +36,27 @@
   .mat-header-cell {
     font-weight: bold;
   }
+  .mat-chip {
+    font-size: 14px;
+    padding: 5px;
+  }
+  
+  .status-approved {
+    background-color: #4caf50; /* Green */
+    color: white;
+  }
+  
+  .status-rejected {
+    background-color: #f44336; /* Red */
+    color: white;
+  }
+  
+  .status-pending {
+    background-color: #ff9800; /* Orange */
+    color: white;
+  }
+  
+  button {
+    margin-right: 5px;
+  }
   

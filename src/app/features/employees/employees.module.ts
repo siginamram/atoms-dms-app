@@ -31,6 +31,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BasicdetaislAddemployeeComponent } from './components/basicdetaisl-addemployee/basicdetaisl-addemployee.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { EmployeeDashboardComponent } from './components/employee-dashboard/employee-dashboard.component';
+import { LateCommingEditComponent } from './components/leave-management/late-comming-edit/late-comming-edit.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { EmployeeDashboardComponent } from './components/employee-dashboard/empl
     LateCommingApplyComponent,
     EmployeesListComponent,
     BasicdetaislAddemployeeComponent,
-    EmployeeDashboardComponent
+    EmployeeDashboardComponent,
+    LateCommingEditComponent,
   ],
   imports: [
     CommonModule,

@@ -5,16 +5,16 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/alert-dialog.component';
 
 @Component({
-  selector: 'app-approve-leaves-edit',
+  selector: 'app-late-comming-edit',
   standalone:false,
-  templateUrl: './approve-leaves-edit.component.html',
-  styleUrls: ['./approve-leaves-edit.component.css'],
+  templateUrl: './late-comming-edit.component.html',
+  styleUrl: './late-comming-edit.component.css'
 })
-export class ApproveLeavesEditComponent implements OnInit {
+export class LateCommingEditComponent implements OnInit {
   leaveStatusForm: FormGroup;
 
   constructor(
-    private dialogRef: MatDialogRef<ApproveLeavesEditComponent>,
+    private dialogRef: MatDialogRef<LateCommingEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private employeesService: EmployeesService,
     private fb: FormBuilder,
@@ -22,7 +22,7 @@ export class ApproveLeavesEditComponent implements OnInit {
   ) {
     this.leaveStatusForm = this.fb.group({
       status: [1, Validators.required], // Default to "Approved"
-      remarks: ['', Validators.maxLength(250)], // Optional, max length 250 chars
+      remarks: [''], // Remarks required, min length 5
     });
   }
 
@@ -32,16 +32,16 @@ export class ApproveLeavesEditComponent implements OnInit {
     if (this.leaveStatusForm.invalid) return;
 
     const payload = {
-      leaveId: this.data.leaveId,
+      lateId: this.data.lateId,
       employeeId: parseInt(localStorage.getItem('empID') || '0', 10),
       status: this.leaveStatusForm.get('status')?.value,
       remarks: this.leaveStatusForm.get('remarks')?.value || 'No remarks',
     };
 
-    this.employeesService.ApproveLeaveRequest(payload).subscribe({
+    this.employeesService.ApproveLateRequest(payload).subscribe({
       next: (response: string) => {
         if (response === 'Success') {
-          this.openAlertDialog('Success', 'Leave status updated successfully!');
+          this.openAlertDialog('Success', 'Late comming status updated successfully!');
           this.dialogRef.close(true);
         } else {
           this.openAlertDialog('Error', response || 'Unexpected error occurred.');
@@ -49,11 +49,10 @@ export class ApproveLeavesEditComponent implements OnInit {
       },
       error: (error) => {
         console.error('API Error:', error);
-        this.openAlertDialog('Error', 'An error occurred while updating leave status.');
+        this.openAlertDialog('Error', 'An error occurred while updating Late comming status.');
       }
     });
   }
-
   openAlertDialog(title: string, message: string): void {
     this.dialog.open(AlertDialogComponent, {
       width: '400px',

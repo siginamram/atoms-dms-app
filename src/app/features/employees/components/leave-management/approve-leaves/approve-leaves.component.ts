@@ -1,80 +1,109 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ApproveLeavesEditComponent } from '../approve-leaves-edit/approve-leaves-edit.component'; 
+import { EmployeesService } from '../../../services/employees.service';
+import * as moment from 'moment';
+import { ApproveLeavesEditComponent } from '../approve-leaves-edit/approve-leaves-edit.component';
+import { LateCommingEditComponent } from '../late-comming-edit/late-comming-edit.component';
 
 @Component({
   selector: 'app-approve-leaves',
-  standalone:false,
+  standalone: false,
   templateUrl: './approve-leaves.component.html',
-  styleUrl: './approve-leaves.component.css'
+  styleUrls: ['./approve-leaves.component.css'],
 })
-export class ApproveLeavesComponent {
+export class ApproveLeavesComponent implements OnInit {
+  empId: number = parseInt(localStorage.getItem('empID') || '0', 10);
+  fromDate: Date = moment().startOf('month').toDate();
+  toDate: Date = moment().endOf('month').toDate();
 
-  constructor(public dialog: MatDialog) {}
+  applications: any[] = [];
+  approvedLeaves: any[] = [];
+  rejectedLeaves: any[] = [];
+  lateRequests: any[] = [];
 
-  editRow(row: any): void {
-  const dialogRef = this.dialog.open(ApproveLeavesEditComponent, {
-    width: '400px',
-    data: row,
-  });
-
-  dialogRef.afterClosed().subscribe((result) => {
-    console.log('Dialog closed', result);
-    // Handle the result here
-  });
-}
   displayedColumns: string[] = [
+    'id',
     'employeeName',
     'leaveType',
     'startDate',
     'endDate',
     'noOfDays',
-    'description',
+    'reason',
     'status',
     'action',
   ];
 
-  dataSource = [
-    {
-      employeeName: 'John Doe',
-      leaveType: 'Casual Leave',
-      startDate: '2023-02-01',
-      endDate: '2023-02-03',
-      noOfDays: 3,
-      description: 'Personal',
-      status: 'Approved',
-      remarks: 'Approved by Manager',
-    },
-    {
-      employeeName: 'Jane Smith',
-      leaveType: 'Sick Leave',
-      startDate: '2023-02-10',
-      endDate: '2023-02-12',
-      noOfDays: 3,
-      description: 'Medical',
-      status: 'Pending',
-      remarks: 'Awaiting approval',
-    },
-    {
-      employeeName: 'Tom Hardy',
-      leaveType: 'Unpaid Leave',
-      startDate: '2023-03-01',
-      endDate: '2023-03-03',
-      noOfDays: 3,
-      description: 'Travel',
-      status: 'Rejected',
-      remarks: 'Insufficient balance',
-    },
+  // Define a separate column set for Late Coming requests
+  displayedColumnsLate: string[] = [
+    'id',
+    'employeeName',
+    'requestDate',
+    'delayHours',
+    'reason',
+    'status',
+    'action', 
   ];
 
-  // editRow(row: any): void {
-  //   console.log('Editing row:', row);
-  //   // Add your edit logic here, e.g., open a dialog for editing
-  // }
-  
-  deleteRow(row: any): void {
-    console.log('Deleting row:', row);
-    // Add your delete logic here, e.g., show a confirmation dialog
+  leaveTypeMap: Record<number, string> = {
+    1: 'Sick Leave',
+    2: 'Casual Leave',
+    3: 'Annual Leave',
+    4: 'Maternity Leave',
+    5: 'Unpaid Leave',
+  };
+
+  statusMap: Record<number, string> = {
+    1: 'Pending',
+    2: 'Approved',
+    3: 'Rejected',
+  };
+
+  constructor(private employeesService: EmployeesService, public dialog: MatDialog) {}
+
+  ngOnInit(): void {
+    this.fetchAllRequests();
   }
-  
+
+  fetchAllRequests() {
+    const formattedFromDate = moment(this.fromDate).format('YYYY-MM-DD');
+    const formattedToDate = moment(this.toDate).format('YYYY-MM-DD');
+
+    this.employeesService.GetApprovalLeaveRequests(this.empId, formattedFromDate, formattedToDate).subscribe((response) => {
+      this.applications = response.filter((req: any) => req.status === 1);
+      this.approvedLeaves = response.filter((req: any) => req.status === 2);
+      this.rejectedLeaves = response.filter((req: any) => req.status === 3);
+    });
+
+    this.employeesService.GetApprovalLateRequests(this.empId, formattedFromDate, formattedToDate).subscribe((response) => {
+      this.lateRequests = response;
+    });
+  }
+
+  editRow(row: any): void {
+    console.log('rk',row);
+    const dialogRef = this.dialog.open(ApproveLeavesEditComponent, {
+      width: '400px',
+      data: row,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.fetchAllRequests();
+      }
+    });
+  }
+
+  editlateRow(row: any): void {
+    console.log('rk',row);
+    const dialogRef = this.dialog.open(LateCommingEditComponent, {
+      width: '400px',
+      data: row,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.fetchAllRequests();
+      }
+    });
+  }
 }
