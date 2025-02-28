@@ -1,0 +1,114 @@
+<div class="container">
+    <mat-toolbar color="primary" style="border-radius: 10px;">
+      <span>Non-GST Invoice Details</span>
+    </mat-toolbar>
+    <form [formGroup]="invoiceForm">
+      <!-- Client Details -->
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Client Name</mat-label>
+          <input matInput formControlName="clientName">
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+            <mat-label>Service Opted</mat-label>
+            <mat-select formControlName="serviceOpted">
+              <mat-option value="Consulting">Consulting</mat-option>
+              <mat-option value="Marketing">Marketing</mat-option>
+              <mat-option value="IT Support">IT Support</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="grid-item">
+            <mat-label>Invoice Date</mat-label>
+            <input matInput [matDatepicker]="fromPicker" formControlName="invoiceDate"  />
+            <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+            <mat-datepicker #fromPicker></mat-datepicker>
+          </mat-form-field>
+      </div>
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+            <mat-label>Client Address</mat-label>
+            <textarea matInput formControlName="clientAddress"></textarea>
+          </mat-form-field>
+      </div>
+      <div class="form-row">
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Base Package</mat-label>
+          <input matInput type="number" formControlName="basePackage">
+        </mat-form-field>
+      
+        <mat-form-field appearance="outline">
+          <mat-label>Adjusted Package</mat-label>
+          <input matInput type="number" formControlName="adjustedPackage">
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Ad Budget</mat-label>
+          <input matInput type="number" formControlName="adBudget">
+        </mat-form-field>
+  
+        <mat-checkbox formControlName="includeAdBudget">Include Ad Budget in Invoice</mat-checkbox>
+      </div>
+  
+   
+  
+      <!-- Item Details -->
+      <h3>Items Details</h3>
+      <div formArrayName="items">
+        <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i" class="item-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Item Description</mat-label>
+            <input matInput formControlName="itemDescription">
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline">
+            <mat-label>Quantity</mat-label>
+            <input matInput type="number" formControlName="qty" >
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline">
+            <mat-label>Rate</mat-label>
+            <input matInput type="number" formControlName="rate" >
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline">
+            <mat-label>Amount</mat-label>
+            <input matInput type="number" formControlName="amount" >
+          </mat-form-field>
+       
+  
+          <button mat-icon-button color="warn" (click)="removeItem(i)" *ngIf="items.length > 1">
+            <mat-icon>remove_circle</mat-icon>
+          </button>
+        </div>
+      </div>
+  <div style="text-align: right;">
+    <button mat-raised-button color="accent"  (click)="addItem()">
+      <mat-icon>add</mat-icon> Add More Items
+    </button>
+  </div>
+     
+  
+      <!-- Total Invoice -->
+      <h3>Invoice Summary</h3>
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Total Invoice Value (Figures)</mat-label>
+          <input matInput formControlName="totalInvoiceValue" readonly>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Total Invoice Value (Words)</mat-label>
+          <input matInput formControlName="totalInvoiceValueWords" readonly>
+        </mat-form-field>
+      </div>
+  
+      <!-- Buttons -->
+      <div class="button-group">
+        <button mat-raised-button color="primary" (click)="saveInvoice()">Save</button>
+        <button mat-raised-button color="warn" (click)="cancel()">Cancel</button>
+      </div>
+    </form>
+  </div>
+  

@@ -82,7 +82,7 @@ export class ApproveLeavesComponent implements OnInit {
   editRow(row: any): void {
     console.log('rk',row);
     const dialogRef = this.dialog.open(ApproveLeavesEditComponent, {
-      width: '400px',
+      width: '600px',
       data: row,
     });
 

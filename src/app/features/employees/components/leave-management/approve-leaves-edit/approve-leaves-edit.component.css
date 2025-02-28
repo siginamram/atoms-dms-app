@@ -12,7 +12,11 @@ mat-form-field {
   .third-width {
     flex: 1; /* Ensures equal space for each field */
   }
-  
+    /* Full-width styling for Description */
+    .full-width {
+      width: 100%;
+      margin-bottom: 16px;
+    }
   mat-input-element,
   mat-select,
   textarea {

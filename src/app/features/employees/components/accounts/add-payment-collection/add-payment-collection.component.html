@@ -1,0 +1,107 @@
+<div class="container">
+    <mat-toolbar color="primary" style="border-radius: 10px;">
+        <span>Payment Collection Follow-up</span>
+      </mat-toolbar>
+    <form [formGroup]="paymentForm">
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Client</mat-label>
+          <input matInput formControlName="client">
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Invoice Generation Date</mat-label>
+          <input matInput [matDatepicker]="invoiceDatePicker" formControlName="invoiceGenerationDate">
+          <mat-datepicker-toggle matSuffix [for]="invoiceDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #invoiceDatePicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Actual Invoice Value</mat-label>
+            <input matInput type="number" formControlName="actualInvoiceValue">
+          </mat-form-field>
+      </div>
+  
+      <div class="form-row">
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Adjusted Invoice Value</mat-label>
+          <input matInput type="number" formControlName="adjustedInvoiceValue">
+        </mat-form-field>
+      
+        <mat-form-field appearance="outline">
+          <mat-label>Due Date</mat-label>
+          <input matInput [matDatepicker]="dueDatePicker" formControlName="dueDate">
+          <mat-datepicker-toggle matSuffix [for]="dueDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #dueDatePicker></mat-datepicker>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Received Date</mat-label>
+          <input matInput [matDatepicker]="receivedDatePicker" formControlName="receivedDate">
+          <mat-datepicker-toggle matSuffix [for]="receivedDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #receivedDatePicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+  
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Payment Status</mat-label>
+          <mat-select formControlName="paymentStatus">
+            <mat-option *ngFor="let status of paymentStatusOptions" [value]="status">{{ status }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Payment Type</mat-label>
+          <mat-select formControlName="paymentType">
+            <mat-option *ngFor="let type of paymentTypeOptions" [value]="type">{{ type }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Payment Mode</mat-label>
+            <mat-select formControlName="paymentMode">
+              <mat-option *ngFor="let type of paymentModeOptions" [value]="type">{{ type }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+      </div>
+  
+ 
+    <!-- Follow-ups -->
+<h3>Follow-ups</h3>
+<div formArrayName="followUps">
+  <div *ngFor="let followUp of followUps.controls; let i = index" [formGroupName]="i" class="follow-up-row form-row">
+    <mat-form-field appearance="outline">
+      <mat-label>Follow-up Date</mat-label>
+      <input matInput [matDatepicker]="followUpDatePicker" formControlName="followUpDate">
+      <mat-datepicker-toggle matSuffix [for]="followUpDatePicker"></mat-datepicker-toggle>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Follow-up Details</mat-label>
+      <input matInput formControlName="followUpDetails">
+    </mat-form-field>
+
+    <button mat-icon-button color="warn" (click)="removeFollowUp(i)" *ngIf="followUps.length > 1">
+      <mat-icon>remove_circle</mat-icon>
+    </button>
+  </div>
+</div>
+
+<mat-datepicker #followUpDatePicker></mat-datepicker>
+
+  <div style="text-align: right;">
+    <button mat-raised-button color="accent" (click)="addFollowUp()">
+        <mat-icon>add</mat-icon> Add Follow-up
+      </button>
+  </div>
+   
+  
+      <!-- Submit Button -->
+      <div class="button-group">
+        <button mat-raised-button color="primary" (click)="submitForm()">Submit</button>
+      </div>
+    </form>
+  </div>
+  

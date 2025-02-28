@@ -1,0 +1,65 @@
+.container {
+    padding-left: 140px;
+    margin: auto;
+  }
+  
+  h2 {
+    color: #3f51b5;
+  }
+  
+  mat-form-field {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 20px;
+  }
+  
+  table {
+    width: 100%;
+  }
+  
+  .mat-chip {
+    padding: 5px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .paid {
+    background-color: #4caf50; /* Green */
+    color: white;
+  }
+  
+  .pending {
+    background-color: #f44336; /* Red */
+    color: white;
+  }
+  
+  .gst {
+    background-color: #2196f3; /* Blue */
+    color: white;
+  }
+  
+  .non-gst {
+    background-color: #ff9800; /* Orange */
+    color: white;
+  }
+  
+  button {
+    margin-right: 10px;
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 768px) {
+    table {
+      display: block;
+      overflow-x: auto;
+    }
+  }
+  mat-toolbar {
+    margin-bottom: 16px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+  }
+  .spacer {
+    flex: 1 1 auto;
+  }

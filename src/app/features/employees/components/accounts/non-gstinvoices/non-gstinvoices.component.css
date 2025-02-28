@@ -1,0 +1,67 @@
+.container {
+    padding-left: 140px;
+  }
+  
+  h2 {
+    color: #3f51b5;
+  }
+  
+  .mat-form-field {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 20px;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+    width: 100%;
+  }
+  
+  table {
+    width: 100%;
+    min-width: 600px;
+  }
+  
+  button {
+    margin-right: 10px;
+  }
+  
+  /* Responsive Layout for Small Screens */
+  @media screen and (max-width: 768px) {
+    .table-container {
+      display: block;
+      overflow-x: auto;
+    }
+  
+    table {
+      width: 100%;
+      display: block;
+    }
+  
+    tr {
+      display: flex;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #ccc;
+      padding: 10px;
+    }
+  
+    th, td {
+      flex: 1 1 50%;
+      text-align: left;
+    }
+  
+    button {
+      width: 100%;
+      margin-bottom: 5px;
+    }
+  }
+  
+  mat-toolbar {
+    margin-bottom: 16px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+  }
+  .spacer {
+    flex: 1 1 auto;
+  }

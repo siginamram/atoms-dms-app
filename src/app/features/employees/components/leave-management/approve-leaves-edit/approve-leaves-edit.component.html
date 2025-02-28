@@ -17,9 +17,9 @@
     </mat-form-field>
 
     <!-- Remarks -->
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" class="full-width">
       <mat-label>Remarks</mat-label>
-      <textarea matInput placeholder="Add remarks" formControlName="remarks"></textarea>
+      <textarea matInput placeholder="Add remarks"  rows="4"  formControlName="remarks"></textarea>
       <mat-error *ngIf="leaveStatusForm.get('remarks')?.invalid">
         Remarks must be at least 5 characters
       </mat-error>

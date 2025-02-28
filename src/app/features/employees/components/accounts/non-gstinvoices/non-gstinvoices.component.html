@@ -1,0 +1,93 @@
+<div class="container">
+    <!-- Toolbar -->
+    <mat-toolbar color="primary" style="border-radius: 10px;">
+        <span>Non-GST Invoices</span>
+        <span class="spacer"></span>
+        <button mat-raised-button color="accent" (click)="addGST()"> 
+          <i class="material-icons">add</i> Additional Services
+        </button>
+       
+      </mat-toolbar>
+    <!-- Month Selection -->
+    <mat-form-field appearance="outline">
+        <mat-label>Month and Year</mat-label>
+        <input matInput [matDatepicker]="dp" [formControl]="date" placeholder="MM/YYYY" readonly>
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker
+          #dp
+          startView="multi-year"
+          (monthSelected)="setMonthAndYear($event, dp)"
+          panelClass="example-month-picker">
+        </mat-datepicker>
+      </mat-form-field>
+  
+  
+    <!-- Responsive Table -->
+    <div class="table-container">
+      <table mat-table [dataSource]="invoices" class="mat-elevation-z8">
+        
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>S.No</th>
+          <td mat-cell *matCellDef="let invoice">{{ invoice.id }}</td>
+        </ng-container>
+  
+        <!-- Client Column -->
+        <ng-container matColumnDef="client">
+          <th mat-header-cell *matHeaderCellDef>Client</th>
+          <td mat-cell *matCellDef="let invoice">{{ invoice.client }}</td>
+        </ng-container>
+
+        <!-- Service Column -->
+        <ng-container matColumnDef="invoicegenerationdate">
+            <th mat-header-cell *matHeaderCellDef>Invoice Generation Date</th>
+            <td mat-cell *matCellDef="let invoice">{{ invoice.invoicegenerationdate }}</td>
+        </ng-container>
+  
+        <!-- Service Column -->
+        <ng-container matColumnDef="service">
+          <th mat-header-cell *matHeaderCellDef>Service</th>
+          <td mat-cell *matCellDef="let invoice">{{ invoice.service }}</td>
+        </ng-container>
+  
+        <!-- Actual Amount -->
+        <ng-container matColumnDef="actualAmount">
+          <th mat-header-cell *matHeaderCellDef>Actual Amount</th>
+          <td mat-cell *matCellDef="let invoice">₹{{ invoice.actualAmount }}</td>
+        </ng-container>
+  
+        <!-- Adjusted Amount -->
+        <ng-container matColumnDef="adjustedAmount">
+          <th mat-header-cell *matHeaderCellDef>Adjusted Amount</th>
+          <td mat-cell *matCellDef="let invoice">₹{{ invoice.adjustedAmount }}</td>
+        </ng-container>
+    
+  
+        <!-- Invoice No -->
+        <ng-container matColumnDef="invoiceNo">
+          <th mat-header-cell *matHeaderCellDef>Invoice No.</th>
+          <td mat-cell *matCellDef="let invoice">{{ invoice.invoiceNo }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="netlossgain">
+            <th mat-header-cell *matHeaderCellDef>Net Loss/Gain</th>
+            <td mat-cell *matCellDef="let invoice">{{ invoice.netlossgain }}</td>
+          </ng-container>
+  
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let invoice">
+            <button mat-icon-button color="primary" (click)="editInvoice(invoice)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-button color="primary" >Download</button>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </div>
+  

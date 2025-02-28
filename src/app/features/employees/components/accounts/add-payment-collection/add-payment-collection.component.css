@@ -1,0 +1,54 @@
+.container {
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+  }
+  
+  h2 {
+    color: #3f51b5;
+  }
+  
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .form-row mat-form-field {
+    flex: 1;
+    min-width: 250px;
+  }
+  
+  .follow-up-row {
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  /* Responsive: Stack fields on smaller screens */
+  @media screen and (max-width: 768px) {
+    .form-row {
+      flex-direction: column;
+    }
+  }
+  mat-toolbar {
+    margin-bottom: 16px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+  }
+  .spacer {
+    flex: 1 1 auto;
+  }

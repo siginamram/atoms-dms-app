@@ -32,6 +32,13 @@ import { BasicdetaislAddemployeeComponent } from './components/basicdetaisl-adde
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { EmployeeDashboardComponent } from './components/employee-dashboard/employee-dashboard.component';
 import { LateCommingEditComponent } from './components/leave-management/late-comming-edit/late-comming-edit.component';
+import { GstinvoicesComponent } from './components/accounts/gstinvoices/gstinvoices.component';
+import { GstinvoicespopupComponent } from './components/accounts/gstinvoicespopup/gstinvoicespopup.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { NonGstinvoicesComponent } from './components/accounts/non-gstinvoices/non-gstinvoices.component';
+import { NonGstinvoicespopupComponent } from './components/accounts/non-gstinvoicespopup/non-gstinvoicespopup.component';
+import { PaymentCollectionComponent } from './components/accounts/payment-collection/payment-collection.component';
+import { AddPaymentCollectionComponent } from './components/accounts/add-payment-collection/add-payment-collection.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +55,12 @@ import { LateCommingEditComponent } from './components/leave-management/late-com
     BasicdetaislAddemployeeComponent,
     EmployeeDashboardComponent,
     LateCommingEditComponent,
+    GstinvoicesComponent,
+    GstinvoicespopupComponent,
+    NonGstinvoicesComponent,
+    NonGstinvoicespopupComponent,
+    PaymentCollectionComponent,
+    AddPaymentCollectionComponent,
   ],
   imports: [
     CommonModule,
@@ -69,7 +82,8 @@ import { LateCommingEditComponent } from './components/leave-management/late-com
     MatToolbarModule,
     MatDialogModule,
     FormsModule,
-    MatProgressSpinnerModule 
+    MatProgressSpinnerModule ,
+    MatCheckboxModule
    
   ]
 })

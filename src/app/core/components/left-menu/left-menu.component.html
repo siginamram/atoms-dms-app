@@ -180,6 +180,27 @@
             <i class="material-icons">person_add</i>Leave Approvals
           </a>
         </li>
+        <!-- <li>
+          <a [routerLink]="['/home', 'employees', 'payment-collection']" 
+          *ngIf="roleService.hasRole(['Manager','Team Lead'])"
+             routerLinkActive="active">
+            <i class="material-icons">description</i>Payment Collection
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/home', 'employees', 'gst-invoices']" 
+          *ngIf="roleService.hasRole(['Manager','Team Lead'])"
+             routerLinkActive="active">
+            <i class="material-icons">analytics</i>GST Invoices
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/home', 'employees', 'non-gst-invoices']" 
+          *ngIf="roleService.hasRole(['Manager','Team Lead'])"
+             routerLinkActive="active">
+            <i class="material-icons">analytics</i>Non-GST Invoices
+          </a>
+        </li> -->
       </ul>
       
       <!-- Logout Button -->
