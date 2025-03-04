@@ -144,7 +144,11 @@ export class DmaPendingPostsDashboardComponent implements OnInit {
         return 'N/A';
     }
   }
-
+  getStatusClass(status: number): string {
+    const statusText = this.getStatus(status).toLowerCase().replace(/\s+/g, '-');
+    return `status-${statusText}`;
+  }
+  
   getPostStatus(status: number): string {
     switch (status) {
       case 1:
