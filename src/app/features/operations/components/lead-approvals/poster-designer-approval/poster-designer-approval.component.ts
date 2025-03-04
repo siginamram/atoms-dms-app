@@ -96,25 +96,58 @@ export class PosterDesignerApprovalComponent implements OnInit {
     });
   }
 
-  // Helper method to map status numbers to text
-  getPostStatusText(status: number): string {
-    switch (status) {
-      case 1:
-        return 'Yet to start';
-      case 2:
-        return 'Saved in draft';
-      case 3:
-        return 'Sent for approval';
-      case 4:
-        return 'Changes recommended';
-      case 5:
-        return 'Approved';
-      case 6:
-        return 'Sent for client approval';
-      default:
-        return 'Unknown status';
+ // Helper method to map status numbers to text
+getPostStatusText(status: any): string {
+  if (status == null || status === undefined) {
+    return 'Unknown'; // Prevents null/undefined errors
+  }
+
+  // If status is a string like "Sent for approval", convert it to corresponding number
+  const statusMap: { [key: string]: number } = {
+    'yet to start': 1,
+    'saved in draft': 2,
+    'sent for approval': 3,
+    'changes recommended': 4,
+    'approved': 5,
+    'sent for client approval': 6
+  };
+
+  // Convert string to number if necessary
+  if (typeof status === 'string') {
+    const lowerStatus = status.trim().toLowerCase();
+    if (statusMap[lowerStatus] !== undefined) {
+      status = statusMap[lowerStatus];
+    } else {
+      return 'Unknown'; // If it's an unrecognized string
     }
   }
+
+  // Ensure status is a number before mapping
+  status = Number(status);
+
+  // Map number values to status text
+  switch (status) {
+    case 1:
+      return 'Yet to start';
+    case 2:
+      return 'Saved in draft';
+    case 3:
+      return 'Sent for approval';
+    case 4:
+      return 'Changes recommended';
+    case 5:
+      return 'Approved';
+    case 6:
+      return 'Sent for client approval';
+    default:
+      return 'Unknown';
+  }
+}
+
+getStatusClass(status: any): string {
+  const statusText = this.getPostStatusText(status).toLowerCase().replace(/\s+/g, '-');
+  return `status-${statusText}`;
+}
 
   setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
     const ctrlValue = this.date.value || moment();

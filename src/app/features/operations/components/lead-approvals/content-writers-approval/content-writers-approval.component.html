@@ -105,7 +105,7 @@
           </td>
         </ng-container>
 
-          <ng-container matColumnDef="contentStatus">
+          <!-- <ng-container matColumnDef="contentStatus">
             <th mat-header-cell *matHeaderCellDef (click)="toggleFilter('contentStatus', $event)">
               Status
               <div *ngIf="activeFilter === 'contentStatus'" class="column-filter-container">
@@ -115,8 +115,23 @@
               </div>
             </th>
             <td mat-cell *matCellDef="let row">{{ row.contentStatus }}</td>
+          </ng-container> -->
+
+          <ng-container matColumnDef="contentStatus">
+            <th mat-header-cell *matHeaderCellDef (click)="toggleFilter('contentStatus', $event)">
+              Status
+              <div *ngIf="activeFilter === 'contentStatus'" class="column-filter-container">
+                <mat-form-field class="column-filter">
+                  <input matInput [formControl]="contentStatusFilter" placeholder="Filter" />
+                </mat-form-field>
+              </div>
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <mat-chip [ngClass]="getStatusClass(element.contentStatus)">
+                {{ element.contentStatus }}
+              </mat-chip>
+            </td>
           </ng-container>
-  
         <ng-container matColumnDef="contentRemarks">
           <th mat-header-cell *matHeaderCellDef>Remarks</th>
           <td mat-cell *matCellDef="let row">{{ row.contentRemarks }}</td>

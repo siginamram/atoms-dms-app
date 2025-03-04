@@ -81,7 +81,11 @@
               </mat-form-field>
             </div>
           </th>
-          <td mat-cell *matCellDef="let row">{{ row.graphicStatus }}</td>
+          <td mat-cell *matCellDef="let row">
+            <mat-chip [ngClass]="getStatusClass(row.graphicStatus)">
+              {{ row.graphicStatus }}
+            </mat-chip>
+          </td>
         </ng-container>
   
         <ng-container matColumnDef="postRemarks">
