@@ -26,6 +26,9 @@ import { LeadApprovalHistoryComponent } from './components/lead-approvals-histor
 import { KtDocListComponent } from './components/kt-doc-list/kt-doc-list.component';
 import { ContentWritersCalendarExportComponent } from './components/content-writers-calendar-export/content-writers-calendar-export.component';
 import { AdCampaignReportsComponent } from './components/ad-campaign-reports/ad-campaign-reports.component';
+import { ContentWriterVideosClientsComponent } from './components/content-writer-videos-clients/content-writer-videos-clients.component';
+import { ContentWriterVideosOperationsComponent } from './components/content-writer-videos-operations/content-writer-videos-operations.component';
+
 
 const routes: Routes = [
   {
@@ -50,6 +53,9 @@ const routes: Routes = [
 
       { path: 'photo-grapher-client', component: PhotoGrapherScheduleMeetComponent },
       { path: 'photo-grapher-history', component: PhotoGrapherCompleteHistoryComponent },
+
+      { path: 'content-writer-videos-client', component: ContentWriterVideosClientsComponent },
+      { path: 'operations-videos-content-writer', component: ContentWriterVideosOperationsComponent },
 
       { path: 'specialdays-view', component: SpecialdaysClientsViewComponent },
       { path: 'specialdays-add', component: SpecialdaysClientsAddComponent },

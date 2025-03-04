@@ -89,18 +89,9 @@
     </ng-container>
 
     <!-- Status Column -->
-    <!-- <ng-container matColumnDef="approvalStatus">
-      <th mat-header-cell *matHeaderCellDef>Status</th>
-      <td mat-cell *matCellDef="let video">{{ video.status }}</td>
-    </ng-container> -->
-
     <ng-container matColumnDef="approvalStatus">
       <th mat-header-cell *matHeaderCellDef>Status</th>
-      <td mat-cell *matCellDef="let video">
-        <mat-chip [ngClass]="getStatusClass(video.status)">
-          {{ video.status }}
-        </mat-chip>
-      </td>
+      <td mat-cell *matCellDef="let video">{{ video.status }}</td>
     </ng-container>
 
     <!-- Remarks Column -->

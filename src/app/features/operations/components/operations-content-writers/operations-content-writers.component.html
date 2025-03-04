@@ -151,8 +151,13 @@
           </mat-form-field>
         </div>
       </th>
-      <td mat-cell *matCellDef="let element">{{ element.contentStatus }}</td>
+      <td mat-cell *matCellDef="let element">
+        <mat-chip [ngClass]="getStatusClass(element.contentStatus)">
+          {{ getStatusText(element.contentStatus) }}
+        </mat-chip>
+      </td>
     </ng-container>
+    
 
     <!-- Remarks Column -->
     <ng-container matColumnDef="remarks">

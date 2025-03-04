@@ -135,17 +135,42 @@ export class PosterDesignerOperationsComponent implements OnInit {
       });
   }
 
-  mapGraphicStatus(status: number): string {
+  mapGraphicStatus(status: any): string {
+    if (status == null || status === undefined) {
+      return 'Unknown Status'; // Handle null/undefined
+    }
+  
+    // Convert string statuses to numbers if needed
     const statusMap: { [key: number]: string } = {
       1: 'Yet to Start',
       2: 'Draft Saved',
       3: 'Sent for Approval',
       4: 'Changes Recommended',
       5: 'Approved',
-      6:'Sent for client approval'
+      6: 'Sent for Client Approval',
     };
+  
+    // If status is a string like "Sent for Approval", try converting
+    if (typeof status === 'string') {
+      const reverseStatusMap: { [key: string]: number } = Object.fromEntries(
+        Object.entries(statusMap).map(([key, value]) => [value.toLowerCase(), Number(key)])
+      );
+  
+      const lowerStatus = status.trim().toLowerCase();
+      if (reverseStatusMap[lowerStatus] !== undefined) {
+        status = reverseStatusMap[lowerStatus];
+      } else {
+        return 'Unknown Status'; // If it's an unrecognized string
+      }
+    }
+  
+    // Convert number-like strings ("1") to numbers (1)
+    status = Number(status);
+  
     return statusMap[status] || 'Unknown Status';
   }
+  
+  
   getpromotionType(status: number): string {
     switch (status) {
       case 1:
@@ -162,6 +187,13 @@ export class PosterDesignerOperationsComponent implements OnInit {
         return 'Unknown status';
     }
   } 
+
+  getStatusClass(status: any): string {
+    const statusText = this.mapGraphicStatus(status).toLowerCase().replace(/\s+/g, '-');
+    return `status-${statusText}`;
+  }
+
+  
   setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>): void {
     const ctrlValue = this.date.value ?? moment();
     ctrlValue.month(normalizedMonthAndYear.month());

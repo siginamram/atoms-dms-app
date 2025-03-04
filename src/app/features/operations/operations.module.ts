@@ -70,6 +70,9 @@ import { KtDocListComponent } from './components/kt-doc-list/kt-doc-list.compone
 import { ContentWritersCalendarExportComponent } from './components/content-writers-calendar-export/content-writers-calendar-export.component';
 import { AdCampaignReportsComponent } from './components/ad-campaign-reports/ad-campaign-reports.component';
 import { AddClientVideosEmergrncyRequestComponent } from './components/add-client-videos-emergrncy-request/add-client-videos-emergrncy-request.component';
+import { ContentWriterVideosClientsComponent } from './components/content-writer-videos-clients/content-writer-videos-clients.component';
+import { ContentWriterVideosOperationsComponent } from './components/content-writer-videos-operations/content-writer-videos-operations.component';
+import { ContentWriterVideosOperationsEditComponent } from './components/content-writer-videos-operations-edit/content-writer-videos-operations-edit.component';
 
 const MY_FORMATS = {
   parse: {
@@ -128,6 +131,9 @@ const MY_FORMATS = {
     ContentWritersCalendarExportComponent,
     AdCampaignReportsComponent,
     AddClientVideosEmergrncyRequestComponent,
+    ContentWriterVideosClientsComponent,
+    ContentWriterVideosOperationsComponent,
+    ContentWriterVideosOperationsEditComponent,
   ],
   imports: [
     CommonModule,

@@ -39,6 +39,8 @@ import { NonGstinvoicesComponent } from './components/accounts/non-gstinvoices/n
 import { NonGstinvoicespopupComponent } from './components/accounts/non-gstinvoicespopup/non-gstinvoicespopup.component';
 import { PaymentCollectionComponent } from './components/accounts/payment-collection/payment-collection.component';
 import { AddPaymentCollectionComponent } from './components/accounts/add-payment-collection/add-payment-collection.component';
+import { BudgetPlanningComponent } from './components/accounts/budget-planning/budget-planning.component';
+import { IncomeStatementComponent } from './components/accounts/income-statement/income-statement.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +63,8 @@ import { AddPaymentCollectionComponent } from './components/accounts/add-payment
     NonGstinvoicespopupComponent,
     PaymentCollectionComponent,
     AddPaymentCollectionComponent,
+    BudgetPlanningComponent,
+    IncomeStatementComponent,
   ],
   imports: [
     CommonModule,

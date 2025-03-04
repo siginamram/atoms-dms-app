@@ -9,9 +9,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OperationsService } from '../../services/operations.service';
-import { VideoEditorOperationsEditComponent } from '../video-editor-operations-edit/video-editor-operations-edit.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AddClientVideosEmergrncyRequestComponent } from '../add-client-videos-emergrncy-request/add-client-videos-emergrncy-request.component';
+import { ContentWriterVideosOperationsEditComponent } from '../content-writer-videos-operations-edit/content-writer-videos-operations-edit.component';
 export const MY_FORMATS = {
   parse: {
     dateInput: 'MM/YYYY',
@@ -25,15 +25,15 @@ export const MY_FORMATS = {
 };
 
 @Component({
-  selector: 'app-video-editor-operations',
-  standalone: false,
-  templateUrl: './video-editor-operations.component.html',
-  styleUrls: ['./video-editor-operations.component.css'],
-  providers: [provideMomentDateAdapter(MY_FORMATS)],
-  //encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-content-writer-videos-operations',
+  standalone:false,
+  templateUrl: './content-writer-videos-operations.component.html',
+  styleUrl: './content-writer-videos-operations.component.css',
+    providers: [provideMomentDateAdapter(MY_FORMATS)],
+    //encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VideoEditorOperationsComponent implements OnInit {
+export class ContentWriterVideosOperationsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator; // Reference to MatPaginator
   showSpinner: boolean = false;
   // Filters
@@ -137,44 +137,16 @@ export class VideoEditorOperationsComponent implements OnInit {
     };
     return statusMap[status] || 'Unknown Type';
   }
-  mapGraphicStatus(status: any): string {
-    if (status == null || status === undefined) {
-      return 'Unknown Status'; // Handle null/undefined
-    }
-  
-    // Convert string statuses to numbers if needed
+  mapGraphicStatus(status: number): string {
     const statusMap: { [key: number]: string } = {
       1: 'Yet to Start',
       2: 'Draft Saved',
       3: 'Sent for Approval',
       4: 'Changes Recommended',
       5: 'Approved',
-      6: 'Sent for Client Approval',
+      6: 'Sent for client approval'
     };
-  
-    // If status is a string like "Sent for Approval", try converting
-    if (typeof status === 'string') {
-      const reverseStatusMap: { [key: string]: number } = Object.fromEntries(
-        Object.entries(statusMap).map(([key, value]) => [value.toLowerCase(), Number(key)])
-      );
-  
-      const lowerStatus = status.trim().toLowerCase();
-      if (reverseStatusMap[lowerStatus] !== undefined) {
-        status = reverseStatusMap[lowerStatus];
-      } else {
-        return 'Unknown Status'; // If it's an unrecognized string
-      }
-    }
-  
-    // Convert number-like strings ("1") to numbers (1)
-    status = Number(status);
-  
     return statusMap[status] || 'Unknown Status';
-  }
-
-  getStatusClass(status: any): string {
-    const statusText = this.mapGraphicStatus(status).toLowerCase().replace(/\s+/g, '-');
-    return `status-${statusText}`;
   }
 
   setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>): void {
@@ -207,7 +179,7 @@ export class VideoEditorOperationsComponent implements OnInit {
   }
   openEditPopup(row: any): void {
     console.log('edit', row);
-    const dialogRef = this.dialog.open(VideoEditorOperationsEditComponent, {
+    const dialogRef = this.dialog.open(ContentWriterVideosOperationsEditComponent, {
       width: '600px',
       data: {
         monthlyTrackerId: row.monthlyTrackerId,
@@ -228,6 +200,6 @@ export class VideoEditorOperationsComponent implements OnInit {
     });
   }
   goBack(): void {
-    this.router.navigate(['/home/operations/video-editor-client']); 
+    this.router.navigate(['/home/operations/content-writer-videos-client']); 
   }
 }

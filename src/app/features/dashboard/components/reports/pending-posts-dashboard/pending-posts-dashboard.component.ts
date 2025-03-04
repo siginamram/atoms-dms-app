@@ -18,7 +18,8 @@ export class PendingPostsDashboardComponent implements OnInit {
   statistics = new MatTableDataSource<any>([]); // Table data with pagination
   clientName: any;
   showSpinner: boolean = false; // Default value
-  activeFilters: { [key: string]: boolean } = {}; // Track active filters for each column
+  activeFilters: { [key: string]: string } = {};
+  filterVisibility: { [key: string]: boolean } = {}; // Tracks open filters
   displayedColumns: string[] = [
     'index',
     'organizationName',
@@ -49,37 +50,45 @@ export class PendingPostsDashboardComponent implements OnInit {
       this.fetchPendingPosts();
     });
     this.statistics.paginator = this.paginator;
+    this.statistics.filterPredicate = (data, filter) => {
+      const filters = JSON.parse(filter); // Parse stored filters
+  
+      return Object.keys(filters).every((key) => {
+        const filterVal = filters[key];
+        if (!filterVal) return true; // Ignore empty filters
+  
+        switch (key) {
+          case 'organizationName':
+            return data.organizationName?.toLowerCase().includes(filterVal);
+          case 'contentWriter':
+            return data.contentWriter?.toLowerCase().includes(filterVal);
+          case 'editor':
+            return data.editor?.toLowerCase().includes(filterVal);
+          case 'contentStatus':
+            return this.getStatus(data.contentStatus)?.toLowerCase().includes(filterVal);
+          case 'graphicStatus':
+            return this.getStatus(data.graphicStatus)?.toLowerCase().includes(filterVal);
+          default:
+            return true;
+        }
+      });
+    };
   }
 
   ngAfterViewInit(): void {
     this.statistics.paginator = this.paginator;
   }
 
+
   toggleFilterVisibility(column: string): void {
-    this.activeFilters[column] = !this.activeFilters[column];
+    this.filterVisibility[column] = !this.filterVisibility[column]; // Toggle visibility
   }
+  
 
   applyFilter(event: Event, column: string): void {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-
-    this.statistics.filterPredicate = (data, filter) => {
-      switch (column) {
-        case 'organizationName':
-          return data.organizationName?.toLowerCase().includes(filter);
-        case 'contentWriter':
-          return data.contentWriter?.toLowerCase().includes(filter);
-        case 'editor':
-          return data.editor?.toLowerCase().includes(filter);
-        case 'contentStatus':
-          return this.getStatus(data.contentStatus)?.toLowerCase().includes(filter);
-        case 'graphicStatus':
-          return this.getStatus(data.graphicStatus)?.toLowerCase().includes(filter);
-        default:
-          return false;
-      }
-    };
-
-    this.statistics.filter = filterValue;
+    this.activeFilters[column] = filterValue || ''; // Store the filter
+    this.statistics.filter = JSON.stringify(this.activeFilters); // Ensure Angular detects changes
   }
 
   fetchPendingPosts(): void {

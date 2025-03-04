@@ -181,7 +181,7 @@ export class OperationsContentWritersComponent implements OnInit {
         this.dataSource.data = response.map((item: any) => ({
           ...item,
           day: new Date(item.date).toLocaleDateString('en-US', { weekday: 'long' }),
-          contentStatus: this.getStatusText(item.contentStatus),
+          contentStatus: Number(item.contentStatus) || 0,
           promotionType:this.getpromotionType(item.promotionId),
         }));
         this.isLoading = false; // Stop loading indicator
@@ -228,7 +228,35 @@ export class OperationsContentWritersComponent implements OnInit {
     });
   }
   // Helper method to map status numbers to text
-  getStatusText(status: number): string {
+  getStatusText(status: any): string {
+    if (status == null || status === undefined) {
+      return 'Unknown'; // Prevents null/undefined errors
+    }
+  
+    // If status is a string like "Sent for approval", convert it to corresponding number
+    const statusMap: { [key: string]: number } = {
+      'yet to start': 1,
+      'saved in draft': 2,
+      'sent for approval': 3,
+      'changes recommended': 4,
+      'approved': 5,
+      'sent for client approval': 6
+    };
+  
+    // Convert string to number if necessary
+    if (typeof status === 'string') {
+      const lowerStatus = status.trim().toLowerCase();
+      if (statusMap[lowerStatus] !== undefined) {
+        status = statusMap[lowerStatus];
+      } else {
+        return 'Unknown'; // If it's an unrecognized string
+      }
+    }
+  
+    // Ensure status is a number before mapping
+    status = Number(status);
+  
+    // Map number values to status text
     switch (status) {
       case 1:
         return 'Yet to start';
@@ -241,11 +269,13 @@ export class OperationsContentWritersComponent implements OnInit {
       case 5:
         return 'Approved';
       case 6:
-          return 'Sent for client approval';
+        return 'Sent for client approval';
       default:
-        return 'Unknown status';
+        return 'Unknown';
     }
-  } 
+  }
+  
+  
 
   getpromotionType(status: number): string {
     switch (status) {
@@ -263,6 +293,13 @@ export class OperationsContentWritersComponent implements OnInit {
         return 'Unknown status';
     }
   } 
+
+  getStatusClass(status: any): string {
+    const statusText = this.getStatusText(status).toLowerCase().replace(/\s+/g, '-');
+    return `status-${statusText}`;
+  }
+  
+  
   onEdit(row: any): void {
     console.log('Edit action for row:', row); // Check if monthlyTrackerId exists
     if (!row.monthlyTrackerId) {

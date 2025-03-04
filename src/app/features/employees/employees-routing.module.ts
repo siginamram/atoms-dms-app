@@ -15,6 +15,8 @@ import { NonGstinvoicesComponent } from './components/accounts/non-gstinvoices/n
 import { NonGstinvoicespopupComponent } from './components/accounts/non-gstinvoicespopup/non-gstinvoicespopup.component';
 import { PaymentCollectionComponent } from './components/accounts/payment-collection/payment-collection.component';
 import { AddPaymentCollectionComponent } from './components/accounts/add-payment-collection/add-payment-collection.component';
+import { BudgetPlanningComponent } from './components/accounts/budget-planning/budget-planning.component';
+import { IncomeStatementComponent } from './components/accounts/income-statement/income-statement.component';
 
 // const routes: Routes = [{ path: '', component: EmployeesComponent },
 //     { path: 'AddComponent',component: AddEmployeeComponent },
@@ -39,6 +41,8 @@ const routes: Routes = [
       { path:'add-non-gst-invoices', component: NonGstinvoicespopupComponent},
       { path:'payment-collection', component: PaymentCollectionComponent},
       { path:'add-payment-collection', component: AddPaymentCollectionComponent},
+      { path:'budget-planning', component: BudgetPlanningComponent},
+      { path:'income-statement', component: IncomeStatementComponent},
     ]
   }
 ];
