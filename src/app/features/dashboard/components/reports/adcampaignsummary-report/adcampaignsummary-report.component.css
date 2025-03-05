@@ -1,0 +1,134 @@
+/* General Container */
+.container {
+    padding-left: 140px;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .container {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .filters {
+        flex-direction: column;
+        gap: 5px;
+    }
+}
+
+/* Toolbar styling */
+.mat-toolbar {
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    background: #3f51b5;
+    color: white;
+    padding: 10px 20px;
+}
+
+/* Spacer for alignment */
+.spacer {
+    flex-grow: 1;
+}
+
+/* Filters container */
+.filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-top: 10px;
+}
+
+/* Table container */
+.table-container {
+    margin-top: 15px;
+    overflow-x: auto;
+}
+
+th {
+    background-color: #4a4a4a;
+    color: orange;
+    font-weight: bold;
+  }
+
+/* Table Styling */
+.mat-table {
+    width: 100%;
+    border-radius: 10px;
+    background: white;
+    overflow: hidden;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mat-header-cell {
+    font-weight: bold;
+    background-color: #512DA8;
+    color: white;
+    text-align: center;
+}
+
+.mat-cell {
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Row hover effect */
+.mat-row:hover {
+    background-color: rgba(81, 45, 168, 0.1);
+}
+
+/* Status Chips */
+.status-chip {
+    padding: 5px 10px;
+    font-weight: bold;
+    border-radius: 5px;
+    text-align: center;
+    display: inline-block;
+}
+
+.status-success {
+    background: #4CAF50;
+    color: white;
+}
+
+.status-warning {
+    background: #FFC107;
+    color: black;
+}
+
+.status-danger {
+    background: #F44336;
+    color: white;
+}
+
+.status-info {
+    background: #2196F3;
+    color: white;
+}
+
+/* Buttons */
+.mat-raised-button {
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.mat-button {
+    color: #673AB7;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .mat-header-cell, .mat-cell {
+        font-size: 12px;
+        padding: 8px;
+    }
+}

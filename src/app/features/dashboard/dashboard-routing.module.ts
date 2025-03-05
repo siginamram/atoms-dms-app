@@ -20,6 +20,7 @@ import { VideoEditerDashboardComponent } from './components/reports/video-editer
 import { ClientDashboardComponent } from './components/reports/client-dashboard/client-dashboard.component';
 import { DmaPendingPostsDashboardComponent } from './components/reports/dma-pending-posts-dashboard/dma-pending-posts-dashboard.component';
 import { DmaPromotedPostsDashboardComponent } from './components/reports/dma-promoted-posts-dashboard/dma-promoted-posts-dashboard.component';
+import { AdcampaignsummaryReportComponent } from './components/reports/adcampaignsummary-report/adcampaignsummary-report.component';
 
 
 const routes: Routes = [
@@ -47,6 +48,7 @@ const routes: Routes = [
       { path: 'client-dashboard', component: ClientDashboardComponent },
       { path: 'dma-pending-posts', component: DmaPendingPostsDashboardComponent },
       { path: 'dma-promoted-posts', component: DmaPromotedPostsDashboardComponent },
+      { path: 'dma-adcampaign-summary', component: AdcampaignsummaryReportComponent },
     ],
   },
 ];

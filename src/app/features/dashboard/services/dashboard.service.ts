@@ -85,4 +85,9 @@ export class DashboardService {
     const apiUrl = `${this.baseApiUrl}/api/Dashboard/DMAPromotedPostsDashboard/${userId}/${fdate}/${tdate}/${creativeTypeId}`;
     return this.http.get(apiUrl);
   }
+    
+  GetCampaignSummary(userId: number, fdate: string,tdate: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Client/GetCampaignSummary/${userId}/${fdate}/${tdate}`;
+    return this.http.get(apiUrl);
+  }
 }

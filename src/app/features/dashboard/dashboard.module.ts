@@ -38,6 +38,7 @@ import { ClientDashboardComponent } from './components/reports/client-dashboard/
 import { YoutubeVideosDashboardComponent } from './components/youtube-videos-dashboard/youtube-videos-dashboard.component';
 import { DmaPendingPostsDashboardComponent } from './components/reports/dma-pending-posts-dashboard/dma-pending-posts-dashboard.component';
 import { DmaPromotedPostsDashboardComponent } from './components/reports/dma-promoted-posts-dashboard/dma-promoted-posts-dashboard.component';
+import { AdcampaignsummaryReportComponent } from './components/reports/adcampaignsummary-report/adcampaignsummary-report.component';
 
 
 @NgModule({
@@ -66,6 +67,7 @@ import { DmaPromotedPostsDashboardComponent } from './components/reports/dma-pro
     YoutubeVideosDashboardComponent,
     DmaPendingPostsDashboardComponent,
     DmaPromotedPostsDashboardComponent,
+    AdcampaignsummaryReportComponent,
   ],
   imports: [
     CommonModule,
@@ -81,9 +83,9 @@ import { DmaPromotedPostsDashboardComponent } from './components/reports/dma-pro
     MatCardModule,
     MatTableModule,
     MatProgressSpinnerModule,
-     MatToolbarModule,
-     MatPaginatorModule,
-     ReactiveFormsModule, 
+    MatToolbarModule,
+    MatPaginatorModule,
+    ReactiveFormsModule, 
   
   ]
 })
