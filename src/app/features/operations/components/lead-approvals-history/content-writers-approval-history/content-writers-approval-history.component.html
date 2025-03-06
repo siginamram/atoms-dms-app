@@ -117,10 +117,31 @@
             <td mat-cell *matCellDef="let row">{{ row.contentStatus }}</td>
           </ng-container>
   
-        <ng-container matColumnDef="approvedon">
+        <!-- <ng-container matColumnDef="approvedon">
           <th mat-header-cell *matHeaderCellDef>Approved On</th>
           <td mat-cell *matCellDef="let row">{{ row.date | date: 'dd-MM-yyyy' }}</td>
-        </ng-container>
+        </ng-container> -->
+
+              <!-- Approved On Column with Filter -->
+      <ng-container matColumnDef="approvedon">
+        <th mat-header-cell *matHeaderCellDef>
+          Approved On
+          <button mat-icon-button (click)="toggleFilter('approvedon', $event)">
+            <mat-icon *ngIf="activeFilter !== 'approvedon'">filter_list</mat-icon>
+            <mat-icon *ngIf="activeFilter === 'approvedon'">close</mat-icon>
+          </button>
+          <div *ngIf="activeFilter === 'approvedon'" class="column-filter-container">
+            <mat-form-field appearance="outline" class="column-filter">
+              <mat-label>Filter by Date</mat-label>
+              <input matInput [matDatepicker]="approvedOnPicker" [formControl]="approvedOnFilter">
+              <mat-datepicker-toggle matSuffix [for]="approvedOnPicker"></mat-datepicker-toggle>
+              <mat-datepicker #approvedOnPicker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.date | date: 'dd-MM-yyyy' }}</td>
+      </ng-container>
+
   
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef>Action</th>

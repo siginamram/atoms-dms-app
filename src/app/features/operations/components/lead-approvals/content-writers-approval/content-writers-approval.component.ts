@@ -43,6 +43,7 @@ export class ContentWritersApprovalComponent implements OnInit {
     'monthlyTrackerId',
     'organizationName',
     'postScheduleOn',
+    'sentForApprovalOn',
     'resourceName',
     'speciality',
     'creativeType',

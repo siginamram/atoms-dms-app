@@ -33,6 +33,7 @@ export class ContentWritersApprovalHistoryComponent implements OnInit {
   showSpinner: boolean = false;
 readonly date = new FormControl(moment().add(1, 'month').startOf('month'));
   activeFilter: string | null = null;
+  approvedOnFilter = new FormControl('');
   organizationFilter = new FormControl('');
   resourceFilter = new FormControl('');
   contentStatusFilter = new FormControl('');
@@ -64,6 +65,7 @@ readonly date = new FormControl(moment().add(1, 'month').startOf('month'));
     this.organizationFilter.valueChanges.subscribe(() => this.applyFilter());
     this.resourceFilter.valueChanges.subscribe(() => this.applyFilter());
     this.contentStatusFilter.valueChanges.subscribe(() => this.applyFilter());
+    this.approvedOnFilter.valueChanges.subscribe(() => this.applyFilter()); 
   }
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator; // Assign paginator after view initialization
@@ -115,11 +117,13 @@ readonly date = new FormControl(moment().add(1, 'month').startOf('month'));
     const organization = this.organizationFilter.value?.toLowerCase() || '';
     const resource = this.resourceFilter.value?.toLowerCase() || '';
     const status = this.contentStatusFilter.value?.toLowerCase() || '';
+    const approvedDate = this.approvedOnFilter.value ? moment(this.approvedOnFilter.value).format('YYYY-MM-DD') : '';
 
     this.dataSource.filterPredicate = (data: any) =>
       (!organization || data.organizationName?.toLowerCase().includes(organization)) &&
       (!resource || data.resourceName?.toLowerCase().includes(resource)) &&
-      (!status || data.contentStatusText?.toLowerCase().includes(status));
+      (!status || data.contentStatusText?.toLowerCase().includes(status))&&
+      (!approvedDate || moment(data.date).format('YYYY-MM-DD') === approvedDate);
 
     this.dataSource.filter = Math.random().toString(); // Trigger filter refresh
   }

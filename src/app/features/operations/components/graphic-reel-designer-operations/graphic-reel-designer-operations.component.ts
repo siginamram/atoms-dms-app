@@ -72,10 +72,13 @@ export class GraphicReelDesignerOperationsComponent implements OnInit {
     // Retrieve clientId and date from query parameters
     this.route.queryParams.subscribe((params) => {
       this.clientId = Number(params['clientId']) || 0;
-      this.selectedDate = params['date']
-        ? moment(params['date']).format('YYYY-MM-DD')
-        : moment().format('YYYY-MM-DD'); // Default to current date
-        this.date.setValue(this.selectedDate); // Update FormControl
+    if (params['date']) {
+      this.selectedDate = moment(params['date'], 'YYYY-MM').format('YYYY-MM'); // Store only Year and Month
+      this.date.setValue(moment(this.selectedDate, 'YYYY-MM')); // Update FormControl
+    } else {
+      this.selectedDate = moment().format('YYYY-MM'); // Default to current month-year
+      this.date.setValue(moment(this.selectedDate, 'YYYY-MM')); // Update FormControl
+    }
       // Fetch client details and table data
       this.fetchClientDetails(this.clientId);
       this.fetchTableData();

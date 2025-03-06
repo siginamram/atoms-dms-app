@@ -33,7 +33,6 @@ export const MY_FORMATS = {
 export class DmaOperationsComponent implements OnInit {
   clientControl = new FormControl('');
   @ViewChild('fullTextDialog') fullTextDialog: any;
-  dateControl = new FormControl(moment());
   clients: any[] = [];
   filteredClients: any[] = [];
   clientId: number = 0;
@@ -63,6 +62,7 @@ export class DmaOperationsComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   date = new FormControl(moment());
+  selecteddate: any | null;
   constructor(private operationsService: OperationsService,
     private fb: FormBuilder,
      private dialog: MatDialog,
@@ -78,11 +78,15 @@ export class DmaOperationsComponent implements OnInit {
 // Retrieve clientId and date from query parameters
     this.route.queryParams.subscribe((params) => {
       this.clientId = Number(params['clientId']) || 0;
-        this.selectedDate = params['date']
-             ? moment(params['date']).format('YYYY-MM-DD')
-             : moment().format('YYYY-MM-DD'); // Default to current date
-             this.date.setValue(this.selectedDate); // Update FormControl
-
+     
+      if (params['date']) {
+        this.selectedDate = moment(params['date'], 'YYYY-MM').format('YYYY-MM'); // Store only Year and Month
+        this.date.setValue(moment(this.selectedDate, 'YYYY-MM')); // Update FormControl
+      } else {
+        this.selectedDate = moment().format('YYYY-MM'); // Default to current month-year
+        this.date.setValue(moment(this.selectedDate, 'YYYY-MM')); // Update FormControl
+      }
+      
       // Fetch client details and table data
       this.fetchClientDetails(this.clientId);
       this.fetchTableData();
@@ -111,14 +115,37 @@ export class DmaOperationsComponent implements OnInit {
 
 
   setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
-      const ctrlValue = this.date.value ?? moment();
-        ctrlValue.month(normalizedMonthAndYear.month());
-        ctrlValue.year(normalizedMonthAndYear.year());
-        this.date.setValue(ctrlValue);
-        this.selectedDate = ctrlValue.format('YYYY-MM-DD'); // Update selectedDate
-        datepicker.close();
-        this.fetchTableData(); // Fetch table data for the new date
+    const ctrlValue = this.date.value ?? moment();
+    ctrlValue.year(normalizedMonthAndYear.year());
+    ctrlValue.month(normalizedMonthAndYear.month());
+    this.date.setValue(ctrlValue);
+  
+    this.selectedDate = ctrlValue.format('YYYY-MM'); // Store only Year and Month
+    datepicker.close(); // Close picker after selection
+  
+    this.fetchTableData(); // Refresh data
   }
+  
+  // Handle Year Selection
+  chosenYearHandler(normalizedYear: moment.Moment) {
+    const ctrlValue = this.date.value ?? moment();
+    ctrlValue.year(normalizedYear.year());
+    this.date.setValue(ctrlValue);
+  }
+  
+  // Handle Month Selection (Final Step before closing picker)
+  chosenMonthHandler(normalizedMonth: moment.Moment, datepicker: MatDatepicker<moment.Moment>) {
+    const ctrlValue = this.date.value ?? moment();
+    ctrlValue.month(normalizedMonth.month());
+    this.date.setValue(ctrlValue);
+  
+    this.selectedDate = ctrlValue.format('YYYY-MM'); // Store only Year and Month
+    datepicker.close(); // Close picker after selection
+  
+    this.fetchTableData(); // Refresh data
+  }
+  
+  
 
   fetchTableData(): void {
     //debugger;

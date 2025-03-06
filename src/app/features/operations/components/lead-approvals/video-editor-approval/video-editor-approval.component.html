@@ -33,6 +33,11 @@
           </th>
           <td mat-cell *matCellDef="let row">{{ row.organizationName }}</td>
         </ng-container>
+
+        <ng-container matColumnDef="sentForApprovalOn">
+          <th mat-header-cell *matHeaderCellDef> Sent For Approval On </th>
+          <td mat-cell *matCellDef="let row"> {{ row.sentForApprovalOn | date: 'dd-MM-yyyy' }} </td>
+        </ng-container>
   
         <ng-container matColumnDef="resourceName">
           <th mat-header-cell *matHeaderCellDef (click)="toggleFilter('resourceName', $event)">

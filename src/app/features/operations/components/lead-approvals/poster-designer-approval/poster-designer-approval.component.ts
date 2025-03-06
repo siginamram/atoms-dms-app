@@ -42,6 +42,7 @@ export class PosterDesignerApprovalComponent implements OnInit {
     'sNo',
     'organizationName',
     'postScheduleOn',
+    'sentForApprovalOn',
     'resourceName',
     'language',
     'contentInPost',
