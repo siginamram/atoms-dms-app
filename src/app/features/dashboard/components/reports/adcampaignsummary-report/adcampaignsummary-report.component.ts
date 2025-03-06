@@ -19,13 +19,14 @@ export class AdcampaignsummaryReportComponent implements OnInit {
     'id',
     'clientName',
     'resultType',
+    'CampaignDuration',
     'totalResult',
     'totalReach',
     'totalImpressions',
     'totalFollowersBeforeCampaign',
     'totalFollowersAfterCampaign',
     'totalAmountSpent',
-    'totalCostPerResult'
+  
   ];
   dataSource = new MatTableDataSource<any>([]);
 

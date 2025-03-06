@@ -3,9 +3,11 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DashboardService } from '../../../services/dashboard.service';
+import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { FormControl } from '@angular/forms';
+import { DmaOperationsEditComponent } from 'src/app/features/operations/components/dma-operations-edit/dma-operations-edit.component';
 
 
 
@@ -33,6 +35,7 @@ export class DmaPendingPostsDashboardComponent implements OnInit {
     'graphicStatus',
     'editor',
     'postStatus',
+    'actions',
   ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -40,7 +43,8 @@ export class DmaPendingPostsDashboardComponent implements OnInit {
   constructor(
     private dashboardService: DashboardService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -167,6 +171,25 @@ export class DmaPendingPostsDashboardComponent implements OnInit {
   resetFilters(): void {
     this.activeFilters = {};
     this.statistics.filter = ''; // Clear all filters
+  }
+
+  editRow(meet: any): void {
+    const isFirstCase = meet.postStatus === 'Yet to Post'; // Check if it's the first case
+  
+    const dialogRef = this.dialog.open(DmaOperationsEditComponent, {
+      width: '600px',
+      data: {
+        isFirstCase, // Pass flag to differentiate the cases
+        meetingData: meet, // Pass the row data
+      },
+    });
+  
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log('Operation Successful:', result);
+        this.fetchPendingPosts(); // Refresh the table after edit or save
+      }
+    });
   }
 
     goBack(): void {

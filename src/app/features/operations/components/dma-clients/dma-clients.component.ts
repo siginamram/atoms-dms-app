@@ -34,6 +34,8 @@ export class DmaClientsComponent implements OnInit {
   selectedDate: any = '';
   showSpinner: boolean = false;
   dataSource1 = new MatTableDataSource<any>([]);
+  filterVisibility: { [key: string]: boolean } = {}; // Tracks open filters
+  activeFilters: { [key: string]: string } = {}; // Stores active filter values
   displayedColumns: string[] = [
     'sno',
     'clientName',
@@ -59,6 +61,33 @@ export class DmaClientsComponent implements OnInit {
   ngOnInit(): void {
     this.dataSource1.paginator = this.paginator; // Attach paginator
     this.fetchClients(); // Fetch initial data
+    this.setupFilter();
+  }
+  toggleFilterVisibility(column: string): void {
+    this.filterVisibility[column] = !this.filterVisibility[column]; // Toggle filter visibility
+  }
+
+  applyFilter(event: Event, column: string): void {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.activeFilters[column] = filterValue || ''; // Store the filter
+    this.dataSource1.filter = JSON.stringify(this.activeFilters); // Ensure Angular detects changes
+  }
+
+  setupFilter(): void {
+    this.dataSource1.filterPredicate = (data, filter) => {
+      const filters = JSON.parse(filter); // Parse stored filters
+      return Object.keys(filters).every((key) => {
+        const filterVal = filters[key];
+        if (!filterVal) return true; // Ignore empty filters
+
+        switch (key) {
+          case 'clientName':
+            return data.clientName?.toLowerCase().includes(filterVal);
+          default:
+            return true;
+        }
+      });
+    };
   }
   ngAfterViewInit(): void {
     this.dataSource1.paginator = this.paginator;
