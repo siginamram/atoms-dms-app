@@ -18,6 +18,7 @@ import { DmaOperationsEditComponent } from 'src/app/features/operations/componen
   styleUrls: ['./dma-pending-posts-dashboard.component.css'],
 })
 export class DmaPendingPostsDashboardComponent implements OnInit {
+  @ViewChild('fullTextDialog') fullTextDialog: any;
   fromDate :any; // Default to the current month
   toDate :any; // Default to the current month
   userId: number = 4;
@@ -30,8 +31,11 @@ export class DmaPendingPostsDashboardComponent implements OnInit {
     'index',
     'organizationName',
     'postScheduleOn',
+    'contentInPost',
+    'contentCaption',
     'contentStatus',
     'contentWriter',
+    'link',
     'graphicStatus',
     'editor',
     'postStatus',
@@ -201,6 +205,15 @@ export class DmaPendingPostsDashboardComponent implements OnInit {
         fromDateValue:formattedFromDate,
          toDateValue:formattedToDate,
         },
+    });
+  }
+  showFullText(text: string, title: string): void {
+    this.dialog.open(this.fullTextDialog, {
+      width: '400px',
+      data: {
+        text: text,
+        title: title,
+      },
     });
   }
 }

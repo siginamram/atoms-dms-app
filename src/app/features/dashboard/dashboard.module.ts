@@ -39,7 +39,7 @@ import { YoutubeVideosDashboardComponent } from './components/youtube-videos-das
 import { DmaPendingPostsDashboardComponent } from './components/reports/dma-pending-posts-dashboard/dma-pending-posts-dashboard.component';
 import { DmaPromotedPostsDashboardComponent } from './components/reports/dma-promoted-posts-dashboard/dma-promoted-posts-dashboard.component';
 import { AdcampaignsummaryReportComponent } from './components/reports/adcampaignsummary-report/adcampaignsummary-report.component';
-
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -86,6 +86,7 @@ import { AdcampaignsummaryReportComponent } from './components/reports/adcampaig
     MatToolbarModule,
     MatPaginatorModule,
     ReactiveFormsModule, 
+    MatDialogModule,
   
   ]
 })
