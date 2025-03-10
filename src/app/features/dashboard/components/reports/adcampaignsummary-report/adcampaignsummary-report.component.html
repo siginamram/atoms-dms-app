@@ -71,9 +71,9 @@
         </ng-container>
   
         <!-- Total Result -->
-        <ng-container matColumnDef="totalResult">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Result</th>
-          <td mat-cell *matCellDef="let campaign">{{ campaign.totalResult }}</td>
+        <ng-container matColumnDef="NoOfCampaigns">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>No.Of Campaigns</th>
+          <td mat-cell *matCellDef="let campaign">{{ campaign.noOfCampaigns }}</td>
         </ng-container>
   
         <!-- Reach -->
@@ -89,15 +89,15 @@
         </ng-container>
   
         <!-- Followers Before -->
-        <ng-container matColumnDef="totalFollowersBeforeCampaign">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Followers Before</th>
-          <td mat-cell *matCellDef="let campaign">{{ campaign.totalFollowersBeforeCampaign }}</td>
+        <ng-container matColumnDef="FollowersIncreased">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Followers Increased</th>
+          <td mat-cell *matCellDef="let campaign">{{ campaign.followersIncreased }}</td>
         </ng-container>
   
         <!-- Followers After -->
-        <ng-container matColumnDef="totalFollowersAfterCampaign">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Followers After</th>
-          <td mat-cell *matCellDef="let campaign">{{ campaign.totalFollowersAfterCampaign }}</td>
+        <ng-container matColumnDef="CurrentFollowers">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Current Followers</th>
+          <td mat-cell *matCellDef="let campaign">{{ campaign.currentFollowers }}</td>
         </ng-container>
   
         <!-- Amount Spent -->
@@ -108,8 +108,8 @@
   
         <!-- Cost Per Result -->
         <ng-container matColumnDef="CampaignDuration">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Campaign Duration</th>
-          <td mat-cell *matCellDef="let campaign">{{ campaign.totalCostPerResult }}</td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Campaign Duration(In day's)</th>
+          <td mat-cell *matCellDef="let campaign">{{ campaign.campaignDuration }}</td>
         </ng-container>
   
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
