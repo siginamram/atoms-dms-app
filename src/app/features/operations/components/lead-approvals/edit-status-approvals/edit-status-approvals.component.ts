@@ -30,6 +30,8 @@ export class EditStatusApprovalsComponent implements OnInit {
       contentInPost:[this.data.contentInPost],
       contentCaption:[this.data.contentCaption],
       referenceDoc:[this.data.referenceDoc],
+      title:[this.data.title],
+      description:[this.data.description],
       status: ['', Validators.required],
       remarks: [{ value: '', disabled: true }, Validators.required]
     });
@@ -50,15 +52,23 @@ export class EditStatusApprovalsComponent implements OnInit {
   onSubmit() {
     if (this.editForm.valid) {
       const formData = this.editForm.value;
-      const payload = {
-        monthlyTrackerId: this.data.monthlyTrackerId, // Assume this is passed via MAT_DIALOG_DATA
-        status: formData.status,
-        userId: this.data.userId, // Assume this is passed via MAT_DIALOG_DATA
-        remarks: formData.remarks || '', // Optional field
-        creativeTypeId: this.data.creativeType ,// Assume this is passed via MAT_DIALOG_DATA
-        contentInPost:formData.contentInPost,
-        caption:formData.contentCaption
+      const payload: any = {
+        monthlyTrackerId: this.data.monthlyTrackerId, 
+        userId: this.data.userId, 
+        remarks: formData.remarks || '', 
+        creativeTypeId: this.data.creativeType,
+        contentInPost: formData.contentInPost,
+        caption: formData.contentCaption,
+        title: formData.title,
+        description: formData.description
       };
+      
+      // ✅ Dynamically Assign 'status' or 'contentStatus' Based on Role
+      if (this.data.role === "Content-Video") {
+        payload.contentStatus = formData.status;
+      } else {
+        payload.status = formData.status;
+      }
   
       this.operationsService.UpdateApprovalStatus(payload).subscribe({
         next: (response) => {

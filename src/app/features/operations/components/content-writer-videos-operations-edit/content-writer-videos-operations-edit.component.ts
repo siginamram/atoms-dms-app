@@ -31,7 +31,7 @@ export class ContentWriterVideosOperationsEditComponent implements OnInit {
         ),
       ]],
       description: ['', Validators.required],
-      status: [2], // Default to draft
+      contentStatus: [2], // Default to draft
     });
     
   }
@@ -49,11 +49,11 @@ export class ContentWriterVideosOperationsEditComponent implements OnInit {
       const payload = {
         ...this.emergencyRequestForm.value,
         monthlyTrackerId: this.data.monthlyTrackerId,
-        status: 2, // Draft status
+        contentStatus: 2, // Draft status
         createdBy: this.userId,
       };
 
-      this.operationsService.UpdateClientMonthlyVideoURL(payload).subscribe({
+      this.operationsService.UpdateClientMonthlyVideoTitle(payload).subscribe({
         next: (response: string) => {
           if (response === 'Success') {
             this.openAlertDialog('Success', 'Draft Saved Successfully!');
@@ -77,11 +77,11 @@ export class ContentWriterVideosOperationsEditComponent implements OnInit {
       const payload = {
         ...this.emergencyRequestForm.value,
         monthlyTrackerId: this.data.monthlyTrackerId,
-        status: 3, // Approval status
+        contentStatus: 3, // Approval status
         createdBy: this.userId,
       };
 
-      this.operationsService.UpdateClientMonthlyVideoURL(payload).subscribe({
+      this.operationsService.UpdateClientMonthlyVideoTitle(payload).subscribe({
         next: (response: string) => {
           if (response === 'Success') {
             this.openAlertDialog('Success', 'Sent For Approval Successfully!');

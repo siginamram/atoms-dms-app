@@ -244,4 +244,25 @@ export class OperationsService {
     const apiUrl = `${this.baseApiUrl}/api/Client/GetAdCampaignReportByDateRangeAndDmaId/${userId}/${startDate}/${endDate}`;
     return this.http.get(apiUrl);
   }
+
+  
+  getClientsVideosByContentWriter(userId: number, date: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/ClientsVideosByContentWriter/${userId}/${date}`;
+    return this.http.get(apiUrl);
+  }
+
+  ContentWriterMonthlyVideosTracker(clientId: number, date: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/ContentWriterMonthlyVideosTracker/${clientId}/${date}`;
+    return this.http.get(apiUrl);
+  }
+
+  UpdateClientMonthlyVideoTitle(payload: any): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/UpdateClientMonthlyVideoTitle`;
+    return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+  }
+
+  videoContentApprovalRequests(userId: number, date: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/videoContentApprovalRequests/${userId}/${date}`;
+    return this.http.get(apiUrl);
+  }
 }

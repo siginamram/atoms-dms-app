@@ -1,25 +1,22 @@
 <div class="dashboard-container">
   <h2>Content Writer Dashboard</h2>
-    <!-- Date Filters -->
-    <div class="filters-container">
-      <mat-form-field appearance="outline">
-        <mat-label>Month and Year</mat-label>
-        <input
-          matInput
-          [matDatepicker]="dp"
-          [formControl]="date"
-          placeholder="MM/YYYY"
-          readonly
-        />
-        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-        <mat-datepicker
-          #dp
-          startView="multi-year"
-          (monthSelected)="setMonthAndYear($event, dp)"
-          panelClass="example-month-picker"
-        ></mat-datepicker>
-      </mat-form-field>
-    </div>
+<!-- Date Filters -->
+<div class="filters-container">
+  <mat-form-field appearance="outline">
+    <mat-label>From Date</mat-label>
+    <input matInput [matDatepicker]="fromDatePicker" [formControl]="fromDate" placeholder="YYYY-MM-DD" readonly />
+    <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+    <mat-datepicker #fromDatePicker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>To Date</mat-label>
+    <input matInput [matDatepicker]="toDatePicker" [formControl]="toDate" placeholder="YYYY-MM-DD" readonly />
+    <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
+    <mat-datepicker #toDatePicker></mat-datepicker>
+  </mat-form-field>
+</div>
+
     
     <div  class="spinner" *ngIf="showSpinner">
       <mat-spinner></mat-spinner>

@@ -7,6 +7,9 @@
       <button  [class.active]="activeTab === 'content'" (click)="activeTab = 'content'">
         <mat-icon>text_snippet</mat-icon>Content       
       </button>
+      <button  [class.active]="activeTab === 'videocontent'" (click)="activeTab = 'videocontent'">
+        <mat-icon>video_library</mat-icon>Viedo's Content       
+      </button>
       <button [class.active]="activeTab === 'poster'" (click)="activeTab = 'poster'">
         <mat-icon>palette</mat-icon>Posters
       </button>
@@ -20,6 +23,9 @@
   
     <div *ngIf="activeTab === 'content'">
       <app-content-writers-approval></app-content-writers-approval>
+    </div>
+    <div *ngIf="activeTab === 'videocontent'">
+      <app-content-writers-videos-approval></app-content-writers-videos-approval>
     </div>
     <div *ngIf="activeTab === 'poster'">
       <app-poster-designer-approval></app-poster-designer-approval>

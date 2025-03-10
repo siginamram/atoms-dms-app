@@ -73,6 +73,7 @@ import { AddClientVideosEmergrncyRequestComponent } from './components/add-clien
 import { ContentWriterVideosClientsComponent } from './components/content-writer-videos-clients/content-writer-videos-clients.component';
 import { ContentWriterVideosOperationsComponent } from './components/content-writer-videos-operations/content-writer-videos-operations.component';
 import { ContentWriterVideosOperationsEditComponent } from './components/content-writer-videos-operations-edit/content-writer-videos-operations-edit.component';
+import { ContentWritersVideosApprovalComponent } from './components/lead-approvals/content-writers-videos-approval/content-writers-videos-approval.component';
 
 const MY_FORMATS = {
   parse: {
@@ -134,6 +135,7 @@ const MY_FORMATS = {
     ContentWriterVideosClientsComponent,
     ContentWriterVideosOperationsComponent,
     ContentWriterVideosOperationsEditComponent,
+    ContentWritersVideosApprovalComponent,
   ],
   imports: [
     CommonModule,

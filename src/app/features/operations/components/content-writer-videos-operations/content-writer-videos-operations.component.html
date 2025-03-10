@@ -6,7 +6,7 @@
       </button>
       <span>{{this.clientName}}</span>
       <span class="spacer"></span>
-      <button mat-raised-button color="accent" class="add-button" (click)="addNewEntry()">+ Add Emergency Request</button>
+      <!-- <button mat-raised-button color="accent" class="add-button" (click)="addNewEntry()">+ Add Emergency Request</button> -->
     </mat-toolbar>
   
   <!-- Filters Section -->
@@ -89,9 +89,14 @@
     </ng-container>
 
     <!-- Status Column -->
-    <ng-container matColumnDef="approvalStatus">
+    <ng-container matColumnDef="contentStatus">
       <th mat-header-cell *matHeaderCellDef>Status</th>
-      <td mat-cell *matCellDef="let video">{{ video.status }}</td>
+      <!-- <td mat-cell *matCellDef="let video">{{ video.contentStatus }}</td> -->
+      <td mat-cell *matCellDef="let video">
+        <mat-chip [ngClass]="getStatusClass(video.contentStatus)">
+          {{ video.contentStatus }}
+        </mat-chip>
+      </td>
     </ng-container>
 
     <!-- Remarks Column -->
@@ -117,7 +122,7 @@
         mat-button 
         color="accent" 
         (click)="openEditPopup(row)" 
-        [disabled]="row.status === 'Approved' || row.status === 'Sent for client approval'">
+        [disabled]="row.contentStatus === 'Approved' || row.status === 'Sent for client approval'">
         <mat-icon>edit</mat-icon>
       </button>
       </td>

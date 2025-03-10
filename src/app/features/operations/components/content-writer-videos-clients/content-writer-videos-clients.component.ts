@@ -67,7 +67,7 @@ export class ContentWriterVideosClientsComponent implements OnInit {
       return;
     }
     this.showSpinner = true;
-    this.operationsService.getclientsByVideoEditor(this.userId, this.selectedDate).subscribe({
+    this.operationsService.getClientsVideosByContentWriter(this.userId, this.selectedDate).subscribe({
       next: (response: any[]) => {
         this.showSpinner = false;
         this.dataSource1.data = response.map((client, index) => ({

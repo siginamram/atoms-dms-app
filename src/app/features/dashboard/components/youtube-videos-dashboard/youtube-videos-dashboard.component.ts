@@ -1,38 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDatepicker } from '@angular/material/datepicker';
 import { FormControl } from '@angular/forms';
 import { DashboardService } from '../../services/dashboard.service';
-import { ChartOptions } from 'chart.js';
-import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import * as moment from 'moment';
 import { ActivatedRoute } from '@angular/router';
-
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'MM/YYYY',
-  },
-  display: {
-    dateInput: 'MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
+import { ChartOptions } from 'chart.js';
 
 @Component({
   selector: 'app-youtube-videos-dashboard',
-  standalone: false,
+  standalone:false,
   templateUrl: './youtube-videos-dashboard.component.html',
   styleUrls: ['./youtube-videos-dashboard.component.css'],
-  providers: [provideMomentDateAdapter(MY_FORMATS)],
 })
 export class YoutubeVideosDashboardComponent implements OnInit {
   showSpinner: boolean = false;
   kpis: any[] = [];
   graphs: any[] = [];
   clientWiseData: any[] = [];
-  date = new FormControl(moment());
+
+  fromDate = new FormControl(moment().startOf('month')); // ✅ First day of month
+  toDate = new FormControl(moment().endOf('month')); // ✅ Last day of month
   userId: number = 0;
+  creativeTypeId: number = 3; // YouTube Video Creative Type
 
   totals = {
     noOfRequiredVideos: 0,
@@ -47,91 +35,66 @@ export class YoutubeVideosDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      // Check if `userId` exists in query params and is a valid number
-      const queryUserId = +params['userId'];
-      if (!isNaN(queryUserId) && queryUserId > 0) {
-        this.userId = queryUserId;
-      } else {
-        // Fallback to `localStorage` if `userId` is not present or invalid
-        this.userId = parseInt(localStorage.getItem('UserID') || '0', 10);
-      }
+      this.userId = +params['userId'] || parseInt(localStorage.getItem('UserID') || '0', 10);
     });
-  
-    // Ensure `userId` is valid before fetching data
-    if (this.userId && this.userId > 0) {
-      this.fetchDashboardData(); // Fetch data on page load
-    } else {
-      console.error('Invalid userId: Unable to fetch dashboard data');
+
+    // ✅ Fetch data when the component initializes
+    this.fetchDashboardData();
+
+    // ✅ Automatically fetch data when dates are changed
+    this.fromDate.valueChanges.subscribe(() => this.updateDateFilters());
+    this.toDate.valueChanges.subscribe(() => this.updateDateFilters());
+  }
+
+  updateDateFilters(): void {
+    if (!this.fromDate.value || !this.toDate.value) {
+      console.warn("⚠️ Both From and To dates are required!");
+      return;
     }
+
+    const fdate = moment(this.fromDate.value).format('YYYY-MM-DD');
+    const tdate = moment(this.toDate.value).format('YYYY-MM-DD');
+
+    if (moment(fdate).isAfter(moment(tdate))) {
+      console.warn("⚠️ 'From Date' cannot be after 'To Date'!");
+      return;
+    }
+
+    console.log(`📅 Fetching data for: From ${fdate} → To ${tdate}`);
+    this.fetchDashboardData();
   }
 
   fetchDashboardData(): void {
     this.showSpinner = true;
-    const selectedDate = this.date.value?.format('YYYY-MM') + '-01';
+    const fdate = moment(this.fromDate.value).format('YYYY-MM-DD');
+    const tdate = moment(this.toDate.value).format('YYYY-MM-DD');
 
-    this.dashboardService
-      .GetVideoEditorDashboardByMonth(this.userId, selectedDate, 3)
-      .subscribe(
-        (data: any) => {
-          if (data) {
-            this.showSpinner = false;
-            this.updateKPI(data.videoEditorMonthlyTask);
-            this.updateGraphs(data.videoEditorDayTrackers);
-            this.clientWiseData = data.clientWiseMonthlyVideoEditorTrackers || [];
-            this.calculateTotals();
-          }
-        },
-        (error) => {
-          this.showSpinner = false;
-          console.error('Error fetching data:', error);
+    this.dashboardService.GetVideoEditorDashboardByMonth(this.userId, fdate, tdate, this.creativeTypeId).subscribe(
+      (data: any) => {
+        this.showSpinner = false;
+        if (data) {
+          this.updateKPI(data.videoEditorMonthlyTask);
+          this.updateGraphs(data.videoEditorDayTrackers);
+          this.clientWiseData = data.clientWiseMonthlyVideoEditorTrackers || [];
+          this.calculateTotals();
         }
-      );
+      },
+      (error) => {
+        this.showSpinner = false;
+        console.error('Error fetching data:', error);
+      }
+    );
   }
 
   updateKPI(kpiData: any): void {
     this.kpis = [
-      {
-        title: 'Total Clients',
-        value: kpiData.totalClients,
-        icon: 'groups',
-        color: '#4CAF50',
-      },
-      {
-        title: 'Youtube Videos Edited',
-        value: kpiData.totalVideosEdited,
-        icon: 'photo_library',
-        color: '#2196F3',
-      },
-      {
-        title: 'Approved Youtube Videos',
-        value: kpiData.totalApprovedVideos,
-        icon: 'check_circle',
-        color: '#8BC34A',
-      },
-      {
-        title: 'Lead Approvals Pending',
-        value: kpiData.totalManagerApprovalPending,
-        icon: 'supervisor_account',
-        color: '#FFC107',
-      },
-      {
-        title: 'Client Approvals Pending',
-        value: kpiData.totalClientApprovalPending,
-        icon: 'how_to_reg',
-        color: '#FF9800',
-      },
-      {
-        title: 'Changes Recommended',
-        value: kpiData.totalChangesRecommended,
-        icon: 'edit',
-        color: '#FF5722',
-      },
-      {
-        title: 'Total Youtube Videos Pending',
-        value: kpiData.totalVideosPending,
-        icon: 'hourglass_empty',
-        color: '#FF7043',
-      },
+      { title: 'Total Clients', value: kpiData.totalClients, icon: 'groups', color: '#4CAF50' },
+      { title: 'YouTube Videos Edited', value: kpiData.totalVideosEdited, icon: 'photo_library', color: '#2196F3' },
+      { title: 'Approved YouTube Videos', value: kpiData.totalApprovedVideos, icon: 'check_circle', color: '#8BC34A' },
+      { title: 'Lead Approvals Pending', value: kpiData.totalManagerApprovalPending, icon: 'supervisor_account', color: '#FFC107' },
+      { title: 'Client Approvals Pending', value: kpiData.totalClientApprovalPending, icon: 'how_to_reg', color: '#FF9800' },
+      { title: 'Changes Recommended', value: kpiData.totalChangesRecommended, icon: 'edit', color: '#FF5722' },
+      { title: 'Total YouTube Videos Pending', value: kpiData.totalVideosPending, icon: 'hourglass_empty', color: '#FF7043' },
     ];
   }
 
@@ -141,12 +104,12 @@ export class YoutubeVideosDashboardComponent implements OnInit {
 
     this.graphs = [
       {
-        title: 'Youtube Videos Over Time',
+        title: 'YouTube Videos Over Time',
         labels,
         data: {
           datasets: [
             {
-              label: 'Youtube Videos',
+              label: 'YouTube Videos',
               data: dataPoints,
               borderColor: '#007BFF',
               fill: false,
@@ -161,22 +124,8 @@ export class YoutubeVideosDashboardComponent implements OnInit {
   chartOptions: ChartOptions<'line'> = {
     responsive: true,
     maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: true,
-        position: 'top',
-      },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false,
-        },
-      },
-      y: {
-        beginAtZero: true,
-      },
-    },
+    plugins: { legend: { display: true, position: 'top' } },
+    scales: { x: { grid: { display: false } }, y: { beginAtZero: true } },
   };
 
   calculateTotals(): void {
@@ -199,14 +148,5 @@ export class YoutubeVideosDashboardComponent implements OnInit {
         totalChangesRecommended: 0,
       }
     );
-  }
-
-  setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
-    const ctrlValue = this.date.value || moment();
-    ctrlValue.month(normalizedMonthAndYear.month());
-    ctrlValue.year(normalizedMonthAndYear.year());
-    this.date.setValue(ctrlValue);
-    datepicker.close();
-    this.fetchDashboardData();
   }
 }

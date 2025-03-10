@@ -29,7 +29,17 @@
     </a>
     <span *ngIf="!editForm.get('referenceDoc')?.value">No URL available</span>
   </div>
-        
+      </div>
+      <div class="form-row" *ngIf="data.role=='Content-Video'">
+        <mat-form-field appearance="outline" class="content-field">
+          <mat-label>Content title</mat-label>
+          <textarea matInput formControlName="title" ></textarea>
+        </mat-form-field>
+    
+        <mat-form-field appearance="outline" class="content-field">
+          <mat-label>Caption</mat-label>
+          <textarea matInput formControlName="description" ></textarea>
+        </mat-form-field>
       </div>
       <div class="form-row">
         <!-- Status Dropdown -->

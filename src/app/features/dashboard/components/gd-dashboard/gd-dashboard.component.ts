@@ -1,39 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDatepicker } from '@angular/material/datepicker';
 import { FormControl } from '@angular/forms';
 import { DashboardService } from '../../services/dashboard.service';
-import { ChartOptions } from 'chart.js';
-import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import * as moment from 'moment';
 import { ActivatedRoute } from '@angular/router';
-
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'MM/YYYY',
-  },
-  display: {
-    dateInput: 'MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
+import { ChartOptions } from 'chart.js';
 
 @Component({
   selector: 'app-gd-dashboard',
   standalone:false,
   templateUrl: './gd-dashboard.component.html',
-  styleUrl: './gd-dashboard.component.css',
-   providers: [provideMomentDateAdapter(MY_FORMATS)],
+  styleUrls: ['./gd-dashboard.component.css'],
 })
 export class GdDashboardComponent implements OnInit {
   showSpinner: boolean = false;
   kpis: any[] = [];
   graphs: any[] = [];
   clientWiseData: any[] = [];
-  date = new FormControl(moment());
+
+  fromDate = new FormControl(moment().startOf('month')); // Default: First day of month
+  toDate = new FormControl(moment().endOf('month')); // Default: Last day of month
   userId: number = 0;
-  
+
   totals = {
     noOfRequiredPosters: 0,
     totalPostersDesigned: 0,
@@ -47,98 +34,74 @@ export class GdDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      // Check if `userId` exists in query params and is a valid number
-      const queryUserId = +params['userId'];
-      if (!isNaN(queryUserId) && queryUserId > 0) {
-        this.userId = queryUserId;
-      } else {
-        // Fallback to `localStorage` if `userId` is not present or invalid
-        this.userId = parseInt(localStorage.getItem('UserID') || '0', 10);
-      }
+      this.userId = +params['userId'] || parseInt(localStorage.getItem('UserID') || '0', 10);
     });
-  
-    // Ensure `userId` is valid before fetching data
-    if (this.userId && this.userId > 0) {
-      this.fetchDashboardData(); // Fetch data on page load
+
+    // ✅ Automatically update when date filters change
+    this.fromDate.valueChanges.subscribe(() => this.updateDateFilters());
+    this.toDate.valueChanges.subscribe(() => this.updateDateFilters());
+
+    if (this.userId > 0) {
+      this.fetchDashboardData();
     } else {
       console.error('Invalid userId: Unable to fetch dashboard data');
     }
   }
 
+  updateDateFilters(): void {
+    if (!this.fromDate.value || !this.toDate.value) {
+      console.warn("⚠️ Both From and To dates are required!");
+      return;
+    }
+
+    const fdate = moment(this.fromDate.value).format('YYYY-MM-DD');
+    const tdate = moment(this.toDate.value).format('YYYY-MM-DD');
+
+    if (moment(fdate).isAfter(moment(tdate))) {
+      console.warn("⚠️ 'From Date' cannot be after 'To Date'!");
+      return;
+    }
+
+    console.log(`📅 Fetching data for: From ${fdate} → To ${tdate}`);
+    this.fetchDashboardData();
+  }
+
   fetchDashboardData(): void {
     this.showSpinner = true;
-    const selectedDate = this.date.value?.format('YYYY-MM') + '-01';
+    const fdate = moment(this.fromDate.value).format('YYYY-MM-DD');
+    const tdate = moment(this.toDate.value).format('YYYY-MM-DD');
 
-    this.dashboardService
-      .GetGraphicDesignerDashboardByMonth(this.userId, selectedDate)
-      .subscribe(
-        (data: any) => {
-          if (data) {
-            this.showSpinner = false;
-            this.updateKPI(data.posterDesignerMonthlyTask);
-            this.updateGraphs(data.posterDesignerDayTrackers);
-            this.clientWiseData = data.clientWiseMonthlyPosterDesignerTrackers || [];
-            this.calculateTotals();
-          }
-        },
-        (error) => {
-          this.showSpinner = false;
-          console.error('Error fetching data:', error);
+    this.dashboardService.GetGraphicDesignerDashboardByMonth(this.userId, fdate, tdate).subscribe(
+      (data: any) => {
+        this.showSpinner = false;
+        if (data) {
+          this.updateKPI(data.posterDesignerMonthlyTask);
+          this.updateGraphs(data.posterDesignerDayTrackers);
+          this.clientWiseData = data.clientWiseMonthlyPosterDesignerTrackers || [];
+          this.calculateTotals();
         }
-      );
+      },
+      (error) => {
+        this.showSpinner = false;
+        console.error('Error fetching data:', error);
+      }
+    );
   }
 
   updateKPI(kpiData: any): void {
     this.kpis = [
-      {
-        title: 'Total Clients',
-        value: kpiData.totalClients,
-        icon: 'groups',
-        color: '#4CAF50',
-      },
-      {
-        title: 'Graphic Videos Designed',
-        value: kpiData.totalPostersDesigned,
-        icon: 'photo_library',
-        color: '#2196F3',
-      },
-      {
-        title: 'Approved Graphic Videos',
-        value: kpiData.totalApprovedPosters,
-        icon: 'check_circle',
-        color: '#8BC34A',
-      },
-      {
-        title: 'Lead Approvals Pending',
-        value: kpiData.totalManagerApprovalPending,
-        icon: 'supervisor_account',
-        color: '#FFC107',
-      },
-      {
-        title: 'Client Approvals Pending',
-        value: kpiData.totalClientApprovalPending,
-        icon: 'how_to_reg',
-        color: '#FF9800',
-      },
-      {
-        title: 'Changes Recommended',
-        value: kpiData.totalChangesRecommended,
-        icon: 'edit',
-        color: '#FF5722',
-      },
-      {
-        title: 'Total Graphic Videos Pending',
-        value: kpiData.totalPostersPending,
-        icon: 'hourglass_empty',
-        color: '#FF7043',
-      },
+      { title: 'Total Clients', value: kpiData.totalClients, icon: 'groups', color: '#4CAF50' },
+      { title: 'Graphic Videos Designed', value: kpiData.totalPostersDesigned, icon: 'photo_library', color: '#2196F3' },
+      { title: 'Approved Graphic Videos', value: kpiData.totalApprovedPosters, icon: 'check_circle', color: '#8BC34A' },
+      { title: 'Lead Approvals Pending', value: kpiData.totalManagerApprovalPending, icon: 'supervisor_account', color: '#FFC107' },
+      { title: 'Client Approvals Pending', value: kpiData.totalClientApprovalPending, icon: 'how_to_reg', color: '#FF9800' },
+      { title: 'Changes Recommended', value: kpiData.totalChangesRecommended, icon: 'edit', color: '#FF5722' },
+      { title: 'Total Graphic Videos Pending', value: kpiData.totalPostersPending, icon: 'hourglass_empty', color: '#FF7043' },
     ];
   }
 
   updateGraphs(dayTrackerData: any[]): void {
-    const labels = dayTrackerData.map((item) =>
-      moment(item.day).format('DD')
-    );
+    const labels = dayTrackerData.map((item) => moment(item.day).format('DD'));
     const dataPoints = dayTrackerData.map((item) => item.totalPostersDesigned);
 
     this.graphs = [
@@ -163,22 +126,8 @@ export class GdDashboardComponent implements OnInit {
   chartOptions: ChartOptions<'line'> = {
     responsive: true,
     maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: true,
-        position: 'top',
-      },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false,
-        },
-      },
-      y: {
-        beginAtZero: true,
-      },
-    },
+    plugins: { legend: { display: true, position: 'top' } },
+    scales: { x: { grid: { display: false } }, y: { beginAtZero: true } },
   };
 
   calculateTotals(): void {
@@ -201,14 +150,5 @@ export class GdDashboardComponent implements OnInit {
         totalChangesRecommended: 0,
       }
     );
-  }
-
-  setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
-    const ctrlValue = this.date.value || moment();
-    ctrlValue.month(normalizedMonthAndYear.month());
-    ctrlValue.year(normalizedMonthAndYear.year());
-    this.date.setValue(ctrlValue);
-    datepicker.close();
-    this.fetchDashboardData();
   }
 }

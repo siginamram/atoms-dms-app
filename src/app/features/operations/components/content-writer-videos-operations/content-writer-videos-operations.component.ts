@@ -53,7 +53,7 @@ export class ContentWriterVideosOperationsComponent implements OnInit {
     'thumbNail',
     'title',
     'description',
-    'approvalStatus',
+    'contentStatus',
     'remarks',
     'actions',
     
@@ -100,55 +100,89 @@ export class ContentWriterVideosOperationsComponent implements OnInit {
 
   fetchTableData(): void {
     if (!this.clientId || !this.selectedDate) {
-      console.warn('Missing clientId or date');
+      console.warn("Missing clientId or date");
       return;
     }
     this.showSpinner = true;
+  
     this.operationsService
-      .videoEditorMonthlyTracker(this.clientId, this.selectedDate)
+      .ContentWriterMonthlyVideosTracker(this.clientId, this.selectedDate)
       .subscribe({
         next: (response: any[]) => {
           this.showSpinner = false;
+          
+          console.log("📌 API Response:", response); // 🔍 Debug API response
+  
           this.contentData.data = response.map((item, index) => ({
             id: index + 1,
-            creativeType:item.creativeType,
+            creativeType: item.creativeType,
             shootLink: item.shootLink,
             editorLink: item.editorLink,
-            title: item.title ,
-            description: item.description ,
-            status: this.mapGraphicStatus(item.status),
-            remarks: item.remarks ,
-            thumbNail: item.thumbNail ,
-            monthlyTrackerId:item.monthlyTrackerId,
-            postScheduleOn:item.postScheduleOn,
+            title: item.title,
+            description: item.description,
+            contentStatus: this.mapGraphicStatus(item.contentStatus), // ✅ Corrected
+            remarks: item.contentRemarks,
+            thumbNail: item.thumbNail,
+            monthlyTrackerId: item.monthlyTrackerId,
+            postScheduleOn: item.postScheduleOn,
           }));
-          this.cdr.markForCheck(); // Trigger change detection
+  
+          this.cdr.markForCheck();
         },
         error: (error) => {
-          console.error('Error fetching table data:', error);
-          this.contentData.data = []; // Clear table data on error
+          console.error("Error fetching table data:", error);
+          this.contentData.data = [];
         },
       });
   }
-  mapCreativeType(status: number): string {
+  
+  mapCreativeType(contentStatus: number): string {
     const statusMap: { [key: number]: string } = {
       3: 'YouTube Videos',
       4: 'Educational Reels',
     };
-    return statusMap[status] || 'Unknown Type';
+    return statusMap[contentStatus] || 'Unknown Type';
   }
-  mapGraphicStatus(status: number): string {
+
+
+  mapGraphicStatus(contentStatus: any): string {
+    if (contentStatus == null || contentStatus === undefined) {
+      return 'Unknown Status'; // Handle null/undefined
+    }
+  
+    // Convert string statuses to numbers if needed
     const statusMap: { [key: number]: string } = {
       1: 'Yet to Start',
       2: 'Draft Saved',
       3: 'Sent for Approval',
       4: 'Changes Recommended',
       5: 'Approved',
-      6: 'Sent for client approval'
+      6: 'Sent for Client Approval',
     };
-    return statusMap[status] || 'Unknown Status';
+  
+    // If status is a string like "Sent for Approval", try converting
+    if (typeof contentStatus === 'string') {
+      const reverseStatusMap: { [key: string]: number } = Object.fromEntries(
+        Object.entries(statusMap).map(([key, value]) => [value.toLowerCase(), Number(key)])
+      );
+  
+      const lowerStatus = contentStatus.trim().toLowerCase();
+      if (reverseStatusMap[lowerStatus] !== undefined) {
+        contentStatus = reverseStatusMap[lowerStatus];
+      } else {
+        return 'Unknown Status'; // If it's an unrecognized string
+      }
+    }
+  
+    // Convert number-like strings ("1") to numbers (1)
+    contentStatus = Number(contentStatus);
+  
+    return statusMap[contentStatus] || 'Unknown Status';
   }
-
+  getStatusClass(contentStatus: any): string {
+    const statusText = this.mapGraphicStatus(contentStatus).toLowerCase().replace(/\s+/g, '-');
+    return `status-${statusText}`;
+  }
   setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>): void {
     const ctrlValue = this.date.value ?? moment();
     ctrlValue.month(normalizedMonthAndYear.month());

@@ -26,8 +26,8 @@ export class DashboardService {
     return this.http.get(apiUrl);
   }
 
-  GetcontentDashboardByUser(userId: number, date: string): Observable<any> {
-    const apiUrl = `${this.baseApiUrl}/api/Dashboard/GetcontentDashboardByUser/${userId}/${date}`;
+  GetcontentDashboardByUser(userId: number,  fdate: string,tdate: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Dashboard/GetcontentDashboardByUser/${userId}/${fdate}/${tdate}`;
     return this.http.get(apiUrl);
   }
 
@@ -51,18 +51,18 @@ export class DashboardService {
     return this.http.get(apiUrl);
   }
 
-  GetPosterDesignerDashboardByUser(userId: number, date: string): Observable<any> {
-    const apiUrl = `${this.baseApiUrl}/api/Dashboard/GetPosterDesignerDashboardByUser/${userId}/${date}`;
+  GetPosterDesignerDashboardByUser(userId: number,fdate: string,tdate: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Dashboard/GetPosterDesignerDashboardByUser/${userId}/${fdate}/${tdate}`;
     return this.http.get(apiUrl);
   }
 
-  GetGraphicDesignerDashboardByMonth(userId: number, date: string): Observable<any> {
-    const apiUrl = `${this.baseApiUrl}/api/Dashboard/GetGraphicDesignerDashboardByMonth/${userId}/${date}`;
+  GetGraphicDesignerDashboardByMonth(userId: number,  fdate: string,tdate: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Dashboard/GetGraphicDesignerDashboardByMonth/${userId}/${fdate}/${tdate}`;
     return this.http.get(apiUrl);
   }
 
-  GetVideoEditorDashboardByMonth(userId: number, date: string,creativeTypeId:number): Observable<any> {
-    const apiUrl = `${this.baseApiUrl}/api/Dashboard/GetVideoEditorDashboardByMonth/${userId}/${date}/${creativeTypeId}`;
+  GetVideoEditorDashboardByMonth(userId: number, fdate: string,tdate: string,creativeTypeId:number): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Dashboard/GetVideoEditorDashboardByMonth/${userId}/${fdate}/${tdate}/${creativeTypeId}`;
     return this.http.get(apiUrl);
   }
 
