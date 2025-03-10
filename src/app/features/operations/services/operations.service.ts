@@ -265,4 +265,9 @@ export class OperationsService {
     const apiUrl = `${this.baseApiUrl}/api/Operations/videoContentApprovalRequests/${userId}/${date}`;
     return this.http.get(apiUrl);
   }
+
+  videoContentApprovalHistory(userId: number, date: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/videoContentApprovalHistory/${userId}/${date}`;
+    return this.http.get(apiUrl);
+  }
 }

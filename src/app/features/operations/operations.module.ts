@@ -74,6 +74,7 @@ import { ContentWriterVideosClientsComponent } from './components/content-writer
 import { ContentWriterVideosOperationsComponent } from './components/content-writer-videos-operations/content-writer-videos-operations.component';
 import { ContentWriterVideosOperationsEditComponent } from './components/content-writer-videos-operations-edit/content-writer-videos-operations-edit.component';
 import { ContentWritersVideosApprovalComponent } from './components/lead-approvals/content-writers-videos-approval/content-writers-videos-approval.component';
+import { ContentWritersVideosApprovalHistoryComponent } from './components/lead-approvals-history/content-writers-videos-approval-history/content-writers-videos-approval-history.component';
 
 const MY_FORMATS = {
   parse: {
@@ -136,6 +137,7 @@ const MY_FORMATS = {
     ContentWriterVideosOperationsComponent,
     ContentWriterVideosOperationsEditComponent,
     ContentWritersVideosApprovalComponent,
+    ContentWritersVideosApprovalHistoryComponent,
   ],
   imports: [
     CommonModule,
