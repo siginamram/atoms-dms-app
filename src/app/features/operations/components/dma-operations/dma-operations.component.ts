@@ -182,41 +182,119 @@ export class DmaOperationsComponent implements OnInit {
     });
   }
  // Helper method to map status numbers to text
- getStatusText(status: number): string {
-  switch (status) {
-    case 1:
-      return 'Yet to start';
-    case 2:
-      return 'Saved in draft';
-    case 3:
-      return 'Send for approval';
-    case 4:
-      return 'Changes recommended';
-    case 5:
-      return 'Approved';
-      case 6:
-        return 'Sent for client approval';
-    default:
-      return 'Unknown status';
+//  getStatusText(status: number): string {
+//   switch (status) {
+//     case 1:
+//       return 'Yet to start';
+//     case 2:
+//       return 'Saved in draft';
+//     case 3:
+//       return 'Send for approval';
+//     case 4:
+//       return 'Changes recommended';
+//     case 5:
+//       return 'Approved';
+//       case 6:
+//         return 'Sent for client approval';
+//     default:
+//       return 'Unknown status';
+//   }
+// }
+
+// getpostStatus(status: number): string {
+//   switch (status) {
+//     case 1:
+//       return 'Yet to Post';
+//     case 2:
+//       return 'Early Post';
+//     case 3:
+//       return 'On Time Post';
+//     case 4:
+//       return 'Late Posted';
+//     case 5:
+//         return 'Client Rejected';
+//     default:
+//       return 'N/A';
+//   }
+// }
+getStatusText(status: any): string {
+  if (status == null || status === undefined) {
+    return 'Unknown Status'; // Handle null/undefined
   }
+
+  // Convert string statuses to numbers if needed
+  const statusMap: { [key: number]: string } = {
+    1: 'Yet to Start',
+    2: 'Draft Saved',
+    3: 'Sent for Approval',
+    4: 'Changes Recommended',
+    5: 'Approved',
+    6: 'Sent for Client Approval',
+  };
+
+  // If status is a string like "Sent for Approval", try converting
+  if (typeof status === 'string') {
+    const reverseStatusMap: { [key: string]: number } = Object.fromEntries(
+      Object.entries(statusMap).map(([key, value]) => [value.toLowerCase(), Number(key)])
+    );
+
+    const lowerStatus = status.trim().toLowerCase();
+    if (reverseStatusMap[lowerStatus] !== undefined) {
+      status = reverseStatusMap[lowerStatus];
+    } else {
+      return 'Unknown Status'; // If it's an unrecognized string
+    }
+  }
+
+  // Convert number-like strings ("1") to numbers (1)
+  status = Number(status);
+
+  return statusMap[status] || 'Unknown Status';
 }
 
-getpostStatus(status: number): string {
-  switch (status) {
-    case 1:
-      return 'Yet to Post';
-    case 2:
-      return 'Early Post';
-    case 3:
-      return 'On Time Post';
-    case 4:
-      return 'Late Posted';
-    case 5:
-        return 'Client Rejected';
-    default:
-      return 'N/A';
+getpostStatus(status: any): string {
+  if (status == null || status === undefined) {
+    return 'Unknown Status'; // Handle null/undefined
   }
+
+  // Convert string statuses to numbers if needed
+  const statusMap: { [key: number]: string } = {
+    1: 'Yet to Post',
+    2: 'Early Post',
+    3: 'On Time Post',
+    4: 'Late Posted',
+    5: 'Client Rejected'
+  };
+
+  // If status is a string like "Sent for Approval", try converting
+  if (typeof status === 'string') {
+    const reverseStatusMap: { [key: string]: number } = Object.fromEntries(
+      Object.entries(statusMap).map(([key, value]) => [value.toLowerCase(), Number(key)])
+    );
+
+    const lowerStatus = status.trim().toLowerCase();
+    if (reverseStatusMap[lowerStatus] !== undefined) {
+      status = reverseStatusMap[lowerStatus];
+    } else {
+      return 'Unknown Status'; // If it's an unrecognized string
+    }
+  }
+
+  // Convert number-like strings ("1") to numbers (1)
+  status = Number(status);
+
+  return statusMap[status] || 'Unknown Status';
 }
+getStatusClass(status: any): string {
+  const statusText = this.getStatusText(status).toLowerCase().replace(/\s+/g, '-');
+  return `status-${statusText}`;
+}
+
+getStatusClasspost(status: any): string {
+  const statusText = this.getpostStatus(status).toLowerCase().replace(/\s+/g, '-');
+  return `status-${statusText}`;
+}
+
 editRow(meet: any): void {
   const isFirstCase = meet.postStatus === 'Yet to start'; // Check if it's the first case
 

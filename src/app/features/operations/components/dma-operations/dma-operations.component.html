@@ -100,12 +100,25 @@
   
       <ng-container matColumnDef="contentStatus">
         <th mat-header-cell *matHeaderCellDef> Content Status </th>
-        <td mat-cell *matCellDef="let row"> {{ row.contentStatus }} </td>
+        <td mat-cell *matCellDef="let row">
+          <mat-chip [ngClass]="getStatusClass(row.contentStatus)">
+            {{ row.contentStatus }}
+          </mat-chip>
+        </td>
       </ng-container>
   
-      <ng-container matColumnDef="graphicStatus">
+      <!-- <ng-container matColumnDef="graphicStatus">
         <th mat-header-cell *matHeaderCellDef> Design Status </th>
         <td mat-cell *matCellDef="let row"> {{ row.graphicStatus }} </td>
+      </ng-container> -->
+
+      <ng-container matColumnDef="graphicStatus">
+        <th mat-header-cell *matHeaderCellDef>Design Status</th>
+        <td mat-cell *matCellDef="let row">
+          <mat-chip [ngClass]="getStatusClass(row.graphicStatus)">
+            {{ row.graphicStatus }}
+          </mat-chip>
+        </td>
       </ng-container>
   
       <ng-container matColumnDef="postScheduleOn">
@@ -120,7 +133,11 @@
   
       <ng-container matColumnDef="postStatus">
         <th mat-header-cell *matHeaderCellDef> Post Status </th>
-        <td mat-cell *matCellDef="let row"> {{ row.postStatus }} </td>
+        <td mat-cell *matCellDef="let row">
+          <mat-chip [ngClass]="getStatusClasspost(row.postStatus)">
+            {{ row.postStatus }}
+          </mat-chip>
+        </td>
       </ng-container>
   
       <ng-container matColumnDef="link">
