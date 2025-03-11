@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { DashboardService } from '../../services/dashboard.service';
 import * as moment from 'moment';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ChartOptions } from 'chart.js';
 
 @Component({
@@ -16,10 +16,14 @@ export class CwDashboardComponent implements OnInit {
   kpis: any[] = [];
   graphs: any[] = [];
   clientWiseData: any[] = [];
-
-  fromDate = new FormControl(moment().startOf('month')); // Default: First day of month
-  toDate = new FormControl(moment().endOf('month')); // Default: Last day of month
+  creativeTypeId: any = 0; // Default creative type ID
+  roleId: number = 0; // Default Role ID
+  name:any;
+  fromDate = new FormControl(moment().startOf('month').format('YYYY-MM-DD')); // First day of current month
+  toDate = new FormControl(moment().endOf('month').format('YYYY-MM-DD')); // Last day of current month
+  
   userId: number = 0;
+  empname:any; 
 
   totals = {
     noOfRequiredContent: 0,
@@ -30,42 +34,47 @@ export class CwDashboardComponent implements OnInit {
     totalChangesRecommended: 0,
   };
 
-  constructor(private dashboardService: DashboardService, private route: ActivatedRoute) {}
+  constructor(private dashboardService: DashboardService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.userId = +params['userId'] || parseInt(localStorage.getItem('UserID') || '0', 10);
+      this.creativeTypeId = +params['creativeTypeId'] || 0;
+      this.roleId = +params['roleid'] || 0;
+      this.name = params['name'];
+      this.empname = params['empname'] || localStorage.getItem('firstName');
     });
 
+  
     // ✅ Automatically update API when date changes
     this.fromDate.valueChanges.subscribe(() => this.updateDateFilters());
     this.toDate.valueChanges.subscribe(() => this.updateDateFilters());
-
+  
     if (this.userId > 0) {
       this.fetchDashboardData();
     } else {
       console.error('Invalid userId: Unable to fetch dashboard data');
     }
   }
-
+  
   updateDateFilters(): void {
     if (!this.fromDate.value || !this.toDate.value) {
       console.warn("⚠️ Both From and To dates are required!");
       return;
     }
-
-    const fdate = moment(this.fromDate.value).format('YYYY-MM-DD');
-    const tdate = moment(this.toDate.value).format('YYYY-MM-DD');
-
-    if (moment(fdate).isAfter(moment(tdate))) {
+  
+    // ✅ Format dates as DD/MM/YYYY
+    const fdate = moment(this.fromDate.value).format('DD/MM/YYYY');
+    const tdate = moment(this.toDate.value).format('DD/MM/YYYY');
+  
+    if (moment(fdate, 'DD/MM/YYYY').isAfter(moment(tdate, 'DD/MM/YYYY'))) {
       console.warn("⚠️ 'From Date' cannot be after 'To Date'!");
       return;
     }
-
+  
     console.log(`📅 Fetching data for: From ${fdate} → To ${tdate}`);
     this.fetchDashboardData();
   }
-
   fetchDashboardData(): void {
     this.showSpinner = true;
     const fdate = moment(this.fromDate.value).format('YYYY-MM-DD');
@@ -150,5 +159,16 @@ export class CwDashboardComponent implements OnInit {
         totalChangesRecommended: 0,
       }
     );
+  }
+
+  goBack(): void {
+    //this.router.navigate(['/home/dashboard/resource-list']); 
+    this.router.navigate(['/home/dashboard/resource-list'],{
+      queryParams: {
+         roleid:10,
+         creativeTypeId:this.creativeTypeId,
+         name:this.name,
+        }
+      });
   }
 }

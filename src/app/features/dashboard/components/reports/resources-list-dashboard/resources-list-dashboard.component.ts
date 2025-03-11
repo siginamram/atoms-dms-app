@@ -71,6 +71,10 @@ export class ResourcesListDashboardComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/home/dashboard/cw-dashboard'],{
       queryParams: {
          userId:lead.userId,
+         roleId:this.roleId,
+         creativeTypeId:this.creativeTypeId,
+         name:this.name,
+         empname:lead.empName,
         },
     });
   }
@@ -78,6 +82,10 @@ export class ResourcesListDashboardComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/home/dashboard/pd-dashboard'],{
       queryParams: {
          userId:lead.userId,
+         roleId:this.roleId,
+         creativeTypeId:this.creativeTypeId,
+         name:this.name,
+         empname:lead.empName,
         },
     });
   }
@@ -85,6 +93,10 @@ export class ResourcesListDashboardComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/home/dashboard/video-editor-dashboard'],{
       queryParams: {
          userId:lead.userId,
+         roleId:this.roleId,
+         creativeTypeId:this.creativeTypeId,
+         name:this.name,
+         empname:lead.empName,
         },
     });
   }
@@ -92,6 +104,10 @@ export class ResourcesListDashboardComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/home/dashboard/dma-dashboard'],{
       queryParams: {
          userId:lead.userId,
+         roleId:this.roleId,
+         creativeTypeId:this.creativeTypeId,
+         name:this.name,
+         empname:lead.empName,
         },
     });
   }
@@ -99,6 +115,10 @@ export class ResourcesListDashboardComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/home/dashboard/pg-dashboard'],{
       queryParams: {
          userId:lead.userId,
+         roleId:this.roleId,
+         creativeTypeId:this.creativeTypeId,
+         name:this.name,
+         empname:lead.empName,
         },
     });
   }

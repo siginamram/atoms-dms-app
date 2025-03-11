@@ -15,6 +15,10 @@ import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
   providers: [provideMomentDateAdapter()],
 })
 export class DmaDashboardComponent implements OnInit {
+  creativeTypeId: any = 0; // Default creative type ID
+  roleId: number = 0; // Default Role ID
+  name:any;
+  empname:any; 
   fromDate = new FormControl(moment().format('YYYY-MM-DD')); // Default: Today’s Date
   toDate = new FormControl(moment().format('YYYY-MM-DD'));   // Default: Today’s Date
   userId: number = 0;
@@ -68,6 +72,10 @@ export class DmaDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.userId = +params['userId'] || parseInt(localStorage.getItem('UserID') || '0', 10);
+      this.creativeTypeId = +params['creativeTypeId'] || 0;
+      this.roleId = +params['roleid'] || 0;
+      this.name = params['name'];
+      this.empname = params['empname'] || localStorage.getItem('firstName')
 
       // ✅ Fix: Ensure correct date parsing
       this.fromDate.setValue(moment(params['fromDateValue'], 'YYYY-MM-DD').isValid() ? params['fromDateValue'] : moment().format('YYYY-MM-DD'));
@@ -249,6 +257,16 @@ export class DmaDashboardComponent implements OnInit {
         postStatus: 5,
       },
     });
+  }
+  goBack(): void {
+    //this.router.navigate(['/home/dashboard/resource-list']); 
+    this.router.navigate(['/home/dashboard/resource-list'],{
+      queryParams: {
+         roleid:9,
+         creativeTypeId:this.creativeTypeId,
+         name:this.name,
+        }
+      });
   }
 
 }

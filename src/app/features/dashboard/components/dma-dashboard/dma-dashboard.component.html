@@ -1,8 +1,14 @@
 <div class="dashboard-container">
-    <h2>DMA Dashboard</h2>
 
+  <!-- Toolbar -->
+  <mat-toolbar color="primary" class="toolbar" style="border-radius: 10px;padding-bottom: 10px;">
+    <button mat-icon-button  (click)="goBack()" aria-label="Back" *ngIf="this.name">
+        <mat-icon>arrow_back</mat-icon>
+        </button>
+      <span>{{this.empname}} DMA Dashboard</span>
+    </mat-toolbar>
     <!-- Filter Section -->
-    <div class="filters-container">
+    <div class="filters-container" style="padding-top: 10px;">
       <!-- From Date Filter -->
       <mat-form-field appearance="outline">
         <mat-label>From Date</mat-label>

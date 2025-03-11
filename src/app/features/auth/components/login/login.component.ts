@@ -50,6 +50,8 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('userRoles', JSON.stringify(res.roleName));
           localStorage.setItem('RoleId', JSON.stringify(res.roleID));
           localStorage.setItem('empID', res.employeeID);
+          localStorage.setItem('firstName', res.firstName);
+          localStorage.setItem('lastName', res.lastName);
           // Navigate based on the role
           this.navigateBasedOnRole(res.roleID);
 

@@ -3,7 +3,7 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import { FormControl } from '@angular/forms';
 import { DashboardService } from '../../services/dashboard.service';
 import * as moment from 'moment';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 
@@ -27,6 +27,10 @@ export const MY_FORMATS = {
   providers: [provideMomentDateAdapter(MY_FORMATS)],
 })
 export class PgDashboardComponent implements OnInit {
+  creativeTypeId: any = 0; // Default creative type ID
+  roleId: number = 0; // Default Role ID
+  name:any;
+  empname:any; 
   date = new FormControl(moment()); // Default to current month and year
   userId: number = 0;
   showSpinner: boolean = false;
@@ -65,7 +69,7 @@ export class PgDashboardComponent implements OnInit {
     'noOfEDShooted',
   ];
 
-  constructor(private dashboardService: DashboardService, private route: ActivatedRoute) {
+  constructor(private dashboardService: DashboardService, private route: ActivatedRoute, private router: Router) {
     // Initialize filter visibility for each column
     this.displayedColumns.forEach((column) => (this.activeFilters[column] = false));
   }
@@ -74,6 +78,10 @@ export class PgDashboardComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       const queryUserId = +params['userId'];
       this.userId = !isNaN(queryUserId) && queryUserId > 0 ? queryUserId : parseInt(localStorage.getItem('UserID') || '0', 10);
+      this.creativeTypeId = +params['creativeTypeId'] || 0;
+      this.roleId = +params['roleid'] || 0;
+      this.name = params['name'];
+      this.empname = params['empname'] || localStorage.getItem('firstName')
     });
 
     if (this.userId && this.userId > 0) {
@@ -176,5 +184,16 @@ export class PgDashboardComponent implements OnInit {
     this.date.setValue(ctrlValue);
     datepicker.close();
     this.fetchDashboardData();
+  }
+
+  goBack(): void {
+    //this.router.navigate(['/home/dashboard/resource-list']); 
+    this.router.navigate(['/home/dashboard/resource-list'],{
+      queryParams: {
+         roleid:13,
+         creativeTypeId:this.creativeTypeId,
+         name:this.name,
+        }
+      });
   }
 }

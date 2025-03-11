@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { DashboardService } from '../../services/dashboard.service';
 import * as moment from 'moment';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ChartOptions } from 'chart.js';
 
 @Component({
@@ -16,9 +16,12 @@ export class GdDashboardComponent implements OnInit {
   kpis: any[] = [];
   graphs: any[] = [];
   clientWiseData: any[] = [];
-
-  fromDate = new FormControl(moment().startOf('month')); // Default: First day of month
-  toDate = new FormControl(moment().endOf('month')); // Default: Last day of month
+  creativeTypeId: any = 0; // Default creative type ID
+  roleId: number = 0; // Default Role ID
+  name:any;
+  empname:any; 
+  fromDate = new FormControl(moment().startOf('month').format('YYYY-MM-DD')); // First day of current month
+  toDate = new FormControl(moment().endOf('month').format('YYYY-MM-DD')); // Last day of current month
   userId: number = 0;
 
   totals = {
@@ -30,11 +33,15 @@ export class GdDashboardComponent implements OnInit {
     totalChangesRecommended: 0,
   };
 
-  constructor(private dashboardService: DashboardService, private route: ActivatedRoute) {}
+  constructor(private dashboardService: DashboardService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.userId = +params['userId'] || parseInt(localStorage.getItem('UserID') || '0', 10);
+      this.creativeTypeId = +params['creativeTypeId'] || 0;
+      this.roleId = +params['roleid'] || 0;
+      this.name = params['name'];
+      this.empname = params['empname'] || localStorage.getItem('firstName')
     });
 
     // ✅ Automatically update when date filters change
@@ -150,5 +157,15 @@ export class GdDashboardComponent implements OnInit {
         totalChangesRecommended: 0,
       }
     );
+  }
+  goBack(): void {
+    //this.router.navigate(['/home/dashboard/resource-list']); 
+    this.router.navigate(['/home/dashboard/resource-list'],{
+      queryParams: {
+         roleid:12,
+         creativeTypeId:this.creativeTypeId,
+         name:this.name,
+        }
+      });
   }
 }
