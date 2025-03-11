@@ -23,7 +23,7 @@
       <!-- Title Field -->
       <mat-form-field appearance="outline">
         <mat-label>Title</mat-label>
-        <input matInput formControlName="title" />
+        <input matInput formControlName="title"  readonly/>
         <mat-error *ngIf="emergencyRequestForm.get('title')?.hasError('required')">
           Title is required.
         </mat-error>
@@ -41,7 +41,7 @@
       <!-- Caption/Description Field -->
       <mat-form-field appearance="outline" class="caption-field">
         <mat-label>Caption/Description</mat-label>
-        <textarea matInput formControlName="description"></textarea>
+        <textarea matInput formControlName="description" readonly></textarea>
         <mat-error *ngIf="emergencyRequestForm.get('description')?.hasError('required')">
           Caption/Description is required.
         </mat-error>

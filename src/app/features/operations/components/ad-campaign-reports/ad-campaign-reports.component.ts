@@ -36,8 +36,10 @@ export class AdCampaignReportsComponent {
 
   ngOnInit(){
     const today = new Date();
-    this.fromDateValue = today;
-    this.toDateValue = today;
+    this.fromDateValue = new Date(today.getFullYear(), today.getMonth(), 1); // First day of current month
+    this.toDateValue = new Date(today.getFullYear(), today.getMonth() + 1, 0); // Last day of current month
+    this.  fetchAdCampaignOverview();
+    
     this.dataSource.filterPredicate = (data: any) => 
       !this.clientNameFilter.value || 
       data.organizationName.toLowerCase().includes(this.clientNameFilter.value.toLowerCase());

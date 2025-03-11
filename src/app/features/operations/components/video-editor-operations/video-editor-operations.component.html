@@ -87,7 +87,14 @@
         </div>
       </td>
     </ng-container>
-
+    <ng-container matColumnDef="contentStatus">
+      <th mat-header-cell *matHeaderCellDef>Content Status</th>
+      <td mat-cell *matCellDef="let video">
+        <mat-chip [ngClass]="getStatusClass(video.contentStatus)">
+          {{ video.contentStatus }}
+        </mat-chip>
+      </td>
+    </ng-container>
     <!-- Status Column -->
     <!-- <ng-container matColumnDef="approvalStatus">
       <th mat-header-cell *matHeaderCellDef>Status</th>
@@ -95,7 +102,7 @@
     </ng-container> -->
 
     <ng-container matColumnDef="approvalStatus">
-      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <th mat-header-cell *matHeaderCellDef>Editor Status</th>
       <td mat-cell *matCellDef="let video">
         <mat-chip [ngClass]="getStatusClass(video.status)">
           {{ video.status }}

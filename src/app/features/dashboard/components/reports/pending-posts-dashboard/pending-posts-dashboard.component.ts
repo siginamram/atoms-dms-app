@@ -28,6 +28,7 @@ export class PendingPostsDashboardComponent implements OnInit {
     'contentWriter',
     'graphicStatus',
     'editor',
+    'dma',
     'postStatus',
    
   ];
@@ -64,6 +65,8 @@ export class PendingPostsDashboardComponent implements OnInit {
             return data.contentWriter?.toLowerCase().includes(filterVal);
           case 'editor':
             return data.editor?.toLowerCase().includes(filterVal);
+            case 'dma':
+              return data.dma?.toLowerCase().includes(filterVal);
           case 'contentStatus':
             return this.getStatus(data.contentStatus)?.toLowerCase().includes(filterVal);
           case 'graphicStatus':

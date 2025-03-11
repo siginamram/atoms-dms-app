@@ -53,6 +53,7 @@ export class VideoEditorOperationsComponent implements OnInit {
     'thumbNail',
     'title',
     'description',
+    'contentStatus',
     'approvalStatus',
     'remarks',
     'actions',
@@ -124,6 +125,7 @@ export class VideoEditorOperationsComponent implements OnInit {
             thumbNail: item.thumbNail ,
             monthlyTrackerId:item.monthlyTrackerId,
             postScheduleOn:item.postScheduleOn,
+            contentStatus:this.mapGraphicStatus(item.contentStatus),
           }));
           this.cdr.markForCheck(); // Trigger change detection
         },

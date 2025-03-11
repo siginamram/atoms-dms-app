@@ -33,13 +33,13 @@ export class VideoEditorOperationsEditComponent implements OnInit {
           ),
         ]
       ],
-      title: ['', Validators.required],
+      title: [''],
       thumbNail: ['', [
         Validators.pattern(
           '^(https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)?)$'
         ),
       ]],
-      description: ['', Validators.required],
+      description: [''],
       status: [2], // Default to draft
     });
     
