@@ -40,6 +40,7 @@ export class ContentWritersVideosApprovalComponent implements OnInit {
   displayedColumns: string[] = [
     'sNo',
     'organizationName',
+    'postScheduleOn',
     'sentForApprovalOn',
     'resourceName',
     'creativeType',

@@ -64,11 +64,12 @@ export class EditStatusApprovalsComponent implements OnInit {
       };
       
       // ✅ Dynamically Assign 'status' or 'contentStatus' Based on Role
-      if (this.data.role === "Content-Video") {
-        payload.contentStatus = formData.status;
-      } else {
-        payload.status = formData.status;
-      }
+      // if (this.data.role === "Content-Video") {
+      //   payload.contentStatus = formData.status;
+      // } else {
+      //   payload.status = formData.status;
+      // }
+      payload.status = formData.status;
   
       this.operationsService.UpdateApprovalStatus(payload).subscribe({
         next: (response) => {

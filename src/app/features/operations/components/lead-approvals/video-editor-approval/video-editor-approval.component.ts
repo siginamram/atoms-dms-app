@@ -41,6 +41,7 @@ export class VideoEditorApprovalComponent implements OnInit {
   displayedColumns: string[] = [
     'sNo',
     'organizationName',
+    'postScheduleOn',
     'sentForApprovalOn',
     'resourceName',
     'creativeType',
