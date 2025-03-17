@@ -17,6 +17,7 @@ import { PaymentCollectionComponent } from './components/accounts/payment-collec
 import { AddPaymentCollectionComponent } from './components/accounts/add-payment-collection/add-payment-collection.component';
 import { BudgetPlanningComponent } from './components/accounts/budget-planning/budget-planning.component';
 import { IncomeStatementComponent } from './components/accounts/income-statement/income-statement.component';
+import { AtomsExpensesComponent } from './components/accounts/atoms-expenses/atoms-expenses.component';
 
 // const routes: Routes = [{ path: '', component: EmployeesComponent },
 //     { path: 'AddComponent',component: AddEmployeeComponent },
@@ -43,6 +44,7 @@ const routes: Routes = [
       { path:'add-payment-collection', component: AddPaymentCollectionComponent},
       { path:'budget-planning', component: BudgetPlanningComponent},
       { path:'income-statement', component: IncomeStatementComponent},
+      { path:'expenses', component: AtomsExpensesComponent},
     ]
   }
 ];

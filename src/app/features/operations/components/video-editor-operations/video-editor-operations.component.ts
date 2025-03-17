@@ -35,6 +35,7 @@ export const MY_FORMATS = {
 })
 export class VideoEditorOperationsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator; // Reference to MatPaginator
+  @ViewChild('fullTextDialog') fullTextDialog: any;
   showSpinner: boolean = false;
   // Filters
   clientId: number = 0;
@@ -234,5 +235,14 @@ export class VideoEditorOperationsComponent implements OnInit {
   }
   goBack(): void {
     this.router.navigate(['/home/operations/video-editor-client']); 
+  }
+  showFullText(text: string, title: string): void {
+    this.dialog.open(this.fullTextDialog, {
+      width: '400px',
+      data: {
+        text: text,
+        title: title,
+      },
+    });
   }
 }

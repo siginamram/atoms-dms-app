@@ -29,6 +29,7 @@ export const MY_FORMATS = {
 })
 export class ContentWritersVideosApprovalComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('fullTextDialog') fullTextDialog: any;
   showSpinner: boolean = false;
   readonly date = new FormControl(moment());
   organizationFilter = new FormControl('');
@@ -193,6 +194,15 @@ getStatusClass(contentStatus: any): string {
       if (result) {
         this.fetchGraphicApprovalRequests(); // Refresh table after edit
       }
+    });
+  }
+  showFullText(text: string, title: string): void {
+    this.dialog.open(this.fullTextDialog, {
+      width: '400px',
+      data: {
+        text: text,
+        title: title,
+      },
     });
   }
 }

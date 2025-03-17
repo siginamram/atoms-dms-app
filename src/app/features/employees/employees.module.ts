@@ -41,6 +41,9 @@ import { PaymentCollectionComponent } from './components/accounts/payment-collec
 import { AddPaymentCollectionComponent } from './components/accounts/add-payment-collection/add-payment-collection.component';
 import { BudgetPlanningComponent } from './components/accounts/budget-planning/budget-planning.component';
 import { IncomeStatementComponent } from './components/accounts/income-statement/income-statement.component';
+import { AtomsExpensesComponent } from './components/accounts/atoms-expenses/atoms-expenses.component';
+import { AddAtomsExpensesComponent } from './components/accounts/add-atoms-expenses/add-atoms-expenses.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -65,6 +68,8 @@ import { IncomeStatementComponent } from './components/accounts/income-statement
     AddPaymentCollectionComponent,
     BudgetPlanningComponent,
     IncomeStatementComponent,
+    AtomsExpensesComponent,
+    AddAtomsExpensesComponent,
   ],
   imports: [
     CommonModule,
@@ -87,7 +92,8 @@ import { IncomeStatementComponent } from './components/accounts/income-statement
     MatDialogModule,
     FormsModule,
     MatProgressSpinnerModule ,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatExpansionModule, 
    
   ]
 })

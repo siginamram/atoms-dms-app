@@ -175,46 +175,72 @@
 
         <li>
           <a [routerLink]="['/home', 'employees', 'listofemployees']" 
-          *ngIf="roleService.hasRole([ 'HR'])"
+             *ngIf="roleService.hasRole(['HR'])"
              routerLinkActive="active">
-            <i class="material-icons">list</i>Employees List
+            <i class="material-icons">people</i> Employees List
           </a>
         </li>
-
+        
         <li>
           <a [routerLink]="['/home', 'employees', 'leave-applications']" 
              routerLinkActive="active">
-            <i class="material-icons">person_add</i>Leave Management
+            <i class="material-icons">event</i> Leave Management
           </a>
         </li>
+        
         <li>
           <a [routerLink]="['/home', 'employees', 'leave-approvals']" 
-          *ngIf="roleService.hasRole(['Manager','Team Lead'])"
+             *ngIf="roleService.hasRole(['Manager','Team Lead'])"
              routerLinkActive="active">
-            <i class="material-icons">person_add</i>Leave Approvals
+            <i class="material-icons">task_alt</i> Leave Approvals
           </a>
         </li>
-        <!-- <li>
+        
+        <li>
           <a [routerLink]="['/home', 'employees', 'payment-collection']" 
-          *ngIf="roleService.hasRole(['Manager','Team Lead'])"
+             *ngIf="roleService.hasRole(['Manager','Team Lead'])"
              routerLinkActive="active">
-            <i class="material-icons">description</i>Payment Collection
+            <i class="material-icons">payments</i> Payment Collection
           </a>
         </li>
+        
         <li>
           <a [routerLink]="['/home', 'employees', 'gst-invoices']" 
-          *ngIf="roleService.hasRole(['Manager','Team Lead'])"
+             *ngIf="roleService.hasRole(['Manager','Team Lead'])"
              routerLinkActive="active">
-            <i class="material-icons">analytics</i>GST Invoices
+            <i class="material-icons">receipt_long</i> GST Invoices
+          </a>
+        </li>
+        
+        <li>
+          <a [routerLink]="['/home', 'employees', 'non-gst-invoices']" 
+             *ngIf="roleService.hasRole(['Manager','Team Lead'])"
+             routerLinkActive="active">
+            <i class="material-icons">request_quote</i> Non-GST Invoices
+          </a>
+        </li>
+        
+        <li>
+          <a [routerLink]="['/home', 'employees', 'expenses']" 
+             *ngIf="roleService.hasRole(['HR'])"
+             routerLinkActive="active">
+            <i class="material-icons">attach_money</i> Expenses
           </a>
         </li>
         <li>
-          <a [routerLink]="['/home', 'employees', 'non-gst-invoices']" 
-          *ngIf="roleService.hasRole(['Manager','Team Lead'])"
+          <a [routerLink]="['/home', 'employees', 'income-statement']" 
+             *ngIf="roleService.hasRole(['HR'])"
              routerLinkActive="active">
-            <i class="material-icons">analytics</i>Non-GST Invoices
+            <i class="material-icons">attach_money</i> Income Statement
           </a>
-        </li> -->
+        </li>
+        <li>
+          <a [routerLink]="['/home', 'employees', 'budget-planning']" 
+             *ngIf="roleService.hasRole(['HR'])"
+             routerLinkActive="active">
+            <i class="material-icons">attach_money</i> Budget Planning
+          </a>
+        </li>
       </ul>
       
       <!-- Logout Button -->

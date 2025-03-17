@@ -1,1 +1,132 @@
-<p>budget-planning works!</p>
+<div class="income-statement-container">
+    <mat-toolbar color="primary" class="toolbar">
+        <span>Budget Plann Report</span>
+    </mat-toolbar>
+  
+    <!-- Month & Year Filter -->
+    <div class="month-filter">
+      <mat-form-field appearance="outline">
+        <mat-label>Month</mat-label>
+        <input matInput [matDatepicker]="monthPicker" [formControl]="selectedMonth" (dateChange)="fetchData()" />
+        <mat-datepicker-toggle matSuffix [for]="monthPicker"></mat-datepicker-toggle>
+        <mat-datepicker #monthPicker startView="multi-year" (monthSelected)="selectedMonth.setValue($event); fetchData(); monthPicker.close()"></mat-datepicker>
+      </mat-form-field>
+  
+      <button mat-raised-button color="primary" (click)="fetchData()">Fetch Data</button>
+    </div>
+  
+    <form [formGroup]="incomeStatementForm">
+        <h2>Budget Planning </h2>
+      <!-- Revenue Details -->
+      <div class="row">
+        <mat-form-field appearance="outline">
+          <mat-label>Balance Amount from Previous Months</mat-label>
+          <input matInput formControlName="previousBalance" readonly />
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Amount To Be Received</mat-label>
+          <input matInput formControlName="amountToBeReceived" readonly />
+        </mat-form-field>
+      </div>
+  
+      <!-- Expenses Section -->
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Expenses on Current Month</mat-panel-title>
+        </mat-expansion-panel-header>
+  
+        <div class="row">
+          <mat-form-field appearance="outline">
+            <mat-label>AD Budget</mat-label>
+            <input matInput formControlName="adBudget" readonly />
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline">
+            <mat-label>Monthly Groceries & Essentials</mat-label>
+            <input matInput formControlName="groceries" readonly />
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline">
+            <mat-label>Marketing Expenses</mat-label>
+            <input matInput formControlName="marketing" readonly />
+          </mat-form-field>
+        </div>
+  
+        <div class="row">
+          <mat-form-field appearance="outline">
+            <mat-label>GST</mat-label>
+            <input matInput formControlName="gst" readonly />
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline">
+            <mat-label>Snacks</mat-label>
+            <input matInput formControlName="snacks" readonly />
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline">
+            <mat-label>Mobile Recharges</mat-label>
+            <input matInput formControlName="mobileRecharges" readonly />
+          </mat-form-field>
+        </div>
+  
+        <div class="row">
+          <mat-form-field appearance="outline">
+            <mat-label>Salaries</mat-label>
+            <input matInput formControlName="salaries" readonly />
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline">
+            <mat-label>Milk</mat-label>
+            <input matInput formControlName="milk" readonly />
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline">
+            <mat-label>WiFi Recharges</mat-label>
+            <input matInput formControlName="wifiRecharges" readonly />
+          </mat-form-field>
+        </div>
+  
+        <div class="row">
+          <mat-form-field appearance="outline">
+            <mat-label>Rent</mat-label>
+            <input matInput formControlName="rent" readonly />
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline">
+            <mat-label>Water</mat-label>
+            <input matInput formControlName="water" readonly />
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline">
+            <mat-label>Others</mat-label>
+            <input matInput formControlName="others" readonly />
+          </mat-form-field>
+        </div>
+  
+        <div class="row">
+          <mat-form-field appearance="outline">
+            <mat-label>Power Bill</mat-label>
+            <input matInput formControlName="powerBill" readonly />
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline">
+            <mat-label>Expenses of Operational Transportation</mat-label>
+            <input matInput formControlName="transport" readonly />
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline">
+            <mat-label>Employee Benefits</mat-label>
+            <input matInput formControlName="employeeBenefits" readonly />
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+  
+      <!-- Overall Balance -->
+      <mat-form-field appearance="outline" class="full-width" style="padding-top: 10px;">
+        <mat-label>Overall Balance Amount</mat-label>
+        <input matInput formControlName="overallBalance" readonly />
+      </mat-form-field>
+    </form>
+  </div>
+  
