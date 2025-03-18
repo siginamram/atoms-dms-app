@@ -75,7 +75,7 @@ export class YoutubeVideosDashboardComponent implements OnInit {
     const fdate = moment(this.fromDate.value).format('YYYY-MM-DD');
     const tdate = moment(this.toDate.value).format('YYYY-MM-DD');
 
-    this.dashboardService.GetVideoEditorDashboardByMonth(this.userId, fdate, tdate, this.creativeTypeId).subscribe(
+    this.dashboardService.GetVideoEditorDashboardByMonth(this.userId, fdate, tdate, 3).subscribe(
       (data: any) => {
         this.showSpinner = false;
         if (data) {
