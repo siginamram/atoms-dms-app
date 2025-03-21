@@ -100,12 +100,13 @@ export class GdDashboardComponent implements OnInit {
     this.kpis = [
       { title: 'Total Clients', value: kpiData.totalClients, icon: 'groups', color: '#4CAF50' },
       { title: 'Graphic Videos Designed', value: kpiData.totalPostersDesigned, icon: 'photo_library', color: '#2196F3' },
-      { title: 'Approved Graphic Videos', value: kpiData.totalApprovedPosters, icon: 'check_circle', color: '#8BC34A' },
-      { title: 'Lead Approvals Pending', value: kpiData.totalManagerApprovalPending, icon: 'supervisor_account', color: '#FFC107' },
-      { title: 'Client Approvals Pending', value: kpiData.totalClientApprovalPending, icon: 'how_to_reg', color: '#FF9800' },
+      { title: 'Pending Graphic Videos', value: kpiData.pendingPosters, icon: 'hourglass_empty', color: '#FF7043' },
       { title: 'Changes Recommended', value: kpiData.totalChangesRecommended, icon: 'edit', color: '#FF5722' },
-      { title: 'Total Graphic Videos Pending', value: kpiData.totalPostersPending, icon: 'hourglass_empty', color: '#FF7043' },
-      { title: 'Design Pending Graphic', value: kpiData.pendingPosters, icon: 'hourglass_empty', color: '#FF7043' },
+      { title: 'Approved Graphic Videos', value: kpiData.totalApprovedPosters, icon: 'check_circle', color: '#8BC34A' },
+      { title: 'Pending Approvals from Lead', value: kpiData.totalManagerApprovalPending, icon: 'supervisor_account', color: '#FFC107' },
+      { title: 'Pending Approvals from Client', value: kpiData.totalClientApprovalPending, icon: 'how_to_reg', color: '#FF9800' },
+      { title: 'Total Pending Graphic Videos', value: kpiData.totalPostersPending, icon: 'hourglass_empty', color: '#FF7043' },
+      
     ];
   }
 
@@ -124,7 +125,7 @@ export class GdDashboardComponent implements OnInit {
         },
       });
    }
-  else if(lead.title=='Design Pending Graphic' && lead.value != 0){
+  else if(lead.title=='Pending Graphic Videos' && lead.value != 0){
     const userId = +localStorage.getItem('UserID')!;
     this.router.navigate(['/home/dashboard/posts-pending'], {
       queryParams: {

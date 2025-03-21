@@ -96,19 +96,18 @@ export class YoutubeVideosDashboardComponent implements OnInit {
   updateKPI(kpiData: any): void {
     this.kpis = [
       { title: 'Total Clients', value: kpiData.totalClients, icon: 'groups', color: '#4CAF50' },
-      { title: 'YouTube Videos Edited', value: kpiData.totalVideosEdited, icon: 'photo_library', color: '#2196F3' },
-      { title: 'Approved YouTube Videos', value: kpiData.totalApprovedVideos, icon: 'check_circle', color: '#8BC34A' },
-      { title: 'Lead Approvals Pending', value: kpiData.totalManagerApprovalPending, icon: 'supervisor_account', color: '#FFC107' },
-      { title: 'Client Approvals Pending', value: kpiData.totalClientApprovalPending, icon: 'how_to_reg', color: '#FF9800' },
-      { title: 'Changes Recommended', value: kpiData.totalChangesRecommended, icon: 'edit', color: '#FF5722' },
-      { title: 'Total YouTube Videos Pending', value: kpiData.totalVideosPending, icon: 'hourglass_empty', color: '#FF7043' },
+      { title: 'YouTube Videos Designed', value: kpiData.totalVideosEdited, icon: 'photo_library', color: '#2196F3' },
       { title: 'Pending YouTube Videos', value: kpiData.pendingVideos, icon: 'hourglass_empty', color: '#FF7043' },
+      { title: 'Changes Recommended', value: kpiData.totalChangesRecommended, icon: 'edit', color: '#FF5722' },
+      { title: 'Approved YouTube Videos', value: kpiData.totalApprovedVideos, icon: 'check_circle', color: '#8BC34A' },
+      { title: 'Pending Approvals from Lead', value: kpiData.totalManagerApprovalPending, icon: 'supervisor_account', color: '#FFC107' },
+      { title: 'Pending Approvals from Client', value: kpiData.totalClientApprovalPending, icon: 'how_to_reg', color: '#FF9800' },
+      { title: 'Total Pending YouTube Videos', value: kpiData.totalVideosPending, icon: 'hourglass_empty', color: '#FF7043' },
     ];
   }
 
   getRow(lead: any): void {
     console.log(lead);
- 
     if(lead.title=='Changes Recommended' && lead.value != 0){
       const userId = +localStorage.getItem('UserID')!;
       this.router.navigate(['/home/dashboard/posts-pending'], {
@@ -132,10 +131,8 @@ export class YoutubeVideosDashboardComponent implements OnInit {
         status:1,
       },
     });
-
   }
-
-  }
+}
 
   updateGraphs(dayTrackerData: any[]): void {
     const labels = dayTrackerData.map((item) => moment(item.day).format('DD'));

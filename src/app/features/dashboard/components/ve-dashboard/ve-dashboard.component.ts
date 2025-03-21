@@ -96,13 +96,14 @@ export class VeDashboardComponent implements OnInit {
   updateKPI(kpiData: any): void {
     this.kpis = [
       { title: 'Total Clients', value: kpiData.totalClients, icon: 'groups', color: '#4CAF50' },
-      { title: 'Educational Videos Edited', value: kpiData.totalVideosEdited, icon: 'photo_library', color: '#2196F3' },
-      { title: 'Approved Educational Videos', value: kpiData.totalApprovedVideos, icon: 'check_circle', color: '#8BC34A' },
-      { title: 'Lead Approvals Pending', value: kpiData.totalManagerApprovalPending, icon: 'supervisor_account', color: '#FFC107' },
-      { title: 'Client Approvals Pending', value: kpiData.totalClientApprovalPending, icon: 'how_to_reg', color: '#FF9800' },
-      { title: 'Changes Recommended', value: kpiData.totalChangesRecommended, icon: 'edit', color: '#FF5722' },
-      { title: 'Total Educational Videos Pending', value: kpiData.totalVideosPending, icon: 'hourglass_empty', color: '#FF7043' },
+      { title: 'Educational Videos Designed', value: kpiData.totalVideosEdited, icon: 'photo_library', color: '#2196F3' },
       { title: 'Pending Educational Videos', value: kpiData.pendingVideos, icon: 'hourglass_empty', color: '#FF7043' },
+      { title: 'Changes Recommended', value: kpiData.totalChangesRecommended, icon: 'edit', color: '#FF5722' },
+      { title: 'Approved Educational Videos', value: kpiData.totalApprovedVideos, icon: 'check_circle', color: '#8BC34A' },
+      { title: 'Pending Approvals from Lead', value: kpiData.totalManagerApprovalPending, icon: 'supervisor_account', color: '#FFC107' },
+      { title: 'Pending Approvals from Client', value: kpiData.totalClientApprovalPending, icon: 'how_to_reg', color: '#FF9800' },
+      { title: 'Total Pending Educational Videos', value: kpiData.totalVideosPending, icon: 'hourglass_empty', color: '#FF7043' },
+  
     ];
   }
   getRow(lead: any): void {

@@ -103,12 +103,13 @@ export class PdDashboardComponent implements OnInit {
     this.kpis = [
       { title: 'Total Clients', value: kpiData.totalClients, icon: 'groups', color: '#4CAF50' },
       { title: 'Posters Designed', value: kpiData.totalPostersDesigned, icon: 'photo_library', color: '#2196F3' },
-      { title: 'Approved Posters', value: kpiData.totalApprovedPosters, icon: 'check_circle', color: '#8BC34A' },
-      { title: 'Lead Approvals Pending', value: kpiData.totalManagerApprovalPending, icon: 'supervisor_account', color: '#FFC107' },
-      { title: 'Client Approvals Pending', value: kpiData.totalClientApprovalPending, icon: 'how_to_reg', color: '#FF9800' },
+      { title: 'Pending Posters', value: kpiData.pendingPosters, icon: 'hourglass_empty', color: '#FF7043'},
       { title: 'Changes Recommended', value: kpiData.totalChangesRecommended, icon: 'edit', color: '#FF5722' },
+      { title: 'Approved Posters', value: kpiData.totalApprovedPosters, icon: 'check_circle', color: '#8BC34A' },
+      { title: 'Pending Approvals from Lead', value: kpiData.totalManagerApprovalPending, icon: 'supervisor_account', color: '#FFC107' },
+      { title: 'Pending Approvals from Client', value: kpiData.totalClientApprovalPending, icon: 'how_to_reg', color: '#FF9800' },
       { title: 'Total Posters Pending', value: kpiData.totalPostersPending, icon: 'hourglass_empty', color: '#2196F3' },
-      { title: 'Design Pending Posters', value: kpiData.pendingPosters, icon: 'hourglass_empty', color: '#FF7043' },
+      
 
     ];
   }
@@ -128,7 +129,7 @@ export class PdDashboardComponent implements OnInit {
         },
       });
    }
-  else if(lead.title=='Design Pending Posters' && lead.value != 0){
+  else if(lead.title=='Pending Posters' && lead.value != 0){
     const userId = +localStorage.getItem('UserID')!;
     this.router.navigate(['/home/dashboard/posts-pending'], {
       queryParams: {

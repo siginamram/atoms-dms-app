@@ -125,3 +125,6 @@ tbody tr:hover {
 } */
 
 
+.underlined-title {
+  text-decoration: underline;
+}
