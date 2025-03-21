@@ -83,6 +83,7 @@ export class YoutubeVideosDashboardComponent implements OnInit {
           this.updateGraphs(data.videoEditorDayTrackers);
           this.clientWiseData = data.clientWiseMonthlyVideoEditorTrackers || [];
           this.calculateTotals();
+          
         }
       },
       (error) => {
@@ -101,7 +102,39 @@ export class YoutubeVideosDashboardComponent implements OnInit {
       { title: 'Client Approvals Pending', value: kpiData.totalClientApprovalPending, icon: 'how_to_reg', color: '#FF9800' },
       { title: 'Changes Recommended', value: kpiData.totalChangesRecommended, icon: 'edit', color: '#FF5722' },
       { title: 'Total YouTube Videos Pending', value: kpiData.totalVideosPending, icon: 'hourglass_empty', color: '#FF7043' },
+      { title: 'Pending YouTube Videos', value: kpiData.pendingVideos, icon: 'hourglass_empty', color: '#FF7043' },
     ];
+  }
+
+  getRow(lead: any): void {
+    console.log(lead);
+ 
+    if(lead.title=='Changes Recommended' && lead.value != 0){
+      const userId = +localStorage.getItem('UserID')!;
+      this.router.navigate(['/home/dashboard/posts-pending'], {
+        queryParams: {
+          fromDateValue: moment(this.fromDate.value).format('YYYY-MM-DD'),
+          toDateValue: moment(this.toDate.value).format('YYYY-MM-DD'),
+          userId: userId,
+          creativeTypeId: 3,
+          status:4,
+        },
+      });
+   }
+  else if(lead.title=='Pending YouTube Videos' && lead.value != 0){
+    const userId = +localStorage.getItem('UserID')!;
+    this.router.navigate(['/home/dashboard/posts-pending'], {
+      queryParams: {
+        fromDateValue: moment(this.fromDate.value).format('YYYY-MM-DD'),
+        toDateValue: moment(this.toDate.value).format('YYYY-MM-DD'),
+        userId: userId,
+        creativeTypeId: 3,
+        status:1,
+      },
+    });
+
+  }
+
   }
 
   updateGraphs(dayTrackerData: any[]): void {
@@ -165,4 +198,15 @@ export class YoutubeVideosDashboardComponent implements OnInit {
         }
       });
   }
+    editRow(lead: any): void {
+      const userId = +localStorage.getItem('UserID')!;
+      this.router.navigate(['/home/dashboard/posts-pending'], {
+        queryParams: {
+          fromDateValue: moment(this.fromDate.value).format('YYYY-MM-DD'),
+          toDateValue: moment(this.toDate.value).format('YYYY-MM-DD'),
+          userId: userId,
+          creativeTypeId: lead.creativeTypeId,
+        },
+      });
+    }
 }

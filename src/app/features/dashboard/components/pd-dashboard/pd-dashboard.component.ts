@@ -4,6 +4,7 @@ import { DashboardService } from '../../services/dashboard.service';
 import * as moment from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChartOptions } from 'chart.js';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-pd-dashboard',
@@ -20,10 +21,12 @@ export class PdDashboardComponent implements OnInit {
   roleId: number = 0; // Default Role ID
   name:any;
   empname:any; 
+
+
   fromDate = new FormControl(moment().startOf('month').format('YYYY-MM-DD')); // First day of current month
   toDate = new FormControl(moment().endOf('month').format('YYYY-MM-DD')); // Last day of current month
   userId: number = 0;
-
+  
   totals = {
     noOfRequiredPosters: 0,
     totalPostersDesigned: 0,
@@ -86,6 +89,7 @@ export class PdDashboardComponent implements OnInit {
           this.updateGraphs(data.posterDesignerDayTrackers);
           this.clientWiseData = data.clientWiseMonthlyPosterDesignerTrackers || [];
           this.calculateTotals();
+       
         }
       },
       (error) => {
@@ -103,10 +107,43 @@ export class PdDashboardComponent implements OnInit {
       { title: 'Lead Approvals Pending', value: kpiData.totalManagerApprovalPending, icon: 'supervisor_account', color: '#FFC107' },
       { title: 'Client Approvals Pending', value: kpiData.totalClientApprovalPending, icon: 'how_to_reg', color: '#FF9800' },
       { title: 'Changes Recommended', value: kpiData.totalChangesRecommended, icon: 'edit', color: '#FF5722' },
-      { title: 'Total Posters Pending', value: kpiData.totalPostersPending, icon: 'hourglass_empty', color: '#FF7043' },
+      { title: 'Total Posters Pending', value: kpiData.totalPostersPending, icon: 'hourglass_empty', color: '#2196F3' },
+      { title: 'Design Pending Posters', value: kpiData.pendingPosters, icon: 'hourglass_empty', color: '#FF7043' },
+
     ];
   }
 
+  getRow(lead: any): void {
+    console.log(lead);
+ 
+    if(lead.title=='Changes Recommended' && lead.value != 0){
+      const userId = +localStorage.getItem('UserID')!;
+      this.router.navigate(['/home/dashboard/posts-pending'], {
+        queryParams: {
+          fromDateValue: moment(this.fromDate.value).format('YYYY-MM-DD'),
+          toDateValue: moment(this.toDate.value).format('YYYY-MM-DD'),
+          userId: userId,
+          creativeTypeId: 1,
+          status:4,
+        },
+      });
+   }
+  else if(lead.title=='Design Pending Posters' && lead.value != 0){
+    const userId = +localStorage.getItem('UserID')!;
+    this.router.navigate(['/home/dashboard/posts-pending'], {
+      queryParams: {
+        fromDateValue: moment(this.fromDate.value).format('YYYY-MM-DD'),
+        toDateValue: moment(this.toDate.value).format('YYYY-MM-DD'),
+        userId: userId,
+        creativeTypeId: 1,
+        status:1,
+      },
+    });
+
+  }
+
+  }
+  
   updateGraphs(dayTrackerData: any[]): void {
     const labels = dayTrackerData.map((item) => moment(item.day).format('DD'));
     const dataPoints = dayTrackerData.map((item) => item.totalPostersDesigned);
@@ -168,4 +205,5 @@ export class PdDashboardComponent implements OnInit {
         }
       });
   }
+  
 }

@@ -90,4 +90,9 @@ export class DashboardService {
     const apiUrl = `${this.baseApiUrl}/api/Client/GetCampaignSummary/${userId}/${fdate}/${tdate}`;
     return this.http.get(apiUrl);
   }
+
+  PendingPosts(userId: number,  fdate: any,tdate: any,creativeTypeId:number): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Dashboard/AllPendingPosts/${userId}/${fdate}/${tdate}/${creativeTypeId}`;
+    return this.http.get(apiUrl);
+  }
 }

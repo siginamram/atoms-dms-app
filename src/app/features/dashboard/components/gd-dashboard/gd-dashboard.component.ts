@@ -4,6 +4,7 @@ import { DashboardService } from '../../services/dashboard.service';
 import * as moment from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChartOptions } from 'chart.js';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-gd-dashboard',
@@ -104,9 +105,41 @@ export class GdDashboardComponent implements OnInit {
       { title: 'Client Approvals Pending', value: kpiData.totalClientApprovalPending, icon: 'how_to_reg', color: '#FF9800' },
       { title: 'Changes Recommended', value: kpiData.totalChangesRecommended, icon: 'edit', color: '#FF5722' },
       { title: 'Total Graphic Videos Pending', value: kpiData.totalPostersPending, icon: 'hourglass_empty', color: '#FF7043' },
+      { title: 'Design Pending Graphic', value: kpiData.pendingPosters, icon: 'hourglass_empty', color: '#FF7043' },
     ];
   }
 
+  getRow(lead: any): void {
+    console.log(lead);
+ 
+    if(lead.title=='Changes Recommended' && lead.value != 0){
+      const userId = +localStorage.getItem('UserID')!;
+      this.router.navigate(['/home/dashboard/posts-pending'], {
+        queryParams: {
+          fromDateValue: moment(this.fromDate.value).format('YYYY-MM-DD'),
+          toDateValue: moment(this.toDate.value).format('YYYY-MM-DD'),
+          userId: userId,
+          creativeTypeId: 2,
+          status:4,
+        },
+      });
+   }
+  else if(lead.title=='Design Pending Graphic' && lead.value != 0){
+    const userId = +localStorage.getItem('UserID')!;
+    this.router.navigate(['/home/dashboard/posts-pending'], {
+      queryParams: {
+        fromDateValue: moment(this.fromDate.value).format('YYYY-MM-DD'),
+        toDateValue: moment(this.toDate.value).format('YYYY-MM-DD'),
+        userId: userId,
+        creativeTypeId: 2,
+        status:1,
+      },
+    });
+
+  }
+
+  }
+  
   updateGraphs(dayTrackerData: any[]): void {
     const labels = dayTrackerData.map((item) => moment(item.day).format('DD'));
     const dataPoints = dayTrackerData.map((item) => item.totalPostersDesigned);
@@ -168,4 +201,16 @@ export class GdDashboardComponent implements OnInit {
         }
       });
   }
+
+     editRow(lead: any): void {
+        const userId = +localStorage.getItem('UserID')!;
+        this.router.navigate(['/home/dashboard/posts-pending'], {
+          queryParams: {
+            fromDateValue: moment(this.fromDate.value).format('YYYY-MM-DD'),
+            toDateValue: moment(this.toDate.value).format('YYYY-MM-DD'),
+            userId: userId,
+            creativeTypeId: lead.creativeTypeId,
+          },
+        });
+      }
 }

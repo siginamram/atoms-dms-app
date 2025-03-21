@@ -28,20 +28,22 @@
   <div class="spinner" *ngIf="showSpinner">
     <mat-spinner></mat-spinner>
   </div>
-
-  <!-- KPI Section -->
-  <div class="kpi-section">
-    <div class="kpi-card" *ngFor="let kpi of kpis" [ngStyle]="{ 'background-color': kpi.color }">
-      <div class="kpi-icon">
-        <mat-icon>{{ kpi.icon }}</mat-icon>
+    <!-- KPI Section -->
+    <div class="kpi-section" style="padding-bottom: 5px;">
+      <div class="kpi-card" *ngFor="let kpi of kpis" [ngStyle]="{ 'background-color': kpi.color }">
+        <div class="kpi-icon">
+          <mat-icon>{{ kpi.icon }}</mat-icon>
+        </div>
+        <h3>{{ kpi.title }}</h3>
+        <button mat-icon-button color="white" (click)="getRow(kpi)">
+          <div>{{ kpi.value }}</div>
+        </button>
+        <!-- <h2>{{ kpi.value }}</h2> -->
       </div>
-      <h3>{{ kpi.title }}</h3>
-      <h2>{{ kpi.value }}</h2>
     </div>
-  </div>
-
+  
   <!-- Chart Section -->
-  <div class="charts-section">
+  <div class="charts-section" >
     <div class="chart-card" *ngFor="let graph of graphs">
       <h4>{{ graph.title }}</h4>
       <div class="chart-wrapper">

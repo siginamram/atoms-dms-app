@@ -40,6 +40,7 @@ import { DmaPendingPostsDashboardComponent } from './components/reports/dma-pend
 import { DmaPromotedPostsDashboardComponent } from './components/reports/dma-promoted-posts-dashboard/dma-promoted-posts-dashboard.component';
 import { AdcampaignsummaryReportComponent } from './components/reports/adcampaignsummary-report/adcampaignsummary-report.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { PostersPendingComponent } from './components/reports/posters-pending/posters-pending.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     DmaPendingPostsDashboardComponent,
     DmaPromotedPostsDashboardComponent,
     AdcampaignsummaryReportComponent,
+    PostersPendingComponent,
   ],
   imports: [
     CommonModule,

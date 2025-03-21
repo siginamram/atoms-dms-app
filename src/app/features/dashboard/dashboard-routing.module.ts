@@ -21,7 +21,7 @@ import { ClientDashboardComponent } from './components/reports/client-dashboard/
 import { DmaPendingPostsDashboardComponent } from './components/reports/dma-pending-posts-dashboard/dma-pending-posts-dashboard.component';
 import { DmaPromotedPostsDashboardComponent } from './components/reports/dma-promoted-posts-dashboard/dma-promoted-posts-dashboard.component';
 import { AdcampaignsummaryReportComponent } from './components/reports/adcampaignsummary-report/adcampaignsummary-report.component';
-
+import { PostersPendingComponent } from './components/reports/posters-pending/posters-pending.component';
 
 const routes: Routes = [
   {
@@ -49,6 +49,7 @@ const routes: Routes = [
       { path: 'dma-pending-posts', component: DmaPendingPostsDashboardComponent },
       { path: 'dma-promoted-posts', component: DmaPromotedPostsDashboardComponent },
       { path: 'dma-adcampaign-summary', component: AdcampaignsummaryReportComponent },
+      { path: 'posts-pending', component: PostersPendingComponent },
     ],
   },
 ];

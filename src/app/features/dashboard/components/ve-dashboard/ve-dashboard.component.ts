@@ -16,7 +16,6 @@ export class VeDashboardComponent implements OnInit {
   kpis: any[] = [];
   graphs: any[] = [];
   clientWiseData: any[] = [];
-
   roleId: number = 0; // Default Role ID
   name:any;
   empname:any; 
@@ -55,7 +54,6 @@ export class VeDashboardComponent implements OnInit {
       console.error('Invalid userId: Unable to fetch dashboard data');
     }
   }
-
   updateDateFilters(): void {
     if (!this.fromDate.value || !this.toDate.value) {
       console.warn("⚠️ Both From and To dates are required!");
@@ -73,7 +71,6 @@ export class VeDashboardComponent implements OnInit {
     console.log(`📅 Fetching data for: From ${fdate} → To ${tdate}`);
     this.fetchDashboardData();
   }
-
   fetchDashboardData(): void {
     this.showSpinner = true;
     const fdate = moment(this.fromDate.value).format('YYYY-MM-DD');
@@ -87,6 +84,7 @@ export class VeDashboardComponent implements OnInit {
           this.updateGraphs(data.videoEditorDayTrackers);
           this.clientWiseData = data.clientWiseMonthlyVideoEditorTrackers || [];
           this.calculateTotals();
+          
         }
       },
       (error) => {
@@ -95,7 +93,6 @@ export class VeDashboardComponent implements OnInit {
       }
     );
   }
-
   updateKPI(kpiData: any): void {
     this.kpis = [
       { title: 'Total Clients', value: kpiData.totalClients, icon: 'groups', color: '#4CAF50' },
@@ -105,9 +102,39 @@ export class VeDashboardComponent implements OnInit {
       { title: 'Client Approvals Pending', value: kpiData.totalClientApprovalPending, icon: 'how_to_reg', color: '#FF9800' },
       { title: 'Changes Recommended', value: kpiData.totalChangesRecommended, icon: 'edit', color: '#FF5722' },
       { title: 'Total Educational Videos Pending', value: kpiData.totalVideosPending, icon: 'hourglass_empty', color: '#FF7043' },
+      { title: 'Pending Educational Videos', value: kpiData.pendingVideos, icon: 'hourglass_empty', color: '#FF7043' },
     ];
   }
+  getRow(lead: any): void {
+    console.log(lead);
+ 
+    if(lead.title=='Changes Recommended' && lead.value != 0){
+      const userId = +localStorage.getItem('UserID')!;
+      this.router.navigate(['/home/dashboard/posts-pending'], {
+        queryParams: {
+          fromDateValue: moment(this.fromDate.value).format('YYYY-MM-DD'),
+          toDateValue: moment(this.toDate.value).format('YYYY-MM-DD'),
+          userId: userId,
+          creativeTypeId: 4,
+          status:4,
+        },
+      });
+   }
+  else if(lead.title=='Pending Educational Videos' && lead.value != 0){
+    const userId = +localStorage.getItem('UserID')!;
+    this.router.navigate(['/home/dashboard/posts-pending'], {
+      queryParams: {
+        fromDateValue: moment(this.fromDate.value).format('YYYY-MM-DD'),
+        toDateValue: moment(this.toDate.value).format('YYYY-MM-DD'),
+        userId: userId,
+        creativeTypeId: 4,
+        status:1,
+      },
+    });
 
+  }
+
+  }
   updateGraphs(dayTrackerData: any[]): void {
     const labels = dayTrackerData.map((item) => moment(item.day).format('DD'));
     const dataPoints = dayTrackerData.map((item) => item.totalVideosEdited);
@@ -130,14 +157,12 @@ export class VeDashboardComponent implements OnInit {
       },
     ];
   }
-
   chartOptions: ChartOptions<'line'> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: { legend: { display: true, position: 'top' } },
     scales: { x: { grid: { display: false } }, y: { beginAtZero: true } },
   };
-
   calculateTotals(): void {
     this.totals = this.clientWiseData.reduce(
       (acc, row) => {
@@ -167,6 +192,17 @@ export class VeDashboardComponent implements OnInit {
          creativeTypeId:this.creativeTypeId,
          name:this.name,
         }
+      });
+  }
+  editRow(lead: any): void {
+      const userId = +localStorage.getItem('UserID')!;
+      this.router.navigate(['/home/dashboard/posts-pending'], {
+        queryParams: {
+          fromDateValue: moment(this.fromDate.value).format('YYYY-MM-DD'),
+          toDateValue: moment(this.toDate.value).format('YYYY-MM-DD'),
+          userId: userId,
+          creativeTypeId: lead.creativeTypeId,
+        },
       });
   }
 }
