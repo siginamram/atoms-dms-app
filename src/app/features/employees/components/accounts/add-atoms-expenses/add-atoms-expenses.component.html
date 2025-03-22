@@ -1,72 +1,77 @@
 <mat-dialog-content class="expense-dialog">
-       <!-- Toolbar -->
-       <mat-toolbar color="primary" class="toolbar">
-        <span>Add Expenses</span>
-        </mat-toolbar>
-    <form [formGroup]="expenseForm" (ngSubmit)="submitExpense()">
-      
-      <div class="form-container">
-        <!-- Date -->
-        <mat-form-field appearance="outline">
-          <mat-label>Date</mat-label>
-          <input matInput formControlName="date" [matDatepicker]="datePicker" placeholder="DD/MM/YYYY">
-          <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
-          <mat-datepicker #datePicker></mat-datepicker>
-        </mat-form-field>
-  
-        <!-- Person -->
-        <mat-form-field appearance="outline">
-          <mat-label>Name of the Person</mat-label>
-          <input matInput formControlName="person" placeholder="Enter Name">
-        </mat-form-field>
-  
-        <!-- Purpose -->
-        <mat-form-field appearance="outline">
-          <mat-label>Purpose</mat-label>
-          <mat-select formControlName="purpose">
-            <mat-option *ngFor="let purpose of purposeList" [value]="purpose">{{ purpose }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-  
-        <!-- Amount -->
-        <mat-form-field appearance="outline">
-          <mat-label>Amount Spent</mat-label>
-          <input matInput formControlName="amountSpent" type="number" placeholder="Enter Amount">
-        </mat-form-field>
-  
-        <!-- Invoice -->
-        <mat-form-field appearance="outline">
-          <mat-label>Invoice</mat-label>
-          <input matInput formControlName="invoice" placeholder="Enter Invoice">
-        </mat-form-field>
-  
-        <!-- Voucher -->
-        <mat-form-field appearance="outline">
-          <mat-label>Voucher</mat-label>
-          <input matInput formControlName="voucher" placeholder="Enter Voucher">
-        </mat-form-field>
+  <!-- Toolbar -->
+  <mat-toolbar color="primary" class="toolbar">
+    <span>{{ isEditMode ? 'Edit' : 'Add' }} Expenses</span>
+  </mat-toolbar>
+
+  <form [formGroup]="expenseForm" (ngSubmit)="submitExpense()">
+    <div class="form-container">
+      <!-- Date -->
+      <mat-form-field appearance="outline">
+        <mat-label>Date</mat-label>
+        <input matInput formControlName="date" [matDatepicker]="datePicker" placeholder="DD/MM/YYYY">
+        <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+        <mat-datepicker #datePicker></mat-datepicker>
+        <mat-error *ngIf="expenseForm.get('date')?.invalid">Date is required</mat-error>
+      </mat-form-field>
+
+      <!-- Person -->
+      <mat-form-field appearance="outline">
+        <mat-label>Name of the Person</mat-label>
+        <input matInput formControlName="person" placeholder="Enter Name">
+        <mat-error *ngIf="expenseForm.get('person')?.invalid">Name is required (min 3 characters)</mat-error>
+      </mat-form-field>
+
+      <!-- Purpose -->
+      <mat-form-field appearance="outline">
+        <mat-label>Purpose</mat-label>
+        <mat-select formControlName="purpose">
+          <mat-option *ngFor="let purpose of purposeList" [value]="purpose.id">{{ purpose.name }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="expenseForm.get('purpose')?.invalid">Purpose is required</mat-error>
+      </mat-form-field>
+
+      <!-- Amount -->
+      <mat-form-field appearance="outline">
+        <mat-label>Amount Spent</mat-label>
+        <input matInput formControlName="amountSpent" type="number" placeholder="Enter Amount">
+        <mat-error *ngIf="expenseForm.get('amountSpent')?.invalid">Amount must be greater than 0</mat-error>
+      </mat-form-field>
+
+      <!-- Invoice -->
+      <mat-form-field appearance="outline">
+        <mat-label>Invoice</mat-label>
+        <input matInput formControlName="invoice" placeholder="Enter Invoice">
+        <mat-error *ngIf="expenseForm.get('invoice')?.invalid">Invoice is required</mat-error>
+      </mat-form-field>
+
+      <!-- Voucher -->
+      <mat-form-field appearance="outline">
+        <mat-label>Voucher</mat-label>
+        <input matInput formControlName="voucher" placeholder="Enter Voucher">
+        <mat-error *ngIf="expenseForm.get('voucher')?.invalid">Voucher is required</mat-error>
+      </mat-form-field>
 
       <!-- Expenses From -->
       <mat-form-field appearance="outline">
         <mat-label>Expenses From</mat-label>
         <mat-select formControlName="source">
-          <mat-option value="1">Current Acount</mat-option>
-          <mat-option value="2">Cash</mat-option>
+          <mat-option value="Current Account">Current Account</mat-option>
+          <mat-option value="Cash">Cash</mat-option>
         </mat-select>
+        <mat-error *ngIf="expenseForm.get('source')?.invalid">This field is required</mat-error>
       </mat-form-field>
 
-        <!-- Remarks (Full Width) -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Remarks</mat-label>
-          <textarea matInput formControlName="remarks" placeholder="Enter Remarks"></textarea>
-        </mat-form-field>
-      </div>
-  
-      <mat-dialog-actions class="dialog-actions">
-        <button mat-button type="button" (click)="closeDialog()">Close</button>
-        <button mat-raised-button color="primary" type="submit">Submit</button>
-      </mat-dialog-actions>
-  
-    </form>
-  </mat-dialog-content>
-  
+      <!-- Remarks -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Remarks</mat-label>
+        <textarea matInput formControlName="remarks" placeholder="Enter Remarks"></textarea>
+      </mat-form-field>
+    </div>
+
+    <mat-dialog-actions class="dialog-actions">
+      <button mat-button type="button" (click)="closeDialog()">Close</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="expenseForm.invalid">Submit</button>
+    </mat-dialog-actions>
+  </form>
+</mat-dialog-content>

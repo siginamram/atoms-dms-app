@@ -45,28 +45,36 @@
       </div>
   
       <div class="form-row">
+        <!-- Payment Status Dropdown -->
         <mat-form-field appearance="outline">
           <mat-label>Payment Status</mat-label>
           <mat-select formControlName="paymentStatus">
-            <mat-option *ngFor="let status of paymentStatusOptions" [value]="status">{{ status }}</mat-option>
+            <mat-option *ngFor="let status of paymentStatusOptions" [value]="status.id">
+              {{ status.name }}
+            </mat-option>
           </mat-select>
         </mat-form-field>
-  
+      
+        <!-- Payment Type Dropdown -->
         <mat-form-field appearance="outline">
           <mat-label>Payment Type</mat-label>
           <mat-select formControlName="paymentType">
-            <mat-option *ngFor="let type of paymentTypeOptions" [value]="type">{{ type }}</mat-option>
+            <mat-option *ngFor="let type of paymentTypeOptions" [value]="type.id">
+              {{ type.name }}
+            </mat-option>
           </mat-select>
         </mat-form-field>
-
+      
+        <!-- Payment Mode Dropdown -->
         <mat-form-field appearance="outline">
-            <mat-label>Payment Mode</mat-label>
-            <mat-select formControlName="paymentMode">
-              <mat-option *ngFor="let type of paymentModeOptions" [value]="type">{{ type }}</mat-option>
-            </mat-select>
-          </mat-form-field>
+          <mat-label>Payment Mode</mat-label>
+          <mat-select formControlName="paymentMode">
+            <mat-option *ngFor="let mode of paymentModeOptions" [value]="mode.id">
+              {{ mode.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-  
  
     <!-- Follow-ups -->
 <h3>Follow-ups</h3>

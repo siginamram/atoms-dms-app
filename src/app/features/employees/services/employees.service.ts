@@ -84,4 +84,14 @@ ApproveLateRequest(payload: any): Observable<any> {
   return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
 }
 
+AddUpdateExpenses(payload: any): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Account/AddUpdateExpenses`;
+  return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+}
+
+GetExpenses(fdate: string, tdate: string): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Account/GetExpenses/${fdate}/${tdate}`;
+  return this.http.get(apiUrl);
+}
+
 }

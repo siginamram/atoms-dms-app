@@ -9,18 +9,18 @@
     <!-- Date Filters -->
     <div class="filters-container">
       <mat-form-field appearance="outline">
-        <mat-label>From Date</mat-label>
-        <input matInput [matDatepicker]="fromDatePicker" placeholder="DD/MM/YYYY" readonly />
-        <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
-        <mat-datepicker #fromDatePicker></mat-datepicker>
-      </mat-form-field>
-  
-      <mat-form-field appearance="outline">
-        <mat-label>To Date</mat-label>
-        <input matInput [matDatepicker]="toDatePicker" placeholder="DD/MM/YYYY" readonly />
-        <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
-        <mat-datepicker #toDatePicker></mat-datepicker>
-      </mat-form-field>
+      <mat-label>From Date</mat-label>
+      <input matInput [matDatepicker]="fromPicker" [formControl]="fromDate" placeholder="DD/MM/YYYY" />
+      <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+      <mat-datepicker #fromPicker (dateInput)="setDefaultDateRange()"></mat-datepicker>
+    </mat-form-field>
+    
+    <mat-form-field appearance="outline">
+      <mat-label>To Date</mat-label>
+      <input matInput [matDatepicker]="toPicker" [formControl]="toDate" placeholder="DD/MM/YYYY" />
+      <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+      <mat-datepicker #toPicker (dateInput)="setDefaultDateRange()"></mat-datepicker>
+    </mat-form-field>
     </div>
   
     <!-- Total Expense Display -->
@@ -30,7 +30,10 @@
   
     <!-- Expense Table -->
     <table mat-table [dataSource]="expenses" class="mat-elevation-z8">
-      
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>S.NO</th>
+        <td mat-cell *matCellDef="let expense">{{ expense.id }}</td>
+      </ng-container>
       <!-- Date Column -->
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef>Date</th>
@@ -82,15 +85,17 @@
       <!-- Edit/Delete Actions -->
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Edit</th>
-        <td mat-cell *matCellDef="let expense; let i = index">
-          <button mat-icon-button color="warn" (click)="editExpense(i)">
+        <td mat-cell *matCellDef="let expense;">
+          <button mat-icon-button color="warn" (click)="editExpense(expense)">
             <mat-icon>edit</mat-icon>
           </button>
         </td>
       </ng-container>
   
-      <tr mat-header-row *matHeaderRowDef="['date', 'person', 'purpose', 'amount', 'invoice', 'voucher', 'source', 'remarks', 'actions']"></tr>
-      <tr mat-row *matRowDef="let row; columns: ['date', 'person', 'purpose', 'amount', 'invoice', 'voucher', 'source', 'remarks', 'actions']"></tr>
+      <tr mat-header-row *matHeaderRowDef="['id','date', 'person', 'purpose', 'amount', 'invoice', 'voucher', 'source', 'remarks', 'actions']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['id','date', 'person', 'purpose', 'amount', 'invoice', 'voucher', 'source', 'remarks', 'actions']"></tr>
     </table>
+    <!-- Paginator -->
+    <mat-paginator [pageSize]="30" [pageSizeOptions]="[5, 10, 20, 30]"></mat-paginator>
   </div>
   
