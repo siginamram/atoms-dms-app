@@ -280,6 +280,10 @@ dialogRef.afterClosed().subscribe((result) => {
       queryParams: {
         fromDateValue:formattedFromDate,
          toDateValue:formattedToDate,
+         name:'Poster Designer',
+         userId:this.userId,
+         roleid:11, 
+         creativeTypeId:2
         },
     });
   }
@@ -288,6 +292,10 @@ dialogRef.afterClosed().subscribe((result) => {
       queryParams: {
         fromDateValue:formattedFromDate,
          toDateValue:formattedToDate,
+         name:'Video Editor',
+         userId:this.userId,
+         roleid:12, 
+         creativeTypeId:3
         },
     });
   }

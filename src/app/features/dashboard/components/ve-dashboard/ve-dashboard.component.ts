@@ -41,7 +41,13 @@ export class VeDashboardComponent implements OnInit {
       this.creativeTypeId = +params['creativeTypeId'] || 0;
       this.roleId = +params['roleid'] || 0;
       this.name = params['name'];
-      this.empname = params['empname'] || localStorage.getItem('firstName')
+      const roleId = Number(localStorage.getItem('RoleId')); 
+      if(roleId==12){
+        this.empname = params['empname'] || localStorage.getItem('firstName')
+      }
+      else{
+        this.empname ='';
+      }
     });
 
     // ✅ Automatically update when date filters change
@@ -115,7 +121,7 @@ export class VeDashboardComponent implements OnInit {
         queryParams: {
           fromDateValue: moment(this.fromDate.value).format('YYYY-MM-DD'),
           toDateValue: moment(this.toDate.value).format('YYYY-MM-DD'),
-          userId: userId,
+          userId: this.userId,
           creativeTypeId: 4,
           status:4,
         },
@@ -127,7 +133,7 @@ export class VeDashboardComponent implements OnInit {
       queryParams: {
         fromDateValue: moment(this.fromDate.value).format('YYYY-MM-DD'),
         toDateValue: moment(this.toDate.value).format('YYYY-MM-DD'),
-        userId: userId,
+        userId: this.userId,
         creativeTypeId: 4,
         status:1,
       },

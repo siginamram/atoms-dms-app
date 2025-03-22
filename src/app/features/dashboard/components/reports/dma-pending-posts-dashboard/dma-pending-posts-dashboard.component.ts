@@ -204,6 +204,10 @@ export class DmaPendingPostsDashboardComponent implements OnInit {
       queryParams: {
         fromDateValue:formattedFromDate,
          toDateValue:formattedToDate,
+         userId:this.userId,
+         name:'DMA',
+         roleid:9,
+         creativeTypeId:1, 
         },
     });
   }
