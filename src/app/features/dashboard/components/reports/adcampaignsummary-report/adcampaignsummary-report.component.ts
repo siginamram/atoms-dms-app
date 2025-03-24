@@ -19,6 +19,7 @@ export class AdcampaignsummaryReportComponent implements OnInit {
     'id',
     'clientName',
     'resultType',
+     'Result',
     'NoOfCampaigns',
     'CampaignDuration',
     'totalReach',

@@ -222,7 +222,7 @@
         
         <li>
           <a [routerLink]="['/home', 'employees', 'expenses']" 
-             *ngIf="roleService.hasRole(['HR'])"
+             *ngIf="roleService.hasRole(['Manager','HR'])"
              routerLinkActive="active">
             <i class="material-icons">attach_money</i> Expenses
           </a>

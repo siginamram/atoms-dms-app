@@ -69,6 +69,11 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Result Type</th>
           <td mat-cell *matCellDef="let campaign">{{ campaign.resultType }}</td>
         </ng-container>
+
+        <ng-container matColumnDef="Result">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Result</th>
+          <td mat-cell *matCellDef="let campaign">{{ campaign.result }}</td>
+        </ng-container>
   
         <!-- Total Result -->
         <ng-container matColumnDef="NoOfCampaigns">
