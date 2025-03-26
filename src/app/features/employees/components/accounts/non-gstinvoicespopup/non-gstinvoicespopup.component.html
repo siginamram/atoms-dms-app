@@ -1,5 +1,8 @@
 <div class="container">
     <mat-toolbar color="primary" style="border-radius: 10px;">
+      <button mat-icon-button  (click)="goBack()" aria-label="Back">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
       <span>Non-GST Invoice Details</span>
     </mat-toolbar>
     <form [formGroup]="invoiceForm">
@@ -14,7 +17,7 @@
             <mat-label>Service Opted</mat-label>
             <mat-select formControlName="serviceOpted">
               <mat-option value="Consulting">Consulting</mat-option>
-              <mat-option value="Marketing">Marketing</mat-option>
+              <mat-option value="Digital Marketing">Digital Marketing</mat-option>
               <mat-option value="IT Support">IT Support</mat-option>
             </mat-select>
           </mat-form-field>

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-gstinvoicespopup',
@@ -10,7 +11,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class GstinvoicespopupComponent {
   invoiceForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,  private router: Router,) {
     this.invoiceForm = this.fb.group({
       clientName: ['', Validators.required],
       clientGST: ['', Validators.required],
@@ -79,6 +80,10 @@ export class GstinvoicespopupComponent {
   }
 
   cancel() {
-    console.log("Invoice Editing Cancelled");
+    this.router.navigate(['/home/employees/non-gst-invoices']);
+  }
+
+  goBack(): void {
+    this.router.navigate(['/home/employees/gst-invoices']); 
   }
 }

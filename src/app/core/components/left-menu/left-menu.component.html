@@ -196,9 +196,9 @@
           </a>
         </li>
         
-        <!-- <li>
+        <li>
           <a [routerLink]="['/home', 'employees', 'payment-collection']" 
-             *ngIf="roleService.hasRole(['Manager','Team Lead'])"
+             *ngIf="roleService.hasRole(['Manager','Team Lead','HR'])"
              routerLinkActive="active">
             <i class="material-icons">payments</i> Payment Collection
           </a>
@@ -206,7 +206,7 @@
         
         <li>
           <a [routerLink]="['/home', 'employees', 'gst-invoices']" 
-             *ngIf="roleService.hasRole(['Manager','Team Lead'])"
+             *ngIf="roleService.hasRole(['Manager','Team Lead','HR'])"
              routerLinkActive="active">
             <i class="material-icons">receipt_long</i> GST Invoices
           </a>
@@ -214,11 +214,11 @@
         
         <li>
           <a [routerLink]="['/home', 'employees', 'non-gst-invoices']" 
-             *ngIf="roleService.hasRole(['Manager','Team Lead'])"
+             *ngIf="roleService.hasRole(['Manager','Team Lead','HR'])"
              routerLinkActive="active">
             <i class="material-icons">request_quote</i> Non-GST Invoices
           </a>
-        </li> -->
+        </li>
         
         <li>
           <a [routerLink]="['/home', 'employees', 'expenses']" 

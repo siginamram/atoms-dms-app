@@ -119,10 +119,7 @@ export class OperationsContentWritersComponent implements OnInit {
       }
       // Fetch the client details
       this.fetchClientDetails(this.clientId);
-      console.log('Client ID:', this.clientId);
-      console.log('Selected Date:', this.selecteddate);
       this.fetchClientDeliverablesAndPackages(this.clientId);
-
       this.fetchMonthlyTrackerData();
 
     });
@@ -199,7 +196,6 @@ export class OperationsContentWritersComponent implements OnInit {
     this.isLoading = true;
     this.operationsService.getclientDeliverablesAndPackages(clientId).subscribe({
       next: (response: any) => {
-        console.log('Deliverables and Packages:', response);
         if (response && response.length > 0) {
           this.isLoading = false; // Stop loading indicator
           const deliverables = response[0];

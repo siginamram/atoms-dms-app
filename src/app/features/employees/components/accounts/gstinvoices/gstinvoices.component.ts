@@ -1,9 +1,13 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ViewChild ,ChangeDetectionStrategy} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { Router } from '@angular/router';
+import { MatPaginator } from '@angular/material/paginator';
+import { EmployeesService } from '../../../services/employees.service';
 import * as moment from 'moment';
+import { MatTableDataSource } from '@angular/material/table';
+
 export const MY_FORMATS = {
   parse: {
     dateInput: 'MM/YYYY',
@@ -15,15 +19,17 @@ export const MY_FORMATS = {
     monthYearA11yLabel: 'MMMM YYYY',
   },
 };
+
 export interface InvoiceData {
   id: number;
   client: string;
-  invoicegenerationdate:string;
+  invoicegenerationdate: string;
   service: string;
   actualAmount: number;
   adjustedAmount: number;
   totalGST: number;
   invoiceNo: string;
+  netlossgain: string;
 }
 
 @Component({
@@ -31,38 +37,78 @@ export interface InvoiceData {
   standalone:false,
   templateUrl: './gstinvoices.component.html',
   styleUrls: ['./gstinvoices.component.css'],
-  providers: [provideMomentDateAdapter(MY_FORMATS)],
- changeDetection: ChangeDetectionStrategy.OnPush,
+     providers: [provideMomentDateAdapter(MY_FORMATS)],
+     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GstinvoicesComponent {
-  selectedMonth: string = '';
+export class GstinvoicesComponent implements OnInit {
+  isLoading = false; 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   readonly date = new FormControl(moment());
-  constructor
-  (
-   private router: Router,
-  )
-  {}
-  invoices: InvoiceData[] = [
-    { id: 1, client: 'ABC Corp',invoicegenerationdate:'02/02/2025', service: 'Consulting', actualAmount: 5000, adjustedAmount: 4800, totalGST: 5600, invoiceNo: 'INV001' },
-    { id: 2, client: 'XYZ Ltd', invoicegenerationdate:'02/02/2025',service: 'IT Support', actualAmount: 7000, adjustedAmount: 6800, totalGST: 7600, invoiceNo: 'INV002' },
-    { id: 3, client: 'LMN Pvt',invoicegenerationdate:'02/02/2025', service: 'Marketing', actualAmount: 8000, adjustedAmount: 7800, totalGST: 8600, invoiceNo: 'INV003' }
+  invoices = new MatTableDataSource<InvoiceData>();
+  displayedColumns: string[] = [
+    'id',
+    'client',
+    'invoicegenerationdate',
+    'invoiceNo',
+    'service',
+    'actualAmount',
+    'adjustedAmount',
+    'totalGST',
+    'netlossgain',
+    'actions',
   ];
 
-  displayedColumns: string[] = ['id', 'client','invoicegenerationdate','invoiceNo', 'service', 'actualAmount', 'adjustedAmount', 'totalGST','netlossgain',  'actions'];
+  constructor(
+    private router: Router,
+    private employeesService: EmployeesService
+  ) {}
 
+  ngOnInit(): void {
+    this.fetchInvoices();
+  }
+  ngAfterViewInit(): void {
+    this.invoices.paginator = this.paginator;
+  }
   setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
     const ctrlValue = this.date.value ?? moment();
     ctrlValue.month(normalizedMonthAndYear.month());
     ctrlValue.year(normalizedMonthAndYear.year());
     this.date.setValue(ctrlValue);
     datepicker.close();
+    this.fetchInvoices();
   }
 
-  editInvoice(invoice: InvoiceData) {
+  fetchInvoices(): void {
+    //this.isLoading = true; 
+    const selectedDate = this.date.value?.format('YYYY-MM-DD') ?? moment().format('YYYY-MM-DD');
+    this.employeesService.GetInvoicesByMonth(selectedDate, 'true').subscribe((data: any[]) => {
+      const formattedData = data.map((item, index) => ({
+        id: item.id,
+        client: item.organizationName,
+        invoicegenerationdate: moment(item.date).format('DD/MM/YYYY'),
+        invoiceNo: item.invoiceNo,
+        service: item.serviceOpted || 'N/A',
+        actualAmount: item.amount,
+        adjustedAmount: item.adjustedAmount,
+        totalGST: item.totalAmount,
+        netlossgain: this.calculateNet(item.amount, item.adjustedAmount),
+      }));
+      this.isLoading = false; 
+      this.invoices.data = formattedData;
+    });
+  }
+
+  calculateNet(actual: number, adjusted: number): string {
+    const diff = adjusted - actual;
+    return diff === 0 ? 'No Change' : diff > 0 ? `Gain ₹${diff}` : `Loss ₹${Math.abs(diff)}`;
+  }
+
+  editInvoice(invoice: InvoiceData): void {
     console.log('Editing Invoice:', invoice);
+    // Navigate to edit if needed
   }
 
-  addGST(){
+  addGST(): void {
     this.router.navigate([`/home/employees/add-gst-invoices`]);
   }
 }

@@ -8,28 +8,37 @@
         </button>
        
       </mat-toolbar>
-    <!-- Month Selection -->
-    <mat-form-field appearance="outline">
-        <mat-label>Month and Year</mat-label>
-        <input matInput [matDatepicker]="dp" [formControl]="date" placeholder="MM/YYYY" readonly>
-        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-        <mat-datepicker
-          #dp
-          startView="multi-year"
-          (monthSelected)="setMonthAndYear($event, dp)"
-          panelClass="example-month-picker">
-        </mat-datepicker>
-      </mat-form-field>
-  
+  <!-- Month Selection -->
+  <mat-form-field appearance="outline">
+    <mat-label>Month and Year</mat-label>
+    <input
+      matInput
+      [matDatepicker]="dp"
+      [formControl]="date"
+      placeholder="MM/YYYY"
+      readonly
+    />
+    <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+    <mat-datepicker
+      #dp
+      startView="multi-year"
+      (monthSelected)="setMonthAndYear($event, dp)"
+      panelClass="example-month-picker">
+    </mat-datepicker>
+  </mat-form-field>
+   <!-- Loader -->
+   <div class="loader-container" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+  </div>
   
     <!-- Responsive Table -->
-    <div class="table-container">
+    <div class="table-container" *ngIf="!isLoading">
       <table mat-table [dataSource]="invoices" class="mat-elevation-z8">
         
         <!-- ID Column -->
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef>S.No</th>
-          <td mat-cell *matCellDef="let invoice">{{ invoice.id }}</td>
+          <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
         </ng-container>
   
         <!-- Client Column -->
@@ -78,16 +87,21 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let invoice">
-            <button mat-icon-button color="primary" (click)="editInvoice(invoice)">
+            <button mat-icon-button color="primary" (click)="editInvoice(invoice.id)">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-button color="primary" >Download</button>
+            <!-- <button mat-button color="primary" >Download</button> -->
           </td>
         </ng-container>
   
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
+      <div *ngIf="invoices.data.length === 0" class="no-data-message">
+        <p>No Records Found...</p>
+      </div>
+            <!-- Paginator -->
+            <mat-paginator [pageSize]="30" [pageSizeOptions]="[5, 10, 20, 30]"></mat-paginator>
     </div>
   </div>
   

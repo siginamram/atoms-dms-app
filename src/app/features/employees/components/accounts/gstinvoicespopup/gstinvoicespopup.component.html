@@ -1,5 +1,8 @@
 <div class="container">
   <mat-toolbar color="primary" style="border-radius: 10px;">
+    <button mat-icon-button  (click)="goBack()" aria-label="Back">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
     <span>Invoice Details</span>
   </mat-toolbar>
   <form [formGroup]="invoiceForm">

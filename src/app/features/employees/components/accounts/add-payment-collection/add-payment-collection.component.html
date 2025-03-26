@@ -1,5 +1,8 @@
 <div class="container">
     <mat-toolbar color="primary" style="border-radius: 10px;">
+      <button mat-icon-button  (click)="goBack()" aria-label="Back">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
         <span>Payment Collection Follow-up</span>
       </mat-toolbar>
     <form [formGroup]="paymentForm">
@@ -77,28 +80,31 @@
       </div>
  
     <!-- Follow-ups -->
-<h3>Follow-ups</h3>
-<div formArrayName="followUps">
-  <div *ngFor="let followUp of followUps.controls; let i = index" [formGroupName]="i" class="follow-up-row form-row">
-    <mat-form-field appearance="outline">
-      <mat-label>Follow-up Date</mat-label>
-      <input matInput [matDatepicker]="followUpDatePicker" formControlName="followUpDate">
-      <mat-datepicker-toggle matSuffix [for]="followUpDatePicker"></mat-datepicker-toggle>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Follow-up Details</mat-label>
-      <input matInput formControlName="followUpDetails">
-    </mat-form-field>
-
-    <button mat-icon-button color="warn" (click)="removeFollowUp(i)" *ngIf="followUps.length > 1">
-      <mat-icon>remove_circle</mat-icon>
-    </button>
-  </div>
-</div>
-
-<mat-datepicker #followUpDatePicker></mat-datepicker>
-
+    <h3>Follow-ups</h3>
+    <div formArrayName="followUps">
+      <div *ngFor="let followUp of followUps.controls; let i = index" [formGroupName]="i" class="follow-up-row form-row">
+    
+        <mat-form-field appearance="outline">
+          <mat-label>Follow-up Date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            formControlName="followUpDate">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    
+        <mat-form-field appearance="outline">
+          <mat-label>Follow-up Details</mat-label>
+          <input matInput formControlName="followUpDetails">
+        </mat-form-field>
+    
+        <button mat-icon-button color="warn" (click)="removeFollowUp(i)" *ngIf="followUps.length > 1">
+          <mat-icon>remove_circle</mat-icon>
+        </button>
+      </div>
+    </div>
+    
   <div style="text-align: right;">
     <button mat-raised-button color="accent" (click)="addFollowUp()">
         <mat-icon>add</mat-icon> Add Follow-up

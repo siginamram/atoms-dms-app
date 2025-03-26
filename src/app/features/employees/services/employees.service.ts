@@ -94,4 +94,36 @@ GetExpenses(fdate: string, tdate: string): Observable<any> {
   return this.http.get(apiUrl);
 }
 
+GetInvoicesByMonth(date: string, isApplicable: any): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Account/GetInvoicesByMonth/${date}/${isApplicable}`;
+  return this.http.get(apiUrl);
+}
+
+GetPaymentCollection(date: string): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Account/GetPaymentCollection/${date}`;
+  return this.http.get(apiUrl);
+}
+
+GetPaymentFollowup(invoiceNo: number): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Account/GetPaymentFollowup/${invoiceNo}`;
+  return this.http.get(apiUrl);
+}
+
+UpdateInvoicePaymentFollwUp(payload: any): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Account/UpdateInvoicePaymentFollwUp`;
+  return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+}
+
+GenerateInvoice(date: string): Observable<string> {
+  const apiUrl = `${this.baseApiUrl}/api/Account/GenerateInvoice/${date}`;
+  return this.http.get(apiUrl, { responseType: 'text' });
+}
+
+GetInvoiceDetailsById(invoiceNo: number): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Account/GetInvoiceDetailsById?invoiceId=${invoiceNo}`;
+  return this.http.get(apiUrl);
+}
+
+
+
 }

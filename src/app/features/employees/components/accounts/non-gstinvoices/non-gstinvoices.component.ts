@@ -1,9 +1,14 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy,ViewChild} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { MatPaginator } from '@angular/material/paginator';
+import { EmployeesService } from '../../../services/employees.service';
+import { MatTableDataSource } from '@angular/material/table';
+
+
 export const MY_FORMATS = {
   parse: {
     dateInput: 'MM/YYYY',
@@ -15,53 +20,104 @@ export const MY_FORMATS = {
     monthYearA11yLabel: 'MMMM YYYY',
   },
 };
+
 export interface InvoiceData {
   id: number;
   client: string;
-  invoicegenerationdate:string;
+  invoicegenerationdate: string;
   service: string;
   actualAmount: number;
   adjustedAmount: number;
   invoiceNo: string;
+  netlossgain?: number;
 }
+
 @Component({
   selector: 'app-non-gstinvoices',
   standalone:false,
   templateUrl: './non-gstinvoices.component.html',
-  styleUrl: './non-gstinvoices.component.css',
-   providers: [provideMomentDateAdapter(MY_FORMATS)],
-   changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./non-gstinvoices.component.css'],
+  providers: [provideMomentDateAdapter(MY_FORMATS)],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NonGstinvoicesComponent {
-selectedMonth: string = '';
+export class NonGstinvoicesComponent implements OnInit {
+  isLoading = false; 
+   @ViewChild(MatPaginator) paginator!: MatPaginator;
   readonly date = new FormControl(moment());
-  constructor
-  (
-   private router: Router,
-  )
-  {}
-  invoices: InvoiceData[] = [
-    { id: 1, client: 'ABC Corp',invoicegenerationdate:'02/02/2025', service: 'Consulting', actualAmount: 5000, adjustedAmount: 4800, invoiceNo: 'INV001' },
-    { id: 2, client: 'XYZ Ltd', invoicegenerationdate:'02/02/2025',service: 'IT Support', actualAmount: 7000, adjustedAmount: 6800,  invoiceNo: 'INV002' },
-    { id: 3, client: 'LMN Pvt',invoicegenerationdate:'02/02/2025', service: 'Marketing', actualAmount: 8000, adjustedAmount: 7800, invoiceNo: 'INV003' }
+  invoices = new MatTableDataSource<InvoiceData>();
+  displayedColumns: string[] = [
+    'id', 'client', 'invoicegenerationdate', 'invoiceNo', 'service',
+    'actualAmount', 'adjustedAmount', 'netlossgain', 'actions'
   ];
 
-  displayedColumns: string[] = ['id', 'client','invoicegenerationdate','invoiceNo', 'service', 'actualAmount', 'adjustedAmount','netlossgain',  'actions'];
+  constructor(
+    private router: Router,
+    private employeesService: EmployeesService
+  ) {}
 
-  setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
+  ngOnInit(): void {
+    this.fetchInvoices();
+  }
+  ngAfterViewInit(): void {
+    this.invoices.paginator = this.paginator;
+  }
+  fetchInvoices(): void {
+    //this.isLoading = true; 
+    const selectedDate = this.date.value?.format('YYYY-MM-DD') ?? moment().format('YYYY-MM-DD');
+      this.employeesService.GetInvoicesByMonth(selectedDate, 'false').subscribe((data: any[]) => {
+        this.isLoading = false; 
+          const formattedData = data.map((item, index) => ({
+            id: item.id,
+            client: item.organizationName,
+            invoicegenerationdate: moment(item.date).format('DD/MM/YYYY'),
+            invoiceNo: item.invoiceNo,
+            service: item.serviceOpted || 'N/A',
+            actualAmount: item.amount,
+            adjustedAmount: item.adjustedAmount,
+            netlossgain: (item.totalAmount || 0) - (item.amount || 0),
+          
+          }));
+        
+          this.invoices.data = formattedData;
+        });
+    // this.employeesService.GetInvoicesByMonth(selectedDate, 'false').subscribe({
+    //   next: (response) => {
+    //     this.invoices = response.map((item: any) => ({
+    //       id: item.id,
+    //       client: item.organizationName,
+    //       invoicegenerationdate: moment(item.date).format('DD/MM/YYYY'),
+    //       service: item.serviceOpted || 'N/A',
+    //       actualAmount: item.amount,
+    //       adjustedAmount: item.adjustedAmount || 0,
+    //       invoiceNo: item.invoiceNo,
+    //       netlossgain: (item.totalAmount || 0) - (item.amount || 0)
+    //     }));
+    //   },
+    //   error: (err) => {
+    //     console.error('Failed to fetch invoices:', err);
+    //   }
+    // });
+  }
+ setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
     const ctrlValue = this.date.value ?? moment();
     ctrlValue.month(normalizedMonthAndYear.month());
     ctrlValue.year(normalizedMonthAndYear.year());
     this.date.setValue(ctrlValue);
     datepicker.close();
+    this.fetchInvoices();
   }
 
-  editInvoice(invoice: InvoiceData) {
+  editInvoice(invoice: InvoiceData): void {
     console.log('Editing Invoice:', invoice);
+    this.router.navigate([`/home/employees/add-non-gst-invoices`], {
+      queryParams: {
+        invoice,
+      }
+    });
+    
   }
 
-  addGST(){
+  addGST(): void {
     this.router.navigate([`/home/employees/add-non-gst-invoices`]);
   }
 }
-
