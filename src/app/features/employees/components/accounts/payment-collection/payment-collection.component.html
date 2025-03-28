@@ -53,25 +53,25 @@
     <ng-container matColumnDef="paymentStatus">
       <th mat-header-cell *matHeaderCellDef>Payment Status</th>
       <td mat-cell *matCellDef="let payment">
-        <mat-chip [ngClass]="{
+        <!-- <mat-chip [ngClass]="{
           'paid': payment.paymentStatus === 'Paid',
           'pending': payment.paymentStatus === 'Pending'
-        }">
+        }"> -->
           {{ payment.paymentStatus }}
-        </mat-chip>
+        <!-- </mat-chip> -->
       </td>
     </ng-container>
 
     <!-- Type Column (GST/Non-GST) -->
     <ng-container matColumnDef="type">
-      <th mat-header-cell *matHeaderCellDef>Type</th>
+      <th mat-header-cell *matHeaderCellDef>Invoices Type</th>
       <td mat-cell *matCellDef="let payment">
-        <mat-chip [ngClass]="{
+        <!-- <mat-chip [ngClass]="{
           'gst': payment.type === 'GST',
           'non-gst': payment.type === 'Non-GST'
-        }">
+        }"> -->
           {{ payment.type }}
-        </mat-chip>
+        <!-- </mat-chip> -->
       </td>
     </ng-container>
 

@@ -92,6 +92,7 @@ export class PaymentCollectionComponent implements OnInit {
         console.log(res);
         if (res === 'Success') {
           this.openAlertDialog('Success', 'Invoice generated successfully!');
+          this.fetchPaymentsForMonth(); // call updated function
         } else {
           this.openAlertDialog('Error', 'Unexpected response. Please try again.');
         }

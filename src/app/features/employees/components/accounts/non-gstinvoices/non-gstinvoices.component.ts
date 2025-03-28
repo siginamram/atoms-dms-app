@@ -106,6 +106,14 @@ export class NonGstinvoicesComponent implements OnInit {
     datepicker.close();
     this.fetchInvoices();
   }
+  downloadInvoice(invoice: InvoiceData){
+    console.log('Download Invoice:', invoice);
+    this.router.navigate(['/home/employees/non-gst-invoices-download'], {
+      queryParams: {
+        invoice,
+      }
+    });
+  }
 
   editInvoice(invoice: InvoiceData): void {
     console.log('Editing Invoice:', invoice);

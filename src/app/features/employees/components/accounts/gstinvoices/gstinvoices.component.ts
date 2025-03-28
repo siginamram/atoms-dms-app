@@ -54,6 +54,7 @@ export class GstinvoicesComponent implements OnInit {
     'actualAmount',
     'adjustedAmount',
     'totalGST',
+    'gst',
     'netlossgain',
     'actions',
   ];
@@ -103,9 +104,23 @@ export class GstinvoicesComponent implements OnInit {
     return diff === 0 ? 'No Change' : diff > 0 ? `Gain ₹${diff}` : `Loss ₹${Math.abs(diff)}`;
   }
 
+ downloadInvoice(invoice: InvoiceData){
+    console.log('Download Invoice:', invoice);
+    this.router.navigate(['/home/employees/gst-invoices-download'], {
+      queryParams: {
+        invoice,
+      }
+    });
+  }
+
   editInvoice(invoice: InvoiceData): void {
     console.log('Editing Invoice:', invoice);
-    // Navigate to edit if needed
+    this.router.navigate([`/home/employees/add-gst-invoices`], {
+      queryParams: {
+        invoice,
+      }
+    });
+    
   }
 
   addGST(): void {

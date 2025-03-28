@@ -1,0 +1,82 @@
+.invoice-container {
+    background: #ffffff;
+    padding: 30px;
+    max-width: 800px;
+    margin: auto;
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    color: #000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  
+  .center {
+    text-align: center;
+  }
+  
+  .bold {
+    font-weight: bold;
+  }
+  
+  .top-right {
+    padding-top: 50px;
+    text-align: right;
+    margin-top: -60px;
+    font-size: 14px;
+  }
+  
+  .contact {
+    margin-top: 20px;
+    font-size: 14px;
+  }
+  
+  .invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .invoice-table th,
+  .invoice-table td {
+    border: 1px solid #000;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .net-total td {
+    font-weight: bold;
+  }
+  
+  .amount-words {
+    margin-top: 20px;
+    font-size: 14px;
+  }
+  
+  .bank-details {
+    margin-top: 20px;
+    font-size: 14px;
+    text-align: center;
+  }
+  
+  .thank-you {
+    margin-top: 30px;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  @media print {
+    .invoice-container {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 20mm;
+      box-sizing: border-box;
+    }
+  }
+  .no-print {
+    display: block; /* default display for screen */
+  }
+  
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+  }

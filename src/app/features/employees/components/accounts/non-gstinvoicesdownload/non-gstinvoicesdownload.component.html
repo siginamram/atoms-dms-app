@@ -1,0 +1,68 @@
+<div class="invoice-container" *ngIf="invoiceData">
+    <div style="text-align: left;" class="no-print">
+        <button mat-raised-button color="primary" (click)="goBack()">
+           Back
+        </button>
+      </div>
+    <div style="text-align: right;" class="no-print">
+        <button mat-raised-button color="primary" (click)="downloadPDF()">
+          Download Invoice
+        </button>
+      </div>
+      
+    <h2 class="center bold">DIGITAL MARKETING</h2>
+    <h3 class="center bold">INVOICE</h3>
+  
+    <div class="top-right">
+      <p><strong>Date:</strong> {{ invoiceData.date | date: 'dd-MM-yyyy' }}</p>
+      <p><strong>Service Period:</strong> {{ servicePeriod }}</p>
+    </div>
+  
+    <div class="contact">
+      <p><strong>Contact:</strong> +91 96521 85060</p>
+      <p>To</p>
+      <p>{{ invoiceData.organizationName }},</p>
+      <!-- <ng-container *ngIf="invoiceData?.address">
+        <p *ngFor="let line of invoiceData.address.split(',')">{{ line.trim() }}</p>
+      </ng-container> -->
+      <p>{{ invoiceData.address }}</p>
+    </div>
+  
+    <table class="invoice-table">
+      <thead>
+        <tr>
+          <th>S. No.</th>
+          <th>Particulars</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of invoiceData.invoiceItems; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ item.itemDescription }}</td>
+          <td>₹ {{ item.amount | number: '1.0-0' }}</td>
+        </tr>
+        <tr class="net-total">
+          <td colspan="2"><strong>Net Total</strong></td>
+          <td><strong>₹ {{ invoiceData.totalAmount | number: '1.0-0' }}</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- <div class="amount-words">
+      Amount in words <strong>{{ this.AmountInWords }}</strong>
+    </div> -->
+  
+    <div class="bank-details">
+      <p> Amount in words <strong>{{ this.AmountInWords }}</strong></p>
+      <p>All the payments through Cheque should be made in favor of</p>
+      <p><strong>“BATTULA TIRUMALA SAI GANESH BABU”</strong></p>
+      <p><strong>CBI BANK ACCOUNT NUMBER:</strong> 5336435560</p>
+      <p><strong>BRANCH:</strong> GORANTLA, GUNTUR</p>
+      <p><strong>IFSC CODE:</strong> CBIN0284734</p>
+      <p><strong>UPI ID:</strong> 9652185060-2&#64;ybl</p>
+    </div>
+  
+    <div class="center thank-you">THANK YOU FOR YOUR BUSINESS!</div>
+  </div>
+  

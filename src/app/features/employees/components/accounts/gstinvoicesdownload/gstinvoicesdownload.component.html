@@ -1,0 +1,107 @@
+<div class="invoice-container">
+    <div class="header-section">
+    <div style="text-align: left;" class="no-print">
+        <button mat-raised-button color="primary" (click)="goBack()">
+           Back
+        </button>
+      </div>
+    <div style="text-align: right;" class="no-print">
+        <button mat-raised-button color="primary" (click)="downloadPDF()">
+          Download Invoice
+        </button>
+      </div>
+    </div>
+    
+    <img src="assets/img/Atoms-Digital.png" alt="Atoms Logo" style="width: 150px; margin-bottom: 10px;padding: 20px;" />
+
+  
+    <h2 class="right bold" style="margin-top: -50px; text-align: right;">TAX INVOICE</h2>
+  
+    <div class="header-section">
+      <div class="left">
+        <p>Atoms Digital Solutions Private Limited</p>
+        <p><strong>GSTIN:</strong> 37AAYCA8484F1ZV</p>
+        <p><strong>PAN Number:</strong> AAYCA8484F</p>
+        <p><strong>Address:</strong> Flat No. 301, Sri Siva Sankari Nilayam, Gorantla, Guntur – 522034, Andhra Pradesh</p>
+        <p>State Code: 37</p>
+      </div>
+      <div class="right">
+        <p><strong>Invoice Number:</strong> {{ invoiceData.invoiceNo }}</p>
+        <p><strong>Invoice Date:</strong> {{ invoiceData.date | date: 'dd-MM-yyyy' }}</p>
+        <p><strong>Due Date:</strong> {{ invoiceData.dueDate?.includes('0001') ? '-' : (invoiceData.dueDate | date: 'dd-MM-yyyy') }}</p>
+        <p><strong>E-mail:</strong> atomsdigitalsolutions&#64;gmail.com</p>
+        <p><strong>Phone:</strong> +91 73967 43341</p>
+      </div>
+    </div>
+  
+    <br>
+  
+    <div class="header-section">
+      <div class="left">
+        <p><strong>Billed To</strong></p>
+        <p>{{ invoiceData.organizationName }}</p>
+        <p>{{ invoiceData.address }}</p>
+        <p>Client GSTIN: {{ invoiceData.gstNumber || '-' }}</p>
+        <p>State Code: 37</p>
+      </div>
+  
+      <div class="right">
+        <p><strong>All the payments are to be made in favour of</strong></p>
+        <p>Atoms Digital Solutions Private Limited</p>
+        <p>ICICI Bank A/C Number: 777705333183</p>
+        <p>Branch: Guntur</p>
+        <p>IFSC Code: ICIC0006307</p>
+      </div>
+    </div>
+  
+    <br>
+  
+    <table class="invoice-table">
+      <thead>
+        <tr>
+          <th>Item Description</th>
+          <th>SAC Code</th>
+          <th>Quantity</th>
+          <th>Rate</th>
+          <th>Amount</th>
+          <th>CGST (9%)</th>
+          <th>SGST (9%)</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of invoiceData.invoiceItems">
+          <td>{{ item.itemDescription }}</td>
+          <td>{{ item.sacCode }}</td>
+          <td>{{ '' }}</td>
+          <td>{{ ''}}</td>
+          <td>{{ item.amount }}</td>
+          <td>{{ item.cgstAmount }}</td>
+          <td>{{ item.sgstAmount }}</td>
+          <td>{{ item.totalAmount }}</td>
+        </tr>
+        <tr>
+          <td colspan="4"><strong>Total</strong></td>
+          <td><strong>{{ invoiceData.amount }}</strong></td>
+          <td><strong>{{ invoiceData.cgstAmount }}</strong></td>
+          <td><strong>{{ invoiceData.sgstAmount }}</strong></td>
+          <td><strong>{{ invoiceData.totalAmount }}</strong></td>
+        </tr>
+        <tr>
+          <td colspan="7"><strong>Total Invoice Value (in figures)</strong></td>
+          <td><strong>{{ invoiceData.totalAmount }}</strong></td>
+        </tr>
+        <tr>
+          <td colspan="8"><strong>Total Invoice Value (in words)</strong>: {{ amountInWords }}</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <br>
+  
+    <div class="center thank-you">
+      It was great doing business with you!<br />
+      Please make the payment by the due date.
+    </div>
+  </div>
+  

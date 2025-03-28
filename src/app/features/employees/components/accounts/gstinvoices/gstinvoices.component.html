@@ -83,10 +83,18 @@
       </ng-container>
 
       <!-- Net Loss/Gain -->
+      <ng-container matColumnDef="gst">
+        <th mat-header-cell *matHeaderCellDef>GST</th>
+        <td mat-cell *matCellDef="let invoice">
+          ₹{{ invoice.totalGST - invoice.actualAmount }}
+        </td>
+      </ng-container>
+
+      <!-- Net Loss/Gain -->
       <ng-container matColumnDef="netlossgain">
         <th mat-header-cell *matHeaderCellDef>Net Loss/Gain</th>
         <td mat-cell *matCellDef="let invoice">
-          ₹{{ invoice.totalGST - invoice.actualAmount }}
+          ₹{{ invoice.actualAmount - invoice.adjustedAmount  }}
         </td>
       </ng-container>
 
@@ -94,10 +102,10 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let invoice">
-          <button mat-icon-button color="primary" (click)="editInvoice(invoice)">
+          <button mat-icon-button color="primary" (click)="editInvoice(invoice.id)">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-button color="primary">Download</button>
+          <button mat-button color="accent" (click)="downloadInvoice(invoice.id)">Download</button>
         </td>
       </ng-container>
 

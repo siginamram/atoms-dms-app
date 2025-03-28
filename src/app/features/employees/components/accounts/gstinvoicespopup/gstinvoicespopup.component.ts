@@ -1,21 +1,28 @@
-import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { EmployeesService } from '../../../services/employees.service';
 
 @Component({
   selector: 'app-gstinvoicespopup',
-  standalone:false,
+  standalone: false,
   templateUrl: './gstinvoicespopup.component.html',
   styleUrls: ['./gstinvoicespopup.component.css']
 })
-export class GstinvoicespopupComponent {
+export class GstinvoicespopupComponent implements OnInit {
   invoiceForm: FormGroup;
+  invoiceId: any;
 
-  constructor(private fb: FormBuilder,  private router: Router,) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute,
+    private employeesService: EmployeesService
+  ) {
     this.invoiceForm = this.fb.group({
       clientName: ['', Validators.required],
       clientGST: ['', Validators.required],
-      invoiceDate:['', Validators.required],
+      invoiceDate: ['', Validators.required],
       clientAddress: ['', Validators.required],
       gstStateCode: ['', Validators.required],
       serviceOpted: ['', Validators.required],
@@ -30,8 +37,54 @@ export class GstinvoicespopupComponent {
       totalInvoiceValue: [0],
       totalInvoiceValueWords: ['']
     });
+  }
 
-    this.addItem(); // Add at least one item row
+  ngOnInit(): void {
+    const invoiceParam = this.route.snapshot.queryParamMap.get('invoice');
+    if (invoiceParam) {
+      const invoiceObj = typeof invoiceParam === 'string' ? JSON.parse(invoiceParam) : invoiceParam;
+      this.invoiceId = invoiceObj?.id || invoiceObj;
+    }
+
+    if (this.invoiceId) {
+      this.employeesService.GetInvoiceDetailsById(this.invoiceId).subscribe((res: any) => {
+        this.invoiceForm.patchValue({
+          clientName: res.organizationName || '',
+          clientGST: res.gstNumber || '',
+          invoiceDate: res.date?.split('T')[0] || '',
+          clientAddress: res.address || '',
+          gstStateCode: res.gstStateCode || '',
+          serviceOpted: res.serviceOpted || '',
+          basePackage: res.amount || 0,
+          adjustedPackage: res.adjustedAmount || 0,
+          adBudget: res.adBudget || 0,
+          includeAdBudget: res.includeAdBudget || false,
+          gstPercentage: res.gstPercentage || 18,
+          sacCode: res.sacCode || '',
+          totalInvoiceValue: res.totalAmount || 0,
+          totalInvoiceValueWords: '' // you can convert it if needed
+        });
+
+        const itemsArray = this.invoiceForm.get('items') as FormArray;
+        itemsArray.clear();
+
+        if (res.invoiceItems?.length) {
+          res.invoiceItems.forEach((item: any) => {
+            itemsArray.push(this.fb.group({
+              itemDescription: [item.itemDescription || '', Validators.required],
+              sacCode: [item.sacCode || '', Validators.required],
+              qty: [item.quantity || 1, Validators.required],
+              rate: [item.rate || 0, Validators.required],
+              amount: [item.amount || 0, Validators.required],
+              gst: [18, Validators.required],
+              total: [item.totalAmount || 0]
+            }));
+          });
+        } else {
+          this.addItem();
+        }
+      });
+    }
   }
 
   get items() {
@@ -45,7 +98,7 @@ export class GstinvoicespopupComponent {
       qty: [1, Validators.required],
       rate: [0, Validators.required],
       amount: [0, Validators.required],
-      gst: [18, Validators.required],
+      gst: [0, Validators.required],
       total: [0]
     }));
   }
@@ -54,36 +107,15 @@ export class GstinvoicespopupComponent {
     this.items.removeAt(index);
   }
 
-  calculateTotal() {
-    let total = 0;
-    this.items.controls.forEach((item: any) => {
-      const qty = item.get('qty').value;
-      const rate = item.get('rate').value;
-      const gst = item.get('gst').value;
-      const itemTotal = (qty * rate) + ((qty * rate) * gst / 100);
-      item.get('total').setValue(itemTotal);
-      total += itemTotal;
-    });
-
-    this.invoiceForm.get('totalInvoiceValue')?.setValue(total);
-    this.invoiceForm.get('totalInvoiceValueWords')?.setValue(this.convertNumberToWords(total));
-    
-  }
-
-  convertNumberToWords(amount: number): string {
-    // Simple logic to convert numbers to words (could be replaced with an actual converter)
-    return amount.toLocaleString() + " Rupees";
-  }
-
   saveInvoice() {
     console.log("Invoice Data:", this.invoiceForm.value);
   }
 
   cancel() {
-    this.router.navigate(['/home/employees/non-gst-invoices']);
+    this.router.navigate(['/home/employees/gst-invoices']);
   }
 
   goBack(): void {
-    this.router.navigate(['/home/employees/gst-invoices']); 
+    this.router.navigate(['/home/employees/gst-invoices']);
   }
 }

@@ -44,6 +44,8 @@ import { IncomeStatementComponent } from './components/accounts/income-statement
 import { AtomsExpensesComponent } from './components/accounts/atoms-expenses/atoms-expenses.component';
 import { AddAtomsExpensesComponent } from './components/accounts/add-atoms-expenses/add-atoms-expenses.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { GstinvoicesdownloadComponent } from './components/accounts/gstinvoicesdownload/gstinvoicesdownload.component';
+import { NonGstinvoicesdownloadComponent } from './components/accounts/non-gstinvoicesdownload/non-gstinvoicesdownload.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +72,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     IncomeStatementComponent,
     AtomsExpensesComponent,
     AddAtomsExpensesComponent,
+    GstinvoicesdownloadComponent,
+    NonGstinvoicesdownloadComponent,
   ],
   imports: [
     CommonModule,
