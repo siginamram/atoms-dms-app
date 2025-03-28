@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EmployeesService } from '../../../services/employees.service';
 import * as moment from 'moment';
@@ -12,6 +12,7 @@ import { LateCommingEditComponent } from '../late-comming-edit/late-comming-edit
   styleUrls: ['./approve-leaves.component.css'],
 })
 export class ApproveLeavesComponent implements OnInit {
+    @ViewChild('fullTextDialog') fullTextDialog: any;
   empId: number = parseInt(localStorage.getItem('empID') || '0', 10);
   fromDate: Date = moment().startOf('month').toDate();
   toDate: Date = moment().endOf('month').toDate();
@@ -104,6 +105,16 @@ export class ApproveLeavesComponent implements OnInit {
       if (result) {
         this.fetchAllRequests();
       }
+    });
+  }
+
+  showFullText(text: string, title: string): void {
+    this.dialog.open(this.fullTextDialog, {
+      width: '400px',
+      data: {
+        text: text,
+        title: title,
+      },
     });
   }
 }
