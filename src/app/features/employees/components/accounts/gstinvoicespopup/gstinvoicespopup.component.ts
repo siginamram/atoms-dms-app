@@ -112,10 +112,10 @@ export class GstinvoicespopupComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/home/employees/gst-invoices']);
+    this.router.navigate(['/home/employees/payment-tabs']);
   }
 
   goBack(): void {
-    this.router.navigate(['/home/employees/gst-invoices']);
+    this.router.navigate(['/home/employees/payment-tabs']);
   }
 }

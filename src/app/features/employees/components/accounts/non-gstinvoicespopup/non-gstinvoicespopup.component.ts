@@ -117,10 +117,10 @@ export class NonGstinvoicespopupComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/home/employees/non-gst-invoices']);
+    this.router.navigate(['/home/employees/payment-tabs']);
   }
 
   goBack(): void {
-    this.router.navigate(['/home/employees/non-gst-invoices']); 
+    this.router.navigate(['/home/employees/payment-tabs']); 
   }
 }

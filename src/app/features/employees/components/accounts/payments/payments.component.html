@@ -1,0 +1,29 @@
+<div class="approvals-container">
+    <!-- Toolbar -->
+<mat-toolbar color="primary" class="toolbar">
+  <span>Payments/Invoices</span>
+</mat-toolbar>
+  <div class="tabs">
+    <button  [class.active]="activeTab === 'paymentcollection'" (click)="activeTab = 'paymentcollection'">
+      <mat-icon>text_snippet</mat-icon>Payment Collection       
+    </button>
+    <button  [class.active]="activeTab === 'gst'" (click)="activeTab = 'gst'">
+      <mat-icon>video_library</mat-icon>GST Invoice      
+    </button>
+    <button [class.active]="activeTab === 'nongst'" (click)="activeTab = 'nongst'">
+      <mat-icon>palette</mat-icon>Non-GST Invoice 
+    </button>
+
+  </div>
+
+  <div *ngIf="activeTab === 'paymentcollection'">
+    <app-payment-collection></app-payment-collection>
+  </div>
+  <div *ngIf="activeTab === 'gst'">
+    <app-gstinvoices></app-gstinvoices>
+  </div>
+  <div *ngIf="activeTab === 'nongst'">
+    <app-non-gstinvoices></app-non-gstinvoices>
+  </div>
+
+</div>

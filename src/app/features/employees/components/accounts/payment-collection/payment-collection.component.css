@@ -1,5 +1,5 @@
 .container {
-    padding-left: 140px;
+    padding-left: 20px;
     margin: auto;
   }
   
@@ -85,4 +85,10 @@
     color: orange;
     text-align: left;
     padding: 8px;
+  }
+  .total-expense {
+    text-align: right;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
   }

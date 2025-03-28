@@ -98,7 +98,10 @@ export class GstinvoicesComponent implements OnInit {
       this.invoices.data = formattedData;
     });
   }
-
+  /** ✅ Calculate total expense */
+  totalExpense(): number {
+    return this.invoices.data.reduce((sum, expense) => sum + expense.totalGST, 0);
+  }
   calculateNet(actual: number, adjusted: number): string {
     const diff = adjusted - actual;
     return diff === 0 ? 'No Change' : diff > 0 ? `Gain ₹${diff}` : `Loss ₹${Math.abs(diff)}`;

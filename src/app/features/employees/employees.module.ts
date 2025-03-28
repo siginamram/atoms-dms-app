@@ -46,6 +46,7 @@ import { AddAtomsExpensesComponent } from './components/accounts/add-atoms-expen
 import { MatExpansionModule } from '@angular/material/expansion';
 import { GstinvoicesdownloadComponent } from './components/accounts/gstinvoicesdownload/gstinvoicesdownload.component';
 import { NonGstinvoicesdownloadComponent } from './components/accounts/non-gstinvoicesdownload/non-gstinvoicesdownload.component';
+import { PaymentsComponent } from './components/accounts/payments/payments.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { NonGstinvoicesdownloadComponent } from './components/accounts/non-gstin
     AddAtomsExpensesComponent,
     GstinvoicesdownloadComponent,
     NonGstinvoicesdownloadComponent,
+    PaymentsComponent,
   ],
   imports: [
     CommonModule,

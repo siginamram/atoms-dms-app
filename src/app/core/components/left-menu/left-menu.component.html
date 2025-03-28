@@ -195,8 +195,16 @@
             <i class="material-icons">task_alt</i> Leave Approvals
           </a>
         </li>
-        
+
         <li>
+          <a [routerLink]="['/home', 'employees', 'payment-tabs']" 
+             *ngIf="roleService.hasRole(['Manager','Team Lead','HR'])"
+             routerLinkActive="active">
+            <i class="material-icons">payments</i> Payments/Invoices
+          </a>
+        </li>
+        
+        <!-- <li>
           <a [routerLink]="['/home', 'employees', 'payment-collection']" 
              *ngIf="roleService.hasRole(['Manager','Team Lead','HR'])"
              routerLinkActive="active">
@@ -219,7 +227,7 @@
             <i class="material-icons">request_quote</i> Non-GST Invoices
           </a>
         </li>
-        
+         -->
         <li>
           <a [routerLink]="['/home', 'employees', 'expenses']" 
              *ngIf="roleService.hasRole(['Manager','HR'])"

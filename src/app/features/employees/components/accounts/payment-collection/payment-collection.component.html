@@ -23,6 +23,11 @@
   </mat-form-field>
   &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
     <button mat-raised-button color="accent" class="add-button" (click)="Invoices()">Generate Invoices</button>
+
+        <!-- Total Expense Display -->
+        <div class="total-expense">
+          <h2>Total Amount: ₹{{ totalExpense() }}</h2>
+        </div>
   <!-- Payment Table -->
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <!-- ID Column -->

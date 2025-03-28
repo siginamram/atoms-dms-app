@@ -79,7 +79,7 @@ downloadPDF(): void {
 }
 
 goBack(): void {
-  this.router.navigate(['/home/employees/non-gst-invoices']); 
+  this.router.navigate(['/home/employees/payment-tabs']); 
 }
   
 }

@@ -20,7 +20,7 @@ import { IncomeStatementComponent } from './components/accounts/income-statement
 import { AtomsExpensesComponent } from './components/accounts/atoms-expenses/atoms-expenses.component';
 import { GstinvoicesdownloadComponent } from './components/accounts/gstinvoicesdownload/gstinvoicesdownload.component';
 import { NonGstinvoicesdownloadComponent } from './components/accounts/non-gstinvoicesdownload/non-gstinvoicesdownload.component';
-
+import { PaymentsComponent } from './components/accounts/payments/payments.component';
 
 // const routes: Routes = [{ path: '', component: EmployeesComponent },
 //     { path: 'AddComponent',component: AddEmployeeComponent },
@@ -50,6 +50,7 @@ const routes: Routes = [
       { path:'expenses', component: AtomsExpensesComponent},
       { path:'gst-invoices-download', component: GstinvoicesdownloadComponent},
       { path:'non-gst-invoices-download', component: NonGstinvoicesdownloadComponent},
+      { path:'payment-tabs', component: PaymentsComponent},
     ]
   }
 ];

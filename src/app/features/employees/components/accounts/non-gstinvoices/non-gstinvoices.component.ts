@@ -98,6 +98,10 @@ export class NonGstinvoicesComponent implements OnInit {
     //   }
     // });
   }
+    /** ✅ Calculate total expense */
+    totalExpense(): number {
+      return this.invoices.data.reduce((sum, expense) => sum + expense.actualAmount, 0);
+    }
  setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
     const ctrlValue = this.date.value ?? moment();
     ctrlValue.month(normalizedMonthAndYear.month());

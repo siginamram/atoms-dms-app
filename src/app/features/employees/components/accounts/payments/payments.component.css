@@ -1,0 +1,108 @@
+/* Tabs */
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap; /* Allows tabs to wrap on smaller screens */
+    justify-content: left; /* Ensure even spacing for all tabs */
+  }
+  
+  .tabs button {
+    font-size: 14px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px; /* Increased radius for a modern look */
+    border: 1px solid #ddd;
+    background-color: black;
+    color: white;
+    transition: all 0.3s ease;
+    text-align: center; /* Center text for better readability */
+  }
+  
+  .tabs button:hover {
+    background-color: orange;
+  }
+  
+  .tabs button.active {
+    font-weight: bold;
+    background-color: #1d2b7f; /* Highlight for active tab */
+    color: white;
+    border: 1px solid #1d2b7f; /* Add border color to match active state */
+  }
+  
+  .tabs button mat-icon {
+    margin-right: 8px;
+  }
+  
+  /* Content Wrapper */
+  .approvals-container {
+    margin-left: 140px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+ 
+  }
+  mat-toolbar {
+    margin-bottom: 16px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    border-radius: 8px;
+  }
+  
+  /* Responsive Styling */
+  @media (max-width: 1024px) {
+    .tabs {
+      justify-content: center; /* Center tabs for medium screens */
+    }
+  
+    .tabs button {
+      font-size: 12px;
+      padding: 6px 12px;
+    }
+  
+    .approvals-container {
+      padding: 16px; /* Adjust padding for better fit */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .tabs {
+      justify-content: center; /* Ensure tabs are evenly spaced */
+      gap: 8px; /* Reduce spacing between tabs */
+    }
+  
+    .tabs button {
+      font-size: 12px; /* Smaller font for compact view */
+      padding: 6px 10px; /* Reduce padding for smaller screens */
+      flex: 1; /* Allow buttons to stretch for even spacing */
+      max-width: 150px; /* Prevent buttons from being too large */
+    }
+  
+    .approvals-container {
+      padding: 14px; /* Compact padding for smaller devices */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .tabs {
+        justify-content: center;
+      flex-direction: row; /* Stack tabs vertically for very small screens */
+      gap: 12px; /* Increase gap for better usability */
+    }
+  
+    .tabs button {
+      width: 100%; /* Full width for better touch usability */
+      font-size: 12px;
+      padding: 8px 12px; /* Slightly larger padding for touch devices */
+      border-radius: 5px; /* Adjust radius for compact design */
+    }
+  
+    .approvals-container {
+        margin-left: 5px;
+      padding: 12px; /* Further reduce padding for narrow screens */
+    }
+  }
+  

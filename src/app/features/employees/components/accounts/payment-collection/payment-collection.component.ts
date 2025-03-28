@@ -71,7 +71,7 @@ export class PaymentCollectionComponent implements OnInit {
   
 
   fetchPaymentsForMonth(): void {
-       this.selectedDate = this.date.value?.format('YYYY-MM-DD') ?? moment().format('YYYY-MM-DD');
+       this.selectedDate = this.date.value?.format('YYYY-MM') + '-01'; // Default day is 01
     this.employeesService.GetPaymentCollection(this.selectedDate).subscribe((res: any[]) => {
       this.dataSource.data = res.map(item => ({
         id:item.id,
@@ -84,8 +84,12 @@ export class PaymentCollectionComponent implements OnInit {
     });
   }
 
+    /** ✅ Calculate total expense */
+    totalExpense(): number {
+      return this.dataSource.data.reduce((sum, expense) => sum + expense.amount, 0);
+    }
   Invoices() {
-    this.selectedDate = this.date.value?.format('YYYY-MM-DD') ?? moment().format('YYYY-MM-DD');
+    this.selectedDate = this.date.value?.format('YYYY-MM') + '-01'; // Default day is 01
     
     this.employeesService.GenerateInvoice(this.selectedDate).subscribe({
       next: (res: any) => {
