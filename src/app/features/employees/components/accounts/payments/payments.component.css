@@ -38,6 +38,7 @@
   
   /* Content Wrapper */
   .approvals-container {
+    padding-top: 0px;
     margin-left: 140px;
     background-color: #f9f9f9;
     border-radius: 8px;

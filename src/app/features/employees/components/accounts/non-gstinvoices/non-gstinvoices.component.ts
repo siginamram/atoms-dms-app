@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy,ViewChild} from '@angular/core';
+import { Component, OnInit,ViewChild} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatDatepicker } from '@angular/material/datepicker';
@@ -38,7 +38,6 @@ export interface InvoiceData {
   templateUrl: './non-gstinvoices.component.html',
   styleUrls: ['./non-gstinvoices.component.css'],
   providers: [provideMomentDateAdapter(MY_FORMATS)],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NonGstinvoicesComponent implements OnInit {
   isLoading = false; 
@@ -62,24 +61,28 @@ export class NonGstinvoicesComponent implements OnInit {
     this.invoices.paginator = this.paginator;
   }
   fetchInvoices(): void {
-    //this.isLoading = true; 
+    this.isLoading = true; 
     const selectedDate = this.date.value?.format('YYYY-MM-DD') ?? moment().format('YYYY-MM-DD');
-      this.employeesService.GetInvoicesByMonth(selectedDate, 'false').subscribe((data: any[]) => {
-        this.isLoading = false; 
-          const formattedData = data.map((item, index) => ({
-            id: item.id,
-            client: item.organizationName,
-            invoicegenerationdate: moment(item.date).format('DD/MM/YYYY'),
-            invoiceNo: item.invoiceNo,
-            service: item.serviceOpted || 'N/A',
-            actualAmount: item.amount,
-            adjustedAmount: item.adjustedAmount,
-            netlossgain: (item.totalAmount || 0) - (item.amount || 0),
-          
-          }));
-        
-          this.invoices.data = formattedData;
-        });
+    this.employeesService.GetInvoicesByMonth(selectedDate, 'false').subscribe({
+      next: (data: any[]) => {
+        this.isLoading = false;
+        const formattedData = data.map((item, index) => ({
+          id: item.id,
+          client: item.organizationName,
+          invoicegenerationdate: moment(item.date).format('DD/MM/YYYY'),
+          invoiceNo: item.invoiceNo,
+          service: item.serviceOpted || 'N/A',
+          actualAmount: item.amount,
+          adjustedAmount: item.adjustedAmount,
+          netlossgain: (item.totalAmount || 0) - (item.amount || 0),
+        }));
+        this.invoices.data = formattedData;
+      },
+      error: (error) => {
+        console.error('Error fetching invoices:', error);
+        this.isLoading = false; // IMPORTANT to stop spinner on error too
+      }
+    });
     // this.employeesService.GetInvoicesByMonth(selectedDate, 'false').subscribe({
     //   next: (response) => {
     //     this.invoices = response.map((item: any) => ({

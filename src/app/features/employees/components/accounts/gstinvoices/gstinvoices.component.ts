@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild ,ChangeDetectionStrategy} from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatDatepicker } from '@angular/material/datepicker';
@@ -38,7 +38,6 @@ export interface InvoiceData {
   templateUrl: './gstinvoices.component.html',
   styleUrls: ['./gstinvoices.component.css'],
      providers: [provideMomentDateAdapter(MY_FORMATS)],
-     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GstinvoicesComponent implements OnInit {
   isLoading = false; 
@@ -80,7 +79,7 @@ export class GstinvoicesComponent implements OnInit {
   }
 
   fetchInvoices(): void {
-    //this.isLoading = true; 
+    this.isLoading = true; 
     const selectedDate = this.date.value?.format('YYYY-MM-DD') ?? moment().format('YYYY-MM-DD');
     this.employeesService.GetInvoicesByMonth(selectedDate, 'true').subscribe((data: any[]) => {
       const formattedData = data.map((item, index) => ({

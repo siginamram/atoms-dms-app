@@ -66,6 +66,13 @@
               <mat-option [value]="0">No</mat-option>
             </mat-select>
           </mat-form-field>
+
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Due Date</mat-label>
+            <input matInput [matDatepicker]="picker6" formControlName="duedate" />
+            <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
+            <mat-datepicker #picker6></mat-datepicker>
+          </mat-form-field> 
     
           <mat-form-field class="form-field" appearance="outline">
             <mat-label>Payment Renewal Date</mat-label>
@@ -267,6 +274,31 @@
      </mat-form-field>
    </div>
 
+   <div class="form-row">
+  
+  
+    <mat-checkbox formControlName="includeAdBudget">
+      Include Ad Budget in Invoice
+    </mat-checkbox>
+  
+    <mat-checkbox formControlName="isGSTApplicable">
+      Is GST Applicable
+    </mat-checkbox>
+  </div>
+  
+  <!-- GST fields shown only if isGSTApplicable is true -->
+  <div class="form-row" *ngIf="editForm.get('isGSTApplicable')?.value==true">
+    <mat-form-field class="form-field" appearance="outline">
+      <mat-label>GST Number</mat-label>
+      <input matInput formControlName="gstnumber">
+    </mat-form-field>
+  
+    <mat-form-field class="form-field" appearance="outline">
+      <mat-label>State Code</mat-label>
+      <input matInput formControlName="stateCode">
+    </mat-form-field>
+  </div>
+  
   
   
       <!-- Other Section -->

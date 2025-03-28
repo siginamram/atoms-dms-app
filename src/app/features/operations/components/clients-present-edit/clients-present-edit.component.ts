@@ -106,6 +106,11 @@ export class ClientsPresentEditComponent implements OnInit{
       shootBudget: ['', Validators.required],
       monthlyAdBudget: [''],
       chargePerVist:[''],
+      duedate:['', Validators.required],
+      includeAdBudget:[false],
+      isGSTApplicable:[false],
+      gstnumber:[''],
+      stateCode:[0],
       pocName: ['',Validators.required],
       pocDesignation: ['',Validators.required],
       contactNumber:['',Validators.required],
@@ -157,6 +162,11 @@ export class ClientsPresentEditComponent implements OnInit{
           shootBudget: data.package.shootBudget ? 1 : 0,
           monthlyAdBudget: data.package.adBudget,
           chargePerVist: data.package.chargePerVisit,
+          duedate:data.dueDate,
+          includeAdBudget:data.package.isIncludeAdBudget || false,
+          isGSTApplicable:data.package.isGSTApplicable || false,
+          gstnumber:data.package.gstNumber || 0,
+          stateCode:data.package.stateCode || 0,
           pocName: data.pocName,
           pocDesignation: data.pocDesignation,
           contactNumber: data.pocContact,
@@ -293,6 +303,15 @@ export class ClientsPresentEditComponent implements OnInit{
       }
     }
 
+       // Utility function to format date as YYYY-MM-DD
+       private formatDate1(date: Date): string {
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      }
+    
+
   onSubmit(): void {
     if (this.editForm.valid) {
       const formValue = this.editForm.value;
@@ -300,8 +319,9 @@ export class ClientsPresentEditComponent implements OnInit{
       const payload = {
         clientID: this.clientId,
         clientCategory: formValue.category,
-        serviceStartDate: formValue.dealClosingDate,
-        paymentDate: formValue.paymentRenewalDate,
+        serviceStartDate: this.formatDate1(new Date(this.editForm.get('dealClosingDate')?.value || '')), 
+        dueDate:this.formatDate1(new Date(this.editForm.get('duedate')?.value || '')),
+        paymentDate: this.formatDate1(new Date(this.editForm.get('paymentRenewalDate')?.value || '')), 
         status: formValue.moveToExit || 2, // Default to "present" status
         pocName: formValue.pocName,
         pocDesignation: formValue.pocDesignation,
@@ -309,7 +329,7 @@ export class ClientsPresentEditComponent implements OnInit{
         loginCredentials: formValue.loginCredentials === 1,
         pendingAmount: formValue.pendingAmount,
         isPendingAmount: formValue.pendingAmountExist === 1,
-        serviceEndDate: formValue.lastDateOfService,
+        serviceEndDate:  formValue.lastDateOfService,
         ktDocUrl: this.ktUrl,
         ktDocument: this.KtDocUpload,
         package: {
@@ -323,6 +343,10 @@ export class ClientsPresentEditComponent implements OnInit{
           shootOffered: formValue.shootOffer === 1,
           shootBudget: formValue.shootBudget === 1,
           chargePerVisit: formValue.chargePerVist,
+          isIncludeAdBudget:formValue.includeAdBudget,
+          isGSTApplicable:formValue.isGSTApplicable,
+          gstNumber:formValue.gstnumber,
+          stateCode:formValue.stateCode,
         },
         clientResourceAllocation: {
           clientId: this.clientId,

@@ -1,5 +1,5 @@
 // payment-collection.component.ts
-import { ChangeDetectionStrategy, Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { MatTableDataSource } from '@angular/material/table';
@@ -36,9 +36,9 @@ export const MY_FORMATS = {
   templateUrl: './payment-collection.component.html',
   styleUrls: ['./payment-collection.component.css'],
     providers: [provideMomentDateAdapter(MY_FORMATS)],
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaymentCollectionComponent implements OnInit {
+  isLoading = false; 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   displayedColumns: string[] = ['id','client', 'amount', 'dueDate', 'paymentStatus', 'type', 'actions'];
   dataSource = new MatTableDataSource<PaymentData>([]);
@@ -71,8 +71,10 @@ export class PaymentCollectionComponent implements OnInit {
   
 
   fetchPaymentsForMonth(): void {
+    this.isLoading = true; 
        this.selectedDate = this.date.value?.format('YYYY-MM') + '-01'; // Default day is 01
     this.employeesService.GetPaymentCollection(this.selectedDate).subscribe((res: any[]) => {
+      this.isLoading = false; 
       this.dataSource.data = res.map(item => ({
         id:item.id,
         client: item.organizationName,
