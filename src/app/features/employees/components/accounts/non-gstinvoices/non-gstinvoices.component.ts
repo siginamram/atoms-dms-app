@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild} from '@angular/core';
+import { Component,  Input, OnChanges, SimpleChanges, OnInit,ViewChild} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatDatepicker } from '@angular/material/datepicker';
@@ -41,7 +41,9 @@ export interface InvoiceData {
 })
 export class NonGstinvoicesComponent implements OnInit {
   isLoading = false; 
-   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @Input() selectedDate!: moment.Moment | null;
+  dateStr:any;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   readonly date = new FormControl(moment());
   invoices = new MatTableDataSource<InvoiceData>();
   displayedColumns: string[] = [
@@ -53,7 +55,14 @@ export class NonGstinvoicesComponent implements OnInit {
     private router: Router,
     private employeesService: EmployeesService
   ) {}
+ 
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['selectedDate'] && this.selectedDate) {
+      this.dateStr = this.selectedDate.format('YYYY-MM-DD') ?? moment().format('YYYY-MM-DD');
+      this.fetchInvoices();
+    }
+  }
   ngOnInit(): void {
     this.fetchInvoices();
   }
@@ -62,8 +71,8 @@ export class NonGstinvoicesComponent implements OnInit {
   }
   fetchInvoices(): void {
     this.isLoading = true; 
-    const selectedDate = this.date.value?.format('YYYY-MM-DD') ?? moment().format('YYYY-MM-DD');
-    this.employeesService.GetInvoicesByMonth(selectedDate, 'false').subscribe({
+    //const selectedDate = this.date.value?.format('YYYY-MM-DD') ?? moment().format('YYYY-MM-DD');
+    this.employeesService.GetInvoicesByMonth(this.dateStr, 'false').subscribe({
       next: (data: any[]) => {
         this.isLoading = false;
         const formattedData = data.map((item, index) => ({

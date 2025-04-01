@@ -152,7 +152,7 @@ export class AddPaymentCollectionComponent implements OnInit {
         next: (res) => {
           console.log('Update Success:', res);
           this.openAlertDialog('Success', 'Payment follow-up updated Successfully!');
-          this.router.navigate(['/home/employees/payment-collection']); 
+          this.router.navigate(['/home/employees/payment-tabs']); 
         },
         error: (err) => {
           console.error('Update Failed:', err);
@@ -165,7 +165,7 @@ export class AddPaymentCollectionComponent implements OnInit {
     }
   }
   goBack(): void {
-    this.router.navigate(['/home/employees/payment-collection']); 
+    this.router.navigate(['/home/employees/payment-tabs']); 
   }
   openAlertDialog(title: string, message: string): void {
     this.dialog.open(AlertDialogComponent, {

@@ -165,7 +165,7 @@ export class ClientsPresentEditComponent implements OnInit{
           duedate:data.dueDate,
           includeAdBudget:data.package.isIncludeAdBudget || false,
           isGSTApplicable:data.package.isGSTApplicable || false,
-          gstnumber:data.package.gstNumber || 0,
+          gstnumber:data.package.gstNumber || '',
           stateCode:data.package.stateCode || 0,
           pocName: data.pocName,
           pocDesignation: data.pocDesignation,

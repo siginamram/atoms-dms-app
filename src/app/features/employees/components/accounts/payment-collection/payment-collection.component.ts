@@ -1,5 +1,5 @@
 // payment-collection.component.ts
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit,ViewChild,Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { MatTableDataSource } from '@angular/material/table';
@@ -38,12 +38,14 @@ export const MY_FORMATS = {
     providers: [provideMomentDateAdapter(MY_FORMATS)],
 })
 export class PaymentCollectionComponent implements OnInit {
+  @Input() selectedDate!: moment.Moment | null;
+   dateStr:any;
   isLoading = false; 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   displayedColumns: string[] = ['id','client', 'amount', 'dueDate', 'paymentStatus', 'type', 'actions'];
   dataSource = new MatTableDataSource<PaymentData>([]);
   date = new FormControl(moment());
-  selectedDate:any;
+  selectedDate1:any;
   constructor(
     private router: Router,
     private employeesService: EmployeesService,
@@ -56,6 +58,12 @@ export class PaymentCollectionComponent implements OnInit {
     this.date.valueChanges.subscribe(val => {
       if (val) this.fetchPaymentsForMonth();
     });
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['selectedDate'] && this.selectedDate) {
+      this.dateStr = this.selectedDate.format('YYYY-MM') + '-01';
+      this.fetchPaymentsForMonth();
+    }
   }
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
@@ -72,8 +80,8 @@ export class PaymentCollectionComponent implements OnInit {
 
   fetchPaymentsForMonth(): void {
     this.isLoading = true; 
-       this.selectedDate = this.date.value?.format('YYYY-MM') + '-01'; // Default day is 01
-    this.employeesService.GetPaymentCollection(this.selectedDate).subscribe((res: any[]) => {
+       //this.selectedDate = this.date.value?.format('YYYY-MM') + '-01'; // Default day is 01
+    this.employeesService.GetPaymentCollection(this.dateStr).subscribe((res: any[]) => {
       this.isLoading = false; 
       this.dataSource.data = res.map(item => ({
         id:item.id,
@@ -91,9 +99,9 @@ export class PaymentCollectionComponent implements OnInit {
       return this.dataSource.data.reduce((sum, expense) => sum + expense.amount, 0);
     }
   Invoices() {
-    this.selectedDate = this.date.value?.format('YYYY-MM') + '-01'; // Default day is 01
+    //this.selectedDate = this.date.value?.format('YYYY-MM') + '-01'; // Default day is 01
     
-    this.employeesService.GenerateInvoice(this.selectedDate).subscribe({
+    this.employeesService.GenerateInvoice(this.dateStr).subscribe({
       next: (res: any) => {
         console.log(res);
         if (res === 'Success') {
@@ -115,7 +123,7 @@ export class PaymentCollectionComponent implements OnInit {
     this.router.navigate([`/home/employees/add-payment-collection`], {
       queryParams: {
         payment,
-       date:this.selectedDate
+       date:this.dateStr
       }
     });
   }
