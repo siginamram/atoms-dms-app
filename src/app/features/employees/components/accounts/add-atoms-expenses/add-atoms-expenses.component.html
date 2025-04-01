@@ -39,17 +39,26 @@
       </mat-form-field>
 
       <!-- Invoice -->
-      <mat-form-field appearance="outline">
-        <mat-label>Invoice</mat-label>
-        <input matInput formControlName="invoice" placeholder="Enter Invoice">
+      <!-- <mat-form-field appearance="outline">
+        <mat-label>Type</mat-label>
+        <input matInput formControlName="type" placeholder="Enter Invoice">
         <mat-error *ngIf="expenseForm.get('invoice')?.invalid">Invoice is required</mat-error>
+      </mat-form-field> -->
+
+      <mat-form-field appearance="outline">
+        <mat-label>Type</mat-label>
+        <mat-select formControlName="type">
+          <mat-option value="Invoice">Invoice</mat-option>
+          <mat-option value="Voucher">Voucher</mat-option>
+        </mat-select>
+        <mat-error *ngIf="expenseForm.get('type')?.invalid">This field is required</mat-error>
       </mat-form-field>
 
       <!-- Voucher -->
       <mat-form-field appearance="outline">
-        <mat-label>Voucher</mat-label>
-        <input matInput formControlName="voucher" placeholder="Enter Voucher">
-        <mat-error *ngIf="expenseForm.get('voucher')?.invalid">Voucher is required</mat-error>
+        <mat-label>Bill Number</mat-label>
+        <input matInput formControlName="bill" placeholder="Enter Bill Number">
+        <mat-error *ngIf="expenseForm.get('bill')?.invalid">Bill is required</mat-error>
       </mat-form-field>
 
       <!-- Expenses From -->

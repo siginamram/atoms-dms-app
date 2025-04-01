@@ -1,101 +1,169 @@
+<!-- Updated Atoms Expenses Table HTML -->
 <div class="container">
-    <!-- Toolbar -->
-    <mat-toolbar color="primary" class="toolbar">
+  <mat-toolbar color="primary" class="toolbar">
     <span>Expenses</span>
     <span class="spacer"></span>
     <button mat-raised-button color="accent" class="add-button" (click)="addExpense()">+ Add Expense</button>
-    </mat-toolbar>
-  
-    <!-- Date Filters -->
-    <div class="filters-container">
-      <mat-form-field appearance="outline">
+    <button mat-icon-button  (click)="downloadExcel()" matTooltip="Download Excel" style="color: white;">
+      <mat-icon>grid_on</mat-icon> 
+    </button>
+    <!-- <button mat-icon-button  (click)="downloadPDF()" matTooltip="Download PDF" style="color: white;align-items: center;">
+      <mat-icon>picture_as_pdf</mat-icon> 
+    </button> -->
+  </mat-toolbar>
+
+  <!-- Date Filters -->
+  <div class="filters-container">
+    <mat-form-field appearance="outline">
       <mat-label>From Date</mat-label>
       <input matInput [matDatepicker]="fromPicker" [formControl]="fromDate" placeholder="DD/MM/YYYY" />
       <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
       <mat-datepicker #fromPicker (dateInput)="setDefaultDateRange()"></mat-datepicker>
     </mat-form-field>
-    
+
     <mat-form-field appearance="outline">
       <mat-label>To Date</mat-label>
       <input matInput [matDatepicker]="toPicker" [formControl]="toDate" placeholder="DD/MM/YYYY" />
       <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
       <mat-datepicker #toPicker (dateInput)="setDefaultDateRange()"></mat-datepicker>
     </mat-form-field>
-    </div>
-  
+  </div>
+
+  <!-- Loader -->
+  <div class="loader-container" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+  </div>
     <!-- Total Expense Display -->
-    <div class="total-expense">
+    <div class="total-expense" *ngIf="!isLoading">
       <h2>Total Expenses: ₹{{ totalExpense() }}</h2>
     </div>
-  
-    <!-- Expense Table -->
+  <!-- Table -->
+  <div *ngIf="!isLoading">
     <table mat-table [dataSource]="expenses" class="mat-elevation-z8">
+      <!-- ID -->
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef>S.NO</th>
-        <td mat-cell *matCellDef="let expense">{{ expense.id }}</td>
+        <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
       </ng-container>
-      <!-- Date Column -->
+
+      <!-- Date Column with Filter -->
       <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <th mat-header-cell *matHeaderCellDef>
+          Date
+          <button mat-icon-button (click)="toggleFilterVisibility('date')">
+            <mat-icon *ngIf="!filterVisibility['date']">filter_list</mat-icon>
+            <mat-icon *ngIf="filterVisibility['date']">close</mat-icon>
+          </button>
+          <div *ngIf="filterVisibility['date']" class="filter-input">
+            <mat-form-field appearance="outline" style="width: 100%;">
+              <mat-label>Filter Date</mat-label>
+              <input matInput (keyup)="applyFilter($event, 'date')" placeholder="Search Date" />
+            </mat-form-field>
+          </div>
+        </th>
         <td mat-cell *matCellDef="let expense">{{ expense.date }}</td>
       </ng-container>
-  
-      <!-- Person Responsible -->
+
+      <!-- Person with Filter -->
       <ng-container matColumnDef="person">
-        <th mat-header-cell *matHeaderCellDef>Responsible Person</th>
+        <th mat-header-cell *matHeaderCellDef>
+          Responsible Person
+          <button mat-icon-button (click)="toggleFilterVisibility('person')">
+            <mat-icon *ngIf="!filterVisibility['person']">filter_list</mat-icon>
+            <mat-icon *ngIf="filterVisibility['person']">close</mat-icon>
+          </button>
+          <div *ngIf="filterVisibility['person']" class="filter-input">
+            <mat-form-field appearance="outline" style="width: 100%;">
+              <mat-label>Filter Person</mat-label>
+              <input matInput (keyup)="applyFilter($event, 'person')" placeholder="Search Person" />
+            </mat-form-field>
+          </div>
+        </th>
         <td mat-cell *matCellDef="let expense">{{ expense.person }}</td>
       </ng-container>
-  
-      <!-- Purpose -->
+
+      <!-- Purpose with Filter -->
       <ng-container matColumnDef="purpose">
-        <th mat-header-cell *matHeaderCellDef>Purpose</th>
+        <th mat-header-cell *matHeaderCellDef>
+          Purpose
+          <button mat-icon-button (click)="toggleFilterVisibility('purpose')">
+            <mat-icon *ngIf="!filterVisibility['purpose']">filter_list</mat-icon>
+            <mat-icon *ngIf="filterVisibility['purpose']">close</mat-icon>
+          </button>
+          <div *ngIf="filterVisibility['purpose']" class="filter-input">
+            <mat-form-field appearance="outline" style="width: 100%;">
+              <mat-label>Filter Purpose</mat-label>
+              <input matInput (keyup)="applyFilter($event, 'purpose')" placeholder="Search Purpose" />
+            </mat-form-field>
+          </div>
+        </th>
         <td mat-cell *matCellDef="let expense">{{ expense.purpose }}</td>
       </ng-container>
-  
       <!-- Amount -->
       <ng-container matColumnDef="amount">
         <th mat-header-cell *matHeaderCellDef>Amount Spent</th>
         <td mat-cell *matCellDef="let expense">₹{{ expense.amount }}</td>
       </ng-container>
-  
-      <!-- Invoice -->
-      <ng-container matColumnDef="invoice">
-        <th mat-header-cell *matHeaderCellDef>Invoice</th>
-        <td mat-cell *matCellDef="let expense">{{ expense.invoice }}</td>
+      <!-- Type with Filter -->
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef>
+          Type
+          <button mat-icon-button (click)="toggleFilterVisibility('type')">
+            <mat-icon *ngIf="!filterVisibility['type']">filter_list</mat-icon>
+            <mat-icon *ngIf="filterVisibility['type']">close</mat-icon>
+          </button>
+          <div *ngIf="filterVisibility['type']" class="filter-input">
+            <mat-form-field appearance="outline" style="width: 100%;">
+              <mat-label>Filter Type</mat-label>
+              <input matInput (keyup)="applyFilter($event, 'type')" placeholder="Search Type" />
+            </mat-form-field>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let expense">{{ expense.type }}</td>
       </ng-container>
-  
-      <!-- Voucher -->
-      <ng-container matColumnDef="voucher">
-        <th mat-header-cell *matHeaderCellDef>Voucher</th>
-        <td mat-cell *matCellDef="let expense">{{ expense.voucher }}</td>
+      <ng-container matColumnDef="biltype">
+        <th mat-header-cell *matHeaderCellDef>Bill Number</th>
+        <td mat-cell *matCellDef="let expense">{{ expense.biltype }}</td>
       </ng-container>
-  
-      <!-- Expense From -->
+      <!-- Source with Filter -->
       <ng-container matColumnDef="source">
-        <th mat-header-cell *matHeaderCellDef>Expenses From</th>
+        <th mat-header-cell *matHeaderCellDef>
+          Expenses From
+          <button mat-icon-button (click)="toggleFilterVisibility('source')">
+            <mat-icon *ngIf="!filterVisibility['source']">filter_list</mat-icon>
+            <mat-icon *ngIf="filterVisibility['source']">close</mat-icon>
+          </button>
+          <div *ngIf="filterVisibility['source']" class="filter-input">
+            <mat-form-field appearance="outline" style="width: 100%;">
+              <mat-label>Filter Source</mat-label>
+              <input matInput (keyup)="applyFilter($event, 'source')" placeholder="Search Source" />
+            </mat-form-field>
+          </div>
+        </th>
         <td mat-cell *matCellDef="let expense">{{ expense.source }}</td>
       </ng-container>
-  
       <!-- Remarks -->
       <ng-container matColumnDef="remarks">
         <th mat-header-cell *matHeaderCellDef>Remarks</th>
         <td mat-cell *matCellDef="let expense">{{ expense.remarks }}</td>
       </ng-container>
-  
-      <!-- Edit/Delete Actions -->
+      <!-- Actions -->
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Edit</th>
-        <td mat-cell *matCellDef="let expense;">
+        <td mat-cell *matCellDef="let expense">
           <button mat-icon-button color="warn" (click)="editExpense(expense)">
             <mat-icon>edit</mat-icon>
           </button>
         </td>
       </ng-container>
-  
-      <tr mat-header-row *matHeaderRowDef="['id','date', 'person', 'purpose', 'amount', 'invoice', 'voucher', 'source', 'remarks', 'actions']"></tr>
-      <tr mat-row *matRowDef="let row; columns: ['id','date', 'person', 'purpose', 'amount', 'invoice', 'voucher', 'source', 'remarks', 'actions']"></tr>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-    <!-- Paginator -->
-    <mat-paginator [pageSize]="30" [pageSizeOptions]="[5, 10, 20, 30]"></mat-paginator>
+    <div *ngIf="expenses.data.length === 0" class="no-data-message">
+      <p>No Records Found...</p>
+    </div>
+    <mat-paginator [pageSize]="30" [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+
   </div>
-  
+</div>

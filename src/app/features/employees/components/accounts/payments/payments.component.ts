@@ -23,7 +23,7 @@ export const MY_FORMATS = {
   providers: [provideMomentDateAdapter(MY_FORMATS)],
 })
 export class PaymentsComponent {
-  activeTab: string = 'paymentcollection'; // Default active tab
+  activeTab: string = 'nongst'; // Default active tab
   sharedDate = new FormControl(moment());
 
   setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {

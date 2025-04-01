@@ -43,13 +43,21 @@ export class NonGstinvoicesdownloadComponent implements OnInit {
     }
   }
 
+  // getMonthYear(dateStr: string): string {
+  //   const date = new Date(dateStr);
+  //   const month = date.toLocaleString('default', { month: 'long' });
+  //   const year = date.getFullYear();
+  //   return `${month} ${year}`;
+  // }
+
   getMonthYear(dateStr: string): string {
     const date = new Date(dateStr);
+    date.setMonth(date.getMonth() - 1); // go back one month
+  
     const month = date.toLocaleString('default', { month: 'long' });
     const year = date.getFullYear();
     return `${month} ${year}`;
   }
-
 downloadPDF(): void {
   const invoiceElement = document.querySelector('.invoice-container') as HTMLElement;
   const buttonsToHide = document.querySelectorAll('.no-print') as NodeListOf<HTMLElement>;

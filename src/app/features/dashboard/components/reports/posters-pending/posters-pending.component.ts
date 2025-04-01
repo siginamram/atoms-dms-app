@@ -40,6 +40,7 @@ export class PostersPendingComponent implements OnInit {
     'contentWriter',
     'link',
     'graphicStatus',
+    'remarks',
     'editor',
     'postStatus',
     'actions',

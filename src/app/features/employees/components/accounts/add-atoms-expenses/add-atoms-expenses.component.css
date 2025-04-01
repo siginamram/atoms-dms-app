@@ -26,3 +26,15 @@
     background-color: #3f51b5; /* Add a background color for the toolbar */
     border-radius: 8px;
   }
+
+  /* Chrome, Safari, Edge, Opera */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}

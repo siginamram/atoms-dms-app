@@ -20,8 +20,8 @@ export class AddAtomsExpensesComponent implements OnInit {
     person: new FormControl('', [Validators.required, Validators.minLength(3)]),
     purpose: new FormControl('', Validators.required),
     amountSpent: new FormControl('', [Validators.required, Validators.min(1)]),
-    invoice: new FormControl('', Validators.required),
-    voucher: new FormControl('', Validators.required),
+    type: new FormControl('', Validators.required),
+    bill: new FormControl('', Validators.required),
     source: new FormControl('', Validators.required),
     remarks: new FormControl('')
   });
@@ -88,8 +88,8 @@ export class AddAtomsExpensesComponent implements OnInit {
       person: data.person || '',
       purpose: purposeId,
       amountSpent: data.amount || 0,
-      invoice: data.invoice || '',
-      voucher: data.voucher || '',
+      type: data.type || '',
+      bill: data.biltype || '',
       source: data.source || '',
       remarks: data.remarks || ''
     });
@@ -119,9 +119,10 @@ export class AddAtomsExpensesComponent implements OnInit {
       amount: formData.amountSpent || 0,
       //purpose: this.expenseForm.get('purpose')?.value || 0,
       purpose:  formData.purpose, 
-      invoice: formData.invoice || '',
-      vocher: formData.voucher || '',
+      type: formData.type || '',
+      biltype: formData.bill || '',
       expensesFrom: formData.source || '',
+      remarks:formData.remarks || '',
       createdBy: userId
     };
     

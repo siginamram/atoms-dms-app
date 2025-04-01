@@ -13,7 +13,7 @@ export class SlDashboardComponent {
     { title: 'No.of Meetings Scheduled', value: 20, icon: 'schedule', color: '#FFC107' }, // Amber
     { title: 'No.of Meetings Completed', value: 20, icon: 'done_all', color: '#8BC34A' }, // Light Green
     { title: 'No.of Upcoming Meetings', value: 20, icon: 'event', color: '#FF9800' }, // Orange
-    { title: 'No.of Rejected Meets', value: 20, icon: 'cancel', color: '#F44336' }, // Red
+    { title: 'No.of Rejected Prospects', value: 20, icon: 'cancel', color: '#F44336' }, // Red
     { title: 'No.of Deals Closed', value: 20, icon: 'monetization_on', color: '#9C27B0' }, // Purple
     { title: 'Team Success Rate', value: '85%', icon: 'trending_up', color: '#00BCD4' }, // Cyan
     { title: 'Revenue Generated', value: '7,20,000', icon: 'attach_money', color: '#673AB7' } // Deep Purple
