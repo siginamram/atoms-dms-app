@@ -1,52 +1,71 @@
 <div class="dashboard-container">
-    <!-- Date Filters -->
-    <div class="date-filters">
-      <div class="filter">
-        <label for="fromDate">From:</label>
-        <input type="date" id="fromDate" [(ngModel)]="fromDate" />
-      </div>
-      <div class="filter">
-        <label for="toDate">To:</label>
-        <input type="date" id="toDate" [(ngModel)]="toDate" />
-      </div>
-      <button (click)="applyDateFilter()">Apply</button>
+  <!-- Date Filters -->
+  <div class="date-filters">
+    <div class="filter">
+      <label for="fromDate">From:</label>
+      <input type="date" id="fromDate" [(ngModel)]="fromDate" />
     </div>
-  
-    <!-- KPI Section -->
-    <div class="kpi-section">
-      <div
-        class="kpi-card"
-        *ngFor="let kpi of kpis"
-        [style.background-color]="kpi.color"
-      >
-        <mat-icon class="kpi-icon">{{ kpi.icon }}</mat-icon>
-        <h3>{{ kpi.title }}</h3>
-        <h2>{{ kpi.value }}</h2>
-      </div>
+    <div class="filter">
+      <label for="toDate">To:</label>
+      <input type="date" id="toDate" [(ngModel)]="toDate" />
     </div>
-  
-    <!-- Table Section -->
-    <div class="table-section">
-      <table>
-        <thead>
-          <tr>
-            <th>Name of the S.A</th>
-            <th>Prospects Registered</th>
-            <th>Deals Closed</th>
-            <th>Revenue Generated</th>
-            <th>Success Rate</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let row of tableData">
-            <td>{{ row.name }}</td>
-            <td>{{ row.prospects }}</td>
-            <td>{{ row.dealsClosed }}</td>
-            <td>{{ row.revenue }}</td>
-            <td>{{ row.successRate }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <button mat-raised-button color="primary" (click)="applyDateFilter()">Apply</button>
+  </div>
+
+  <!-- KPI Section -->
+  <div class="kpi-section">
+    <div class="kpi-card" *ngFor="let kpi of kpis" [style.backgroundColor]="kpi.color">
+      <mat-icon class="kpi-icon">{{ kpi.icon }}</mat-icon>
+      <h3>{{ kpi.title }}</h3>
+      <h2>{{ kpi.value }}</h2>
     </div>
   </div>
-  
+
+  <!-- Table Section -->
+  <div class="table-section">
+    <table mat-table [dataSource]="tableData" class="mat-elevation-z8 full-width-table">
+   <!-- S.No Column -->
+   <ng-container matColumnDef="sno">
+    <th mat-header-cell *matHeaderCellDef style="color: orange;">S.No</th>
+    <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+  </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef style="color: orange;">
+          <mat-icon>person</mat-icon> Name of the S.A</th>
+        <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+      </ng-container>
+
+      <!-- Prospects Column -->
+      <ng-container matColumnDef="prospectsRegistered">
+        <th mat-header-cell *matHeaderCellDef style="color: orange;">
+          <mat-icon>assignment</mat-icon> Prospects Registered</th>
+        <td mat-cell *matCellDef="let row">{{ row.prospectsRegistered }}</td>
+      </ng-container>
+
+      <!-- Deals Closed -->
+      <ng-container matColumnDef="dealsClosed" >
+        <th mat-header-cell *matHeaderCellDef style="color: orange;">
+          <mat-icon>monetization_on</mat-icon> Deals Closed</th>
+        <td mat-cell *matCellDef="let row">{{ row.dealsClosed }}</td>
+      </ng-container>
+
+      <!-- Revenue -->
+      <ng-container matColumnDef="revenueGenerated" >
+        <th mat-header-cell *matHeaderCellDef style="color: orange;">
+          <mat-icon>attach_money</mat-icon>Revenue Generated</th>
+        <td mat-cell *matCellDef="let row">₹{{ row.revenueGenerated }}</td>
+      </ng-container>
+
+      <!-- Success Rate -->
+      <ng-container matColumnDef="successRate" >
+        <th mat-header-cell *matHeaderCellDef style="color: orange;">
+          <mat-icon>trending_up</mat-icon> Success Rate</th>
+        <td mat-cell *matCellDef="let row">{{ row.successRate }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>

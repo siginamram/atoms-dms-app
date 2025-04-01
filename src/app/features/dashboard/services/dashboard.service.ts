@@ -95,4 +95,9 @@ export class DashboardService {
     const apiUrl = `${this.baseApiUrl}/api/Dashboard/AllPendingPosts/${userId}/${fdate}/${tdate}/${creativeTypeId}`;
     return this.http.get(apiUrl);
   }
+
+  GetDashboardSalesLeadByUser(userId: number, fdate: any,tdate: any): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Dashboard/GetDashboardSalesLeadByUser/${userId}/${fdate}/${tdate}`;
+    return this.http.get(apiUrl);
+  }
 }
