@@ -45,7 +45,7 @@ export class GstinvoicesComponent implements OnInit {
   isLoading = false; 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   readonly date = new FormControl(moment());
-  invoices = new MatTableDataSource<InvoiceData>();
+  dataSource = new MatTableDataSource<InvoiceData>();
   displayedColumns: string[] = [
     'id',
     'client',
@@ -75,7 +75,7 @@ export class GstinvoicesComponent implements OnInit {
       }
     }
   ngAfterViewInit(): void {
-    this.invoices.paginator = this.paginator;
+    this.dataSource.paginator = this.paginator;
   }
   setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
     const ctrlValue = this.date.value ?? moment();
@@ -102,12 +102,13 @@ export class GstinvoicesComponent implements OnInit {
         netlossgain: this.calculateNet(item.amount, item.adjustedAmount),
       }));
       this.isLoading = false; 
-      this.invoices.data = formattedData;
+      this.dataSource.data = formattedData;
+      this.dataSource.paginator = this.paginator;
     });
   }
   /** ✅ Calculate total expense */
   totalExpense(): number {
-    return this.invoices.data.reduce((sum, expense) => sum + expense.totalGST, 0);
+    return this.dataSource.data.reduce((sum, expense) => sum + expense.totalGST, 0);
   }
   calculateNet(actual: number, adjusted: number): string {
     const diff = adjusted - actual;

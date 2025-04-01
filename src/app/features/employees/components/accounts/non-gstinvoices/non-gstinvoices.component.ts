@@ -45,7 +45,7 @@ export class NonGstinvoicesComponent implements OnInit {
   dateStr:any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   readonly date = new FormControl(moment());
-  invoices = new MatTableDataSource<InvoiceData>();
+  dataSource = new MatTableDataSource<InvoiceData>();
   displayedColumns: string[] = [
     'id', 'client', 'invoicegenerationdate', 'invoiceNo', 'service',
     'actualAmount', 'adjustedAmount', 'netlossgain', 'actions'
@@ -67,7 +67,7 @@ export class NonGstinvoicesComponent implements OnInit {
     this.fetchInvoices();
   }
   ngAfterViewInit(): void {
-    this.invoices.paginator = this.paginator;
+    this.dataSource.paginator = this.paginator;
   }
   fetchInvoices(): void {
     this.isLoading = true; 
@@ -85,34 +85,19 @@ export class NonGstinvoicesComponent implements OnInit {
           adjustedAmount: item.adjustedAmount,
           netlossgain: (item.totalAmount || 0) - (item.amount || 0),
         }));
-        this.invoices.data = formattedData;
+        this.dataSource.data = formattedData;
+        this.dataSource.paginator = this.paginator;
       },
       error: (error) => {
         console.error('Error fetching invoices:', error);
         this.isLoading = false; // IMPORTANT to stop spinner on error too
       }
     });
-    // this.employeesService.GetInvoicesByMonth(selectedDate, 'false').subscribe({
-    //   next: (response) => {
-    //     this.invoices = response.map((item: any) => ({
-    //       id: item.id,
-    //       client: item.organizationName,
-    //       invoicegenerationdate: moment(item.date).format('DD/MM/YYYY'),
-    //       service: item.serviceOpted || 'N/A',
-    //       actualAmount: item.amount,
-    //       adjustedAmount: item.adjustedAmount || 0,
-    //       invoiceNo: item.invoiceNo,
-    //       netlossgain: (item.totalAmount || 0) - (item.amount || 0)
-    //     }));
-    //   },
-    //   error: (err) => {
-    //     console.error('Failed to fetch invoices:', err);
-    //   }
-    // });
+  
   }
     /** ✅ Calculate total expense */
     totalExpense(): number {
-      return this.invoices.data.reduce((sum, expense) => sum + expense.actualAmount, 0);
+      return this.dataSource.data.reduce((sum, expense) => sum + expense.actualAmount, 0);
     }
  setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
     const ctrlValue = this.date.value ?? moment();
