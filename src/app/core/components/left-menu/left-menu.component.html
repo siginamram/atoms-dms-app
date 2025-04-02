@@ -54,7 +54,7 @@
           </a>
         </li>
         <li>
-          <a [routerLink]="['/home', 'operations', 'clients-list']" *ngIf="roleService.hasRole(['Manager', 'Team Lead'])" routerLinkActive="active">
+          <a [routerLink]="['/home', 'operations', 'clients-list']" *ngIf="roleService.hasRole(['Sales Lead','Manager', 'Team Lead'])" routerLinkActive="active">
             <i class="material-icons">group</i>Clients
           </a>
         </li>
@@ -198,7 +198,7 @@
 
         <li>
           <a [routerLink]="['/home', 'employees', 'payment-tabs']" 
-             *ngIf="roleService.hasRole(['Manager','Team Lead','HR'])"
+             *ngIf="roleService.hasRole(['Manager','Team Lead','Sales Lead'])"
              routerLinkActive="active">
             <i class="material-icons">payments</i> Payments/Invoices
           </a>
@@ -230,7 +230,7 @@
          -->
         <li>
           <a [routerLink]="['/home', 'employees', 'expenses']" 
-             *ngIf="roleService.hasRole(['Manager','HR'])"
+             *ngIf="roleService.hasRole(['Manager','HR','Sales Lead'])"
              routerLinkActive="active">
             <i class="material-icons">attach_money</i> Expenses
           </a>

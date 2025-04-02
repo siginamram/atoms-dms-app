@@ -83,7 +83,8 @@ export class LeftMenuComponent implements OnInit {
     } 
     else if (roleID === 8) {
       this.menuItems = [
-        { title: 'Dashboard', icon: 'home', route: '/home/dashboard/sl-dashboard' },
+        { title: 'Dashboard', icon: 'home', route: '/home/dashboard/manager-dashboard' },
+        { title: 'Sales Dashboard', icon: 'home', route: '/home/dashboard/sl-dashboard' },
       ];
     } 
     else if (roleID === 7) {

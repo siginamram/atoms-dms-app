@@ -33,6 +33,7 @@ export class DmaPromotedPostsDashboardComponent implements OnInit {
     'contentWriter',
     'graphicStatus',
     'editor',
+    'link',
     'postStatus',
   ];
 

@@ -86,7 +86,7 @@ export class LoginComponent implements OnInit {
       12: '/home/dashboard/video-editor-dashboard',
       13: '/home/dashboard/pg-dashboard',
       9: '/home/dashboard/dma-dashboard',
-      8: '/home/dashboard/sl-dashboard',
+      8: '/home/dashboard/manager-dashboard',
       7: '/home/dashboard/sa-dashboard',
     };
 

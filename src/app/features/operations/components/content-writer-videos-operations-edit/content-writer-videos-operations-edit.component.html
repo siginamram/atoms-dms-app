@@ -25,9 +25,9 @@
         </mat-form-field>
   
         <!-- Caption/Description Field -->
-        <mat-form-field appearance="outline" class="caption-field">
+        <mat-form-field appearance="outline" class="content-field">
           <mat-label>Caption/Description</mat-label>
-          <textarea matInput formControlName="description"></textarea>
+          <textarea matInput formControlName="description" ></textarea>
           <mat-error *ngIf="emergencyRequestForm.get('description')?.hasError('required')">
             Caption/Description is required.
           </mat-error>

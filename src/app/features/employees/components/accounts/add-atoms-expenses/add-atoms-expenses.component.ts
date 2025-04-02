@@ -21,7 +21,7 @@ export class AddAtomsExpensesComponent implements OnInit {
     purpose: new FormControl('', Validators.required),
     amountSpent: new FormControl('', [Validators.required, Validators.min(1)]),
     type: new FormControl('', Validators.required),
-    bill: new FormControl('', Validators.required),
+    bill: new FormControl(''),
     source: new FormControl('', Validators.required),
     remarks: new FormControl('')
   });
@@ -89,7 +89,7 @@ export class AddAtomsExpensesComponent implements OnInit {
       purpose: purposeId,
       amountSpent: data.amount || 0,
       type: data.type || '',
-      bill: data.biltype || '',
+      bill: data.biltype || '0',
       source: data.source || '',
       remarks: data.remarks || ''
     });
@@ -120,7 +120,7 @@ export class AddAtomsExpensesComponent implements OnInit {
       //purpose: this.expenseForm.get('purpose')?.value || 0,
       purpose:  formData.purpose, 
       type: formData.type || '',
-      biltype: formData.bill || '',
+      biltype: formData.bill || '0',
       expensesFrom: formData.source || '',
       remarks:formData.remarks || '',
       createdBy: userId
