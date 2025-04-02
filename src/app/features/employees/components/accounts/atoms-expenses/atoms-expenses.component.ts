@@ -43,11 +43,18 @@ export class AtomsExpensesComponent implements OnInit {
   constructor(private employeesService: EmployeesService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.fromDate.valueChanges.subscribe(() => this.setDefaultDateRange());
-    this.toDate.valueChanges.subscribe(() => this.setDefaultDateRange());
+    // this.fromDate.valueChanges.subscribe(() => this.setDefaultDateRange());
+    // this.toDate.valueChanges.subscribe(() => this.setDefaultDateRange());
     this.fetchExpenses();
   }
-
+  applyDateFilter() {
+    const from = moment(this.fromDate.value).format('YYYY-MM-DD');
+    const to = moment(this.toDate.value).format('YYYY-MM-DD');
+    if (moment(from).isBefore(to) || moment(from).isSame(to)) {
+      this.fetchExpenses();
+    }
+  }
+  
   ngAfterViewInit(): void {
     this.expenses.paginator = this.paginator;
     this.expenses.sort = this.sort;

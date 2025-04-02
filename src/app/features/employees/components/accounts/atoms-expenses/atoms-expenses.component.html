@@ -12,22 +12,26 @@
     </button> -->
   </mat-toolbar>
 
-  <!-- Date Filters -->
-  <div class="filters-container">
-    <mat-form-field appearance="outline">
-      <mat-label>From Date</mat-label>
-      <input matInput [matDatepicker]="fromPicker" [formControl]="fromDate" placeholder="DD/MM/YYYY" />
-      <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
-      <mat-datepicker #fromPicker (dateInput)="setDefaultDateRange()"></mat-datepicker>
-    </mat-form-field>
+<!-- Date Filters -->
+<div class="filters-container">
+  <mat-form-field appearance="outline">
+    <mat-label>From Date</mat-label>
+    <input matInput [matDatepicker]="fromPicker" [formControl]="fromDate" placeholder="DD/MM/YYYY" />
+    <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+    <mat-datepicker #fromPicker></mat-datepicker>
+  </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>To Date</mat-label>
-      <input matInput [matDatepicker]="toPicker" [formControl]="toDate" placeholder="DD/MM/YYYY" />
-      <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
-      <mat-datepicker #toPicker (dateInput)="setDefaultDateRange()"></mat-datepicker>
-    </mat-form-field>
-  </div>
+  <mat-form-field appearance="outline">
+    <mat-label>To Date</mat-label>
+    <input matInput [matDatepicker]="toPicker" [formControl]="toDate" placeholder="DD/MM/YYYY" />
+    <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+    <mat-datepicker #toPicker></mat-datepicker>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" (click)="applyDateFilter()" [disabled]="isLoading">
+    Apply
+  </button>
+</div>
 
   <!-- Loader -->
   <div class="loader-container" *ngIf="isLoading">

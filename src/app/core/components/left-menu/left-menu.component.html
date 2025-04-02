@@ -276,7 +276,7 @@
         </li>
         <li>
           <a [routerLink]="['/home', 'employees', 'income-statement']" 
-             *ngIf="roleService.hasRole(['HR'])"
+             *ngIf="roleService.hasRole(['Manager','Sales Lead'])"
              routerLinkActive="active">
             <i class="material-icons">attach_money</i> Income Statement
           </a>

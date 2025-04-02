@@ -1,5 +1,5 @@
 <div class="approvals-container">
-
+  <div class="filters-container">
   <!-- Shared Month-Year Calendar -->
   <mat-form-field appearance="outline">
     <mat-label>Month and Year</mat-label>
@@ -18,6 +18,11 @@
     </mat-datepicker>
   </mat-form-field>
 
+  <!-- Change Button -->
+  <button mat-raised-button color="primary" (click)="onDateChange()">
+    Apply
+  </button>
+  </div>
   <!-- Tab Switcher -->
   <div class="tabs">
     <button [class.active]="activeTab === 'paymentcollection'" (click)="activeTab = 'paymentcollection'">
@@ -32,13 +37,8 @@
   </div>
 
   <!-- Tab Contents -->
-  <div *ngIf="activeTab === 'paymentcollection'">
-    <app-payment-collection [selectedDate]="sharedDate.value"></app-payment-collection>
-  </div>
-  <div *ngIf="activeTab === 'gst'">
-    <app-gstinvoices [selectedDate]="sharedDate.value"></app-gstinvoices>
-  </div>
-  <div *ngIf="activeTab === 'nongst'">
-    <app-non-gstinvoices [selectedDate]="sharedDate.value"></app-non-gstinvoices>
-  </div>
+  <app-payment-collection [selectedDate]="triggeredDate" *ngIf="activeTab === 'paymentcollection'"></app-payment-collection>
+  <app-gstinvoices [selectedDate]="triggeredDate" *ngIf="activeTab === 'gst'"></app-gstinvoices>
+  <app-non-gstinvoices [selectedDate]="triggeredDate" *ngIf="activeTab === 'nongst'"></app-non-gstinvoices>
+  
 </div>

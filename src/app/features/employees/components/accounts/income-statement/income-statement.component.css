@@ -34,3 +34,15 @@
     background-color: #3f51b5; /* Add a background color for the toolbar */
     border-radius: 8px;
   }
+  .filters-container {
+    gap: 20px;
+    margin-bottom: 20px;
+    flex-wrap: nowrap;
+  }
+
+  .loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px; /* Adjust height as needed */
+  }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import * as moment from 'moment';
+import { EmployeesService } from '../../../services/employees.service';
 
 @Component({
   selector: 'app-income-statement',
@@ -9,72 +10,89 @@ import * as moment from 'moment';
   styleUrls: ['./income-statement.component.css']
 })
 export class IncomeStatementComponent implements OnInit {
-
-  fromDate = new FormControl(moment().startOf('month')); // First day of the current month
-  toDate = new FormControl(moment().endOf('month')); // Last day of the current month
+  fromDate = new FormControl(moment().startOf('month'));
+  toDate = new FormControl(moment().endOf('month'));
+  isLoading = false;
 
   incomeStatementForm: FormGroup = new FormGroup({
-    pendingCurrentPeriod: new FormControl({ value: '',  disabled: false }),
-    pendingPastMonth: new FormControl({ value: '',  disabled: false }),
-    totalRevenue: new FormControl({ value: '',  disabled: false }),
-    totalExpenses: new FormControl({ value: '',  disabled: false }),
-    overallBalance: new FormControl({ value: '',  disabled: false }),
+    pendingCurrentPeriod: new FormControl(''),
+    pendingPastMonth: new FormControl(''),
+    totalRevenue: new FormControl(''),
+    totalExpenses: new FormControl(''),
+    overallBalance: new FormControl(''),
 
-    // Expenses Breakdown
-    adBudget: new FormControl({ value: '',  disabled: false }),
-    gst: new FormControl({ value: '',  disabled: false }),
-    salaries: new FormControl({ value: '',  disabled: false }),
-    rent: new FormControl({ value: '',  disabled: false }),
-    powerBill: new FormControl({ value: '',  disabled: false }),
+    adBudget: new FormControl(''),
+    gst: new FormControl(''),
+    salaries: new FormControl(''),
+    rent: new FormControl(''),
+    powerBill: new FormControl(''),
 
-    groceries: new FormControl({ value: '',  disabled: false }),
-    snacks: new FormControl({ value: '',  disabled: false }),
-    milk: new FormControl({ value: '',  disabled: false }),
-    water: new FormControl({ value: '',  disabled: false }),
-    transport: new FormControl({ value: '',  disabled: false }),
+    groceries: new FormControl(''),
+    snacks: new FormControl(''),
+    milk: new FormControl(''),
+    water: new FormControl(''),
+    transport: new FormControl(''),
 
-    marketing: new FormControl({ value: '',  disabled: false }),
-    mobileRecharges: new FormControl({ value: '',  disabled: false }),
-    wifiRecharges: new FormControl({ value: '',  disabled: false }),
-    others: new FormControl({ value: '',  disabled: false }),
-    employeeBenefits: new FormControl({ value: '',  disabled: false })
+    marketing: new FormControl(''),
+    mobileRecharges: new FormControl(''),
+    wifiRecharges: new FormControl(''),
+    others: new FormControl(''),
+    employeeBenefits: new FormControl('')
   });
 
-  constructor() {}
+  constructor(private employeesService: EmployeesService) {}
 
   ngOnInit(): void {
     this.fetchData();
   }
 
   fetchData(): void {
-    const fromDateFormatted = moment(this.fromDate.value).format('YYYY-MM-DD');
-    const toDateFormatted = moment(this.toDate.value).format('YYYY-MM-DD');
+    const fdate = moment(this.fromDate.value).format('YYYY-MM-DD');
+    const tdate = moment(this.toDate.value).format('YYYY-MM-DD');
 
-    console.log(`Fetching data from ${fromDateFormatted} to ${toDateFormatted}`);
+    this.isLoading = true;
+    this.incomeStatementForm.disable(); // Optional: prevent editing while loading
 
-    const mockData = {
-      pendingCurrentPeriod: '₹50,000',
-      pendingPastMonth: '₹20,000',
-      totalRevenue: '₹1,00,000',
-      totalExpenses: '₹60,000',
-      overallBalance: '₹40,000',
-      adBudget: '₹10,000',
-      gst: '₹5,000',
-      salaries: '₹30,000',
-      rent: '₹15,000',
-      powerBill: '₹2,000',
-      groceries: '₹5,000',
-      snacks: '₹3,000',
-      milk: '₹1,500',
-      water: '₹1,200',
-      transport: '₹6,000',
-      marketing: '₹8,000',
-      mobileRecharges: '₹1,500',
-      wifiRecharges: '₹1,200',
-      others: '₹3,000',
-      employeeBenefits: '₹5,000'
-    };
+    this.employeesService.GetIncomeStatements(fdate, tdate).subscribe(
+      (data: any) => {
+        this.incomeStatementForm.patchValue({
+          pendingCurrentPeriod: this.formatCurrency(data.pendingCollectionThisPeriod),
+          pendingPastMonth: this.formatCurrency(data.pendingCollectionPastMonth),
+          totalRevenue: this.formatCurrency(data.totalRevenueGenerated),
+          totalExpenses: this.formatCurrency(data.totalExpenses),
+          overallBalance: this.formatCurrency(data.overallBalanceAmount),
 
-    this.incomeStatementForm.patchValue(mockData);
+          adBudget: this.formatCurrency(data.adBudget),
+          gst: this.formatCurrency(data.gst),
+          salaries: this.formatCurrency(data.salaries),
+          rent: this.formatCurrency(data.rent),
+          powerBill: this.formatCurrency(data.powerBill),
+
+          groceries: this.formatCurrency(data.monthlyGroceriesAndEssentials),
+          snacks: this.formatCurrency(data.snacks),
+          milk: this.formatCurrency(data.milk),
+          water: this.formatCurrency(data.water),
+          transport: this.formatCurrency(data.expensesOfOperationalTransportation),
+
+          marketing: this.formatCurrency(data.marketingExpenses),
+          mobileRecharges: this.formatCurrency(data.mobileRecharges),
+          wifiRecharges: this.formatCurrency(data.wiFiRecharges),
+          others: this.formatCurrency(data.others),
+          employeeBenefits: this.formatCurrency(data.employeeBenefits),
+        });
+
+        this.incomeStatementForm.enable(); // re-enable form
+        this.isLoading = false;
+      },
+      error => {
+        console.error('Failed to fetch income statement:', error);
+        this.isLoading = false;
+        this.incomeStatementForm.enable();
+      }
+    );
+  }
+
+  formatCurrency(value: number): string {
+    return `₹${value.toLocaleString('en-IN')}`;
   }
 }

@@ -124,6 +124,10 @@ GetInvoiceDetailsById(invoiceNo: number): Observable<any> {
   return this.http.get(apiUrl);
 }
 
+GetIncomeStatements(fdate: string, tdate: string): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Account/GetIncomeStatements/${fdate}/${tdate}`;
+  return this.http.get(apiUrl);
+}
 
 
 }
