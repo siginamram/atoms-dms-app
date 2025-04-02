@@ -1,16 +1,23 @@
 <div class="dashboard-container">
-  <!-- Date Filters -->
-  <div class="date-filters">
-    <div class="filter">
-      <label for="fromDate">From:</label>
-      <input type="date" id="fromDate" [(ngModel)]="fromDate" />
-    </div>
-    <div class="filter">
-      <label for="toDate">To:</label>
-      <input type="date" id="toDate" [(ngModel)]="toDate" />
-    </div>
-    <button mat-raised-button color="primary" (click)="applyDateFilter()">Apply</button>
-  </div>
+<!-- Date Filters -->
+<div class="filters-container">
+  <mat-form-field appearance="outline">
+    <mat-label>From Date</mat-label>
+    <input matInput [matDatepicker]="fromPicker" [(ngModel)]="fromDateValue">
+    <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+    <mat-datepicker #fromPicker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>To Date</mat-label>
+    <input matInput [matDatepicker]="toPicker" [(ngModel)]="toDateValue">
+    <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+    <mat-datepicker #toPicker></mat-datepicker>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" (click)="applyDateFilter()">Apply</button>
+</div>
+
 
   <!-- KPI Section -->
   <div class="kpi-section">

@@ -23,7 +23,46 @@
             <i class="material-icons">{{ item.icon }}</i> {{ item.title }}
           </a>
         </li>
-        <li>
+        <li class="dropdown" *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])">
+          <a  class="dropdown-toggle">
+            <i class="material-icons">business_center</i> Marketing
+            <i class="material-icons arrow-icon">expand_more</i>
+          </a>
+          <ul class="submenu">
+            <li *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])">
+              <a [routerLink]="['/home', 'marketing', 'lead-management']" routerLinkActive="active">
+                <i class="material-icons">supervised_user_circle</i> Lead Management
+              </a>
+            </li>
+            <li *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])">
+              <a [routerLink]="['/home', 'marketing', 'meet-management']" routerLinkActive="active">
+                <i class="material-icons">event</i> Meet Management
+              </a>
+            </li>
+            <li *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])">
+              <a [routerLink]="['/home', 'marketing', 'meet-management-histoty']" routerLinkActive="active">
+                <i class="material-icons">event</i> Meet History
+              </a>
+            </li>
+            <li *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])">
+              <a [routerLink]="['/home', 'marketing', 'generate-quote']" routerLinkActive="active">
+                <i class="material-icons">description</i> Quote Generation
+              </a>
+            </li>
+            <li *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])">
+              <a [routerLink]="['/home', 'marketing', 'sla-generation']" routerLinkActive="active">
+                <i class="material-icons">receipt</i> SLA Generation
+              </a>
+            </li>
+            <li *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])">
+              <a [routerLink]="['/home', 'marketing', 'sales-converted']" routerLinkActive="active">
+                <i class="material-icons">monetization_on</i> Sales Converted
+              </a>
+            </li>
+          </ul>
+        </li>
+        
+        <!-- <li>
           <a [routerLink]="['/home', 'marketing', 'lead-management']" *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])" routerLinkActive="active">
             <i class="material-icons">supervised_user_circle</i> Lead Management
           </a>
@@ -52,7 +91,7 @@
           <a [routerLink]="['/home', 'marketing', 'sales-converted']" *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])" routerLinkActive="active">
             <i class="material-icons">monetization_on</i> Sales Converted
           </a>
-        </li>
+        </li> -->
         <li>
           <a [routerLink]="['/home', 'operations', 'clients-list']" *ngIf="roleService.hasRole(['Sales Lead','Manager', 'Team Lead'])" routerLinkActive="active">
             <i class="material-icons">group</i>Clients
@@ -74,7 +113,7 @@
         </li>
         <li>
           <a [routerLink]="['/home', 'operations', 'lead-approvals']" 
-             *ngIf="roleService.hasRole(['Manager','Team Lead'])" 
+             *ngIf="roleService.hasRole(['Sales Lead', 'Manager','Team Lead'])" 
              routerLinkActive="active">
             <i class="material-icons">event</i>Approvals
           </a>
@@ -159,7 +198,7 @@
 
         <li>
           <a [routerLink]="['/home', 'dashboard', 'dma-adcampaign-summary']" 
-             *ngIf="roleService.hasRole([ 'DMA'])" 
+             *ngIf="roleService.hasRole([ 'DMA','Sales Lead','Team Lead'])" 
              routerLinkActive="active">
             <i class="material-icons">analytics</i>Ad Campaign Summary Report
           </a>
@@ -190,7 +229,7 @@
         
         <li>
           <a [routerLink]="['/home', 'employees', 'leave-approvals']" 
-             *ngIf="roleService.hasRole(['Manager','Team Lead'])"
+             *ngIf="roleService.hasRole(['Manager','Team Lead','Sales Lead'])"
              routerLinkActive="active">
             <i class="material-icons">task_alt</i> Leave Approvals
           </a>

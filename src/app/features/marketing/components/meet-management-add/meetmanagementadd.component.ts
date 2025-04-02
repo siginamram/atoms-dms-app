@@ -31,21 +31,12 @@ export class MeetmanagementaddComponent implements OnInit {
     this.meetForm = this.fb.group({
       leadName: ['', Validators.required],
       meetingStatus: ['', Validators.required],
-      travellingDuration: [
-        '',
-        [Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]{1,2})?$')], // Validates numbers like 2.5 or 1
-      ],
-      waitingTime: [
-        '',
-        [Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]{1,2})?$')], // Validates numbers like 1.30 or 0.5
-      ],
-      meetingTime: [
-        '',
-        [Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]{1,2})?$')], // Validates numbers like 1.30 or 0.5
-      ],
+      travellingDuration: [''],
+      waitingTime: [''],
+      meetingTime: [''],
       statusOfLead: ['', Validators.required],
-      longitude: ['', Validators.required],
-      latitude: ['', Validators.required],
+      longitude: [''],
+      latitude: [''],
       requireAnotherMeet: [{value :'', disabled: true}, Validators.required],
       nextMeetDate: [''],
       nextMeetTime: [''],
@@ -77,8 +68,35 @@ export class MeetmanagementaddComponent implements OnInit {
       this.meetForm.get('nextMeetDate')?.updateValueAndValidity();
       this.meetForm.get('nextMeetTime')?.updateValueAndValidity();
     });
-  }
 
+    this.meetForm.get('meetingStatus')?.valueChanges.subscribe((value: string) => {
+      console.log('Meeting Status:', value);
+      if (value === '2') {
+        this.disableMeetingValidators();
+      } else {
+        this.enableMeetingValidators();
+      }
+    });
+   
+  }
+  disableMeetingValidators() {
+    ['travellingDuration', 'waitingTime', 'meetingTime', 'longitude', 'latitude'].forEach(field => {
+      this.meetForm.get(field)?.clearValidators();
+      this.meetForm.get(field)?.updateValueAndValidity();
+    });
+  }
+  enableMeetingValidators() {
+    this.meetForm.get('travellingDuration')?.setValidators([Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]{1,2})?$')]);
+    this.meetForm.get('waitingTime')?.setValidators([Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]{1,2})?$')]);
+    this.meetForm.get('meetingTime')?.setValidators([Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]{1,2})?$')]);
+    this.meetForm.get('longitude')?.setValidators([Validators.required]);
+    this.meetForm.get('latitude')?.setValidators([Validators.required]);
+  
+    ['travellingDuration', 'waitingTime', 'meetingTime', 'longitude', 'latitude'].forEach(field => {
+      this.meetForm.get(field)?.updateValueAndValidity();
+    });
+  }
+  
   generateStartTimeOptions(): string[] {
     const options: string[] = [];
     const startHour = 0; // 00:00 (12:00 AM)
@@ -120,8 +138,8 @@ export class MeetmanagementaddComponent implements OnInit {
           waitingTime: data.waitingTime || '',
           meetingTime: data.meetingTime || '',
           statusOfLead: data.statusOfLead?.toString(),
-          longitude: data.longitude,
-          latitude: data.latitude,
+          longitude: data.longitude|| '',
+          latitude: data.latitude || '',
           requireAnotherMeet: data.requireAnotherMeet === true || data.requireAnotherMeet === 1 ? 1 : 0,
           nextMeetTime: data.nextMeetTime || '',
           insight: data.insight,
@@ -174,6 +192,12 @@ export class MeetmanagementaddComponent implements OnInit {
         requireAnotherMeet:this.meetForm.get('requireAnotherMeet')?.value ? true : false,
         nextMeetDate: this.formatDate(new Date(this.meetForm.value.nextMeetDate)),
         modeOfMeet:this.meetForm.get('meetMode')?.value ? true : false,
+        travellingDuration:this.meetForm.value.travellingDuration || '0',
+        waitingTime:this.meetForm.value.waitingTime || '0',
+        meetingTime:this.meetForm.value.meetingTime || '0',
+        longitude:this.meetForm.value.longitude || '0',
+        latitude:this.meetForm.value.latitude || '0',
+       
       };
   
       this.commanApiService.updateMeeting(payload).subscribe(

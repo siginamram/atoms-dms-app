@@ -241,3 +241,24 @@ body {
     display: none; /* Hide the mobile toggle button on desktop */
   }
 }
+.dropdown > .submenu {
+  display: none;
+  list-style: none;
+  padding-left: 20px;
+}
+
+.dropdown:hover > .submenu {
+  display: block;
+}
+
+.dropdown-toggle {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.arrow-icon {
+  font-size: 18px;
+  margin-left: auto;
+}

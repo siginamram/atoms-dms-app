@@ -26,7 +26,7 @@ export class AtomsExpensesComponent implements OnInit {
   toDate = new FormControl(moment().endOf('month').format('YYYY-MM-DD'));
   isLoading = false;
 
-  displayedColumns: string[] = ['id', 'date', 'person', 'purpose', 'amount', 'type', 'biltype', 'source', 'remarks', 'actions'];
+  displayedColumns: string[] = ['id', 'date', 'person', 'purpose', 'amount', 'type',  'source', 'remarks', 'actions'];
   filterableColumns: string[] = ['date', 'person', 'purpose', 'type', 'source'];
   filterVisibility: any = {};
   filters: any = {};
@@ -81,8 +81,9 @@ export class AtomsExpensesComponent implements OnInit {
     this.isLoading = true;
     const fdate = moment(this.fromDate.value).format('YYYY-MM-DD');
     const tdate = moment(this.toDate.value).format('YYYY-MM-DD');
+  
     this.employeesService.GetExpenses(fdate, tdate).subscribe((data: any[]) => {
-      this.expenses.data = data.map((e) => ({
+      const formattedData = data.map((e) => ({
         id: e.id,
         date: formatDate(e.date, 'dd/MM/yyyy', 'en'),
         person: e.nameOfPerson,
@@ -93,11 +94,24 @@ export class AtomsExpensesComponent implements OnInit {
         source: e.expensesFrom,
         remarks: e.remarks || 'N/A'
       }));
-      this.expenses.paginator = this.paginator;
-      this.expenses.sort = this.sort;
+  
+      this.expenses = new MatTableDataSource(formattedData);
+  
+      setTimeout(() => {
+        this.expenses.paginator = this.paginator;
+        this.expenses.sort = this.sort;
+        this.expenses.filterPredicate = (data, filter) => {
+          const search = JSON.parse(filter);
+          return Object.keys(search).every(key =>
+            data[key]?.toString().toLowerCase().includes(search[key])
+          );
+        };
+      });
+  
       this.isLoading = false;
     }, _ => this.isLoading = false);
   }
+  
 
   getPurposeName(id: number): string {
     return this.purposeList.find(p => p.id === id)?.name || 'Unknown';

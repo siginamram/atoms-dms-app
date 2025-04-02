@@ -9,9 +9,10 @@ import * as moment from 'moment';
   styleUrls: ['./sl-dashboard.component.css']
 })
 export class SlDashboardComponent implements OnInit {
-  fromDate: string = moment().startOf('month').format('YYYY-MM-DD');
-  toDate: string = moment().endOf('month').format('YYYY-MM-DD');
-  displayedColumns = ['sno','name', 'prospectsRegistered', 'dealsClosed', 'revenueGenerated', 'successRate'];
+  fromDateValue: Date = new Date(moment().startOf('month').format('YYYY-MM-DD'));
+  toDateValue: Date = new Date(moment().endOf('month').format('YYYY-MM-DD'));
+
+  displayedColumns = ['sno', 'name', 'prospectsRegistered', 'dealsClosed', 'revenueGenerated', 'successRate'];
   kpis: any[] = [];
   tableData: any[] = [];
 
@@ -21,14 +22,16 @@ export class SlDashboardComponent implements OnInit {
     this.fetchDashboardData();
   }
 
-  applyDateFilter() {
+  applyDateFilter(): void {
     this.fetchDashboardData();
   }
 
   fetchDashboardData(): void {
-    const userId = 1; // replace with actual user ID logic
+    const userId = +localStorage.getItem('UserID')!; 
+    const fdate = moment(this.fromDateValue).format('YYYY-MM-DD');
+    const tdate = moment(this.toDateValue).format('YYYY-MM-DD');
 
-    this.dashboardService.GetDashboardSalesLeadByUser(userId, this.fromDate, this.toDate).subscribe((res: any) => {
+    this.dashboardService.GetDashboardSalesLeadByUser(userId, fdate, tdate).subscribe((res: any) => {
       const sales = res.salesMonthlydashboard;
 
       this.kpis = [
