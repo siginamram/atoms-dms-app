@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild ,Input, OnChanges, SimpleChanges} from '@a
 import { FormControl } from '@angular/forms';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatDatepicker } from '@angular/material/datepicker';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { EmployeesService } from '../../../services/employees.service';
 import * as moment from 'moment';
@@ -62,7 +62,8 @@ export class GstinvoicesComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private employeesService: EmployeesService
+    private employeesService: EmployeesService,
+        private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
@@ -116,19 +117,27 @@ export class GstinvoicesComponent implements OnInit {
   }
 
  downloadInvoice(invoice: InvoiceData){
+    const tab = this.route.snapshot.queryParamMap.get('tab') || 'gst';
+    const date = this.route.snapshot.queryParamMap.get('date') || moment().format('YYYY-MM');
     console.log('Download Invoice:', invoice);
     this.router.navigate(['/home/employees/gst-invoices-download'], {
       queryParams: {
         invoice,
+        tab: tab,
+        date:date
       }
     });
   }
 
   editInvoice(invoice: InvoiceData): void {
+    const tab = this.route.snapshot.queryParamMap.get('tab') || 'gst';
+    const date = this.route.snapshot.queryParamMap.get('date') || moment().format('YYYY-MM');
     console.log('Editing Invoice:', invoice);
     this.router.navigate([`/home/employees/add-gst-invoices`], {
       queryParams: {
         invoice,
+        tab: tab,
+        date:date
       }
     });
     

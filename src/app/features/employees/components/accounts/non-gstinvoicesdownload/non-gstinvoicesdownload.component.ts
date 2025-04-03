@@ -4,6 +4,7 @@ import { EmployeesService } from '../../../services/employees.service';
 import { ToWords } from 'to-words';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-non-gstinvoicesdownload',
@@ -87,7 +88,14 @@ downloadPDF(): void {
 }
 
 goBack(): void {
-  this.router.navigate(['/home/employees/payment-tabs']); 
+    const tab = this.route.snapshot.queryParamMap.get('tab') || 'nongst';
+     const date = this.route.snapshot.queryParamMap.get('date') || moment().format('YYYY-MM');
+     this.router.navigate(['/home/employees/payment-tabs'], {
+       queryParams: {
+         tab,
+         date
+       }
+     });
 }
   
 }

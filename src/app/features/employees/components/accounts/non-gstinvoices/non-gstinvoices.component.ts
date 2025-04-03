@@ -2,7 +2,7 @@ import { Component,  Input, OnChanges, SimpleChanges, OnInit,ViewChild} from '@a
 import { FormControl } from '@angular/forms';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatDatepicker } from '@angular/material/datepicker';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { MatPaginator } from '@angular/material/paginator';
 import { EmployeesService } from '../../../services/employees.service';
@@ -53,7 +53,8 @@ export class NonGstinvoicesComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private employeesService: EmployeesService
+    private employeesService: EmployeesService,
+      private route: ActivatedRoute,
   ) {}
  
 
@@ -108,19 +109,25 @@ export class NonGstinvoicesComponent implements OnInit {
     this.fetchInvoices();
   }
   downloadInvoice(invoice: InvoiceData){
-    console.log('Download Invoice:', invoice);
+      const tab = this.route.snapshot.queryParamMap.get('tab') || 'gst';
+      const date = this.route.snapshot.queryParamMap.get('date') || moment().format('YYYY-MM');
     this.router.navigate(['/home/employees/non-gst-invoices-download'], {
       queryParams: {
         invoice,
+        tab:tab,
+        date:date
       }
     });
   }
 
   editInvoice(invoice: InvoiceData): void {
-    console.log('Editing Invoice:', invoice);
+    const tab = this.route.snapshot.queryParamMap.get('tab') || 'gst';
+    const date = this.route.snapshot.queryParamMap.get('date') || moment().format('YYYY-MM');
     this.router.navigate([`/home/employees/add-non-gst-invoices`], {
       queryParams: {
         invoice,
+        tab:tab,
+        date:date
       }
     });
     

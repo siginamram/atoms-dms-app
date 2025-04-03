@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeesService } from '../../../services/employees.service';
 import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/alert-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-add-payment-collection',
@@ -136,6 +137,9 @@ export class AddPaymentCollectionComponent implements OnInit {
   submitForm() {
     if (this.paymentForm.valid) {
       const formValue = this.paymentForm.value;
+    // after successful update
+    const tab = this.route.snapshot.queryParamMap.get('tab') || 'paymentcollection';
+    const date = this.route.snapshot.queryParamMap.get('date') || moment().format('YYYY-MM');
   
       const payload = {
         id: this.paymentId, // Set from query param in ngOnInit
@@ -152,7 +156,12 @@ export class AddPaymentCollectionComponent implements OnInit {
         next: (res) => {
           console.log('Update Success:', res);
           this.openAlertDialog('Success', 'Payment follow-up updated Successfully!');
-          this.router.navigate(['/home/employees/payment-tabs']); 
+          this.router.navigate(['/home/employees/payment-tabs'], {
+            queryParams: {
+              tab,
+              date
+            }
+          }); 
         },
         error: (err) => {
           console.error('Update Failed:', err);
@@ -165,7 +174,14 @@ export class AddPaymentCollectionComponent implements OnInit {
     }
   }
   goBack(): void {
-    this.router.navigate(['/home/employees/payment-tabs']); 
+    const tab = this.route.snapshot.queryParamMap.get('tab') || 'paymentcollection';
+    const date = this.route.snapshot.queryParamMap.get('date') || moment().format('YYYY-MM');
+    this.router.navigate(['/home/employees/payment-tabs'], {
+      queryParams: {
+        tab,
+        date
+      }
+    });
   }
   openAlertDialog(title: string, message: string): void {
     this.dialog.open(AlertDialogComponent, {

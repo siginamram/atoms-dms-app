@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { EmployeesService } from '../../../services/employees.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-gstinvoicespopup',
@@ -112,10 +113,24 @@ export class GstinvoicespopupComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/home/employees/payment-tabs']);
+  const tab = this.route.snapshot.queryParamMap.get('tab') || 'gst';
+    const date = this.route.snapshot.queryParamMap.get('date') || moment().format('YYYY-MM');
+    this.router.navigate(['/home/employees/payment-tabs'], {
+      queryParams: {
+        tab,
+        date
+      }
+    });
   }
 
   goBack(): void {
-    this.router.navigate(['/home/employees/payment-tabs']);
+    const tab = this.route.snapshot.queryParamMap.get('tab') || 'gst';
+      const date = this.route.snapshot.queryParamMap.get('date') || moment().format('YYYY-MM');
+      this.router.navigate(['/home/employees/payment-tabs'], {
+        queryParams: {
+          tab,
+          date
+        }
+      });
   }
 }

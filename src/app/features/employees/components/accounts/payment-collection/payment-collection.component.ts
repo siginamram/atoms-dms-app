@@ -123,7 +123,8 @@ export class PaymentCollectionComponent implements OnInit {
     this.router.navigate([`/home/employees/add-payment-collection`], {
       queryParams: {
         payment,
-       date:this.dateStr
+       date:this.dateStr,
+       tab: 'paymentcollection',
       }
     });
   }
