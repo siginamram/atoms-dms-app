@@ -1,86 +1,99 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import * as moment from 'moment';
-import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
-export const MY_FORMATS = {
-  parse: {
-    dateInput: 'MM/YYYY',
-  },
-  display: {
-    dateInput: 'MM/YYYY',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
-};
+import { EmployeesService } from '../../../services/employees.service';
+
 @Component({
   selector: 'app-budget-planning',
   standalone:false,
   templateUrl: './budget-planning.component.html',
   styleUrl: './budget-planning.component.css',
-    providers: [provideMomentDateAdapter(MY_FORMATS)],
+  
 })
 export class BudgetPlanningComponent implements OnInit {
-  selectedMonth = new FormControl(moment()); // Default current month
+  fromDate = new FormControl(moment().startOf('month'));
+  toDate = new FormControl(moment().endOf('month'));
+  isLoading = false;
 
   incomeStatementForm: FormGroup = new FormGroup({
-    previousBalance: new FormControl({ value: '',  disabled: false}),
-    amountToBeReceived: new FormControl({ value: '',  disabled: false}),
-    currentMonthExpenses: new FormControl({ value: '',  disabled: false}),
-    overallBalance: new FormControl({ value: '',  disabled: false}),
+    pendingCurrentPeriod: new FormControl(''),
+    pendingPastMonth: new FormControl(''),
+    totalRevenue: new FormControl(''),
+    totalExpenses: new FormControl(''),
+    overallBalance: new FormControl(''),
 
-    // Expenses Breakdown
-    adBudget: new FormControl({ value: '',  disabled: false}),
-    gst: new FormControl({ value: '',  disabled: false}),
-    salaries: new FormControl({ value: '',  disabled: false}),
-    rent: new FormControl({ value: '',  disabled: false}),
-    powerBill: new FormControl({ value: '',  disabled: false}),
+    adBudget: new FormControl(''),
+    gst: new FormControl(''),
+    salaries: new FormControl(''),
+    rent: new FormControl(''),
+    powerBill: new FormControl(''),
 
-    groceries: new FormControl({ value: '',  disabled: false}),
-    snacks: new FormControl({ value: '',  disabled: false}),
-    milk: new FormControl({ value: '',  disabled: false}),
-    water: new FormControl({ value: '',  disabled: false}),
-    transport: new FormControl({ value: '',  disabled: false}),
+    groceries: new FormControl(''),
+    snacks: new FormControl(''),
+    milk: new FormControl(''),
+    water: new FormControl(''),
+    transport: new FormControl(''),
 
-    marketing: new FormControl({ value: '',  disabled: false}),
-    mobileRecharges: new FormControl({ value: '',  disabled: false}),
-    wifiRecharges: new FormControl({ value: '',  disabled: false}),
-    others: new FormControl({ value: '',  disabled: false}),
-    employeeBenefits: new FormControl({ value: '',  disabled: false})
+    marketing: new FormControl(''),
+    mobileRecharges: new FormControl(''),
+    wifiRecharges: new FormControl(''),
+    others: new FormControl(''),
+    employeeBenefits: new FormControl('')
   });
 
-  constructor() {}
+  constructor(private employeesService: EmployeesService) {}
 
   ngOnInit(): void {
     this.fetchData();
   }
 
   fetchData(): void {
-    const selectedMonthFormatted = moment(this.selectedMonth.value).format('YYYY-MM');
-    console.log(`Fetching data for month: ${selectedMonthFormatted}`);
+    const fdate = moment(this.fromDate.value).format('YYYY-MM-DD');
+    const tdate = moment(this.toDate.value).format('YYYY-MM-DD');
 
-    const mockData = {
-      previousBalance: '₹30,000',
-      amountToBeReceived: '₹40,000',
-      currentMonthExpenses: '₹60,000',
-      overallBalance: '₹10,000',
-      adBudget: '₹8,000',
-      gst: '₹5,500',
-      salaries: '₹25,000',
-      rent: '₹12,000',
-      powerBill: '₹2,500',
-      groceries: '₹6,000',
-      snacks: '₹3,500',
-      milk: '₹1,800',
-      water: '₹1,500',
-      transport: '₹7,500',
-      marketing: '₹9,500',
-      mobileRecharges: '₹1,800',
-      wifiRecharges: '₹1,500',
-      others: '₹4,000',
-      employeeBenefits: '₹6,500'
-    };
+    this.isLoading = true;
+    this.incomeStatementForm.disable(); // Optional: prevent editing while loading
 
-    this.incomeStatementForm.patchValue(mockData);
+    this.employeesService.GetIncomeStatements(fdate, tdate).subscribe(
+      (data: any) => {
+        this.incomeStatementForm.patchValue({
+          pendingCurrentPeriod: this.formatCurrency(data.pendingCollectionThisPeriod),
+          pendingPastMonth: this.formatCurrency(data.pendingCollectionPastMonth),
+          totalRevenue: this.formatCurrency(data.totalRevenueGenerated),
+          totalExpenses: this.formatCurrency(data.totalExpenses),
+          overallBalance: this.formatCurrency(data.overallBalanceAmount),
+
+          adBudget: this.formatCurrency(data.adBudget),
+          gst: this.formatCurrency(data.gst),
+          salaries: this.formatCurrency(data.salaries),
+          rent: this.formatCurrency(data.rent),
+          powerBill: this.formatCurrency(data.powerBill),
+
+          groceries: this.formatCurrency(data.monthlyGroceriesAndEssentials),
+          snacks: this.formatCurrency(data.snacks),
+          milk: this.formatCurrency(data.milk),
+          water: this.formatCurrency(data.water),
+          transport: this.formatCurrency(data.expensesOfOperationalTransportation),
+
+          marketing: this.formatCurrency(data.marketingExpenses),
+          mobileRecharges: this.formatCurrency(data.mobileRecharges),
+          wifiRecharges: this.formatCurrency(data.wiFiRecharges),
+          others: this.formatCurrency(data.others),
+          employeeBenefits: this.formatCurrency(data.employeeBenefits),
+        });
+
+        this.incomeStatementForm.enable(); // re-enable form
+        this.isLoading = false;
+      },
+      error => {
+        console.error('Failed to fetch income statement:', error);
+        this.isLoading = false;
+        this.incomeStatementForm.enable();
+      }
+    );
+  }
+
+  formatCurrency(value: number): string {
+    return `₹${value.toLocaleString('en-IN')}`;
   }
 }

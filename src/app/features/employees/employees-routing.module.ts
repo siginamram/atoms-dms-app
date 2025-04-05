@@ -21,6 +21,7 @@ import { AtomsExpensesComponent } from './components/accounts/atoms-expenses/ato
 import { GstinvoicesdownloadComponent } from './components/accounts/gstinvoicesdownload/gstinvoicesdownload.component';
 import { NonGstinvoicesdownloadComponent } from './components/accounts/non-gstinvoicesdownload/non-gstinvoicesdownload.component';
 import { PaymentsComponent } from './components/accounts/payments/payments.component';
+import { EmployeeSalarysComponent } from './components/employee-salarys/employee-salarys.component';
 
 // const routes: Routes = [{ path: '', component: EmployeesComponent },
 //     { path: 'AddComponent',component: AddEmployeeComponent },
@@ -51,6 +52,7 @@ const routes: Routes = [
       { path:'gst-invoices-download', component: GstinvoicesdownloadComponent},
       { path:'non-gst-invoices-download', component: NonGstinvoicesdownloadComponent},
       { path:'payment-tabs', component: PaymentsComponent},
+      { path:'employee-salary', component: EmployeeSalarysComponent},
     ]
   }
 ];

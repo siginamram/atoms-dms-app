@@ -47,6 +47,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { GstinvoicesdownloadComponent } from './components/accounts/gstinvoicesdownload/gstinvoicesdownload.component';
 import { NonGstinvoicesdownloadComponent } from './components/accounts/non-gstinvoicesdownload/non-gstinvoicesdownload.component';
 import { PaymentsComponent } from './components/accounts/payments/payments.component';
+import { EmployeeSalarysComponent } from './components/employee-salarys/employee-salarys.component';
+import { EmployeeUpdateSalaryStatusComponent } from './components/employee-update-salary-status/employee-update-salary-status.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +78,8 @@ import { PaymentsComponent } from './components/accounts/payments/payments.compo
     GstinvoicesdownloadComponent,
     NonGstinvoicesdownloadComponent,
     PaymentsComponent,
+    EmployeeSalarysComponent,
+    EmployeeUpdateSalaryStatusComponent,
   ],
   imports: [
     CommonModule,

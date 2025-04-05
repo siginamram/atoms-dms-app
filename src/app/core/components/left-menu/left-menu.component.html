@@ -234,7 +234,7 @@
             <i class="material-icons">task_alt</i> Leave Approvals
           </a>
         </li>
-        <li class="dropdown" *ngIf="roleService.hasRole(['Manager','Team Lead','Sales Lead'])">
+        <li class="dropdown" *ngIf="roleService.hasRole(['Manager','Team Lead','Sales Lead','HR'])">
           <a  class="dropdown-toggle">
             <i class="material-icons">business_center</i> Accounts
             <i class="material-icons arrow-icon">expand_more</i>
@@ -251,21 +251,28 @@
               <a [routerLink]="['/home', 'employees', 'expenses']" 
                  *ngIf="roleService.hasRole(['Manager','HR','Sales Lead'])"
                  routerLinkActive="active">
-                <i class="material-icons">attach_money</i> Expenses
+                <i class="material-icons">money_off</i> Expenses
               </a>
             </li>
             <li>
               <a [routerLink]="['/home', 'employees', 'income-statement']" 
                  *ngIf="roleService.hasRole(['Manager','Sales Lead'])"
                  routerLinkActive="active">
-                <i class="material-icons">attach_money</i> Income Statement
+                <i class="material-icons">bar_chart</i> Income Statement
               </a>
             </li>
             <li>
               <a [routerLink]="['/home', 'employees', 'budget-planning']" 
-                 *ngIf="roleService.hasRole(['HR'])"
+                 *ngIf="roleService.hasRole(['Manager','Sales Lead'])"
                  routerLinkActive="active">
-                <i class="material-icons">attach_money</i> Budget Planning
+                <i class="material-icons">calculate</i> Budget Planning
+              </a>
+            </li>
+            <li>
+              <a [routerLink]="['/home', 'employees', 'employee-salary']" 
+                 *ngIf="roleService.hasRole(['Manager','Sales Lead','HR'])"
+                 routerLinkActive="active">
+                <i class="material-icons">calculate</i>Employee Salary
               </a>
             </li>
           </ul>

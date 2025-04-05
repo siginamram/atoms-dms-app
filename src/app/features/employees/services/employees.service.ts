@@ -129,5 +129,19 @@ GetIncomeStatements(fdate: string, tdate: string): Observable<any> {
   return this.http.get(apiUrl);
 }
 
+GetSalaryTransactionsByMonth(date: string): Observable<string> {
+  const apiUrl = `${this.baseApiUrl}/api/Account/GetSalaryTransactionsByMonth/${date}`;
+  return this.http.get(apiUrl, { responseType: 'text' });
+}
+
+GenerateMonthlySalaryForecast(date: string): Observable<string> {
+  const apiUrl = `${this.baseApiUrl}/api/Account/GenerateMonthlySalaryForecast/${date}`;
+  return this.http.get(apiUrl, { responseType: 'text' });
+}
+
+UpdateSalaryStatusByID(payload: any): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Account/UpdateSalaryStatusByID`;
+  return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+}
 
 }

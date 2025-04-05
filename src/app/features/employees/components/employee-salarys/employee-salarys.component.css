@@ -1,0 +1,86 @@
+.salarys-container {
+    padding-left: 140px;
+    background: #f9f9f9;
+    border-radius: 10px;
+  }
+  
+  .toolbar {
+    margin-bottom: 20px;
+    border-radius: 6px;
+  }
+  
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+    background: #fff;
+    border-radius: 8px;
+    padding: 10px;
+  }
+  
+  mat-form-field {
+    min-width: 200px;
+  }
+  
+  .spinner {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .paid {
+    color: green;
+    font-weight: 600;
+  }
+  
+  .pending {
+    color: red;
+    font-weight: 600;
+  }
+  th {
+    background: #333;
+    color: orange;
+    text-align: left;
+    padding: 8px;
+  }
+  .total-expense {
+    text-align: right;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-right: 10px;
+  }
+
+  mat-toolbar {
+    margin-bottom: 16px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+  }
+  .spacer {
+    flex: 1 1 auto;
+  }
+  .no-data-message {
+    display: flex; /* Center alignment */
+    justify-content: center; /* Horizontal center */
+    align-items: center; /* Vertical center */
+    height: 200px; /* Adjust height for alignment */
+    color: #ff5722; /* Add a custom color (e.g., orange-red) */
+    font-size: 18px; /* Adjust font size */
+    font-weight: bold; /* Make the text bold */
+    text-align: center; /* Center-align the text */
+    background-color: #f9f9f9; /* Optional: Light background for contrast */
+    border: 1px solid #ddd; /* Optional: Add a subtle border */
+    border-radius: 8px; /* Optional: Rounded corners */
+  }

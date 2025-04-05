@@ -1,0 +1,54 @@
+<mat-dialog-content class="expense-dialog">
+    <!-- Toolbar -->
+    <mat-toolbar color="primary" class="toolbar">
+      <span>{{ isEditMode ? 'Edit' : 'Add' }} Employee Salary Status</span>
+    </mat-toolbar>
+  
+    <form [formGroup]="expenseForm" (ngSubmit)="submitExpense()">
+      <div class="form-container">
+        <!-- Person -->
+        <mat-form-field appearance="outline">
+            <mat-label>Name of the Employee</mat-label>
+            <input matInput formControlName="person" placeholder="Enter Name">
+            <mat-error *ngIf="expenseForm.get('person')?.invalid">Name is required (min 3 characters)</mat-error>
+            </mat-form-field>
+
+        <!-- Date -->
+        <mat-form-field appearance="outline">
+          <mat-label>Payment Date</mat-label>
+          <input matInput formControlName="date" [matDatepicker]="datePicker" placeholder="DD/MM/YYYY">
+          <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+          <mat-datepicker #datePicker></mat-datepicker>
+          <mat-error *ngIf="expenseForm.get('date')?.invalid">Date is required</mat-error>
+        </mat-form-field>
+  
+        <!-- Amount -->
+        <mat-form-field appearance="outline">
+          <mat-label>Paid Amount </mat-label>
+          <input matInput formControlName="paidamount" type="number" placeholder="Enter Amount">
+          <mat-error *ngIf="expenseForm.get('paidamount')?.invalid">Amount must be greater than 0</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status">
+            <mat-option value="Paid">Paid</mat-option>
+            <mat-option value="Pending">Pending</mat-option>
+          </mat-select>
+          <mat-error *ngIf="expenseForm.get('status')?.invalid">This field is required</mat-error>
+        </mat-form-field>
+  
+        <!-- Remarks -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Remarks</mat-label>
+          <textarea matInput formControlName="remarks" placeholder="Enter Remarks"></textarea>
+        </mat-form-field>
+      </div>
+  
+      <mat-dialog-actions class="dialog-actions">
+        <button mat-button type="button" (click)="closeDialog()">Close</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="expenseForm.invalid">Submit</button>
+      </mat-dialog-actions>
+    </form>
+  </mat-dialog-content>
+  
