@@ -17,6 +17,7 @@ export interface PaymentData {
   dueDate: string;
   paymentStatus: string;
   type: string;
+  [key: string]: any;
 }
 
 export const MY_FORMATS = {
@@ -46,6 +47,9 @@ export class PaymentCollectionComponent implements OnInit {
   dataSource = new MatTableDataSource<PaymentData>([]);
   date = new FormControl(moment());
   selectedDate1:any;
+  filterVisibility: any = {};
+  filters: any = {};
+
   constructor(
     private router: Router,
     private employeesService: EmployeesService,
@@ -58,7 +62,25 @@ export class PaymentCollectionComponent implements OnInit {
     this.date.valueChanges.subscribe(val => {
       if (val) this.fetchPaymentsForMonth();
     });
+
+    this.dataSource.filterPredicate = (data, filter) => {
+      const search = JSON.parse(filter);
+      return Object.keys(search).every(key =>
+        data[key]?.toString().toLowerCase().includes(search[key])
+      );
+    };
   }
+
+  toggleFilterVisibility(column: string) {
+    this.filterVisibility[column] = !this.filterVisibility[column];
+  }
+  
+  applyFilter(event: any, column: string) {
+    const value = event.target.value.trim().toLowerCase();
+    this.filters[column] = value;
+    this.dataSource.filter = JSON.stringify(this.filters);
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedDate'] && this.selectedDate) {
       this.dateStr = this.selectedDate.format('YYYY-MM') + '-01';
