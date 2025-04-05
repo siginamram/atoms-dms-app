@@ -256,21 +256,21 @@
             </li>
             <li>
               <a [routerLink]="['/home', 'employees', 'income-statement']" 
-                 *ngIf="roleService.hasRole(['Manager','Sales Lead'])"
+                 *ngIf="roleService.hasRole(['Sales Lead'])"
                  routerLinkActive="active">
                 <i class="material-icons">bar_chart</i> Income Statement
               </a>
             </li>
             <li>
               <a [routerLink]="['/home', 'employees', 'budget-planning']" 
-                 *ngIf="roleService.hasRole(['Manager','Sales Lead'])"
+                 *ngIf="roleService.hasRole(['Sales Lead'])"
                  routerLinkActive="active">
                 <i class="material-icons">calculate</i> Budget Planning
               </a>
             </li>
             <li>
               <a [routerLink]="['/home', 'employees', 'employee-salary']" 
-                 *ngIf="roleService.hasRole(['Manager','Sales Lead','HR'])"
+                 *ngIf="roleService.hasRole(['Sales Lead','HR'])"
                  routerLinkActive="active">
                 <i class="material-icons">calculate</i>Employee Salary
               </a>
