@@ -13,7 +13,18 @@ export class IncomeStatementComponent implements OnInit {
   fromDate = new FormControl(moment().startOf('month'));
   toDate = new FormControl(moment().endOf('month'));
   isLoading = false;
-
+  pendingPastMonth :any = 0;
+  receivedPrevious:any = 0;
+  balancePrevious:any = 0;
+  
+  pendingCurrent:any = 0;
+  receivedCurrent:any = 0;
+  balanceCurrent:any = 0;
+  
+  totalExpected:any = 0;
+  totalReceived:any = 0;
+  totalPending:any = 0;
+  
   incomeStatementForm: FormGroup = new FormGroup({
     pendingCurrentPeriod: new FormControl(''),
     pendingPastMonth: new FormControl(''),
@@ -55,12 +66,38 @@ export class IncomeStatementComponent implements OnInit {
 
     this.employeesService.GetIncomeStatements(fdate, tdate).subscribe(
       (data: any) => {
+          // Raw values for calculation
+        let pendingFromPreviousMonths = data.pendingFromPreviousMonths || 0;
+        let amountReceivedPrevious = data.amountReceivedPrevious || 0;
+        let tobeReceivedCurrentMonth = data.tobeReceivedCurrentMonth || 0;
+        let amountReceivedCurrent = data.amountReceivedCurrent || 0;
+
+        // Calculated raw totals
+        let balancePrev = pendingFromPreviousMonths - amountReceivedPrevious;
+        let balanceCurr = tobeReceivedCurrentMonth - amountReceivedCurrent;
+
+        let totalToBeReceived = pendingFromPreviousMonths + tobeReceivedCurrentMonth;
+        let totalReceivedAmount = amountReceivedPrevious + amountReceivedCurrent;
+        let totalPendingAmount = totalToBeReceived - totalReceivedAmount;
+
+        let overallBalanceRaw = totalReceivedAmount - (data.totalExpenses || 0);
+
+        // Bind formatted values to display properties
+        this.pendingPastMonth = this.formatCurrency(pendingFromPreviousMonths);
+        this.receivedPrevious = this.formatCurrency(amountReceivedPrevious);
+        this.balancePrevious = this.formatCurrency(balancePrev);
+
+        this.pendingCurrent = this.formatCurrency(tobeReceivedCurrentMonth);
+        this.receivedCurrent = this.formatCurrency(amountReceivedCurrent);
+        this.balanceCurrent = this.formatCurrency(balanceCurr);
+
+        this.totalExpected = this.formatCurrency(totalToBeReceived);
+        this.totalReceived = this.formatCurrency(totalReceivedAmount);
+        this.totalPending = this.formatCurrency(totalPendingAmount);
+
         this.incomeStatementForm.patchValue({
-          pendingCurrentPeriod: this.formatCurrency(data.pendingCollectionThisPeriod),
-          pendingPastMonth: this.formatCurrency(data.pendingCollectionPastMonth),
-          totalRevenue: this.formatCurrency(data.totalRevenueGenerated),
           totalExpenses: this.formatCurrency(data.totalExpenses),
-          overallBalance: this.formatCurrency(data.overallBalanceAmount),
+          overallBalance: this.formatCurrency(overallBalanceRaw),
 
           adBudget: this.formatCurrency(data.adBudget),
           gst: this.formatCurrency(data.gst),

@@ -116,20 +116,28 @@ export class PaymentCollectionComponent implements OnInit {
     });
   }
 
-    /** ✅ Calculate total expense */
-    totalExpense(): number {
-      return this.dataSource.data.reduce((sum, expense) => sum + expense.amount, 0);
-    }
-    totalPaidAmount(): number {
-      return this.dataSource.data
-        .filter(item => item.paymentStatus === 'Paid')
-        .reduce((sum, item) => sum + item.amount, 0);
-    }
+ // ✅ Now return formatted strings instead of raw numbers
+getFormattedTotalExpense(): string {
+  const total = this.dataSource.data.reduce((sum, expense) => sum + expense.amount, 0);
+  return this.formatCurrency(total);
+}
 
-    totalPendingAmount(): number {
-      return this.dataSource.data
-        .filter(item => item.paymentStatus === 'Pending')
-        .reduce((sum, item) => sum + item.amount, 0);
+getFormattedTotalPaidAmount(): string {
+  const paid = this.dataSource.data
+    .filter(item => item.paymentStatus === 'Paid')
+    .reduce((sum, item) => sum + item.amount, 0);
+  return this.formatCurrency(paid);
+}
+
+getFormattedTotalPendingAmount(): string {
+  const pending = this.dataSource.data
+    .filter(item => item.paymentStatus === 'Pending')
+    .reduce((sum, item) => sum + item.amount, 0);
+  return this.formatCurrency(pending);
+}
+
+    formatCurrency(value: number): string {
+      return `₹${value.toLocaleString('en-IN')}`;
     }
 
     Invoices() {

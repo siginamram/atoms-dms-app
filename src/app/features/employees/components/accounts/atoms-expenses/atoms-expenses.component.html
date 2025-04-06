@@ -37,10 +37,21 @@
   <div class="loader-container" *ngIf="isLoading">
     <mat-spinner></mat-spinner>
   </div>
-    <!-- Total Expense Display -->
-    <div class="total-expense" *ngIf="!isLoading">
-      <h2>Total Expenses: ₹{{ totalExpense() }}</h2>
-    </div>
+      <!-- Total Expense Display -->
+  <div class="expense-card-container" *ngIf="!isLoading">
+    <mat-card class="expense-summary-card">
+      <div class="card-content">
+        <div class="icon-section">
+          <mat-icon>payments</mat-icon>
+        </div>
+        <div class="text-section">
+          <span class="label">Total Expenses</span>
+          <span class="amount">{{ getFormattedTotalExpense() }}</span>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+
   <!-- Table -->
   <div *ngIf="!isLoading">
     <table mat-table [dataSource]="expenses" class="mat-elevation-z8">

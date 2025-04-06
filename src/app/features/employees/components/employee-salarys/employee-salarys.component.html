@@ -38,7 +38,7 @@
           <div class="icon"><mat-icon>attach_money</mat-icon></div>
           <div class="info">
             <h3>Salaries to be Paid </h3>
-            <p>₹{{ totalExpense() }}</p>
+            <p>{{ getFormattedTotalExpense() }}</p>
           </div>
         </mat-card>
       
@@ -46,7 +46,7 @@
           <div class="icon"><mat-icon>check_circle</mat-icon></div>
           <div class="info">
             <h3>Salaries Paid</h3>
-            <p>₹{{ totalPaidAmount() }}</p>
+            <p>{{ getFormattedTotalPaidAmount() }}</p>
           </div>
         </mat-card>
       
@@ -54,7 +54,7 @@
           <div class="icon"><mat-icon>hourglass_empty</mat-icon></div>
           <div class="info">
             <h3>Salaries Pending</h3>
-            <p>₹{{ totalPendingAmount() }}</p>
+            <p>{{ getFormattedTotalPendingAmount() }}</p>
           </div>
         </mat-card>
       </div>

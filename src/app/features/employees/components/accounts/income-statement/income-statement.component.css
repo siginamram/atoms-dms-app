@@ -1,5 +1,5 @@
 .income-statement-container {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: auto;
     padding: 20px;
     background: #f7f7f7;
@@ -46,3 +46,49 @@
     align-items: center;
     height: 200px; /* Adjust height as needed */
   }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .summary-card {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border-radius: 10px;
+    color: white;
+  }
+  
+  .summary-card mat-icon {
+    font-size: 28px;
+    margin-right: 16px;
+  }
+  
+  .summary-card p {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  /* Color Themes */
+  .pending {
+    background-color: #f9a825;
+  }
+  .received {
+    background-color: #388e3c;
+  }
+  .balance {
+    background-color: #1976d2;
+  }
+  .total {
+    background-color: #5e35b1;
+  }
+  .total-received {
+    background-color: #00897b;
+  }
+  .total-balance {
+    background-color: #e64a19;
+  }
+  

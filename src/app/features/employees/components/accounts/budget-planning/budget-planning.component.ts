@@ -51,46 +51,46 @@ export class BudgetPlanningComponent implements OnInit {
     const fdate = moment(this.fromDate.value).format('YYYY-MM-DD');
     const tdate = moment(this.toDate.value).format('YYYY-MM-DD');
 
-    this.isLoading = true;
-    this.incomeStatementForm.disable(); // Optional: prevent editing while loading
+    // this.isLoading = true;
+    // this.incomeStatementForm.disable(); 
 
-    this.employeesService.GetIncomeStatements(fdate, tdate).subscribe(
-      (data: any) => {
-        this.incomeStatementForm.patchValue({
-          pendingCurrentPeriod: this.formatCurrency(data.pendingCollectionThisPeriod),
-          pendingPastMonth: this.formatCurrency(data.pendingCollectionPastMonth),
-          totalRevenue: this.formatCurrency(data.totalRevenueGenerated),
-          totalExpenses: this.formatCurrency(data.totalExpenses),
-          overallBalance: this.formatCurrency(data.overallBalanceAmount),
+    // this.employeesService.GetIncomeStatements(fdate, tdate).subscribe(
+    //   (data: any) => {
+    //     this.incomeStatementForm.patchValue({
+    //       pendingCurrentPeriod: this.formatCurrency(data.pendingCollectionThisPeriod),
+    //       pendingPastMonth: this.formatCurrency(data.pendingCollectionPastMonth),
+    //       totalRevenue: this.formatCurrency(data.totalRevenueGenerated),
+    //       totalExpenses: this.formatCurrency(data.totalExpenses),
+    //       overallBalance: this.formatCurrency(data.overallBalanceAmount),
 
-          adBudget: this.formatCurrency(data.adBudget),
-          gst: this.formatCurrency(data.gst),
-          salaries: this.formatCurrency(data.salaries),
-          rent: this.formatCurrency(data.rent),
-          powerBill: this.formatCurrency(data.powerBill),
+    //       adBudget: this.formatCurrency(data.adBudget),
+    //       gst: this.formatCurrency(data.gst),
+    //       salaries: this.formatCurrency(data.salaries),
+    //       rent: this.formatCurrency(data.rent),
+    //       powerBill: this.formatCurrency(data.powerBill),
 
-          groceries: this.formatCurrency(data.monthlyGroceriesAndEssentials),
-          snacks: this.formatCurrency(data.snacks),
-          milk: this.formatCurrency(data.milk),
-          water: this.formatCurrency(data.water),
-          transport: this.formatCurrency(data.expensesOfOperationalTransportation),
+    //       groceries: this.formatCurrency(data.monthlyGroceriesAndEssentials),
+    //       snacks: this.formatCurrency(data.snacks),
+    //       milk: this.formatCurrency(data.milk),
+    //       water: this.formatCurrency(data.water),
+    //       transport: this.formatCurrency(data.expensesOfOperationalTransportation),
 
-          marketing: this.formatCurrency(data.marketingExpenses),
-          mobileRecharges: this.formatCurrency(data.mobileRecharges),
-          wifiRecharges: this.formatCurrency(data.wiFiRecharges),
-          others: this.formatCurrency(data.others),
-          employeeBenefits: this.formatCurrency(data.employeeBenefits),
-        });
+    //       marketing: this.formatCurrency(data.marketingExpenses),
+    //       mobileRecharges: this.formatCurrency(data.mobileRecharges),
+    //       wifiRecharges: this.formatCurrency(data.wiFiRecharges),
+    //       others: this.formatCurrency(data.others),
+    //       employeeBenefits: this.formatCurrency(data.employeeBenefits),
+    //     });
 
-        this.incomeStatementForm.enable(); // re-enable form
-        this.isLoading = false;
-      },
-      error => {
-        console.error('Failed to fetch income statement:', error);
-        this.isLoading = false;
-        this.incomeStatementForm.enable();
-      }
-    );
+    //     this.incomeStatementForm.enable(); // re-enable form
+    //     this.isLoading = false;
+    //   },
+    //   error => {
+    //     console.error('Failed to fetch income statement:', error);
+    //     this.isLoading = false;
+    //     this.incomeStatementForm.enable();
+    //   }
+    // );
   }
 
   formatCurrency(value: number): string {

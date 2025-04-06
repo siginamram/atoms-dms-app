@@ -118,7 +118,18 @@ export class AtomsExpensesComponent implements OnInit {
       this.isLoading = false;
     }, _ => this.isLoading = false);
   }
-  
+
+  totalExpense(): number {
+    return this.expenses.filteredData.reduce((sum, e) => sum + e.amount, 0);
+  }
+
+  getFormattedTotalExpense(): string {
+    return this.formatCurrency(this.totalExpense());
+  }
+
+  formatCurrency(value: number): string {
+    return `₹${value.toLocaleString('en-IN')}`;
+  }
 
   getPurposeName(id: number): string {
     return this.purposeList.find(p => p.id === id)?.name || 'Unknown';
@@ -164,7 +175,5 @@ export class AtomsExpensesComponent implements OnInit {
     });
   }
 
-  totalExpense(): number {
-    return this.expenses.filteredData.reduce((sum, e) => sum + e.amount, 0);
-  }
+ 
 }

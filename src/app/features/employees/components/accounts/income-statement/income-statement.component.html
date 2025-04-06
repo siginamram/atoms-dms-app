@@ -31,25 +31,88 @@
         </div>
 
   
-    <form [formGroup]="incomeStatementForm" style="padding-top: 20px;">
+    <form [formGroup]="incomeStatementForm" style="padding-top: 20px;" *ngIf="!isLoading">
         <h2>Income Statement</h2>
-      <!-- Revenue Details -->
-      <div class="row">
-        <mat-form-field appearance="outline">
-          <mat-label>Pending Collection (This Period)</mat-label>
-          <input matInput formControlName="pendingCurrentPeriod" readonly />
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline">
-          <mat-label>Pending Collection (Past Month)</mat-label>
-          <input matInput formControlName="pendingPastMonth" readonly />
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline">
-          <mat-label>Total Revenue Generated</mat-label>
-          <input matInput formControlName="totalRevenue" readonly />
-        </mat-form-field>
-      </div>
+        <div class="summary-grid">
+
+          <!-- Previous Months Row -->
+          <mat-card class="summary-card pending">
+            <mat-icon>history</mat-icon>
+            <div>
+              <h4>Pending From Previous Months</h4>
+              <p>{{ pendingPastMonth }}</p>
+            </div>
+          </mat-card>
+        
+          <mat-card class="summary-card received">
+            <mat-icon>payments</mat-icon>
+            <div>
+              <h4>Amount Received</h4>
+              <p>{{ receivedPrevious }}</p>
+            </div>
+          </mat-card>
+        
+          <mat-card class="summary-card balance">
+            <mat-icon>pending_actions</mat-icon>
+            <div>
+              <h4>Balance Pending</h4>
+              <p>{{ balancePrevious }}</p>
+            </div>
+          </mat-card>
+        
+          <!-- Current Month Row -->
+          <mat-card class="summary-card pending">
+            <mat-icon>event_note</mat-icon>
+            <div>
+              <h4>To be Received (Current Month)</h4>
+              <p>{{ pendingCurrent }}</p>
+            </div>
+          </mat-card>
+        
+          <mat-card class="summary-card received">
+            <mat-icon>check_circle</mat-icon>
+            <div>
+              <h4>Amount Received</h4>
+              <p>{{ receivedCurrent }}</p>
+            </div>
+          </mat-card>
+        
+          <mat-card class="summary-card balance">
+            <mat-icon>pending_actions</mat-icon>
+            <div>
+              <h4>Balance Pending</h4>
+              <p>{{ balanceCurrent }}</p>
+            </div>
+          </mat-card>
+        
+          <!-- Totals -->
+          <mat-card class="summary-card total">
+            <mat-icon>summarize</mat-icon>
+            <div>
+              <h4>Total To Be Received</h4>
+              <p>{{ totalExpected }}</p>
+            </div>
+          </mat-card>
+        
+          <mat-card class="summary-card total-received">
+            <mat-icon>done_all</mat-icon>
+            <div>
+              <h4>Total Received</h4>
+              <p>{{ totalReceived }}</p>
+            </div>
+          </mat-card>
+        
+          <mat-card class="summary-card total-balance">
+            <mat-icon>hourglass_bottom</mat-icon>
+            <div>
+              <h4>Total Pending</h4>
+              <p>{{ totalPending }}</p>
+            </div>
+          </mat-card>
+        
+        </div>
+        
+        
   
       <!-- Expenses Section -->
       <mat-expansion-panel>

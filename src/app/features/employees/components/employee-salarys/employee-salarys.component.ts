@@ -115,21 +115,40 @@ export class EmployeeSalarysComponent implements OnInit {
     this.dataSource.filter = JSON.stringify(this.filters);
   }
 
-  /** ✅ Calculate total expense */
-  totalExpense(): number {
-    return this.dataSource.data.reduce((sum, salarys) => sum + salarys.salary, 0);
-  }
-  totalPaidAmount(): number {
-    return this.dataSource.data
-      .filter(item => item.paymentStatus === 'Paid')
-      .reduce((sum, item) => sum + item.paymentAmount, 0);
+// ✅ Raw values
+totalExpense(): number {
+  return this.dataSource.data.reduce((sum, salary) => sum + salary.salary, 0);
+}
+
+totalPaidAmount(): number {
+  return this.dataSource.data
+    .filter(item => item.paymentStatus === 'Paid')
+    .reduce((sum, item) => sum + item.paymentAmount, 0);
+}
+
+totalPendingAmount(): number {
+  return this.dataSource.data
+    .filter(item => item.paymentStatus === 'Pending')
+    .reduce((sum, item) => sum + item.salary, 0);
+}
+
+// ✅ Formatted versions
+getFormattedTotalExpense(): string {
+  return this.formatCurrency(this.totalExpense());
+}
+
+getFormattedTotalPaidAmount(): string {
+  return this.formatCurrency(this.totalPaidAmount());
+}
+
+getFormattedTotalPendingAmount(): string {
+  return this.formatCurrency(this.totalPendingAmount());
+}
+
+  formatCurrency(value: number): string {
+    return `₹${value.toLocaleString('en-IN')}`;
   }
 
-  totalPendingAmount(): number {
-    return this.dataSource.data
-      .filter(item => item.paymentStatus === 'Pending')
-      .reduce((sum, item) => sum + item.salary, 0);
-  }
   Salary() {
     const monthStr = this.selectedMonth.value?.format('YYYY-MM') ?? moment().format('YYYY-MM');
     this.employeesService.GenerateMonthlySalaryForecast(monthStr).subscribe({
