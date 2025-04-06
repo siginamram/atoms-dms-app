@@ -53,6 +53,11 @@ export class EmployeeSalarysComponent implements OnInit {
     'paymentDate',
     'action'
   ];
+  filterVisibility: any = {
+    employeeName: false,
+    paymentStatus: false,
+  };
+  filters: any = {};
 
   constructor(
     private employeesService: EmployeesService,
@@ -84,14 +89,47 @@ export class EmployeeSalarysComponent implements OnInit {
       this.dataSource.data = data;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+
+      this.dataSource.filterPredicate = (data: any, filter: string) => {
+        const search = JSON.parse(filter);
+        return Object.keys(search).every(key => {
+          return (data[key] || '').toString().toLowerCase().includes(search[key]);
+        });
+      };
+
       this.isLoading = false;
     }, _ => this.isLoading = false);
   }
+
+  toggleFilterVisibility(column: string) {
+    this.filterVisibility[column] = !this.filterVisibility[column];
+    if (!this.filterVisibility[column]) {
+      this.filters[column] = '';
+      this.dataSource.filter = JSON.stringify(this.filters);
+    }
+  }
+
+  applyFilter(event: any, column: string) {
+    const value = event.target.value.trim().toLowerCase();
+    this.filters[column] = value;
+    this.dataSource.filter = JSON.stringify(this.filters);
+  }
+
   /** ✅ Calculate total expense */
   totalExpense(): number {
     return this.dataSource.data.reduce((sum, salarys) => sum + salarys.salary, 0);
   }
+  totalPaidAmount(): number {
+    return this.dataSource.data
+      .filter(item => item.paymentStatus === 'Paid')
+      .reduce((sum, item) => sum + item.paymentAmount, 0);
+  }
 
+  totalPendingAmount(): number {
+    return this.dataSource.data
+      .filter(item => item.paymentStatus === 'Pending')
+      .reduce((sum, item) => sum + item.salary, 0);
+  }
   Salary() {
     const monthStr = this.selectedMonth.value?.format('YYYY-MM') ?? moment().format('YYYY-MM');
     this.employeesService.GenerateMonthlySalaryForecast(monthStr).subscribe({

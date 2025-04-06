@@ -13,9 +13,32 @@
     <mat-spinner></mat-spinner>
   </div>
         <!-- Total Expense Display -->
-        <div class="total-expense">
-          <h2>Total Amount: ₹{{ totalExpense() }}</h2>
+        <div class="summary-cards">
+          <mat-card class="summary-card total">
+            <div class="icon"><mat-icon>attach_money</mat-icon></div>
+            <div class="info">
+              <h3>Amount to be Received </h3>
+              <p>₹{{ totalExpense() }}</p>
+            </div>
+          </mat-card>
+        
+          <mat-card class="summary-card paid">
+            <div class="icon"><mat-icon>check_circle</mat-icon></div>
+            <div class="info">
+              <h3>Amount Received</h3>
+              <p>₹{{ totalPaidAmount() }}</p>
+            </div>
+          </mat-card>
+        
+          <mat-card class="summary-card pending">
+            <div class="icon"><mat-icon>hourglass_empty</mat-icon></div>
+            <div class="info">
+              <h3>Balance Pending</h3>
+              <p>₹{{ totalPendingAmount() }}</p>
+            </div>
+          </mat-card>
         </div>
+        
   <!-- Payment Table -->
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="!isLoading">
       <!-- ID Column -->

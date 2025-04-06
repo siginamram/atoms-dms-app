@@ -120,25 +120,37 @@ export class PaymentCollectionComponent implements OnInit {
     totalExpense(): number {
       return this.dataSource.data.reduce((sum, expense) => sum + expense.amount, 0);
     }
-  Invoices() {
-    //this.selectedDate = this.date.value?.format('YYYY-MM') + '-01'; // Default day is 01
-    
-    this.employeesService.GenerateInvoice(this.dateStr).subscribe({
-      next: (res: any) => {
-        console.log(res);
-        if (res === 'Success') {
-          this.openAlertDialog('Success', 'Invoice generated successfully!');
-          this.fetchPaymentsForMonth(); // call updated function
-        } else {
-          this.openAlertDialog('Error', 'Unexpected response. Please try again.');
+    totalPaidAmount(): number {
+      return this.dataSource.data
+        .filter(item => item.paymentStatus === 'Paid')
+        .reduce((sum, item) => sum + item.amount, 0);
+    }
+
+    totalPendingAmount(): number {
+      return this.dataSource.data
+        .filter(item => item.paymentStatus === 'Pending')
+        .reduce((sum, item) => sum + item.amount, 0);
+    }
+
+    Invoices() {
+      //this.selectedDate = this.date.value?.format('YYYY-MM') + '-01'; // Default day is 01
+      
+      this.employeesService.GenerateInvoice(this.dateStr).subscribe({
+        next: (res: any) => {
+          console.log(res);
+          if (res === 'Success') {
+            this.openAlertDialog('Success', 'Invoice generated successfully!');
+            this.fetchPaymentsForMonth(); // call updated function
+          } else {
+            this.openAlertDialog('Error', 'Unexpected response. Please try again.');
+          }
+        },
+        error: (err) => {
+          console.error('GenerateInvoice Error:', err);
+          this.openAlertDialog('Error', 'Failed to generate invoice. Please try again later.');
         }
-      },
-      error: (err) => {
-        console.error('GenerateInvoice Error:', err);
-        this.openAlertDialog('Error', 'Failed to generate invoice. Please try again later.');
-      }
-    });
-  }
+      });
+    }
   
 
   editDetails(payment: PaymentData): void {
