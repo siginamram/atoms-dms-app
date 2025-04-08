@@ -144,4 +144,9 @@ UpdateSalaryStatusByID(payload: any): Observable<any> {
   return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
 }
 
+GetClientsAdvancePaymentList(fdate: string, tdate: string): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Account/GetClientsAdvancePaymentList/${fdate}/${tdate}`;
+  return this.http.get(apiUrl);
+}
+
 }

@@ -24,6 +24,9 @@
 
   <!-- Tab Switcher -->
   <div class="tabs">
+    <button [class.active]="activeTab === 'advancepayment'" (click)="switchTab('advancepayment')">
+      <mat-icon>text_snippet</mat-icon> Advance Payments
+    </button>
     <button [class.active]="activeTab === 'paymentcollection'" (click)="switchTab('paymentcollection')">
       <mat-icon>text_snippet</mat-icon> Payment Collection
     </button>
@@ -36,6 +39,7 @@
   </div>
 
   <!-- Tab Contents -->
+  <app-clients-advance-payment *ngIf="activeTab === 'advancepayment'" [selectedDate]="triggeredDate"></ app-clients-advance-payment>
   <app-payment-collection *ngIf="activeTab === 'paymentcollection'" [selectedDate]="triggeredDate"></app-payment-collection>
   <app-gstinvoices *ngIf="activeTab === 'gst'" [selectedDate]="triggeredDate"></app-gstinvoices>
   <app-non-gstinvoices *ngIf="activeTab === 'nongst'" [selectedDate]="triggeredDate"></app-non-gstinvoices>

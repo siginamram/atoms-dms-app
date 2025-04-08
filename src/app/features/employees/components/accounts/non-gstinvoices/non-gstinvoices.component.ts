@@ -100,6 +100,14 @@ export class NonGstinvoicesComponent implements OnInit {
     totalExpense(): number {
       return this.dataSource.data.reduce((sum, expense) => sum + expense.actualAmount, 0);
     }
+
+    getFormattedTotalExpense(): string {
+      return this.formatCurrency(this.totalExpense());
+    }
+
+    formatCurrency(value: number): string {
+      return `₹${value.toLocaleString('en-IN')}`;
+    }
  setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
     const ctrlValue = this.date.value ?? moment();
     ctrlValue.month(normalizedMonthAndYear.month());

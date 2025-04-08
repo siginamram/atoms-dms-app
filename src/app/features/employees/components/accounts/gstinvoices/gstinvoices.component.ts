@@ -87,6 +87,10 @@ export class GstinvoicesComponent implements OnInit {
     this.fetchInvoices();
   }
 
+  formatCurrency(value: number): string {
+    return `₹${value.toLocaleString('en-IN')}`;
+  }
+
   fetchInvoices(): void {
     this.isLoading = true; 
     //const selectedDate = this.date.value?.format('YYYY-MM-DD') ?? moment().format('YYYY-MM-DD');
@@ -110,6 +114,9 @@ export class GstinvoicesComponent implements OnInit {
   /** ✅ Calculate total expense */
   totalExpense(): number {
     return this.dataSource.data.reduce((sum, expense) => sum + expense.totalGST, 0);
+  }
+  getFormattedTotalExpense(): string {
+    return this.formatCurrency(this.totalExpense());
   }
   calculateNet(actual: number, adjusted: number): string {
     const diff = adjusted - actual;

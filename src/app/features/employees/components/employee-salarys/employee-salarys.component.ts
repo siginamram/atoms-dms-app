@@ -126,10 +126,14 @@ totalPaidAmount(): number {
     .reduce((sum, item) => sum + item.paymentAmount, 0);
 }
 
-totalPendingAmount(): number {
+totalPendingAmount1(): number {
   return this.dataSource.data
     .filter(item => item.paymentStatus === 'Pending')
     .reduce((sum, item) => sum + item.salary, 0);
+}
+
+totalPendingAmount(): number {
+  return this.totalExpense() - (this.totalPaidAmount() ) ;
 }
 
 // ✅ Formatted versions

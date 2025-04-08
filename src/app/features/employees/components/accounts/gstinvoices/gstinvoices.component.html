@@ -32,7 +32,7 @@
   </div>
     <!-- Total Expense Display -->
     <div class="total-expense" *ngIf="!isLoading">
-      <h2>Total Amount: ₹{{ totalExpense() }}</h2>
+      <h2>Total Amount: {{ getFormattedTotalExpense() }}</h2>
     </div>
   <!-- Table -->
   <div class="table-container" *ngIf="!isLoading">

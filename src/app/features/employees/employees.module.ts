@@ -49,6 +49,7 @@ import { NonGstinvoicesdownloadComponent } from './components/accounts/non-gstin
 import { PaymentsComponent } from './components/accounts/payments/payments.component';
 import { EmployeeSalarysComponent } from './components/employee-salarys/employee-salarys.component';
 import { EmployeeUpdateSalaryStatusComponent } from './components/employee-update-salary-status/employee-update-salary-status.component';
+import { ClientsAdvancePaymentComponent } from './components/accounts/clients-advance-payment/clients-advance-payment.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { EmployeeUpdateSalaryStatusComponent } from './components/employee-updat
     PaymentsComponent,
     EmployeeSalarysComponent,
     EmployeeUpdateSalaryStatusComponent,
+    ClientsAdvancePaymentComponent,
   ],
   imports: [
     CommonModule,

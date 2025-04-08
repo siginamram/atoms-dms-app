@@ -37,7 +37,7 @@ export class PaymentsComponent implements OnInit {
       const dateParam = params['date'];
 
       // Set tab from query param if valid
-      if (tabParam && ['paymentcollection', 'gst', 'nongst'].includes(tabParam)) {
+      if (tabParam && ['advancepayment','paymentcollection', 'gst', 'nongst'].includes(tabParam)) {
         this.activeTab = tabParam;
       }
 
