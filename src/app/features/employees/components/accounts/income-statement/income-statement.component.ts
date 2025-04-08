@@ -13,6 +13,7 @@ export class IncomeStatementComponent implements OnInit {
   fromDate = new FormControl(moment().startOf('month'));
   toDate = new FormControl(moment().endOf('month'));
   isLoading = false;
+  lastMonthBalnce :any =0;
   pendingPastMonth :any = 0;
   receivedPrevious:any = 0;
   balancePrevious:any = 0;
@@ -20,10 +21,14 @@ export class IncomeStatementComponent implements OnInit {
   pendingCurrent:any = 0;
   receivedCurrent:any = 0;
   balanceCurrent:any = 0;
-  
+  totalExpenses :any =0;
   totalExpected:any = 0;
   totalReceived:any = 0;
   totalPending:any = 0;
+
+  totalAdvAmount :any = 0;
+  recivedAdvAmount :any = 0;
+  AdvbalancePrevious:any = 0;
   
   incomeStatementForm: FormGroup = new FormGroup({
     pendingCurrentPeriod: new FormControl(''),
@@ -67,10 +72,21 @@ export class IncomeStatementComponent implements OnInit {
     this.employeesService.GetIncomeStatements(fdate, tdate).subscribe(
       (data: any) => {
           // Raw values for calculation
-        let pendingFromPreviousMonths = data.pendingFromPreviousMonths || 0;
+        let pendingFromPreviousMonths = data.pendingFromPreviousMonths + data.amountReceivedPrevious  || 0;
         let amountReceivedPrevious = data.amountReceivedPrevious || 0;
         let tobeReceivedCurrentMonth = data.tobeReceivedCurrentMonth || 0;
         let amountReceivedCurrent = data.amountReceivedCurrent || 0;
+         let lastMonthBalnce = 147890 + data.previousMonthOverallBalanceAmount || 0;
+
+         this.lastMonthBalnce = this.formatCurrency(147890 + data.previousMonthOverallBalanceAmount) || 0;
+        // Adv
+         let totalAdvAmount =data.totalAdvAmount || 0;
+         let recivedAdvAmount= data.recivedAdvAmount || 0;
+         let AdvbalancePrevious=totalAdvAmount -recivedAdvAmount || 0;
+
+         this.totalAdvAmount=this.formatCurrency(totalAdvAmount);
+         this.recivedAdvAmount=this.formatCurrency(recivedAdvAmount);
+         this.AdvbalancePrevious=this.formatCurrency(AdvbalancePrevious);
 
         // Calculated raw totals
         let balancePrev = pendingFromPreviousMonths - amountReceivedPrevious;
@@ -80,7 +96,11 @@ export class IncomeStatementComponent implements OnInit {
         let totalReceivedAmount = amountReceivedPrevious + amountReceivedCurrent;
         let totalPendingAmount = totalToBeReceived - totalReceivedAmount;
 
-        let overallBalanceRaw = totalReceivedAmount - (data.totalExpenses || 0);
+        let overallBalanceRaw = (totalReceivedAmount + lastMonthBalnce + recivedAdvAmount) - (data.totalExpenses || 0);
+
+        // let previousMonthBalnce = lastMonthBalnce + overallBalanceRaw || 0 ;
+
+        // this.lastMonthBalnce =this.formatCurrency(previousMonthBalnce);
 
         // Bind formatted values to display properties
         this.pendingPastMonth = this.formatCurrency(pendingFromPreviousMonths);
@@ -94,7 +114,8 @@ export class IncomeStatementComponent implements OnInit {
         this.totalExpected = this.formatCurrency(totalToBeReceived);
         this.totalReceived = this.formatCurrency(totalReceivedAmount);
         this.totalPending = this.formatCurrency(totalPendingAmount);
-
+        this.totalExpenses= this.formatCurrency(data.totalExpenses);
+     
         this.incomeStatementForm.patchValue({
           totalExpenses: this.formatCurrency(data.totalExpenses),
           overallBalance: this.formatCurrency(overallBalanceRaw),

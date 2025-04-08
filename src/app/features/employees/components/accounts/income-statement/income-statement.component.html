@@ -1,7 +1,7 @@
 <div class="income-statement-container">
         <!-- Toolbar -->
         <mat-toolbar color="primary" class="toolbar">
-            <span>Income Statement Report</span>
+            <span>Balance Statement Report</span>
         </mat-toolbar>
   
       <!-- Date Filters -->
@@ -30,94 +30,132 @@
           <mat-spinner></mat-spinner>
         </div>
 
-  
-    <form [formGroup]="incomeStatementForm" style="padding-top: 20px;" *ngIf="!isLoading">
-        <h2>Income Statement</h2>
-        <div class="summary-grid">
-
-          <!-- Previous Months Row -->
-          <mat-card class="summary-card pending">
-            <mat-icon>history</mat-icon>
-            <div>
-              <h4>Pending From Previous Months</h4>
-              <p>{{ pendingPastMonth }}</p>
+        <div *ngIf="!isLoading">
+          <mat-card class="expense-summary-card">
+            <div class="card-content">
+              <div class="icon-section">
+                <mat-icon>payments</mat-icon>
+              </div>
+              <div class="text-section">
+                <span class="label">Balance Amount From Previous Months </span>
+                <span class="amount">{{ this.lastMonthBalnce }}</span>
+              </div>
             </div>
           </mat-card>
-        
-          <mat-card class="summary-card received">
-            <mat-icon>payments</mat-icon>
-            <div>
-              <h4>Amount Received</h4>
-              <p>{{ receivedPrevious }}</p>
-            </div>
-          </mat-card>
-        
-          <mat-card class="summary-card balance">
-            <mat-icon>pending_actions</mat-icon>
-            <div>
-              <h4>Balance Pending</h4>
-              <p>{{ balancePrevious }}</p>
-            </div>
-          </mat-card>
-        
-          <!-- Current Month Row -->
-          <mat-card class="summary-card pending">
-            <mat-icon>event_note</mat-icon>
-            <div>
-              <h4>To be Received (Current Month)</h4>
-              <p>{{ pendingCurrent }}</p>
-            </div>
-          </mat-card>
-        
-          <mat-card class="summary-card received">
-            <mat-icon>check_circle</mat-icon>
-            <div>
-              <h4>Amount Received</h4>
-              <p>{{ receivedCurrent }}</p>
-            </div>
-          </mat-card>
-        
-          <mat-card class="summary-card balance">
-            <mat-icon>pending_actions</mat-icon>
-            <div>
-              <h4>Balance Pending</h4>
-              <p>{{ balanceCurrent }}</p>
-            </div>
-          </mat-card>
-        
-          <!-- Totals -->
-          <mat-card class="summary-card total">
-            <mat-icon>summarize</mat-icon>
-            <div>
-              <h4>Total To Be Received</h4>
-              <p>{{ totalExpected }}</p>
-            </div>
-          </mat-card>
-        
-          <mat-card class="summary-card total-received">
-            <mat-icon>done_all</mat-icon>
-            <div>
-              <h4>Total Received</h4>
-              <p>{{ totalReceived }}</p>
-            </div>
-          </mat-card>
-        
-          <mat-card class="summary-card total-balance">
-            <mat-icon>hourglass_bottom</mat-icon>
-            <div>
-              <h4>Total Pending</h4>
-              <p>{{ totalPending }}</p>
-            </div>
-          </mat-card>
-        
         </div>
-        
-        
+    <form [formGroup]="incomeStatementForm" style="padding-top: 20px;" *ngIf="!isLoading">
+        <h2>Balance Statement</h2>
+             <!-- Total Expense Display -->
+
+             <div class="summary-grid">
+
+              <!-- Previous Months Row -->
+              <mat-card class="summary-card pending">
+                <mat-icon>history</mat-icon>
+                <div>
+                  <h4>Pending Amount From Previous Month</h4>
+                  <p>{{ pendingPastMonth }}</p>
+                </div>
+              </mat-card>
+            
+              <mat-card class="summary-card received">
+                <mat-icon>payments</mat-icon>
+                <div>
+                  <h4>Amount Received</h4>
+                  <p>{{ receivedPrevious }}</p>
+                </div>
+              </mat-card>
+            
+              <mat-card class="summary-card balance">
+                <mat-icon>hourglass_disabled</mat-icon>
+                <div>
+                  <h4>Balance Pending</h4>
+                  <p>{{ balancePrevious }}</p>
+                </div>
+              </mat-card>
+            
+              <!-- Current Month Row -->
+              <mat-card class="summary-card pending">
+                <mat-icon>event_upcoming</mat-icon>
+                <div>
+                  <h4>To be Received From Current Month</h4>
+                  <p>{{ pendingCurrent }}</p>
+                </div>
+              </mat-card>
+            
+              <mat-card class="summary-card received">
+                <mat-icon>task_alt</mat-icon>
+                <div>
+                  <h4>Amount Received</h4>
+                  <p>{{ receivedCurrent }}</p>
+                </div>
+              </mat-card>
+            
+              <mat-card class="summary-card balance">
+                <mat-icon>schedule</mat-icon>
+                <div>
+                  <h4>Balance Pending</h4>
+                  <p>{{ balanceCurrent }}</p>
+                </div>
+              </mat-card>
+            
+              <!-- Totals -->
+              <mat-card class="summary-card total">
+                <mat-icon>calculate</mat-icon>
+                <div>
+                  <h4>Total Amount To Be Received</h4>
+                  <p>{{ totalExpected }}</p>
+                </div>
+              </mat-card>
+            
+              <mat-card class="summary-card total-received">
+                <mat-icon>done_all</mat-icon>
+                <div>
+                  <h4>Total Amount Received</h4>
+                  <p>{{ totalReceived }}</p>
+                </div>
+              </mat-card>
+            
+              <mat-card class="summary-card total-balance">
+                <mat-icon>account_balance_wallet</mat-icon>
+                <div>
+                  <h4>Total Pending</h4>
+                  <p>{{ totalPending }}</p>
+                </div>
+              </mat-card>
+            
+              <!-- Advance -->
+              <mat-card class="summary-card total">
+                <mat-icon>trending_up</mat-icon>
+                <div>
+                  <h4>Advance Amount to be Received</h4>
+                  <p>{{ totalAdvAmount }}</p>
+                </div>
+              </mat-card>
+            
+              <mat-card class="summary-card total-received">
+                <mat-icon>credit_score</mat-icon>
+                <div>
+                  <h4>Amount Received</h4>
+                  <p>{{ recivedAdvAmount }}</p>
+                </div>
+              </mat-card>
+            
+              <mat-card class="summary-card total-balance">
+                <mat-icon>pending</mat-icon>
+                <div>
+                  <h4>Balance Pending</h4>
+                  <p>{{ AdvbalancePrevious }}</p>
+                </div>
+              </mat-card>
+            
+            </div>
+            
   
       <!-- Expenses Section -->
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-          <mat-panel-title>Total Expenses</mat-panel-title>
+          <mat-panel-title>Total Expenses : {{ this.totalExpenses}}</mat-panel-title>
         </mat-expansion-panel-header>
   
         <div class="row">
@@ -204,10 +242,10 @@
             <input matInput formControlName="employeeBenefits" readonly />
           </mat-form-field>
         </div>
-        <mat-form-field appearance="outline" style="padding-top: 10px;">
+        <!-- <mat-form-field appearance="outline" style="padding-top: 10px;">
           <mat-label>Total Expenses</mat-label>
           <input matInput formControlName="totalExpenses" readonly />
-        </mat-form-field>
+        </mat-form-field> -->
       </mat-expansion-panel>
           <!-- Overall Balance -->
     <mat-form-field appearance="outline" class="full-width" style="padding-top: 10px;">
