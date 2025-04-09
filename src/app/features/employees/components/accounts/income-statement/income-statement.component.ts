@@ -72,13 +72,13 @@ export class IncomeStatementComponent implements OnInit {
     this.employeesService.GetIncomeStatements(fdate, tdate).subscribe(
       (data: any) => {
           // Raw values for calculation
-        let pendingFromPreviousMonths = data.pendingFromPreviousMonths + data.amountReceivedPrevious  || 0;
+        let pendingFromPreviousMonths =  75000 + data.pendingFromPreviousMonths + data.amountReceivedPrevious   || 0;
         let amountReceivedPrevious = data.amountReceivedPrevious || 0;
         let tobeReceivedCurrentMonth = data.tobeReceivedCurrentMonth || 0;
         let amountReceivedCurrent = data.amountReceivedCurrent || 0;
-         let lastMonthBalnce = 147890 + data.previousMonthOverallBalanceAmount || 0;
+         let lastMonthBalnce = 98590 + data.previousMonthOverallBalanceAmount + data.receivedAdvAmountPreviousMonth || 0;
 
-         this.lastMonthBalnce = this.formatCurrency(147890 + data.previousMonthOverallBalanceAmount) || 0;
+         this.lastMonthBalnce = this.formatCurrency(98590 + data.previousMonthOverallBalanceAmount + data.receivedAdvAmountPreviousMonth) || 0;
         // Adv
          let totalAdvAmount =data.totalAdvAmount || 0;
          let recivedAdvAmount= data.recivedAdvAmount || 0;
@@ -103,7 +103,7 @@ export class IncomeStatementComponent implements OnInit {
         // this.lastMonthBalnce =this.formatCurrency(previousMonthBalnce);
 
         // Bind formatted values to display properties
-        this.pendingPastMonth = this.formatCurrency(pendingFromPreviousMonths);
+        this.pendingPastMonth = this.formatCurrency(pendingFromPreviousMonths );
         this.receivedPrevious = this.formatCurrency(amountReceivedPrevious);
         this.balancePrevious = this.formatCurrency(balancePrev);
 
