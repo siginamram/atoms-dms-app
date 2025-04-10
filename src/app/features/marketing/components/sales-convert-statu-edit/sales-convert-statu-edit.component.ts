@@ -20,6 +20,17 @@ export class SalesConvertStatuEditComponent implements OnInit {
   maxDateForKt: Date;
   maxDate: Date; // Maximum date for the datepicker
   showSpinner: boolean = false;
+  paymentModeOptions = [
+    { id: 1, name: 'Cash' },
+    { id: 2, name: 'Current Account' },
+    // { id: 3, name: 'UPI' },
+    // { id: 4, name: 'NEFT' },
+    // { id: 5, name: 'RTGS' },
+    // { id: 6, name: 'IMPS' },
+    // { id: 7, name: 'Cheque' },
+    // { id: 8, name: 'Demand Draft' },
+    // { id: 9, name: 'Others' }
+  ];
   constructor(
     private fb: FormBuilder,
     private marketingService: MarketingService,
@@ -69,6 +80,7 @@ export class SalesConvertStatuEditComponent implements OnInit {
                 : '',
             isAdvReceived: data.isAdvReceived ? 1 : 0,
             advAmount: data.advAmount || 0,
+            paymentMode:data.advPaymentMode,
             advanceDate:
               data.advDate &&
               data.advDate !== '0001-01-01T00:00:00' &&
@@ -105,6 +117,7 @@ export class SalesConvertStatuEditComponent implements OnInit {
       isAdvReceived: [false, Validators.required],
       advAmount: [0],
       advanceDate: [''],
+      paymentMode:[],
       slaUpload: [null],
     });
 
@@ -195,6 +208,7 @@ export class SalesConvertStatuEditComponent implements OnInit {
         isAdvReceived: this.progressForm.value.isAdvReceived === 1,
         advAmount: this.progressForm.value.advAmount,
         advDate: this.progressForm.value.advanceDate || null,
+        AdvPaymentMode: this.progressForm.value.paymentMode,
         clientCategory: parseInt(this.progressForm.value.clientCategory, 10),
         slaUrl: this.uploadedSLAFile ? this.uploadedSLAFile.name : '',
         updatedBy: parseInt(localStorage.getItem('UserID') || '0', 10),

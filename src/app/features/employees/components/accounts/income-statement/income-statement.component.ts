@@ -29,7 +29,8 @@ export class IncomeStatementComponent implements OnInit {
   totalAdvAmount :any = 0;
   recivedAdvAmount :any = 0;
   AdvbalancePrevious:any = 0;
-  
+  overallBalanceRaw : any =0;
+
   incomeStatementForm: FormGroup = new FormGroup({
     pendingCurrentPeriod: new FormControl(''),
     pendingPastMonth: new FormControl(''),
@@ -53,8 +54,11 @@ export class IncomeStatementComponent implements OnInit {
     mobileRecharges: new FormControl(''),
     wifiRecharges: new FormControl(''),
     others: new FormControl(''),
-    employeeBenefits: new FormControl('')
+    employeeBenefits: new FormControl(''),
+    cashNetBalance:new FormControl(''),
+    currentAccountNetBalance:new FormControl('')
   });
+  
 
   constructor(private employeesService: EmployeesService) {}
 
@@ -95,9 +99,8 @@ export class IncomeStatementComponent implements OnInit {
         let totalToBeReceived = pendingFromPreviousMonths + tobeReceivedCurrentMonth;
         let totalReceivedAmount = amountReceivedPrevious + amountReceivedCurrent;
         let totalPendingAmount = totalToBeReceived - totalReceivedAmount;
-
-        let overallBalanceRaw = (totalReceivedAmount + lastMonthBalnce + recivedAdvAmount) - (data.totalExpenses || 0);
-
+        let overallBalance = (amountReceivedCurrent + lastMonthBalnce + recivedAdvAmount) - (data.totalExpenses || 0);
+        this.overallBalanceRaw = this.formatCurrency(overallBalance)
         // let previousMonthBalnce = lastMonthBalnce + overallBalanceRaw || 0 ;
 
         // this.lastMonthBalnce =this.formatCurrency(previousMonthBalnce);
@@ -118,7 +121,7 @@ export class IncomeStatementComponent implements OnInit {
      
         this.incomeStatementForm.patchValue({
           totalExpenses: this.formatCurrency(data.totalExpenses),
-          overallBalance: this.formatCurrency(overallBalanceRaw),
+          //overallBalance: this.formatCurrency(this.overallBalanceRaw),
 
           adBudget: this.formatCurrency(data.adBudget),
           gst: this.formatCurrency(data.gst),
@@ -137,6 +140,9 @@ export class IncomeStatementComponent implements OnInit {
           wifiRecharges: this.formatCurrency(data.wiFiRecharges),
           others: this.formatCurrency(data.others),
           employeeBenefits: this.formatCurrency(data.employeeBenefits),
+
+          cashNetBalance:this.formatCurrency(98590+data.cashNetBalance -31913),
+          currentAccountNetBalance:this.formatCurrency(31913+data.currentAccountNetBalance)
         });
 
         this.incomeStatementForm.enable(); // re-enable form

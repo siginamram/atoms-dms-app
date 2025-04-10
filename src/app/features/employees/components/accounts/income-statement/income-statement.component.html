@@ -248,10 +248,27 @@
         </mat-form-field> -->
       </mat-expansion-panel>
           <!-- Overall Balance -->
-    <mat-form-field appearance="outline" class="full-width" style="padding-top: 10px;">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>Overall Balance Amount : {{ this.overallBalanceRaw}}</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="row">
+              <mat-form-field appearance="outline">
+                <mat-label>Cash</mat-label>
+                <input matInput formControlName="cashNetBalance" readonly />
+              </mat-form-field>
+      
+              <mat-form-field appearance="outline">
+                <mat-label>Current Account</mat-label>
+                <input matInput formControlName="currentAccountNetBalance" readonly />
+              </mat-form-field>
+           
+            </div>
+          </mat-expansion-panel>
+    <!-- <mat-form-field appearance="outline" class="full-width" style="padding-top: 10px;">
         <mat-label>Overall Balance Amount</mat-label>
         <input matInput formControlName="overallBalance" readonly />
-      </mat-form-field>
+      </mat-form-field> -->
     </form>
   </div>
   

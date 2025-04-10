@@ -101,6 +101,14 @@
         <mat-datepicker #picker2></mat-datepicker>
       </mat-form-field>
       
+      <mat-form-field appearance="outline">
+        <mat-label>Payment Mode</mat-label>
+        <mat-select formControlName="paymentMode">
+          <mat-option *ngFor="let mode of paymentModeOptions" [value]="mode.id">
+            {{ mode.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
   </div>
 

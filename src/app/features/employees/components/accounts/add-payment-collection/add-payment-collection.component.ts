@@ -30,14 +30,14 @@ export class AddPaymentCollectionComponent implements OnInit {
 
   paymentModeOptions = [
     { id: 1, name: 'Cash' },
-    { id: 2, name: 'Net Banking' },
-    { id: 3, name: 'UPI' },
-    { id: 4, name: 'NEFT' },
-    { id: 5, name: 'RTGS' },
-    { id: 6, name: 'IMPS' },
-    { id: 7, name: 'Cheque' },
-    { id: 8, name: 'Demand Draft' },
-    { id: 9, name: 'Others' }
+    { id: 2, name: 'Current Account' },
+    // { id: 3, name: 'UPI' },
+    // { id: 4, name: 'NEFT' },
+    // { id: 5, name: 'RTGS' },
+    // { id: 6, name: 'IMPS' },
+    // { id: 7, name: 'Cheque' },
+    // { id: 8, name: 'Demand Draft' },
+    // { id: 9, name: 'Others' }
   ];
 
   constructor(
