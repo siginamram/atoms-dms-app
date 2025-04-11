@@ -80,9 +80,9 @@ export class IncomeStatementComponent implements OnInit {
         let amountReceivedPrevious = data.amountReceivedPrevious || 0;
         let tobeReceivedCurrentMonth = data.tobeReceivedCurrentMonth || 0;
         let amountReceivedCurrent = data.amountReceivedCurrent || 0;
-         let lastMonthBalnce = 98590 + data.previousMonthOverallBalanceAmount + data.receivedAdvAmountPreviousMonth || 0;
+         let lastMonthBalnce = 98590  + data.previousMonthOverallBalanceAmount + data.receivedAdvAmountPreviousMonth || 0;
 
-         this.lastMonthBalnce = this.formatCurrency(98590 + data.previousMonthOverallBalanceAmount + data.receivedAdvAmountPreviousMonth) || 0;
+         this.lastMonthBalnce = this.formatCurrency(98590+ data.previousMonthOverallBalanceAmount + data.receivedAdvAmountPreviousMonth) || 0;
         // Adv
          let totalAdvAmount =data.totalAdvAmount || 0;
          let recivedAdvAmount= data.recivedAdvAmount || 0;
@@ -99,7 +99,7 @@ export class IncomeStatementComponent implements OnInit {
         let totalToBeReceived = pendingFromPreviousMonths + tobeReceivedCurrentMonth;
         let totalReceivedAmount = amountReceivedPrevious + amountReceivedCurrent;
         let totalPendingAmount = totalToBeReceived - totalReceivedAmount;
-        let overallBalance = (amountReceivedCurrent + lastMonthBalnce + recivedAdvAmount) - (data.totalExpenses || 0);
+        let overallBalance = (amountReceivedCurrent+amountReceivedPrevious + lastMonthBalnce + recivedAdvAmount) - (data.totalExpenses || 0);
         this.overallBalanceRaw = this.formatCurrency(overallBalance)
         // let previousMonthBalnce = lastMonthBalnce + overallBalanceRaw || 0 ;
 
@@ -141,7 +141,7 @@ export class IncomeStatementComponent implements OnInit {
           others: this.formatCurrency(data.others),
           employeeBenefits: this.formatCurrency(data.employeeBenefits),
 
-          cashNetBalance:this.formatCurrency(98590+data.cashNetBalance -31913),
+          cashNetBalance:this.formatCurrency(98590+data.cashNetBalance+ data.previousMonthOverallBalanceAmount -31913),
           currentAccountNetBalance:this.formatCurrency(31913+data.currentAccountNetBalance)
         });
 

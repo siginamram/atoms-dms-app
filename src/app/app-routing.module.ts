@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './core/components/home/home/home.component';
+import { authGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
@@ -8,11 +9,12 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+    canActivate: [authGuard], // Protect all child routes under 'home'
     children: [
       { path: 'dashboard', loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule) },
       { path: 'employees', loadChildren: () => import('./features/employees/employees.module').then(m => m.EmployeesModule) },
       { path: 'marketing', loadChildren: () => import('./features/marketing/marketing.module').then(m => m.MarketingModule) },
-      { path: 'operations',loadChildren: () => import('./features/operations/operations.module').then(m => m.OperationsModule) },
+      { path: 'operations', loadChildren: () => import('./features/operations/operations.module').then(m => m.OperationsModule) },
     ]
   },
  

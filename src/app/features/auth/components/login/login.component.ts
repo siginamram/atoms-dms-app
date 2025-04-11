@@ -45,6 +45,8 @@ export class LoginComponent implements OnInit {
 
         if (res) {
           // Save user data in localStorage
+          sessionStorage.setItem('isLoggedIn', 'true');
+          sessionStorage.setItem('loginTime', Date.now().toString());
           localStorage.setItem('UserID', res.userID);
           localStorage.setItem('Username', res.userName);
           localStorage.setItem('userRoles', JSON.stringify(res.roleName));

@@ -101,6 +101,9 @@ export class LeftMenuComponent implements OnInit {
 
 
   logout() {
+    
+    sessionStorage.removeItem('isLoggedIn');
+
     // Clear session and local storage
     sessionStorage.clear();
     localStorage.clear();

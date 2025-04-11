@@ -43,7 +43,7 @@ export class PaymentCollectionComponent implements OnInit {
    dateStr:any;
   isLoading = false; 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  displayedColumns: string[] = ['id','client', 'amount', 'dueDate', 'paymentStatus', 'type', 'actions'];
+  displayedColumns: string[] = ['id','client', 'amount', 'dueDate', 'paymentStatus','paymentMode', 'type', 'actions'];
   dataSource = new MatTableDataSource<PaymentData>([]);
   date = new FormControl(moment());
   selectedDate1:any;
@@ -111,6 +111,7 @@ export class PaymentCollectionComponent implements OnInit {
         amount: item.totalAmount,
         dueDate: item.dueDate && !item.dueDate.includes('0001-01-01') ? item.dueDate.split('T')[0] : 'N/A',
         paymentStatus: item.paymentStatus == 2  ? 'Paid' : 'Pending',
+        paymentMode:item.paymentMode == 1 ? 'Cash' : item.paymentMode == 2 ? 'Current Account' : '',
         type: item.isGSTApplicable ? 'GST' : 'Non-GST'
       }));
     });

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SessionTimeoutService } from './services/session-timeout.service';
 
 @Component({
   standalone:false,
@@ -8,4 +9,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'EmployeeManagement.UI';
+  constructor(private sessionTimeoutService: SessionTimeoutService) {}
 }
