@@ -97,3 +97,51 @@
     font-weight: bold;
     margin-bottom: 10px;
   }
+
+  /* Responsive Enhancements */
+@media screen and (max-width: 1024px) {
+  .mat-form-field {
+    max-width: 100%;
+  }
+
+  .total-expense {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .no-data-message {
+    font-size: 16px;
+    padding: 10px;
+  }
+
+  mat-toolbar {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .table-container {
+    padding: 0 10px;
+  }
+
+  th, td {
+    font-size: 14px;
+    word-break: break-word;
+    padding: 6px;
+  }
+
+  .mat-form-field {
+    margin-bottom: 15px;
+  }
+
+  .no-data-message {
+    font-size: 14px;
+  }
+}

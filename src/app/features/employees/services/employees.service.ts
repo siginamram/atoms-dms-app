@@ -149,4 +149,9 @@ GetClientsAdvancePaymentList(fdate: string, tdate: string): Observable<any> {
   return this.http.get(apiUrl);
 }
 
+AddNonDMClient(payload: any): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Account/AddNonDMClient`;
+  return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+}
+
 }

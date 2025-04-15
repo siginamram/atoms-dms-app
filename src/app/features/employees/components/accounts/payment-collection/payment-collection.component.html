@@ -80,6 +80,11 @@
       <td mat-cell *matCellDef="let payment">{{ payment.dueDate }}</td>
     </ng-container>
 
+    <ng-container matColumnDef="paymentDate">
+      <th mat-header-cell *matHeaderCellDef>Payment Date</th>
+      <td mat-cell *matCellDef="let payment">{{ payment.paymentDate }}</td>
+    </ng-container>
+
      <!-- Payment Status Column -->
      <ng-container matColumnDef="paymentStatus">
       <th mat-header-cell *matHeaderCellDef>
