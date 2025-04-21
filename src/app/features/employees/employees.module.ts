@@ -50,6 +50,10 @@ import { PaymentsComponent } from './components/accounts/payments/payments.compo
 import { EmployeeSalarysComponent } from './components/employee-salarys/employee-salarys.component';
 import { EmployeeUpdateSalaryStatusComponent } from './components/employee-update-salary-status/employee-update-salary-status.component';
 import { ClientsAdvancePaymentComponent } from './components/accounts/clients-advance-payment/clients-advance-payment.component';
+import { EmloyeepEducationdetailsComponent } from './components/emloyeep-educationdetails/emloyeep-educationdetails.component';
+import { EmployeeWorkExperienceComponent } from './components/employee-work-experience/employee-work-experience.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { EmployeeOtherDetailsComponent } from './components/employee-other-details/employee-other-details.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +86,9 @@ import { ClientsAdvancePaymentComponent } from './components/accounts/clients-ad
     EmployeeSalarysComponent,
     EmployeeUpdateSalaryStatusComponent,
     ClientsAdvancePaymentComponent,
+    EmloyeepEducationdetailsComponent,
+    EmployeeWorkExperienceComponent,
+    EmployeeOtherDetailsComponent,
   ],
   imports: [
     CommonModule,
@@ -106,7 +113,7 @@ import { ClientsAdvancePaymentComponent } from './components/accounts/clients-ad
     MatProgressSpinnerModule ,
     MatCheckboxModule,
     MatExpansionModule, 
-   
+    MatProgressBarModule,
   ]
 })
 export class EmployeesModule { }

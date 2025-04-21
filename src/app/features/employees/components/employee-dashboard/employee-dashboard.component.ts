@@ -10,19 +10,33 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class EmployeeDashboardComponent {
 
   dataStats: any[] = [];
+  empId: any;
+  empName: any;
 
   constructor(
         private router: Router,
         private route: ActivatedRoute
   ){}
   ngOnInit(): void {
+
+    this.route.queryParams.subscribe((params) => {
+      this.empId = +params['empid'] ;
+      this.empName=params['empName'];
+
+       // If empid is not passed in query params, check localStorage
+       if (!this.empId) {
+        const storedId = localStorage.getItem('EmployeeData');
+        this.empId = storedId ? parseInt(storedId, 10) : 0;
+      }
+    });
+
   this.dataStats = [
     { label: 'General Details', value: 'View' },
     { label: 'Education Details', value: 'View' },
     { label: 'Work Experience', value:'View' },
     { label: 'Other Details', value: 'View' },
-    { label: 'Role Details', value: 'View' },
-    { label: 'Learning Tracker', value:'View' },
+    // { label: 'Role Details', value: 'View' },
+    // { label: 'Learning Tracker', value:'View' },
   ];
   
 }
@@ -30,21 +44,50 @@ export class EmployeeDashboardComponent {
 
 getStatColor(label: string): string {
   const colors: { [key: string]: string } = {
-    'General Details': '#2E71C3',
-    'Education Details':'#454241',
-    'Work Experience': '#454241',
-    'Other Details': '#454241',
-    'Role Details': '#454241',
-    'Learning Tracker': '#454241',
+    'General Details': '#1976D2',        // Blue - Personal info
+    'Education Details': '#388E3C',      // Green - Academic background
+    'Work Experience': '#F57C00',        // Orange - Career highlights
+    'Other Details': '#7B1FA2',          // Purple - Additional info
+    'Role Details': '#0288D1',           // Light Blue - Company role
+    'Learning Tracker': '#C2185B',       // Pink - Training progress
   };
-  return colors[label] || '#607d8b';
+  return colors[label] || '#607d8b';      // Default grey-blue
 }
+
 
 getRow(lead: any): void {
   console.log(lead);
   if(lead.label=='General Details'){
-    this.router.navigate(['/home/employees/AddComponent'])
-  
+    this.router.navigate([`/home/employees/AddComponent`], {
+      queryParams: {
+        empid:this.empId,
+        empName:this.empName
+      }
+    });
+  }
+  else if(lead.label=='Education Details'){
+    this.router.navigate([`/home/employees/employee-education`], {
+      queryParams: {
+        empid:this.empId,
+        empName:this.empName
+      }
+    });
+  }
+  else if(lead.label=='Work Experience'){
+    this.router.navigate([`/home/employees/employee-workexperience`], {
+      queryParams: {
+        empid:this.empId,
+        empName:this.empName
+      }
+    });
+  }
+  else if(lead.label=='Other Details'){
+    this.router.navigate([`/home/employees/employee-others-doc`], {
+      queryParams: {
+        empid:this.empId,
+        empName:this.empName
+      }
+    });
   }
 }
 
@@ -59,6 +102,8 @@ getStatIcon(label: string): string {
   };
   return icons[label] || 'info';
 }
-
+goBack(): void {
+  this.router.navigate(['/home/employees/listofemployees']); 
+}
 
 }

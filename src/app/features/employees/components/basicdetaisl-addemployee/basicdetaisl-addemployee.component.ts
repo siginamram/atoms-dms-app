@@ -162,7 +162,11 @@ ngOnInit(): void {
           this.openAlertDialog('Success', 'Employee Created Successfully!');
           // this.Router.navigate(['/home/employees/listofemployees']);
           this.closeDialog();
-          this.Router.navigate(['/home/employees/employee-dashboard']);
+          this.Router.navigate([`/home/employees/employee-dashboard`], {
+            queryParams: {
+              empid:response.employeeId
+            }
+          });
           localStorage.setItem('EmployeeData', response.employeeId);
           console.log("emp binded",localStorage.setItem('EmployeeData', response.employeeId));
         }

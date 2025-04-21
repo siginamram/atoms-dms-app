@@ -22,20 +22,18 @@ interface Relation {
 })
 
 
-
 export class AddEmployeeComponent  implements OnInit{
-
-
-
   userId: any;
   personalDetailsForm: FormGroup;
   isLoading: boolean | undefined;
   statistics: any = [];
+  empName: any;
 
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
     private Router: Router,
+    private route: ActivatedRoute,
     private commanApiService: EmployeesService
   ) {
     this.personalDetailsForm = this.fb.group({
@@ -49,10 +47,10 @@ export class AddEmployeeComponent  implements OnInit{
       alternateContactNumber: ['', [Validators.required, Validators.pattern("^[0-9]{10}$")]], // Fixed regex pattern
       emailId: ['', [Validators.required, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")]],
       alternateEmailId: ['', [Validators.required, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")]],
-      fatherName: [''],
+      fatherName: ['',Validators.required],
       fatherNumber: ['', Validators.pattern("^[0-9]{10}$")],
       fatherEmailId: ['', Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")],
-      motherName: [''],
+      motherName: ['',Validators.required],
       motherNumber: ['', Validators.pattern("^[0-9]{10}$")],
       motherEmailId: ['', Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")],
       spouseName: [''],
@@ -68,20 +66,25 @@ export class AddEmployeeComponent  implements OnInit{
   }
 
   ngOnInit() {
-    // Get the stored employeeId from localStorage
-    const storedEmployeeId = localStorage.getItem('EmployeeData');
-    console.log("Employee Id", storedEmployeeId);
-
-    // Check if the item exists and parse the JSON
-    if (storedEmployeeId) {
-      const employeeId = storedEmployeeId; // Parse to get the number
-      this.userId = employeeId; // Assign it to your variable
+    this.route.queryParams.subscribe((params) => {
+      const empIdFromParams = params['empid'];
+      this.userId = empIdFromParams ? +empIdFromParams : 0;
+      this.empName=params['empName'];
+      // If empid is not passed in query params, check localStorage
+      if (!this.userId) {
+        const storedId = localStorage.getItem('EmployeeData');
+        this.userId = storedId ? parseInt(storedId, 10) : 0;
+      }
+    
       console.log("Employee Id", this.userId);
-
-      this.basicEmpData();
-    } else {
-      console.log("No employeeId found in localStorage");
-    }
+    
+      if (this.userId) {
+        this.basicEmpData();
+      } else {
+        console.log("No employeeId found in query params or localStorage");
+      }
+    });
+    
   }
 
   basicEmpData(): void {
@@ -99,15 +102,85 @@ export class AddEmployeeComponent  implements OnInit{
       }
     );
   }
-
   BindDataEmp() {
+    const details = this.statistics.data?.personalDetails;
+    const relations = this.statistics.data?.relations || [];
+  
     this.personalDetailsForm.patchValue({
-      firstName: this.statistics.data.personalDetails.firstName,
-      lastName: this.statistics.data.personalDetails.lastName,
-      emailId: this.statistics.data.personalDetails.mailId,
-      dateOfBirth: this.statistics.data.personalDetails.dateOfBirth
+      firstName: details.firstName || '',
+      middleName: details.middleName || '',
+      lastName: details.lastName || '',
+      dateOfBirth: details.dateOfBirth || '',
+      maritalStatus: +details.maritalStatus || null,   // Ensure number
+      gender: +details.gender || null,                 // Ensure number
+      contactNumber: details.primaryContactNumber || '',
+      alternateContactNumber: details.secondaryContactNumber || '',
+      emailId: details.mailId || '',
+      alternateEmailId: '', // Not returned by API, leave blank
+  
+      // Default family fields
+      fatherName: '',
+      fatherNumber: '',
+      fatherEmailId: '',
+      motherName: '',
+      motherNumber: '',
+      motherEmailId: '',
+      spouseName: '',
+      spouseNumber: '',
+      spouseEmailId: '',
+      emergencyContact: '',
+      otherPersonRelation: '',
+      otherPersonName: '',
+      otherPersonNumber: '',
+      otherPersonEmail: ''
     });
+  
+    // Loop through all relations and bind each accordingly
+    for (const relation of relations) {
+      if (relation.isEmergencyContact) {
+        this.personalDetailsForm.patchValue({
+          emergencyContact: +relation.relationshipId
+        });
+      }
+  
+      switch (relation.relationshipId) {
+        case 1: // Father
+          this.personalDetailsForm.patchValue({
+            fatherName: relation.name,
+            fatherNumber: relation.phoneNumber,
+            fatherEmailId: relation.emailId
+          });
+          break;
+  
+        case 2: // Mother
+          this.personalDetailsForm.patchValue({
+            motherName: relation.name,
+            motherNumber: relation.phoneNumber,
+            motherEmailId: relation.emailId
+          });
+          break;
+  
+        case 3: // Spouse
+          this.personalDetailsForm.patchValue({
+            spouseName: relation.name,
+            spouseNumber: relation.phoneNumber,
+            spouseEmailId: relation.emailId
+          });
+          break;
+  
+        case 4: // Other
+          this.personalDetailsForm.patchValue({
+            otherPersonRelation: relation.relationshipId,
+            otherPersonName: relation.name,
+            otherPersonNumber: relation.phoneNumber,
+            otherPersonEmail: relation.emailId
+          });
+          break;
+      }
+    }
   }
+  
+  
 
   openAlertDialog(title: string, message: string): void {
     this.dialog.open(AlertDialogComponent, {
@@ -116,93 +189,118 @@ export class AddEmployeeComponent  implements OnInit{
     });
   }
 
+    // Utility function to format date as YYYY-MM-DD
+    private formatDate(date: Date): string {
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const day = date.getDate().toString().padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
   saveDraft() {
-    debugger;
-    // Perform a check to ensure required fields are filled
     this.isLoading = true;
   
-      let payload = {
-        personalDetails: {
-          "employeeId": this.userId,
-          "firstName": this.personalDetailsForm.get('firstName')?.value,
-          "lastName": this.personalDetailsForm.get('lastName')?.value,
-          "middleName": this.personalDetailsForm.get('middleName')?.value,
-          "dateOfBirth": this.personalDetailsForm.get('dateOfBirth')?.value,
-          "maritalStatus": this.personalDetailsForm.get('maritalStatus')?.value,
-          "primaryContactNumber": this.personalDetailsForm.get('contactNumber')?.value,
-          "secondaryContactNumber": this.personalDetailsForm.get('alternateContactNumber')?.value, // Fixed field name
-          "gender": this.personalDetailsForm.get('gender')?.value,
-          "profilePhoto": " ", // Placeholder for profile photo
-          "mailId": this.personalDetailsForm.get('emailId')?.value
-        },
-        relations: [] as Relation[]
-      };
-
-      if(this.personalDetailsForm.get('fatherNumber')?.value || (this.personalDetailsForm.get('emergencyContact')?.value) == '1')
-      {
-        payload.relations.push({
-          "relationshipId": this.personalDetailsForm.get('emergencyContact')?.value,
-          "relationshipName": "Father", // example for case 1
-          "name": this.personalDetailsForm.get('fatherNumber')?.value,
-          "emailId": this.personalDetailsForm.get('fatherEmailId')?.value,
-          "phoneNumber": this.personalDetailsForm.get('fatherNumber')?.value,
-          "isEmergencyContact": (this.personalDetailsForm.get('emergencyContact')?.value) == '1' ? true : false
-        });
-      }
-      else if(this.personalDetailsForm.get('motherName')?.value || (this.personalDetailsForm.get('emergencyContact')?.value) == '2')
-      {
-        payload.relations.push({
-          "relationshipId": this.personalDetailsForm.get('emergencyContact')?.value,
-          "relationshipName": "Mother", // example for case 2
-          "name": this.personalDetailsForm.get('motherName')?.value,
-          "emailId": this.personalDetailsForm.get('motherEmailId')?.value,
-          "phoneNumber": this.personalDetailsForm.get('motherNumber')?.value,
-          "isEmergencyContact": (this.personalDetailsForm.get('emergencyContact')?.value) == '2' ? true : false
-        });
-      }
-      else if(this.personalDetailsForm.get('spouseName')?.value || (this.personalDetailsForm.get('emergencyContact')?.value) == '3')
-        {
-          payload.relations.push({
-            "relationshipId": this.personalDetailsForm.get('emergencyContact')?.value,
-            "relationshipName": "Spouse", // example for case 2
-            "name": this.personalDetailsForm.get('spouseName')?.value,
-            "emailId": this.personalDetailsForm.get('spouseEmailId')?.value,
-            "phoneNumber": this.personalDetailsForm.get('spouseNumber')?.value,
-            "isEmergencyContact": (this.personalDetailsForm.get('emergencyContact')?.value) == '3' ? true : false
-          });
-        }
-        else if(this.personalDetailsForm.get('emergencyContact')?.value == '4')
-          {
-            payload.relations.push({
-              "relationshipId": this.personalDetailsForm.get('otherPersonRelation')?.value,
-              "relationshipName": "Other", // example for case 2
-              "name": this.personalDetailsForm.get('otherPersonName')?.value,
-              "emailId": this.personalDetailsForm.get('otherPersonEmail')?.value,
-              "phoneNumber": this.personalDetailsForm.get('otherPersonNumber')?.value,
-              "isEmergencyContact": (this.personalDetailsForm.get('emergencyContact')?.value) == '4' ? true : false
-            });
-          }
-        
-      this.commanApiService.UpdateEmployee(payload).subscribe({
-        next: (response: string) => {
-          if (response === 'Success') {
-            this.openAlertDialog('Success', 'Draft Saved Successfully!');
-            this.Router.navigate(['/home/employees/employee-dashboard']);
-
-          } else {
-            this.openAlertDialog('Error', response || 'Unexpected response. Please try again.');
-            this.isLoading = false;
-          }
-        },
-        error: (error) => {
-          const errorMessage = error.error?.message || 'An unexpected error occurred while saving the draft.';
-          this.openAlertDialog('Error', errorMessage);
-          this.isLoading = false;
-        },
+    const form = this.personalDetailsForm;
+  
+    const payload = {
+      personalDetails: {
+        employeeId: this.userId,
+        firstName: form.get('firstName')?.value,
+        lastName: form.get('lastName')?.value,
+        middleName: form.get('middleName')?.value,
+        dateOfBirth: this.formatDate(new Date(this.personalDetailsForm.get('dateOfBirth')?.value || '')),
+        maritalStatus: form.get('maritalStatus')?.value,
+        primaryContactNumber: form.get('contactNumber')?.value,
+        secondaryContactNumber: form.get('alternateContactNumber')?.value,
+        gender: form.get('gender')?.value,
+        profilePhoto: " ",
+        mailId: form.get('emailId')?.value
+      },
+      relations: [] as Relation[]
+    };
+  
+    const emergencyContact = form.get('emergencyContact')?.value;
+  
+    // Father
+    if (emergencyContact === 1 || form.get('fatherNumber')?.value) {
+      payload.relations.push({
+        relationshipId: 1,
+        relationshipName: 'Father',
+        name: form.get('fatherName')?.value,
+        emailId: form.get('fatherEmailId')?.value,
+        phoneNumber: form.get('fatherNumber')?.value,
+        isEmergencyContact: emergencyContact === 1
       });
-    
+    }
+  
+    // Mother
+    if (emergencyContact === 2 || form.get('motherNumber')?.value) {
+      payload.relations.push({
+        relationshipId: 2,
+        relationshipName: 'Mother',
+        name: form.get('motherName')?.value,
+        emailId: form.get('motherEmailId')?.value,
+        phoneNumber: form.get('motherNumber')?.value,
+        isEmergencyContact: emergencyContact === 2
+      });
+    }
+  
+    // Spouse
+    if (emergencyContact === 3 || form.get('spouseNumber')?.value) {
+      payload.relations.push({
+        relationshipId: 3,
+        relationshipName: 'Spouse',
+        name: form.get('spouseName')?.value,
+        emailId: form.get('spouseEmailId')?.value,
+        phoneNumber: form.get('spouseNumber')?.value,
+        isEmergencyContact: emergencyContact === 3
+      });
+    }
+  
+    // Other
+    if (emergencyContact === 4) {
+      payload.relations.push({
+        relationshipId: form.get('otherPersonRelation')?.value,
+        relationshipName: 'Other',
+        name: form.get('otherPersonName')?.value,
+        emailId: form.get('otherPersonEmail')?.value,
+        phoneNumber: form.get('otherPersonNumber')?.value,
+        isEmergencyContact: true
+      });
+    }
+  
+    this.commanApiService.UpdateEmployee(payload).subscribe({
+      next: (response: string) => {
+        if (response === 'Success') {
+          this.openAlertDialog('Success', 'Employee Data Saved Successfully!');
+          //this.Router.navigate(['/home/employees/employee-education']);
+          this.Router.navigate([`/home/employees/employee-dashboard`], {
+            queryParams: {
+              empid: this.userId,
+              empName:this.empName
+            }
+          });
+        } else {
+          this.openAlertDialog('Error', response || 'Unexpected response. Please try again.');
+        }
+        this.isLoading = false;
+      },
+      error: (error) => {
+        const errorMessage = error.error?.message || 'An unexpected error occurred while saving the draft.';
+        this.openAlertDialog('Error', errorMessage);
+        this.isLoading = false;
+      }
+    });
   }
-
+  
+  goBack(): void {
+    this.Router.navigate([`/home/employees/employee-dashboard`], {
+      queryParams: {
+        empid: this.userId,
+        empName:this.empName
+      }
+    });
+  }
   disableNext() {
     return true;
   }

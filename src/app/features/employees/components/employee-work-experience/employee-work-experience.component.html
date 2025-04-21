@@ -1,0 +1,87 @@
+<div class="employee-container">
+    <mat-toolbar color="primary" class="toolbar" style="border-radius: 10px;">
+        <button mat-icon-button (click)="goBack()" aria-label="Back">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <span>{{ empName }} Work Experience</span>
+    </mat-toolbar>
+
+    <form [formGroup]="workExperienceForm">
+        <div formArrayName="previousCompanyInfos">
+            <div *ngFor="let exp of experienceControls.controls; let i = index" [formGroupName]="i" class="experience-box">
+                <div class="loader-container" *ngIf="isLoading">
+                    <mat-spinner></mat-spinner>
+                  </div>
+                <div class="responsive-row">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Work Experience</mat-label>
+                        <mat-select formControlName="noOfMonths">
+                            <mat-option *ngFor="let y of [1,2,3,4,5]" [value]="y">{{ y }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Name Of The Organization</mat-label>
+                        <input matInput formControlName="nameOfOrganisation" />
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Role</mat-label>
+                        <input matInput formControlName="role" />
+                    </mat-form-field>
+                </div>
+
+                <div class="responsive-row">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Start Date</mat-label>
+                        <input matInput [matDatepicker]="startPicker" formControlName="startDate" />
+                        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #startPicker></mat-datepicker>
+                      </mat-form-field>
+                      
+                      <mat-form-field appearance="outline">
+                        <mat-label>End Date</mat-label>
+                        <input matInput [matDatepicker]="endPicker" formControlName="endDate" />
+                        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #endPicker></mat-datepicker>
+                      </mat-form-field>
+
+                    <div class="file-upload">
+                        <label>Pay Slips</label>
+                        <input type="file" (change)="onFileChange($event, i, 'paySlip')" />
+                    </div>
+
+                    <div class="file-upload">
+                        <label>Relieving Letter</label>
+                        <input type="file" (change)="onFileChange($event, i, 'relievingLetter')" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button mat-stroked-button color="primary" (click)="addExperience()">+ Add Another Experience</button>
+            <button mat-raised-button color="accent" (click)="onSubmit()">Submit</button>
+        </div>
+    </form>
+
+    <div class="view-section">
+        <h3>Work History</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Role</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let entry of viewExperiences">
+                    <td>{{ entry.role }}</td>
+                    <td>{{ entry.startDate | date }}</td>
+                    <td>{{ entry.endDate | date }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

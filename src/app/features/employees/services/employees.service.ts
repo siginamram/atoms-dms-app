@@ -45,6 +45,47 @@ getProfileDetailsbyEmpId(employeeId: number): Observable<any> {
   const apiUrl = `${this.baseApiUrl}/api/Employee/UpdateProfileDetails`;
   return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
 }
+
+GetEmployeeEducationDetails(employeeId: number): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Employee/GetEmployeeEducationDetails/${employeeId}`;
+  return this.http.get(apiUrl);
+}
+
+ // Update empolyee Details
+ UploadEmployeeEducationDetails(payload: any): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Employee/UploadEmployeeEducationDetails`;
+  return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+}
+GetExperienceDetails(employeeId: number): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Employee/GetExperienceDetails/${employeeId}`;
+  return this.http.get(apiUrl);
+}
+
+UploadExperienceDetails(payload: any): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Employee/UploadExperienceDetails`;
+  return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+}
+
+GetDocumentDetails(employeeId: number): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Employee/GetDocumentDetails/${employeeId}`;
+  return this.http.get(apiUrl);
+}
+
+UpdateEmployeeDocumentDetails(payload: any): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Employee/UpdateEmployeeDocumentDetails`;
+  return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+}
+
+GetEmployeeBankAccount(employeeId: number): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Employee/GetEmployeeBankAccount/${employeeId}`;
+  return this.http.get(apiUrl);
+}
+
+updateEmployeeBankAccount(payload: any): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Employee/updateEmployeeBankAccount`;
+  return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+}
+
 employeeLeaveRequest(payload: any): Observable<any> {
   const apiUrl = `${this.baseApiUrl}/api/Employee/employeeLeaveRequest`;
   // Set responseType to 'text' since the API returns plain text

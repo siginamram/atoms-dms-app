@@ -1,0 +1,181 @@
+<div class="employee-container">
+    <mat-toolbar color="primary" class="toolbar" style="border-radius: 10px;">
+        <button mat-icon-button (click)="goBack()" aria-label="Back">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <span>{{ empName }} Other Documents</span>
+    </mat-toolbar>
+<mat-tab-group
+  [selectedIndex]="selectedTab === 'documents' ? 0 : 1" (selectedIndexChange)="onTabChange($event)">
+    <!-- Tab 1: Employee Other Documents -->
+    <mat-tab label="Employee Other Documents">
+        <form [formGroup]="documentForm" (ngSubmit)="saveDocumentDetails()" class="form-container">
+            <h2>Other Documents</h2>
+          
+            <div class="row">
+              <!-- Aadhar Number -->
+              <mat-form-field appearance="outline" class="field">
+                <mat-label>Aadhar Card Number</mat-label>
+                <input matInput formControlName="aadharNumber" placeholder="Enter Aadhar Number" />
+                <mat-error *ngIf="documentForm.get('aadharNumber')?.hasError('required') && documentForm.get('aadharNumber')?.touched">
+                  Aadhar Card Number is required.
+                </mat-error>
+              </mat-form-field>
+          
+              <!-- PAN Number -->
+              <mat-form-field appearance="outline" class="field">
+                <mat-label>Pan Card Number</mat-label>
+                <input matInput formControlName="panNumber" placeholder="Enter PAN Number" />
+                <mat-error *ngIf="documentForm.get('panNumber')?.hasError('required') && documentForm.get('panNumber')?.touched">
+                  PAN Card Number is required.
+                </mat-error>
+              </mat-form-field>
+          
+              <!-- Passport Number -->
+              <mat-form-field appearance="outline" class="field">
+                <mat-label>Passport Number</mat-label>
+                <input matInput formControlName="passportNumber" placeholder="Enter Passport Number" />
+              </mat-form-field>
+            </div>
+          
+            <!-- Aadhar & PAN File Upload -->
+            <div class="row">
+              <div class="file-upload">
+                <label>Aadhar Card <span class="required">*</span></label>
+                <input type="file" (change)="onFileChange($event, 'aadharDocument')" />
+                <div class="error-msg" *ngIf="!documentForm.value.aadharDocument && formSubmitted">
+                  Aadhar card file is required.
+                </div>
+              </div>
+          
+              <div class="file-upload">
+                <label>Pan Card <span class="required">*</span></label>
+                <input type="file" (change)="onFileChange($event, 'panDocument')" />
+                <div class="error-msg" *ngIf="!documentForm.value.panDocument && formSubmitted">
+                  PAN card file is required.
+                </div>
+              </div>
+            </div>
+          
+            <!-- Passport, Agreement -->
+            <div class="row">
+              <div class="file-upload">
+                <label>Passport</label>
+                <input type="file" (change)="onFileChange($event, 'passportDocument')" />
+              </div>
+          
+              <div class="file-upload">
+                <label>Employee Agreement <span class="required">*</span></label>
+                <input type="file" (change)="onFileChange($event, 'agreementDocument')" />
+                <div class="error-msg" *ngIf="!documentForm.value.agreementDocument && formSubmitted">
+                  Employee Agreement is required.
+                </div>
+              </div>
+            </div>
+          
+            <!-- Offer Letter -->
+            <div class="row">
+              <div class="file-upload">
+                <label>Offer Letter <span class="required">*</span></label>
+                <input type="file" (change)="onFileChange($event, 'offerLetterDocument')" />
+                <div class="error-msg" *ngIf="!documentForm.value.offerLetterDocument && formSubmitted">
+                  Offer Letter is required.
+                </div>
+              </div>
+            </div>
+          
+            <div class="button-container">
+              <button mat-raised-button color="primary" type="submit">Submit</button>
+            </div>
+          </form>
+          
+    </mat-tab>
+  
+    <!-- Tab 2: Bank Details -->
+    <mat-tab label="Bank Details">
+        <form [formGroup]="bankForm" (ngSubmit)="saveBankDetails()" class="form-container">
+            <h2>Bank Details</h2>
+          
+            <div class="row">
+              <!-- Account Holder Name -->
+              <mat-form-field appearance="outline" class="field">
+                <mat-label>Bank Account Holder Name</mat-label>
+                <input matInput formControlName="accountHolderName" placeholder="Enter Person Name" />
+                <mat-error *ngIf="bankForm.get('accountHolderName')?.hasError('required') && bankForm.get('accountHolderName')?.touched">
+                  Account holder name is required.
+                </mat-error>
+              </mat-form-field>
+          
+              <!-- Account Name -->
+              <mat-form-field appearance="outline" class="field">
+                <mat-label>Bank Account Name</mat-label>
+                <input matInput formControlName="accountName" placeholder="Enter Name" />
+                <mat-error *ngIf="bankForm.get('accountName')?.hasError('required') && bankForm.get('accountName')?.touched">
+                  Account name is required.
+                </mat-error>
+              </mat-form-field>
+          
+              <!-- Branch Name -->
+              <mat-form-field appearance="outline" class="field">
+                <mat-label>Bank Branch Name</mat-label>
+                <input matInput formControlName="branchName" placeholder="Enter Branch Name" />
+                <mat-error *ngIf="bankForm.get('branchName')?.hasError('required') && bankForm.get('branchName')?.touched">
+                  Branch name is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          
+            <div class="row">
+              <!-- Account Number -->
+              <mat-form-field appearance="outline" class="field">
+                <mat-label>Bank Account Number</mat-label>
+                <input
+                  matInput
+                  formControlName="accountNumber"
+                  placeholder="Enter Account Number"
+                  inputmode="numeric"
+                  pattern="[0-9]*"
+                />
+                <mat-error *ngIf="bankForm.get('accountNumber')?.hasError('required') && bankForm.get('accountNumber')?.touched">
+                  Account number is required.
+                </mat-error>
+                <mat-error *ngIf="bankForm.get('accountNumber')?.hasError('pattern') && bankForm.get('accountNumber')?.touched">
+                  Enter a valid account number (9–18 digits).
+                </mat-error>
+              </mat-form-field>
+          
+              <!-- IFSC -->
+              <mat-form-field appearance="outline" class="field">
+                <mat-label>Bank Account IFSC Number</mat-label>
+                <input matInput formControlName="ifsc" placeholder="Enter IFSC Code" />
+                <mat-error *ngIf="bankForm.get('ifsc')?.hasError('required') && bankForm.get('ifsc')?.touched">
+                  IFSC code is required.
+                </mat-error>
+                <mat-error *ngIf="bankForm.get('ifsc')?.hasError('pattern') && bankForm.get('ifsc')?.touched">
+                  Enter a valid IFSC code (e.g., SBIN0123456).
+                </mat-error>
+              </mat-form-field>
+          
+              <mat-form-field appearance="outline" class="field">
+                <mat-label>Account Type</mat-label>
+                <mat-select formControlName="accountType">
+                  <mat-option value="Savings">Savings</mat-option>
+                  <mat-option value="Current">Current</mat-option>
+                </mat-select>
+                <mat-error *ngIf="bankForm.get('accountType')?.hasError('required') && bankForm.get('accountType')?.touched">
+                  Please select account type.
+                </mat-error>
+              </mat-form-field>
+              
+              
+            </div>
+          
+            <div class="button-container">
+              <button mat-raised-button color="primary" type="submit" [disabled]="bankForm.invalid">Submit</button>
+            </div>
+          </form>
+          
+    </mat-tab>
+  </mat-tab-group>
+</div>
+  

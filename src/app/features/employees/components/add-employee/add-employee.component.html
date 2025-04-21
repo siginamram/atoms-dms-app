@@ -20,11 +20,21 @@
 
 
    <form [formGroup]="personalDetailsForm">
+      <div class="loader-container" *ngIf="isLoading">
+         <mat-spinner></mat-spinner>
+       </div>
       <!--Personal Details-->
       <div class="row">
-         <div class="col">
+         <!-- <div class="col">
             <h4 class="text-center">Employee General Details</h4>
-         </div>
+         </div> -->
+
+         <mat-toolbar color="primary" class="toolbar" style="border-radius: 10px;">
+            <button mat-icon-button  (click)="goBack()" aria-label="Back">
+            <mat-icon>arrow_back</mat-icon>
+            </button>
+            <span>{{this.empName}} General Details</span>
+            </mat-toolbar>
 
          <mat-card class="personal-details">
             <div class="col-12" style="margin-top: 10px;">
@@ -61,31 +71,30 @@
                      </mat-form-field>
                   </div>
 
-                  <div class="col-12 col-md-4">
-                     <mat-form-field class="form-field" appearance="outline">
-                        <mat-label>Marital Status</mat-label>
-                        <mat-select formControlName="maritalStatus">
-                           <mat-option [value]='1'>Married</mat-option>
-                           <mat-option [value]='2'>Single</mat-option>
-                           <mat-option [value]='3'>Widowed</mat-option>
-                           <mat-option [value]='4'>Divorced</mat-option>
-                        </mat-select>
-                     </mat-form-field>
-                  </div>
-
-                  <div class="col-12 col-md-4">
-                     <mat-form-field class="form-field" appearance="outline">
-                        <mat-label>Gender</mat-label>
-                        <mat-select formControlName="gender">
-                           <mat-option [value]='1'>Male</mat-option>
-                           <mat-option [value]='2'>Female</mat-option>
-                           <mat-option [value]='3'>Other</mat-option>
-                        </mat-select>
-                     </mat-form-field>
-                  </div>
-
-
-
+         <!-- Marital Status -->
+         <div class="col-12 col-md-4">
+            <mat-form-field appearance="outline">
+            <mat-label>Marital Status</mat-label>
+            <mat-select formControlName="maritalStatus">
+               <mat-option [value]="1">Married</mat-option>
+               <mat-option [value]="2">Single</mat-option>
+               <mat-option [value]="3">Widowed</mat-option>
+               <mat-option [value]="4">Divorced</mat-option>
+            </mat-select>
+            </mat-form-field>
+         </div>
+         
+         <!-- Gender -->
+         <div class="col-12 col-md-4">
+            <mat-form-field appearance="outline">
+            <mat-label>Gender</mat-label>
+            <mat-select formControlName="gender">
+               <mat-option [value]="1">Male</mat-option>
+               <mat-option [value]="2">Female</mat-option>
+               <mat-option [value]="3">Other</mat-option>
+            </mat-select>
+            </mat-form-field>
+         </div>
 
 
 
@@ -135,12 +144,8 @@
                   </mat-form-field>
                </div>
 
-
-
-
             </div>
          </div>
-
       </mat-card>
 
 
@@ -152,7 +157,6 @@
             <h4 class="text-center">Family Details</h4>
          </div>
          <mat-card class="personal-details">
-
             <div class="col-12" style="margin-top: 10px;">
                <!--Father Details-->
                <div class="row">
@@ -176,7 +180,6 @@
                         <input matInput formControlName="fatherEmailId" />
                      </mat-form-field>
                   </div>
-
                </div>
 
                <!--Mother Details-->
@@ -201,7 +204,6 @@
                         <input matInput formControlName="motherEmailId" />
                      </mat-form-field>
                   </div>
-
                </div>
 
                <!--Spouse Details-->
@@ -226,7 +228,6 @@
                         <input matInput formControlName="spouseEmailId" />
                      </mat-form-field>
                   </div>
-
                </div>
 
                <div class="row">
@@ -234,10 +235,10 @@
                      <mat-form-field class="form-field" appearance="outline">
                         <mat-label>Emergency Contact</mat-label>
                         <mat-select formControlName="emergencyContact">
-                           <mat-option [value]="'1'">Father</mat-option>
-                           <mat-option [value]="'2'">Mother</mat-option>
-                           <mat-option [value]="'3'">Spouse</mat-option>
-                           <mat-option [value]="'4'">Other</mat-option>
+                           <mat-option [value]="1">Father</mat-option>
+                           <mat-option [value]="2">Mother</mat-option>
+                           <mat-option [value]="3">Spouse</mat-option>
+                           <mat-option [value]="4">Other</mat-option>
                         </mat-select>
                      </mat-form-field>
                   </div>
@@ -256,16 +257,12 @@
                <!--Other Details-->
                <div class="row" *ngIf="personalDetailsForm.get('emergencyContact')?.value === '4'">
 
-
-
                   <div class="col-12 col-md-4">
                      <mat-form-field class="form-field" appearance="outline">
                         <mat-label>Name</mat-label>
                         <input matInput formControlName="otherPersonName" />
                      </mat-form-field>
                   </div>
-
-
 
                   <div class="col-12 col-md-4">
                      <mat-form-field class="form-field" appearance="outline">
@@ -280,29 +277,16 @@
                         <input matInput formControlName="otherPersonEmail" />
                      </mat-form-field>
                   </div>
-
-
                </div>
             </div>
          </mat-card>
-
       </div>
-
-
-
-
-
-
-
-
       <div class="row m-2">
          <div class="col" style="display: flex;justify-content: end;">
-
             <button mat-raised-button color="primary" type="submit" (click)="saveDraft()">
                Save
             </button>
          </div>
       </div>
-
    </form>
 </div>

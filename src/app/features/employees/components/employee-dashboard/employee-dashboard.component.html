@@ -1,9 +1,15 @@
-  <!-- Data Stats Section -->
- <div class="dashboard-container">
+<!-- Data Stats Section -->
+<div class="dashboard-container">
   <mat-card class="data-section">
-    <mat-card-header class="card-header">
-      <mat-card-title>Employee Profile</mat-card-title>
-    </mat-card-header>
+    <!-- <mat-card-header class="card-header">
+      <mat-card-title>{{this.empName}} Profile</mat-card-title>
+    </mat-card-header> -->
+      <mat-toolbar color="primary" class="toolbar" style="border-radius: 10px;">
+      <button mat-icon-button  (click)="goBack()" aria-label="Back">
+      <mat-icon>arrow_back</mat-icon>
+      </button>
+      <span>{{this.empName}} Profile</span>
+      </mat-toolbar>
     <mat-card-content style="padding-top: 10px;">
       <div class="data-grid">
         <mat-card
@@ -12,15 +18,13 @@
           [ngStyle]="{ 'background-color': getStatColor(stat.label) }"
         >
           <mat-card-header class="data-card-header">
+            <mat-icon class="stat-icon">{{ getStatIcon(stat.label) }}</mat-icon>
             <mat-card-title>{{ stat.label }}</mat-card-title>
-            <mat-icon class="stat-icon" (click)="getRow(stat)">{{ getStatIcon(stat.label) }}</mat-icon>
           </mat-card-header>
-           <!-- <mat-card-content>
-            <button mat-icon-button color="white" (click)="getRow(stat)">
-              <div>{{ stat.value }}</div>
-            </button>
-          </mat-card-content>  -->
-         
+          <mat-card-content class="stat-button">
+            <button mat-raised-button (click)="getRow(stat)" style="color: #1976D2; background-color: white;">
+            View & Update</button>
+          </mat-card-content>
         </mat-card>
       </div>
     </mat-card-content>

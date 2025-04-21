@@ -1,58 +1,74 @@
-/* General Dashboard Container */
 .dashboard-container {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    padding-left: 140px;
-    gap: 20px;
-    padding-left: 140px; /* Adjust based on layout */
-  }
-  /* Data Stats Section */
-.data-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 20px;
-  }
-  .card-header {
-    background-color: #3f51b5;
-    color: white;
-  }
-  .mat-card-title {
-    font-size: 18px;
-    font-weight: bold;
-    border-radius: 10px;
-  }
-  .data-card mat-card-header {
-    color: white;
-    display: flex;
-    align-items: center; /* Align icon and title vertically */
-    justify-content: center; /* Center icon and title horizontally */
-    flex-direction: column;
-    padding: 10px;
-  }
-  /* Icons Color */
-.mat-icon {
-  vertical-align: middle;
-  margin-right: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  padding-left: 140px;
+  gap: 20px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgb(66, 45, 255);
 }
-.stat-icon {
-  font-size:20px;
-  margin-bottom: 35px; /* Space between icon and title */
+.toolbar {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Data Stats Section */
+.data-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.card-header {
+  background-color: #3f51b5;
   color: white;
 }
+
+.mat-card-title {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.data-card mat-card-header {
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 16px;
+  border-radius: 8px 8px 0 0;
+}
+
+.stat-icon {
+  font-size: 25px;
+  margin-bottom: 8px;
+  color: white;
+}
+
+.stat-button {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
 /* Responsive Design for smaller screens */
 @media (max-width: 768px) {
-    .status-grid,
-    .data-grid {
-      grid-template-columns: 1fr; /* Stack grid items on small screens */
-    }
-  
-    .mat-table {
-      font-size: 12px; /* Adjust font size for smaller screens */
-    }
-  
-    .data-card mat-card-content {
-      font-size: 20px; /* Adjust content size for smaller screens */
-    }
+  .data-grid {
+    grid-template-columns: 1fr;
   }
-  
+
+  .mat-card-title {
+    font-size: 16px;
+  }
+
+  .stat-icon {
+    font-size: 30px;
+  }
+
+  .stat-button button {
+    width: 100%;
+  }
+}

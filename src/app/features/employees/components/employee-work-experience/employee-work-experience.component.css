@@ -1,0 +1,87 @@
+.employee-container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: auto;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgb(66, 45, 255);
+  }
+  
+  .title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #2f3b80;
+    font-weight: bold;
+  }
+  
+  .experience-box {
+    margin-bottom: 30px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+    background: #f9f9f9;
+  }
+  
+  .file-upload {
+    margin-top: 10px;
+  }
+  
+  .view-section {
+    margin-top: 40px;
+  }
+  
+  .responsive-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+  
+  mat-form-field {
+    flex: 1 1 300px;
+  }
+  
+  .file-upload input {
+    display: block;
+  }
+  
+  @media (max-width: 768px) {
+    .responsive-row {
+      flex-direction: column;
+    }
+    mat-form-field {
+      width: 100%;
+    }
+  }
+  
+  h3 {
+    margin-top: 30px;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+  }
+  
+  th {
+    background: #3f3f3f;
+    color: white;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px; /* Adjust height as needed */
+  }

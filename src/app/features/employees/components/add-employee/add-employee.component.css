@@ -59,3 +59,16 @@ h4 {
   color: #2f3b80;
   font-weight: bolder;
 }
+
+.toolbar {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px; /* Adjust height as needed */
+}

@@ -89,8 +89,15 @@ export class EmployeesListComponent implements OnInit {
   }
  // Navigate to Employee
   editEmployee(row: any): void {
-    console.log('Editing meet with ID:', row.meetID);
-    this.router.navigate(['/home/marketing/add-meet', row.meetID]);
+    console.log('Editing meet with ID:', row);
+    //this.router.navigate(['/home/employees/employee-dashboard', row]);
+
+    this.router.navigate([`/home/employees/employee-dashboard`], {
+      queryParams: {
+        empid:row.employeeId,
+        empName:row.firstName
+      }
+    });
   }
 
  

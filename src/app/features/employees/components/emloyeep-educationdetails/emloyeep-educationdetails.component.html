@@ -1,1 +1,82 @@
-<p>emloyeep-educationdetails works!</p>
+<!-- employee-education-details.component.html -->
+<div class="employee-container">
+    <!-- <mat-toolbar color="primary" >
+      <span>Employee Education Details</span>
+    </mat-toolbar> -->
+    <!-- <div class="col">
+      <h4 class="text-center">Employee Education Details</h4>
+   </div> -->
+   
+   <mat-toolbar color="primary" class="toolbar" style="border-radius: 10px;">
+    <button mat-icon-button  (click)="goBack()" aria-label="Back">
+    <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span>{{this.empName}} Education Details</span>
+    </mat-toolbar>
+  
+    <form [formGroup]="educationForm" style="padding-top: 10px;">
+      <div formArrayName="educationDetails">
+        <div *ngFor="let education of educationDetails.controls; let i = index" [formGroupName]="i" class="education-card">
+          <div class="loader-container" *ngIf="isLoading">
+            <mat-spinner></mat-spinner>
+          </div>
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Education Type</mat-label>
+              <mat-select formControlName="courseId" required>
+                <mat-option *ngFor="let course of educationTypes" [value]="course.id">{{ course.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline">
+              <mat-label>Institution Name</mat-label>
+              <input matInput formControlName="institutionalName" placeholder="Enter Institution Name" required>
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline">
+              <mat-label>Board/University</mat-label>
+              <input matInput formControlName="universityName" placeholder="Enter Board or University" required>
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline">
+              <mat-label>Course Name</mat-label>
+              <input matInput formControlName="courseName" placeholder="Enter Course Name" required>
+            </mat-form-field>
+          </div>
+  
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Specialization</mat-label>
+              <input matInput formControlName="specialization" placeholder="Enter Specialization">
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline">
+              <mat-label>Year of Completion</mat-label>
+              <input matInput type="number" formControlName="yearOfCompletion" required>
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline">
+              <mat-label>Percentage / CGPA</mat-label>
+              <input matInput type="number" formControlName="percentage" placeholder="Enter Score" required>
+            </mat-form-field>
+  
+            <div class="file-upload">
+              <label>Upload Certificate</label>
+              <input type="file" (change)="onFileChange($event, i)" required>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="add-btn">
+        <button mat-stroked-button color="primary" (click)="addEducation()">
+          <mat-icon>add</mat-icon> Add Another Degree
+        </button>
+      </div>
+  
+      <div class="button-group">
+        <button mat-raised-button color="accent" (click)="onSubmit()">Save</button>
+      </div>
+    </form>
+  </div>
+  
