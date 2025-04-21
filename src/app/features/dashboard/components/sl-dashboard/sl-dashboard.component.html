@@ -18,7 +18,9 @@
   <button mat-raised-button color="primary" (click)="applyDateFilter()">Apply</button>
 </div>
 
-
+<div  class="spinner" *ngIf="showSpinner">
+  <mat-spinner></mat-spinner>
+</div>
   <!-- KPI Section -->
   <div class="kpi-section">
     <div class="kpi-card" *ngFor="let kpi of kpis" [style.backgroundColor]="kpi.color">

@@ -211,10 +211,15 @@
             <i class="material-icons">description</i>KT Documents
           </a>
         </li>
-
+        <li class="dropdown" >
+          <a  class="dropdown-toggle">
+            <i class="material-icons">people</i> EMS
+            <i class="material-icons arrow-icon">expand_more</i>
+          </a>
+          <ul class="submenu">
         <li>
           <a [routerLink]="['/home', 'employees', 'listofemployees']" 
-             *ngIf="roleService.hasRole(['HR'])"
+             *ngIf="roleService.hasRole(['HR','Sales Lead'])"
              routerLinkActive="active">
             <i class="material-icons">people</i> Employees List
           </a>
@@ -233,6 +238,8 @@
              routerLinkActive="active">
             <i class="material-icons">task_alt</i> Leave Approvals
           </a>
+        </li>
+          </ul>
         </li>
         <li class="dropdown" *ngIf="roleService.hasRole(['Manager','Team Lead','Sales Lead','HR'])">
           <a  class="dropdown-toggle">

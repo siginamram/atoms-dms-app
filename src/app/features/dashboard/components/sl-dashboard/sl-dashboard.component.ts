@@ -11,7 +11,7 @@ import * as moment from 'moment';
 export class SlDashboardComponent implements OnInit {
   fromDateValue: Date = new Date(moment().startOf('month').format('YYYY-MM-DD'));
   toDateValue: Date = new Date(moment().endOf('month').format('YYYY-MM-DD'));
-
+  showSpinner: boolean = false; // Default value
   displayedColumns = ['sno', 'name', 'prospectsRegistered', 'dealsClosed', 'revenueGenerated', 'successRate'];
   kpis: any[] = [];
   tableData: any[] = [];
@@ -27,13 +27,14 @@ export class SlDashboardComponent implements OnInit {
   }
 
   fetchDashboardData(): void {
+    this.showSpinner = true;
     const userId = +localStorage.getItem('UserID')!; 
     const fdate = moment(this.fromDateValue).format('YYYY-MM-DD');
     const tdate = moment(this.toDateValue).format('YYYY-MM-DD');
 
     this.dashboardService.GetDashboardSalesLeadByUser(userId, fdate, tdate).subscribe((res: any) => {
       const sales = res.salesMonthlydashboard;
-
+      this.showSpinner = false;
       this.kpis = [
         { title: 'No.of Sales Associates', value: sales.totalSalesAssociates, icon: 'group', color: '#4CAF50' },
         { title: 'No.of Prospects Registered', value: sales.totalProspects, icon: 'assignment', color: '#2196F3' },
