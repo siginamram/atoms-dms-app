@@ -26,6 +26,7 @@ export class PendingPostsDashboardComponent implements OnInit {
     'postScheduleOn',
     'contentStatus',
     'contentWriter',
+    'link',
     'graphicStatus',
     'editor',
     'dma',
