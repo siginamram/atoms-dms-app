@@ -45,6 +45,7 @@ export class GraphicReelsDesignerApprovalComponent implements OnInit {
     'sentForApprovalOn',
     'resourceName',
     'language',
+    'referenceDoc',
     'contentInPost',
     'link',
     'postStatus',

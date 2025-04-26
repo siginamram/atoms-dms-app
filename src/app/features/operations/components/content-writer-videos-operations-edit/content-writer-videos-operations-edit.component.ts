@@ -24,7 +24,7 @@ export class ContentWriterVideosOperationsEditComponent implements OnInit {
     public data: { monthlyTrackerId: number; title: string; thumbNail: string; description: string }
   ) {
     this.emergencyRequestForm = this.fb.group({
-      title: ['', Validators.required],
+      title: ['', [Validators.required, Validators.maxLength(100)]],
       thumbNail: ['', [
         Validators.pattern(
           '^(https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)?)$'
