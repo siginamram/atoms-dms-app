@@ -97,15 +97,16 @@ export class AddPaymentCollectionComponent implements OnInit {
         this.paymentForm.patchValue({
           client: data.organizationName,
           invoiceGenerationDate: data.date?.split('T')[0],
-          actualInvoiceValue: data.amount || data.totalAmount,
+          actualInvoiceValue: data.isGSTApplicable ? (data.totalAmount || 0) : (data.amount || 0),
           adjustedInvoiceValue: data.adjustedAmount || 0,
           dueDate: data.dueDate?.includes('0001-01-01') ? '' : data.dueDate?.split('T')[0],
           receivedDate: data.paymentDate?.includes('0001-01-01') ? '' : data.paymentDate?.split('T')[0],
           paymentStatus: data.paymentStatus,
           paymentType: data.paymentType,
           paymentMode: data.paymentMode
+       
         });
-  
+       
         // Now fetch followups using invoice number
         this.employeesService.GetPaymentFollowup(this.paymentId).subscribe((followups: any[]) => {
           const followUpsArray = this.paymentForm.get('followUps') as FormArray;
@@ -146,6 +147,7 @@ export class AddPaymentCollectionComponent implements OnInit {
         paymentDate: this.formatDate(new Date(this.paymentForm.get('receivedDate')?.value || '')),
         paymentMode: formValue.paymentMode,
         paymentType: formValue.paymentType,
+        AdjustedInvoiceValue:formValue.adjustedInvoiceValue,
         paymentStatus: formValue.paymentStatus,
         paymentFollowUps: formValue.followUps.map((f: any) => ({
           followupDate: this.formatDate(new Date(f.followUpDate)),

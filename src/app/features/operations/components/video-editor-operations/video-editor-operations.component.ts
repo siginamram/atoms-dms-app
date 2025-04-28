@@ -123,7 +123,7 @@ export class VideoEditorOperationsComponent implements OnInit {
             description: item.description ,
             status: this.mapGraphicStatus(item.status),
             remarks: item.remarks ,
-            thumbNail: item.thumbNail ,
+            thumbNail: item.thumbNail || 'N/A' ,
             monthlyTrackerId:item.monthlyTrackerId,
             postScheduleOn:item.postScheduleOn,
             contentStatus:this.mapGraphicStatus(item.contentStatus),

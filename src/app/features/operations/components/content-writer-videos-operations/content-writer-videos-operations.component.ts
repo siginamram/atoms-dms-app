@@ -123,7 +123,7 @@ export class ContentWriterVideosOperationsComponent implements OnInit {
             description: item.description,
             contentStatus: this.mapGraphicStatus(item.contentStatus), // ✅ Corrected
             remarks: item.contentRemarks,
-            thumbNail: item.thumbNail,
+            thumbNail: item.thumbNail || 'N/A',
             monthlyTrackerId: item.monthlyTrackerId,
             postScheduleOn: item.postScheduleOn,
           }));
