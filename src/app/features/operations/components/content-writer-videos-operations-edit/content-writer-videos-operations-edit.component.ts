@@ -25,11 +25,7 @@ export class ContentWriterVideosOperationsEditComponent implements OnInit {
   ) {
     this.emergencyRequestForm = this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(100)]],
-      thumbNail: ['', [
-        Validators.pattern(
-          '^(https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)?)$'
-        ),
-      ]],
+      thumbNail: ['',],
       description: ['', Validators.required],
       contentStatus: [2], // Default to draft
     });
