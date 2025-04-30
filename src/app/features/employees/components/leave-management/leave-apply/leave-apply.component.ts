@@ -33,8 +33,13 @@ export class LeaveApplyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.leaveForm.get('startDate')?.valueChanges.subscribe(() => this.calculateNoOfDays());
-    this.leaveForm.get('endDate')?.valueChanges.subscribe(() => this.calculateNoOfDays());
+  // Set minDate to 7 days ago from today
+  const currentDate = new Date();
+  currentDate.setDate(currentDate.getDate() - 7); // Subtract 7 days
+  this.minDate = currentDate;
+
+  this.leaveForm.get('startDate')?.valueChanges.subscribe(() => this.calculateNoOfDays());
+  this.leaveForm.get('endDate')?.valueChanges.subscribe(() => this.calculateNoOfDays());
   }
 
   calculateNoOfDays(): void {
