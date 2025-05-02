@@ -179,6 +179,13 @@
     </th>
     <td mat-cell *matCellDef="let row">{{ row.graphicRemarks }}</td>
   </ng-container>
+
+  <ng-container matColumnDef="Speciality">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      <mat-icon class="header-icon">publish</mat-icon> Speciality
+    </th>
+    <td mat-cell *matCellDef="let row">{{ row.speciality }}</td>
+  </ng-container>
   
         <!-- Post Status Column -->
         <ng-container matColumnDef="postStatus">

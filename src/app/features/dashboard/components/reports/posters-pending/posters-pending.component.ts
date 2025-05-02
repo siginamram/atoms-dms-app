@@ -34,6 +34,7 @@ export class PostersPendingComponent implements OnInit {
     'organizationName',
     'creativeTypeId',
     'postScheduleOn',
+    'Speciality',
     'contentInPost',
     'contentCaption',
     'contentStatus',

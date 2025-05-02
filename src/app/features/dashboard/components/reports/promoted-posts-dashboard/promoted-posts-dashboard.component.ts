@@ -26,6 +26,7 @@ export class PromotedPostsDashboardComponent implements OnInit {
     'postScheduleOn',
     'contentStatus',
     'contentWriter',
+    'link',
     'graphicStatus',
     'editor',
     'postStatus',

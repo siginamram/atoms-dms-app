@@ -48,6 +48,7 @@ export class ContentWritersCalendarExportComponent  implements OnInit {
   selectedClientName: string = '';
   displayedColumns: string[] = [
     'sno',
+    'postScheduleOn',
     'speciality',
     'creativeType',
     'promotionType',
