@@ -30,6 +30,7 @@ export class IncomeStatementComponent implements OnInit {
   recivedAdvAmount :any = 0;
   AdvbalancePrevious:any = 0;
   overallBalanceRaw : any =0;
+  lastMonthBalnce1 :any =0;
 
   incomeStatementForm: FormGroup = new FormGroup({
     pendingCurrentPeriod: new FormControl(''),
@@ -76,16 +77,19 @@ export class IncomeStatementComponent implements OnInit {
     this.employeesService.GetIncomeStatements(fdate, tdate).subscribe(
       (data: any) => {
           // Raw values for calculation
-        let pendingFromPreviousMonths =  75000 + data.pendingFromPreviousMonths + data.amountReceivedPrevious   || 0;
-        let amountReceivedPrevious = data.amountReceivedPrevious || 0;
-        let tobeReceivedCurrentMonth = data.tobeReceivedCurrentMonth || 0;
-        let amountReceivedCurrent = data.amountReceivedCurrent || 0;
-         let lastMonthBalnce = 98590  + data.previousMonthOverallBalanceAmount + data.receivedAdvAmountPreviousMonth || 0;
-
-         this.lastMonthBalnce = this.formatCurrency(98590+ data.previousMonthOverallBalanceAmount + data.receivedAdvAmountPreviousMonth) || 0;
+        let pendingFromPreviousMonths =  75000 + data.incomeStatement.pendingFromPreviousMonths + data.incomeStatement.amountReceivedPrevious   || 0;
+        let amountReceivedPrevious = data.incomeStatement.amountReceivedPrevious || 0;
+        let tobeReceivedCurrentMonth = data.incomeStatement.tobeReceivedCurrentMonth || 0;
+        let amountReceivedCurrent = data.incomeStatement.amountReceivedCurrent || 0;
+ 
+     
+          this.lastMonthBalnce1 = data.monthlyBalancesStatement.previousMonthOverallBalance;
+          this.lastMonthBalnce = this.formatCurrency(data.monthlyBalancesStatement.previousMonthOverallBalance) || 0;
+      
+       
         // Adv
-         let totalAdvAmount =data.totalAdvAmount || 0;
-         let recivedAdvAmount= data.recivedAdvAmount || 0;
+         let totalAdvAmount =data.incomeStatement.totalAdvAmount || 0;
+         let recivedAdvAmount= data.incomeStatement.recivedAdvAmount || 0;
          let AdvbalancePrevious=totalAdvAmount -recivedAdvAmount || 0;
 
          this.totalAdvAmount=this.formatCurrency(totalAdvAmount);
@@ -99,11 +103,9 @@ export class IncomeStatementComponent implements OnInit {
         let totalToBeReceived = pendingFromPreviousMonths + tobeReceivedCurrentMonth;
         let totalReceivedAmount = amountReceivedPrevious + amountReceivedCurrent;
         let totalPendingAmount = totalToBeReceived - totalReceivedAmount;
-        let overallBalance = (amountReceivedCurrent+amountReceivedPrevious + lastMonthBalnce + recivedAdvAmount) - (data.totalExpenses || 0);
-        this.overallBalanceRaw = this.formatCurrency(overallBalance)
-        // let previousMonthBalnce = lastMonthBalnce + overallBalanceRaw || 0 ;
-
-        // this.lastMonthBalnce =this.formatCurrency(previousMonthBalnce);
+        let overallBalance = data.monthlyBalancesStatement.overallBalance;
+        this.overallBalanceRaw = this.formatCurrency(data.monthlyBalancesStatement.overallBalance)
+      
 
         // Bind formatted values to display properties
         this.pendingPastMonth = this.formatCurrency(pendingFromPreviousMonths );
@@ -117,32 +119,32 @@ export class IncomeStatementComponent implements OnInit {
         this.totalExpected = this.formatCurrency(totalToBeReceived);
         this.totalReceived = this.formatCurrency(totalReceivedAmount);
         this.totalPending = this.formatCurrency(totalPendingAmount);
-        this.totalExpenses= this.formatCurrency(data.totalExpenses);
+        this.totalExpenses= this.formatCurrency(data.incomeStatement.totalExpenses);
      
         this.incomeStatementForm.patchValue({
-          totalExpenses: this.formatCurrency(data.totalExpenses),
+          totalExpenses: this.formatCurrency(data.incomeStatement.totalExpenses),
           //overallBalance: this.formatCurrency(this.overallBalanceRaw),
 
-          adBudget: this.formatCurrency(data.adBudget),
-          gst: this.formatCurrency(data.gst),
-          salaries: this.formatCurrency(data.salaries),
-          rent: this.formatCurrency(data.rent),
-          powerBill: this.formatCurrency(data.powerBill),
+          adBudget: this.formatCurrency(data.incomeStatement.adBudget),
+          gst: this.formatCurrency(data.incomeStatement.gst),
+          salaries: this.formatCurrency(data.incomeStatement.salaries),
+          rent: this.formatCurrency(data.incomeStatement.rent),
+          powerBill: this.formatCurrency(data.incomeStatement.powerBill),
 
-          groceries: this.formatCurrency(data.monthlyGroceriesAndEssentials),
-          snacks: this.formatCurrency(data.snacks),
-          milk: this.formatCurrency(data.milk),
-          water: this.formatCurrency(data.water),
-          transport: this.formatCurrency(data.expensesOfOperationalTransportation),
+          groceries: this.formatCurrency(data.incomeStatement.monthlyGroceriesAndEssentials),
+          snacks: this.formatCurrency(data.incomeStatement.snacks),
+          milk: this.formatCurrency(data.incomeStatement.milk),
+          water: this.formatCurrency(data.incomeStatement.water),
+          transport: this.formatCurrency(data.incomeStatement.expensesOfOperationalTransportation),
 
-          marketing: this.formatCurrency(data.marketingExpenses),
-          mobileRecharges: this.formatCurrency(data.mobileRecharges),
-          wifiRecharges: this.formatCurrency(data.wiFiRecharges),
-          others: this.formatCurrency(data.others),
-          employeeBenefits: this.formatCurrency(data.employeeBenefits),
+          marketing: this.formatCurrency(data.incomeStatement.marketingExpenses),
+          mobileRecharges: this.formatCurrency(data.incomeStatement.mobileRecharges),
+          wifiRecharges: this.formatCurrency(data.incomeStatement.wiFiRecharges),
+          others: this.formatCurrency(data.incomeStatement.others),
+          employeeBenefits: this.formatCurrency(data.incomeStatement.employeeBenefits),
 
-          cashNetBalance:this.formatCurrency(98590+data.cashNetBalance+ data.previousMonthOverallBalanceAmount -31913),
-          currentAccountNetBalance:this.formatCurrency(31913+data.currentAccountNetBalance)
+          cashNetBalance:this.formatCurrency(data.monthlyBalancesStatement.overallCashBalance),
+          currentAccountNetBalance:this.formatCurrency(data.monthlyBalancesStatement.overallCurrentAccountBalance)
         });
 
         this.incomeStatementForm.enable(); // re-enable form
