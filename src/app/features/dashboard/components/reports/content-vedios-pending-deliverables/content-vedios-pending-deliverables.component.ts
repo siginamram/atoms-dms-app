@@ -244,7 +244,7 @@ export class ContentVediosPendingDeliverablesComponent implements OnInit {
         fromDateValue:formattedFromDate,
          toDateValue:formattedToDate,
          userId:this.userId,
-         name:'content',
+         name:'Content Writer',
          roleid:9,
          creativeTypeId:1, 
         },
