@@ -41,6 +41,7 @@ import { DmaPromotedPostsDashboardComponent } from './components/reports/dma-pro
 import { AdcampaignsummaryReportComponent } from './components/reports/adcampaignsummary-report/adcampaignsummary-report.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PostersPendingComponent } from './components/reports/posters-pending/posters-pending.component';
+import { ContentVediosPendingDeliverablesComponent } from './components/reports/content-vedios-pending-deliverables/content-vedios-pending-deliverables.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { PostersPendingComponent } from './components/reports/posters-pending/po
     DmaPromotedPostsDashboardComponent,
     AdcampaignsummaryReportComponent,
     PostersPendingComponent,
+    ContentVediosPendingDeliverablesComponent,
   ],
   imports: [
     CommonModule,

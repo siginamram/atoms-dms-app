@@ -30,7 +30,8 @@ export const MY_FORMATS = {
 })
 export class AdCampaignManagementComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
+   clientNameFilter = new FormControl(''); // **Filter for Client Name**
+    activeFilters: { [key: string]: boolean } = {}; // **Track Active Filters**
   readonly date = new FormControl(moment()); // Form control for date
   dataSource = new MatTableDataSource<any>();
   displayedColumns: string[] = ['sno', 'client', 'noOfCompletedCampaigns', 'action'];
@@ -46,6 +47,11 @@ export class AdCampaignManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchClients(); // Fetch data for the current date
+    this.dataSource.filterPredicate = (data: any) => 
+      !this.clientNameFilter.value || 
+      data.clientName.toLowerCase().includes(this.clientNameFilter.value.toLowerCase());
+  
+    this.clientNameFilter.valueChanges.subscribe(() => this.applyFilter());
   }
 
   ngAfterViewInit(): void {
@@ -80,6 +86,21 @@ export class AdCampaignManagementComponent implements OnInit {
         this.cdr.markForCheck();
       },
     });
+  }
+  applyFilter(): void {
+    const clientName = this.clientNameFilter.value?.toLowerCase() || '';
+  
+    this.dataSource.filterPredicate = (data: any) =>
+      !clientName || data.client.toLowerCase().includes(clientName); // <--- FIXED FIELD NAME
+  
+    this.dataSource.filter = Math.random().toString(); // Trigger filter refresh
+  }
+  
+  
+
+  // **Toggle filter visibility**
+  toggleFilter(column: string): void {
+    this.activeFilters[column] = !this.activeFilters[column];
   }
 
   editCampaign(campaign: any): void {

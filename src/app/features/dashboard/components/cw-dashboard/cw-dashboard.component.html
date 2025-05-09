@@ -28,8 +28,101 @@
     <div  class="spinner" *ngIf="showSpinner">
       <mat-spinner></mat-spinner>
     </div>
+      <!-- Deliverable Status -->
+  <mat-card class="status-section">
+    <mat-card-header class="card-header">
+      <mat-card-title>Youtube & Educational Content Deliverable Status</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table mat-table [dataSource]="filteredDeliverables" class="mat-table">
+        <ng-container matColumnDef="name" class="card-header">
+          <th mat-header-cell *matHeaderCellDef style="color: black;"> 
+            <mat-icon style="color: orange;">description</mat-icon> Deliverable 
+          </th>
+          <td mat-cell *matCellDef="let item">
+        
+          {{ item.creativeTypeName }}
+        </td>
+        </ng-container>
+
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef style="color: black;">
+            <mat-icon style="color: orange;">description</mat-icon> Total
+          </th>
+          <td mat-cell *matCellDef="let item">
+            {{  item.totalCount }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="yetToStart">
+          <th mat-header-cell *matHeaderCellDef style="color: black;">
+            <mat-icon style="color: orange;" color="primary">hourglass_empty</mat-icon> Yet To Start
+          </th>
+          <td mat-cell *matCellDef="let item">
+            <button mat-icon-button color="primary" (click)="yetToStart(item)" class="number-button">
+              {{ item.yetToStart || 0}}
+            </button>
+            <!-- <span *ngIf="item.noOfPendingPosts === 0"  class="number-text" >{{ item.noOfPendingPosts }}</span> -->
+          </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="changesRecommended">
+          <th mat-header-cell *matHeaderCellDef style="color: black;">
+            <mat-icon style="color: orange;" color="accent">check_circle</mat-icon> Changes Recommended
+          </th>
+          <td mat-cell *matCellDef="let item">
+            <button mat-icon-button color="primary" (click)="changesRecommended(item)"  class="number-button">
+              {{ item.changesRecommended || 0}}
+            </button>
+            <!-- <span *ngIf="item.noOfPromotedPosts === 0"  class="number-text" >{{ item.noOfPromotedPosts }}</span> -->
+          </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="sentForApproval">
+          <th mat-header-cell *matHeaderCellDef style="color: black;">
+            <mat-icon style="color: orange;" color="accent">check_circle</mat-icon> Sent For Approval
+          </th>
+          <td mat-cell *matCellDef="let item">
+            <button mat-icon-button color="primary" (click)="sentForApproval(item)"  class="number-button">
+              {{ item.sentForApproval || 0}}
+            </button>
+            <!-- <span *ngIf="item.noOfOnTimePosts === 0"  class="number-text">{{ item.noOfOnTimePosts }}</span> -->
+          </td>
+        </ng-container>
+   
+        <ng-container matColumnDef="approved">
+          <th mat-header-cell *matHeaderCellDef style="color: black;">
+            <mat-icon style="color: orange;" color="accent">check_circle</mat-icon> Approved
+          </th>
+          <td mat-cell *matCellDef="let item">
+            <button mat-icon-button color="primary"(click)="approved(item)" class="number-button">
+              {{ item.approved || 0}}
+            </button>
+            <!-- <span *ngIf="item.noOfEarlyPosts === 0" class="number-text" >{{ item.noOfEarlyPosts }}</span> -->
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="sentForClientApproval">
+          <th mat-header-cell *matHeaderCellDef style="color: black;">
+            <mat-icon style="color: orange;" color="accent">check_circle</mat-icon> Sent For Client Approval
+          </th>
+          <td mat-cell *matCellDef="let item">
+            <button mat-icon-button color="primary" (click)="sentForClientApproval(item)"  class="number-button">
+              {{ item.sentForClientApproval || 0}}
+            </button>
+            <!-- <span *ngIf="item.noOfLatePosts === 0"  class="number-text" >{{ item.noOfLatePosts }}</span> -->
+          </td>
+        </ng-container>
+
+       
+  
+        <tr mat-header-row *matHeaderRowDef="deliverablesColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: deliverablesColumns;"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
   <!-- KPI Section -->
-  <div class="kpi-section">
+  <div class="kpi-section" style="padding-top: 10px;">
     <div
       class="kpi-card"
       *ngFor="let kpi of kpis"

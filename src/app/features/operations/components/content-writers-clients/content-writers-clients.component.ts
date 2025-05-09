@@ -33,6 +33,8 @@ export class ContentWritersClientsComponent implements OnInit {
   searchTerm: string = '';
   selectedDate:any='';
   isLoading = false; // Initially set to true
+  clientNameFilter = new FormControl(''); // **Filter for Client Name**
+  activeFilters: { [key: string]: boolean } = {}; // **Track Active Filters**
   readonly date = new FormControl(moment().add(1, 'month').startOf('month'));
   userId: number = parseInt(localStorage.getItem('UserID') || '0', 10); // Get UserID from local storage
 
@@ -59,6 +61,11 @@ export class ContentWritersClientsComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchClients();
+    this.dataSource1.filterPredicate = (data: any) => 
+      !this.clientNameFilter.value || 
+      data.organizationName.toLowerCase().includes(this.clientNameFilter.value.toLowerCase());
+  
+    this.clientNameFilter.valueChanges.subscribe(() => this.applyFilter());
   }
   ngAfterViewInit(): void {
     this.dataSource1.paginator = this.paginator; // Assign paginator after view initialization
@@ -83,6 +90,21 @@ export class ContentWritersClientsComponent implements OnInit {
         );
     }
   }
+  applyFilter(): void {
+    const clientName = this.clientNameFilter.value?.toLowerCase() || '';
+  
+    this.dataSource1.filterPredicate = (data: any) =>
+      !clientName || data.organizationName.toLowerCase().includes(clientName);
+  
+    this.dataSource1.filter = Math.random().toString(); // Trigger filter refresh
+  }
+  
+
+  // **Toggle filter visibility**
+  toggleFilter(column: string): void {
+    this.activeFilters[column] = !this.activeFilters[column];
+  }
+
   getCategoryLabel(category: number): string {
     const categoryMap: { [key: number]: string } = {
       1: 'A',

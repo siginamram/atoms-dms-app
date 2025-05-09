@@ -35,6 +35,8 @@ export class PosterDesignerClientsComponent implements OnInit {
   selectedDate:any='';
   isLoading = false; // Initially set to true
   dataSource1 = new MatTableDataSource<any>([]);
+  clientNameFilter = new FormControl(''); // **Filter for Client Name**
+  activeFilters: { [key: string]: boolean } = {}; // **Track Active Filters**
   displayedColumns: string[] = [
     'id',
     'organizationName',
@@ -58,6 +60,11 @@ export class PosterDesignerClientsComponent implements OnInit {
   ngOnInit(): void {
     this.dataSource1.paginator = this.paginator; // Attach paginator
     this.fetchClients(); // Fetch initial data
+    this.dataSource1.filterPredicate = (data: any) => 
+      !this.clientNameFilter.value || 
+      data.organizationName.toLowerCase().includes(this.clientNameFilter.value.toLowerCase());
+  
+    this.clientNameFilter.valueChanges.subscribe(() => this.applyFilter());
   }
   ngAfterViewInit(): void {
     this.dataSource1.paginator = this.paginator; // Assign paginator after view initialization
@@ -86,6 +93,20 @@ export class PosterDesignerClientsComponent implements OnInit {
       },
     });
   }
+  applyFilter(): void {
+    const clientName = this.clientNameFilter.value?.toLowerCase() || '';
+  
+    this.dataSource1.filterPredicate = (data: any) =>
+      !clientName || data.organizationName.toLowerCase().includes(clientName);
+  
+    this.dataSource1.filter = Math.random().toString(); // Trigger filter refresh
+  }
+
+  // **Toggle filter visibility**
+  toggleFilter(column: string): void {
+    this.activeFilters[column] = !this.activeFilters[column];
+  }
+
   getCategoryLabel(category: number): string {
     const categoryMap: { [key: number]: string } = {
       1: 'A',

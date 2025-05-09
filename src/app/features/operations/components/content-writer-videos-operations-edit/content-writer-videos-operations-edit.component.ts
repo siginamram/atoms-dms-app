@@ -33,6 +33,7 @@ export class ContentWriterVideosOperationsEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('Popupd Data:',this.data);
     this.emergencyRequestForm.patchValue({
       title: this.data.title || '',
       thumbNail: this.data.thumbNail || '',

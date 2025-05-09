@@ -32,6 +32,8 @@ export class VideoEditorClientsComponent implements OnInit {
   selectedDate: any = '';
   showSpinner: boolean = false;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  clientNameFilter = new FormControl(''); // **Filter for Client Name**
+  activeFilters: { [key: string]: boolean } = {}; // **Track Active Filters**
   formattedMonthYear: string = '';
   readonly date = new FormControl(moment());
   userId: number = parseInt(localStorage.getItem('UserID') || '0', 10); // Get UserID from local storage
@@ -56,6 +58,11 @@ export class VideoEditorClientsComponent implements OnInit {
   ngOnInit(): void {
     this.dataSource1.paginator = this.paginator; // Attach paginator
     this.fetchClients(); // Fetch initial data
+    this.dataSource1.filterPredicate = (data: any) => 
+      !this.clientNameFilter.value || 
+      data.organizationName.toLowerCase().includes(this.clientNameFilter.value.toLowerCase());
+  
+    this.clientNameFilter.valueChanges.subscribe(() => this.applyFilter());
   }
   ngAfterViewInit(): void {
     this.dataSource1.paginator = this.paginator; // Assign paginator after view initialization
@@ -91,6 +98,20 @@ export class VideoEditorClientsComponent implements OnInit {
         this.dataSource1.data = []; // Clear table on error
       },
     });
+  }
+
+  applyFilter(): void {
+    const clientName = this.clientNameFilter.value?.toLowerCase() || '';
+  
+    this.dataSource1.filterPredicate = (data: any) =>
+      !clientName || data.organizationName.toLowerCase().includes(clientName);
+  
+    this.dataSource1.filter = Math.random().toString(); // Trigger filter refresh
+  }
+
+  // **Toggle filter visibility**
+  toggleFilter(column: string): void {
+    this.activeFilters[column] = !this.activeFilters[column];
   }
 
   getCategoryLabel(category: number): string {

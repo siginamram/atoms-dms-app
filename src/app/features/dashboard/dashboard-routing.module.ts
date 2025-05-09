@@ -22,6 +22,7 @@ import { DmaPendingPostsDashboardComponent } from './components/reports/dma-pend
 import { DmaPromotedPostsDashboardComponent } from './components/reports/dma-promoted-posts-dashboard/dma-promoted-posts-dashboard.component';
 import { AdcampaignsummaryReportComponent } from './components/reports/adcampaignsummary-report/adcampaignsummary-report.component';
 import { PostersPendingComponent } from './components/reports/posters-pending/posters-pending.component';
+import { ContentVediosPendingDeliverablesComponent } from './components/reports/content-vedios-pending-deliverables/content-vedios-pending-deliverables.component';
 
 const routes: Routes = [
   {
@@ -50,6 +51,7 @@ const routes: Routes = [
       { path: 'dma-promoted-posts', component: DmaPromotedPostsDashboardComponent },
       { path: 'dma-adcampaign-summary', component: AdcampaignsummaryReportComponent },
       { path: 'posts-pending', component: PostersPendingComponent },
+      { path: 'content-vedios-pending-posts', component: ContentVediosPendingDeliverablesComponent },
     ],
   },
 ];

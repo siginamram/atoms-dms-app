@@ -4,6 +4,7 @@ import { DashboardService } from '../../services/dashboard.service';
 import * as moment from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChartOptions } from 'chart.js';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-cw-dashboard',
@@ -21,10 +22,18 @@ export class CwDashboardComponent implements OnInit {
   name:any;
   fromDate = new FormControl(moment().startOf('month').format('YYYY-MM-DD')); // First day of current month
   toDate = new FormControl(moment().endOf('month').format('YYYY-MM-DD')); // Last day of current month
-  
+    filteredDeliverables = new MatTableDataSource<any>([]);
   userId: number = 0;
   empname:any; 
-
+  deliverablesColumns: string[] = [
+    'name',
+    'total',
+    'yetToStart',
+    'changesRecommended',
+    'sentForApproval',
+    'sentForClientApproval',
+    'approved'  
+  ];
   totals = {
     noOfRequiredContent: 0,
     totalContentWritten: 0,
@@ -87,6 +96,7 @@ export class CwDashboardComponent implements OnInit {
           this.updateKPI(data.contentWritterMonthlyTask);
           this.updateGraphs(data.contentWriterDayTrackers);
           this.clientWiseData = data.clientWiseMonthlyContentTracker || [];
+          this.filteredDeliverables=data.contentWritterVedioDeliverableStatus || [];
           this.calculateTotals();
         }
       },
@@ -95,6 +105,68 @@ export class CwDashboardComponent implements OnInit {
         console.error('Error fetching data:', error);
       }
     );
+  }
+  yetToStart(lead: any): void {
+    const userId = +localStorage.getItem('UserID')!;
+    this.router.navigate(['/home/dashboard/content-vedios-pending-posts'], {
+      queryParams: {
+        fromDateValue: moment(this.fromDate.value).format('YYYY-MM-DD'),
+        toDateValue: moment(this.toDate.value).format('YYYY-MM-DD'),
+        userId: this.userId,
+        creativeTypeId: lead.creativeTypeId,
+        status:1
+      },
+    });
+  }
+
+  changesRecommended(lead: any): void {
+    const userId = +localStorage.getItem('UserID')!;
+    this.router.navigate(['/home/dashboard/content-vedios-pending-posts'], {
+      queryParams: {
+        fromDateValue: moment(this.fromDate.value).format('YYYY-MM-DD'),
+        toDateValue: moment(this.toDate.value).format('YYYY-MM-DD'),
+        userId: this.userId,
+        creativeTypeId: lead.creativeTypeId,
+        status:4
+      },
+    });
+  }
+
+  approved(lead: any): void {
+    const userId = +localStorage.getItem('UserID')!;
+    this.router.navigate(['/home/dashboard/content-vedios-pending-posts'], {
+      queryParams: {
+        fromDateValue: moment(this.fromDate.value).format('YYYY-MM-DD'),
+        toDateValue: moment(this.toDate.value).format('YYYY-MM-DD'),
+        userId: this.userId,
+        creativeTypeId: lead.creativeTypeId,
+        status:5
+      },
+    });
+  }
+  sentForApproval(lead: any): void {
+    const userId = +localStorage.getItem('UserID')!;
+    this.router.navigate(['/home/dashboard/content-vedios-pending-posts'], {
+      queryParams: {
+        fromDateValue: moment(this.fromDate.value).format('YYYY-MM-DD'),
+        toDateValue: moment(this.toDate.value).format('YYYY-MM-DD'),
+        userId: this.userId,
+        creativeTypeId: lead.creativeTypeId,
+        status:3
+      },
+    });
+  }
+  sentForClientApproval(lead: any): void {
+    const userId = +localStorage.getItem('UserID')!;
+    this.router.navigate(['/home/dashboard/content-vedios-pending-posts'], {
+      queryParams: {
+        fromDateValue: moment(this.fromDate.value).format('YYYY-MM-DD'),
+        toDateValue: moment(this.toDate.value).format('YYYY-MM-DD'),
+        userId: this.userId,
+        creativeTypeId: lead.creativeTypeId,
+        status:6
+      },
+    });
   }
 
   updateKPI(kpiData: any): void {

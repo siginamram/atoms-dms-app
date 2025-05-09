@@ -100,4 +100,9 @@ export class DashboardService {
     const apiUrl = `${this.baseApiUrl}/api/Dashboard/GetDashboardSalesLeadByUser/${userId}/${fdate}/${tdate}`;
     return this.http.get(apiUrl);
   }
+
+  VedioContentDeliverableStatus(userId: number,  fdate: any,tdate: any,creativeTypeId:number): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Dashboard/VedioContentDeliverableStatus/${userId}/${fdate}/${tdate}/${creativeTypeId}`;
+    return this.http.get(apiUrl);
+  }
 }

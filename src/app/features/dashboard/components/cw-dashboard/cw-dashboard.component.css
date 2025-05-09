@@ -12,10 +12,11 @@
   flex-wrap: wrap;
   padding-top: 20px;
 }
+
 mat-form-field {
- 
-  min-width: 40px; /* Minimum width for fields */
+  min-width: 40px;
 }
+
 /* KPI Section */
 .kpi-section {
   display: flex;
@@ -122,4 +123,153 @@ tbody tr:nth-child(even) {
 
 tbody tr:hover {
   background-color: #e6f7ff;
+}
+
+.mat-card {
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: #3f51b5;
+  color: white;
+}
+
+.mat-card-title {
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 10px;
+}
+
+/* Deliverable Card */
+.deliverable-card {
+  background-color: #e8f0fe;
+}
+
+.deliverable-card mat-card-header {
+  background-color: #1976d2;
+  color: white;
+}
+
+.deliverable-card mat-card-content {
+  color: #424242;
+}
+
+/* Approval Table Styling */
+.mat-table {
+  width: 100%;
+  margin-top: 20px;
+}
+
+th.mat-header-cell {
+  background-color: #3f51b5;
+  color: orange;
+  font-weight: bold;
+  padding: 8px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+td.mat-cell {
+  text-align: center;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+.header-icon {
+  vertical-align: middle;
+  margin-right: 5px;
+  color: orange;
+}
+
+.mat-row:hover {
+  background-color: #f4f4f4;
+}
+
+/* Data Stats Section */
+.data-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.data-card {
+  background-color: #f1f1f1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.data-card mat-card-header {
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.stat-icon {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.data-card mat-card-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.data-card mat-card-content {
+  padding: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.mat-icon {
+  vertical-align: middle;
+  margin-right: 8px;
+  color:white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .status-grid,
+  .data-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mat-table {
+    font-size: 12px;
+  }
+
+  .data-card mat-card-content {
+    font-size: 20px;
+  }
+}
+
+.number-button,
+.number-text {
+  font-size: 14px;
+  color: #3f51b5;
+  font-weight: bold;
+  text-decoration: none;
+  align-items: center;
+}
+
+.number-button:hover,
+.number-text:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.mat-header-cell {
+  font-size: 12px;
+  font-weight: bold;
+  color: #616161;
 }
