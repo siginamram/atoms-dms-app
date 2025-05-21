@@ -28,7 +28,7 @@ import { ContentWritersCalendarExportComponent } from './components/content-writ
 import { AdCampaignReportsComponent } from './components/ad-campaign-reports/ad-campaign-reports.component';
 import { ContentWriterVideosClientsComponent } from './components/content-writer-videos-clients/content-writer-videos-clients.component';
 import { ContentWriterVideosOperationsComponent } from './components/content-writer-videos-operations/content-writer-videos-operations.component';
-
+import { ClientMetaDataComponent } from './components/client-meta-data/client-meta-data.component';
 
 const routes: Routes = [
   {
@@ -72,6 +72,8 @@ const routes: Routes = [
 
       { path: 'lead-approvals', component: LeadApprovalsComponent },
       { path: 'lead-approvals-history', component: LeadApprovalHistoryComponent },
+
+      { path: 'clientMeta-view', component: ClientMetaDataComponent },
   
     ]
   }

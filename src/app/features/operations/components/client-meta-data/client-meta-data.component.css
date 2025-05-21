@@ -1,0 +1,83 @@
+.content-container {
+  margin-left: 140px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  mat-toolbar {
+    margin-bottom: 16px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    border-radius: 8px;
+  }
+  .spacer {
+    flex: 1 1 auto;
+  }
+  .filters-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  
+  mat-form-field {
+    flex: none;
+  }
+  
+  .add-button {
+    align-self: flex-end;
+  }
+  
+  table {
+    width:auto;
+    margin: 2px;
+  }
+  
+  .dialog-field {
+    width: 100%;
+  }
+  
+  .mat-elevation-z8 {
+    border-radius: 8px;
+  }
+  
+  @media (max-width: 768px) {
+    .filters-container {
+      flex-wrap: wrap;
+    }
+  
+    mat-form-field {
+      flex: 100%;
+    }
+  }
+  
+  .no-data-message {
+    display: flex; /* Center alignment */
+    justify-content: center; /* Horizontal center */
+    align-items: center; /* Vertical center */
+    height: 200px; /* Adjust height for alignment */
+    color: #ff5722; /* Add a custom color (e.g., orange-red) */
+    font-size: 18px; /* Adjust font size */
+    font-weight: bold; /* Make the text bold */
+    text-align: center; /* Center-align the text */
+    background-color: #f9f9f9; /* Optional: Light background for contrast */
+    border: 1px solid #ddd; /* Optional: Add a subtle border */
+    border-radius: 8px; /* Optional: Rounded corners */
+  }
+  /* Styling for content cells */
+.truncated-cell {
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* Limit content to 1 line */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* Do not wrap */
+  cursor: pointer;
+}
+
+.truncated-cell:hover {
+  text-decoration: underline; /* Indicate clickable text */
+  color: blue; /* Optional: Highlight on hover */
+}

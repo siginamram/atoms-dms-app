@@ -104,6 +104,13 @@
             <i class="material-icons">event</i>Special Days
           </a>
         </li>
+            <li>
+          <a [routerLink]="['/home', 'operations', 'clientMeta-view']" 
+             *ngIf="roleService.hasRole(['Team Lead'])" 
+             routerLinkActive="active">
+            <i class="material-icons">event</i>client Meta Data
+          </a>
+        </li>
         <li>
           <a [routerLink]="['/home', 'operations', 'content-writer-calender-export']" 
              *ngIf="roleService.hasRole(['Content Writer'])" 

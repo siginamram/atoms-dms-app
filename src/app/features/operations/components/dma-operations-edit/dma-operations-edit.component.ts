@@ -46,21 +46,20 @@ export class DmaOperationsEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.isFirstCase) {
-      // First case: Disable fields not relevant
-     // this.editForm.get('status')?.setValue(2); // Default status for "Scheduled"
-      this.editForm.get('postedOn')?.disable();
-      this.editForm.get('remarks')?.disable();
-    } else {
-      // Second case: Adjust form for posted statuses
-      this.editForm.get('scheduleDate')?.disable();
-    }
+    // if (this.isFirstCase) {
+    
+    //   this.editForm.get('postedOn')?.disable();
+    //   this.editForm.get('remarks')?.disable();
+    // } else {
+
+    //   this.editForm.get('scheduleDate')?.disable();
+    // }
   }
 
   save(): void {
     const formData = this.editForm.getRawValue();
 
-    if (this.isFirstCase) {
+    if (this.data.meetingData?.postScheduleOn !=formData.scheduleDate) {
       // Save logic for the first case
       const payload = {
         monthlyTrackerId: formData.monthlyTrackerId,
@@ -111,11 +110,13 @@ export class DmaOperationsEditComponent implements OnInit {
 
   onStatusChange(value:any){
     if(value == 2){
+    
        this.minDate = new Date('2020-01-31');
         this.maxDate = new Date(this.data.meetingData?.postScheduleOn) ;
         this.maxDate.setDate(this.maxDate.getDate() - 1);
     }
     else if(value == 3){
+     
       this.minDate = new Date(this.data.meetingData?.postScheduleOn);
       this.maxDate = new Date(this.data.meetingData?.postScheduleOn);
       this.editForm.patchValue({
@@ -123,11 +124,13 @@ export class DmaOperationsEditComponent implements OnInit {
       })
     }
     else if(value == 4){
+   
       this.minDate = new Date(this.data.meetingData?.postScheduleOn);
       this.minDate.setDate(this.minDate.getDate() + 1);
       this.maxDate = new Date('3000-01-31');
     }
     else if(value == 5){
+     
       const currentDate = new Date(); // Get current date
       this.minDate = currentDate;
       this.maxDate = currentDate;

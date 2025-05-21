@@ -270,4 +270,15 @@ export class OperationsService {
     const apiUrl = `${this.baseApiUrl}/api/Operations/videoContentApprovalHistory/${userId}/${date}`;
     return this.http.get(apiUrl);
   }
+
+  GetClientMetadata(clientId: number): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Client/GetClientMetadata/${clientId}`;
+    return this.http.get(apiUrl);
+  }
+
+  AddClientMetadata(payload: any): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Client/AddClientMetadata`;
+    return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+  }
+  
 }

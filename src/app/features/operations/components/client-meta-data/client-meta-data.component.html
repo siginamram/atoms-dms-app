@@ -1,0 +1,110 @@
+<div class="content-container">
+  <mat-toolbar color="primary" class="toolbar" style="border-radius: 10px;">
+    <span>Client Meta Data</span>
+    <span class="spacer"></span>
+    <button mat-raised-button color="accent" (click)="openDialog()">+ Add</button>
+  </mat-toolbar>
+
+  <div class="filters-container">
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Client</mat-label>
+      <input
+        type="text"
+        matInput
+        placeholder="Search Client"
+        [(ngModel)]="selectedClientName"
+        [matAutocomplete]="auto"
+        (input)="filterClients($event)"
+      />
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        (optionSelected)="onClientSelected($event)"
+      >
+        <mat-option
+          *ngFor="let client of filteredClients"
+          [value]="client.organizationName"
+        >
+          {{ client.organizationName }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 full-width-table">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>S.NO</th>
+      <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="organizationName">
+      <th mat-header-cell *matHeaderCellDef>Client Name</th>
+      <td mat-cell *matCellDef="let row">{{ row.organizationName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="facebookPageId">
+      <th mat-header-cell *matHeaderCellDef>FB Page ID</th>
+      <td mat-cell *matCellDef="let row">{{ row.facebookPageId }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="instagramPageId">
+      <th mat-header-cell *matHeaderCellDef>Instagram Page ID</th>
+      <td mat-cell *matCellDef="let row">{{ row.instagramPageId }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="facebookPageToken">
+      <th mat-header-cell *matHeaderCellDef>FB Token</th>
+      <td mat-cell *matCellDef="let row">
+        <div class="truncated-cell" (click)="showFullText(row.facebookPageToken, 'Facebook Page Token')">
+        {{ row.facebookPageToken | slice: 0:10 }}
+       </div>
+    </td>
+    </ng-container>
+      
+      
+    <ng-container matColumnDef="youtubeRefreshTokenuage">
+      <th mat-header-cell *matHeaderCellDef>YouTube Token</th>
+      <td mat-cell *matCellDef="let row">
+         <div class="truncated-cell" (click)="showFullText(row.youtubeRefreshTokenuage, 'Youtube Refresh Token')">
+        {{ row.youtubeRefreshTokenuage | slice: 0:10}}
+        </div>
+    </td>
+    </ng-container>
+
+    <ng-container matColumnDef="postTime">
+      <th mat-header-cell *matHeaderCellDef>Post Time</th>
+      <td mat-cell *matCellDef="let row">{{ row.postTime }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="specialDayPostTime">
+      <th mat-header-cell *matHeaderCellDef>Special Post Time</th>
+      <td mat-cell *matCellDef="let row">{{ row.specialDayPostTime }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let row">
+        <button mat-icon-button color="primary" (click)="openDialog(row)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <!-- Popup Dialog -->
+      <ng-template #fullTextDialog let-dialogData>
+        <h2 mat-dialog-title>{{ dialogData.title }}</h2>
+        <mat-dialog-content>
+          <p>{{ dialogData.text }}</p>
+        </mat-dialog-content>
+        <mat-dialog-actions>
+          <button mat-button mat-dialog-close>Close</button>
+        </mat-dialog-actions>
+      </ng-template>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <div *ngIf="dataSource.data.length === 0" class="no-data-message">
+    <p>No Records Found...</p>
+  </div>
+
+  <mat-paginator [pageSize]="30" [pageSizeOptions]="[5, 10, 20, 30]"></mat-paginator>
+</div>
