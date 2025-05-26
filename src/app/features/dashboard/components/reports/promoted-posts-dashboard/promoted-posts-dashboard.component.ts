@@ -30,6 +30,7 @@ export class PromotedPostsDashboardComponent implements OnInit {
     'graphicStatus',
     'editor',
     'postStatus',
+    'postRemarks'
   ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -163,6 +164,8 @@ export class PromotedPostsDashboardComponent implements OnInit {
         return 'Late Posted';
       case 5:
           return 'Client Rejected';
+      case 6:
+        return 'Failed'
       default:
         return 'N/A';
     }

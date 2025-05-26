@@ -48,6 +48,7 @@ export class DmaDashboardComponent implements OnInit {
     'noOfEarlyPosts',
     'noOfLatePosts',
     'noOfRejectedPosts',
+    'noOfFailedPosts'
   ];
 
   displayedColumns = [
@@ -127,6 +128,7 @@ export class DmaDashboardComponent implements OnInit {
           noOfEarlyPosts: item.noOfEarlyPosts,
           noOfLatePosts: item.noOfLatePosts,
           noOfRejectedPosts:item.noOfRejectedPosts,
+          noOfFailedPosts:item.noOfFailedPosts,
           creativeTypeId: item.creativeTypeId,
         })) || [];
 
@@ -262,6 +264,19 @@ export class DmaDashboardComponent implements OnInit {
         userId: this.userId,
         creativeTypeId: lead.creativeTypeId,
         postStatus: 5,
+      },
+    });
+  }
+
+    Failed(lead: any): void {
+    const userId = +localStorage.getItem('UserID')!;
+    this.router.navigate(['/home/dashboard/dma-promoted-posts'], {
+      queryParams: {
+        fromDateValue: moment(this.fromDate.value).format('YYYY-MM-DD'),
+        toDateValue: moment(this.toDate.value).format('YYYY-MM-DD'),
+        userId: this.userId,
+        creativeTypeId: lead.creativeTypeId,
+        postStatus: 6,
       },
     });
   }

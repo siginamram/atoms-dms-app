@@ -263,7 +263,8 @@ getpostStatus(status: any): string {
     2: 'Early Post',
     3: 'On Time Post',
     4: 'Late Posted',
-    5: 'Client Rejected'
+    5: 'Client Rejected',
+    6: 'Filed'
   };
 
   // If status is a string like "Sent for Approval", try converting

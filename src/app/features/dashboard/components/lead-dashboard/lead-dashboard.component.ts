@@ -19,7 +19,8 @@ export class LeadDashboardComponent implements OnInit {
     'noOfOnTimePosts',
     'noOfEarlyPosts',
     'noOfLatePosts',
-    'noOfRejectedPosts'
+    'noOfRejectedPosts',
+    'noOfFailedPosts'
   ];
 
   displayedColumns: string[] = [
@@ -96,6 +97,7 @@ export class LeadDashboardComponent implements OnInit {
       noOfEarlyPosts: item.noOfEarlyPosts,
       noOfLatePosts: item.noOfLatePosts,
       noOfRejectedPosts:item.noOfRejectedPosts,
+      noOfFailedPosts:item.noOfFailedPosts,
       creativeTypeId:item.creativeTypeId,
     }));
   }
@@ -257,6 +259,22 @@ Rejected(lead: any): void {
        userId:userId,
        creativeTypeId:lead.creativeTypeId,
        postStatus:5,
+      },
+  });
+}
+   Failed(lead: any): void {
+  console.log(lead);
+  const userId = +localStorage.getItem('UserID')!;
+  const formattedFromDate = this.formatDate(this.fromDateValue);
+  const formattedToDate = this.formatDate(this.toDateValue); 
+  this.router.navigate(['/home/dashboard/promoted-posts'],{
+    queryParams: {
+      fromDateValue: formattedFromDate,
+       toDateValue:formattedToDate,
+       type:'lead',
+       userId:userId,
+       creativeTypeId:lead.creativeTypeId,
+       postStatus:6,
       },
   });
 }

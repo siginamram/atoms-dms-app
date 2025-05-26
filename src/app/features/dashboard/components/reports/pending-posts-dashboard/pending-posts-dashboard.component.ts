@@ -144,6 +144,10 @@ export class PendingPostsDashboardComponent implements OnInit {
         return 'On Time Post';
       case 4:
         return 'Late Posted';
+      case 5:
+        return 'Client Rejected';
+      case 6:
+        return 'Failed'
       default:
         return 'N/A';
     }

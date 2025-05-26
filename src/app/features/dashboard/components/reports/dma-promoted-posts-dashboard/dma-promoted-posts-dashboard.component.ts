@@ -35,6 +35,7 @@ export class DmaPromotedPostsDashboardComponent implements OnInit {
     'editor',
     'link',
     'postStatus',
+    'postRemarks'
   ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -183,6 +184,8 @@ export class DmaPromotedPostsDashboardComponent implements OnInit {
         return 'Late Posted';
       case 5:
           return 'Client Rejected';
+      case 6:
+        return 'Failed'
       default:
         return 'N/A';
     }
