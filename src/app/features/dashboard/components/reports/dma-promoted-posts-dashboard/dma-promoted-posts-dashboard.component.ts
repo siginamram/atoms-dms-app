@@ -6,6 +6,7 @@ import { DashboardService } from '../../../services/dashboard.service';
 import * as moment from 'moment';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 
 
 
@@ -39,12 +40,13 @@ export class DmaPromotedPostsDashboardComponent implements OnInit {
   ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
+  @ViewChild('fullTextDialog') fullTextDialog: any;
 
   constructor(
     private dashboardService: DashboardService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+       private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -211,4 +213,15 @@ export class DmaPromotedPostsDashboardComponent implements OnInit {
         },
     });
   }
+
+      showFullText(text: string, title: string): void {
+    this.dialog.open(this.fullTextDialog, {
+      width: '400px',
+      data: {
+        text: text,
+        title: title,
+      },
+    });
+  }
+  
 }

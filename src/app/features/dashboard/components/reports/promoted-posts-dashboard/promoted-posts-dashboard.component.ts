@@ -3,6 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute,Router } from '@angular/router';
 import { DashboardService } from '../../../services/dashboard.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-promoted-posts-dashboard',
@@ -34,11 +35,12 @@ export class PromotedPostsDashboardComponent implements OnInit {
   ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
+  @ViewChild('fullTextDialog') fullTextDialog: any;
   constructor(
     private dashboardService: DashboardService,
      private route: ActivatedRoute,
-     private router: Router
+     private router: Router,
+     private dialog: MatDialog
     ) {}
 
   ngOnInit(): void {
@@ -198,6 +200,16 @@ export class PromotedPostsDashboardComponent implements OnInit {
           },
       });
     }
+  }
+
+    showFullText(text: string, title: string): void {
+    this.dialog.open(this.fullTextDialog, {
+      width: '400px',
+      data: {
+        text: text,
+        title: title,
+      },
+    });
   }
 
 }
