@@ -42,7 +42,7 @@
             <mat-icon class="header-icon">description</mat-icon> Total
           </th>
           <td mat-cell *matCellDef="let item">
-            {{ item.noOfPendingPosts + item.noOfPromotedPosts }}
+            {{ item.noOfPendingPosts + item.noOfPromotedPosts + item.noOfFailedPosts}}
           </td>
         </ng-container>
 
