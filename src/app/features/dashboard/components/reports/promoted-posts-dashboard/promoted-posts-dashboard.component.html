@@ -183,7 +183,16 @@
           </td>
         </ng-container>
 
-  
+          <!-- Popup Dialog -->
+      <ng-template #fullTextDialog let-dialogData>
+        <h2 mat-dialog-title>{{ dialogData.title }}</h2>
+        <mat-dialog-content>
+          <p>{{ dialogData.text }}</p>
+        </mat-dialog-content>
+        <mat-dialog-actions>
+          <button mat-button mat-dialog-close>Close</button>
+        </mat-dialog-actions>
+      </ng-template>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
