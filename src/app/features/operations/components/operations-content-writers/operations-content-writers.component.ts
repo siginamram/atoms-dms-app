@@ -310,8 +310,10 @@ export class OperationsContentWritersComponent implements OnInit {
         clientId: row.clientId,
         contentInPost: row.contentInPost,
         contentCaption: row.contentCaption,
+        title:row.title,
         referenceDoc: row.referenceDoc,
         status:row.contentStatus,
+        creativeType:row.creativeTypeId,
       },
     });
 
@@ -348,7 +350,7 @@ export class OperationsContentWritersComponent implements OnInit {
     }
   }
 
-  addNewEntry() {
+   addNewEntry() {
     if (!this.clientId) {
       alert('Client ID is missing. Please select a client.');
       return;

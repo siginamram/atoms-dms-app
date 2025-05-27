@@ -37,6 +37,7 @@ export class DmaOperationsEditComponent implements OnInit {
       monthlyTrackerId: [data.meetingData?.monthlyTrackerId || 0, Validators.required],
       contentCaption:[data.meetingData?.contentCaption || null],
       contentInPost: [data.meetingData?.contentInPost || null],
+      title: [data.meetingData?.title || null],
       link:[data.meetingData?.link || null],
       scheduleDate: [data.meetingData?.postScheduleOn || null],
       status: [data.meetingData?.postStatus || 3, Validators.required],
@@ -46,6 +47,7 @@ export class DmaOperationsEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('RK',this.data.meetingData)
     // if (this.isFirstCase) {
     
     //   this.editForm.get('postedOn')?.disable();

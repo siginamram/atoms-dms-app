@@ -19,21 +19,27 @@ export class ContentWritersOperationsEditComponent implements OnInit {
     private dialog: MatDialog, // Inject MatDialog
     private operationsService: OperationsService,
     private dialogRef: MatDialogRef<ContentWritersOperationsEditComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { monthlyTrackerId:number,clientId: number,contentInPost:any,contentCaption:any,referenceDoc:any,status:any }
+    @Inject(MAT_DIALOG_DATA) public data: { monthlyTrackerId:number,clientId: number,contentInPost:any,contentCaption:any,referenceDoc:any,status:any,creativeType:any,title:any }
   ) {
     this.emergencyRequestForm = this.fb.group({
       contentInPost: ['', Validators.required],
       contentCaption: ['', Validators.required],
+      title:[''],
       referenceDoc: [''],
       contentStatus: [2], // Default to draft
     });
   }
   ngOnInit(): void {
-    //console.log('status:',this.data.status);
+    console.log('creativeType:',this.data);
+    if (this.data.creativeType === 2) {
+      this.emergencyRequestForm.get('title')?.setValidators(Validators.required);
+      this.emergencyRequestForm.get('title')?.updateValueAndValidity();
+    }
     // Patch the form with existing data
     this.emergencyRequestForm.patchValue({
       contentInPost: this.data.contentInPost || '',
       contentCaption: this.data.contentCaption || '',
+      title: this.data.title || '',
       referenceDoc: this.data.referenceDoc || '',
     });
   }

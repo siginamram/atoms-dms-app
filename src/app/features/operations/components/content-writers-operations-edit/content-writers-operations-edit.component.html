@@ -15,6 +15,11 @@
           <textarea matInput formControlName="contentCaption"></textarea>
         </mat-form-field>
 
+         <mat-form-field appearance="outline" class="content-field" *ngIf="this.data.creativeType==2">
+          <mat-label>Title</mat-label>
+          <textarea matInput formControlName="title"></textarea>
+        </mat-form-field>
+
         <mat-form-field appearance="outline" class="content-field">
             <mat-label>Reference Link</mat-label>
             <textarea matInput formControlName="referenceDoc"></textarea>

@@ -15,6 +15,12 @@
           <mat-label>Caption</mat-label>
           <textarea matInput formControlName="contentCaption" ></textarea>
         </mat-form-field>
+        <div class="content-field" *ngIf="data.title && data.title !== ''; " style="padding: 20px;">
+          <mat-form-field appearance="outline" class="content-field">
+            <mat-label>Title</mat-label>
+            <textarea matInput formControlName="title" ></textarea>
+          </mat-form-field>
+        </div>
    <!-- Reference Doc Link -->
    <div class="content-field" *ngIf="data.referenceDoc && data.referenceDoc !== ''; " style="padding: 20px;">
     <label class="link-label">Reference Doc Link:</label>

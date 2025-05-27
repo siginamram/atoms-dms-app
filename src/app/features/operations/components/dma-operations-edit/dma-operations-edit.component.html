@@ -19,7 +19,12 @@
           <textarea matInput formControlName="contentInPost" readonly></textarea>
         </mat-form-field>
         </div>
-
+      <div class="content-field" *ngIf="data.meetingData?.title && data.meetingData?.title !== ''" >
+      <mat-form-field appearance="outline" >
+        <mat-label>Title</mat-label>
+        <textarea matInput formControlName="title" readonly></textarea>
+      </mat-form-field>
+      </div>
       <div class="content-field" *ngIf="data.meetingData?.link && data.meetingData?.link !== ''" style="padding: 0 20px;">
         <label class="link-label">Link:</label>
         <a [href]="data.meetingData?.link" target="_blank" rel="noopener noreferrer" class="url-link">
