@@ -24,7 +24,7 @@ export class ContentWritersOperationsEditComponent implements OnInit {
     this.emergencyRequestForm = this.fb.group({
       contentInPost: ['', Validators.required],
       contentCaption: ['', Validators.required],
-      title:[''],
+      title:['',Validators.maxLength(100)],
       referenceDoc: [''],
       contentStatus: [2], // Default to draft
     });
@@ -32,7 +32,10 @@ export class ContentWritersOperationsEditComponent implements OnInit {
   ngOnInit(): void {
     console.log('creativeType:',this.data);
     if (this.data.creativeType === 2) {
-      this.emergencyRequestForm.get('title')?.setValidators(Validators.required);
+     this.emergencyRequestForm.get('title')?.setValidators([
+    Validators.required,
+    Validators.maxLength(100),
+  ]);
       this.emergencyRequestForm.get('title')?.updateValueAndValidity();
     }
     // Patch the form with existing data

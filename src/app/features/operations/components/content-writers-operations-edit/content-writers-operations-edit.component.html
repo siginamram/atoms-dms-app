@@ -17,7 +17,13 @@
 
          <mat-form-field appearance="outline" class="content-field" *ngIf="this.data.creativeType==2">
           <mat-label>Title</mat-label>
-          <textarea matInput formControlName="title"></textarea>
+          <input matInput formControlName="title" maxlength="105" />
+          <mat-error *ngIf="emergencyRequestForm.get('title')?.hasError('required')">
+          Title is required.
+          </mat-error>
+          <mat-error *ngIf="emergencyRequestForm.get('title')?.hasError('maxlength')">
+          Title cannot exceed 100 characters.
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="content-field">
