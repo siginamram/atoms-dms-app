@@ -20,7 +20,8 @@ export class EmployeeUpdateSalaryStatusComponent implements OnInit {
     person: new FormControl('', [Validators.required, Validators.minLength(3)]),
     paidamount: new FormControl('', [Validators.required, Validators.min(1)]),
     status: new FormControl('', Validators.required),
-    remarks: new FormControl('')
+    remarks: new FormControl(''),
+    source:new FormControl('', Validators.required)
   });
 
 
@@ -68,7 +69,9 @@ export class EmployeeUpdateSalaryStatusComponent implements OnInit {
       person: data.employeeName || '',
       paidamount: data.paymentAmount || '',
       status: data.paymentStatus || '',
-      remarks: data.remarks || ''
+      remarks: data.remarks || '',
+      source: data.paymentMode || ''
+
     });
     console.log('Form Values After Binding:', this.expenseForm.value);
   }
@@ -96,7 +99,8 @@ export class EmployeeUpdateSalaryStatusComponent implements OnInit {
       paymentAmount: formData.paidamount || 0,
       paymentStatus: formData.status || '',
       remarks:formData.remarks || '',
-      createdBy: userId
+      createdBy: userId,
+      paymentMode: formData.source || ''
     };
     
     this.employeesService.UpdateSalaryStatusByID(payload).subscribe({

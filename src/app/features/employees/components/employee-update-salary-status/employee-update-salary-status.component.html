@@ -28,6 +28,15 @@
           <input matInput formControlName="paidamount" type="number" placeholder="Enter Amount">
           <mat-error *ngIf="expenseForm.get('paidamount')?.invalid">Amount must be greater than 0</mat-error>
         </mat-form-field>
+
+        <mat-form-field appearance="outline">
+        <mat-label>Expenses From</mat-label>
+        <mat-select formControlName="source">
+          <mat-option value="Current Account">Current Account</mat-option>
+          <mat-option value="Cash">Cash</mat-option>
+        </mat-select>
+        <mat-error *ngIf="expenseForm.get('source')?.invalid">This field is required</mat-error>
+      </mat-form-field>
   
         <mat-form-field appearance="outline">
           <mat-label>Status</mat-label>
