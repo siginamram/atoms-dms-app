@@ -34,8 +34,9 @@ export class LeaveApplyComponent implements OnInit {
 
   ngOnInit(): void {
   // Set minDate to 7 days ago from today
-  const currentDate = new Date();
-  currentDate.setDate(currentDate.getDate() - 7); // Subtract 7 days
+    const currentDate = new Date();
+  // Uncomment next line ONLY if you want past 7 days
+  // currentDate.setDate(currentDate.getDate() - 7);
   this.minDate = currentDate;
 
   this.leaveForm.get('startDate')?.valueChanges.subscribe(() => this.calculateNoOfDays());
@@ -51,7 +52,11 @@ export class LeaveApplyComponent implements OnInit {
       this.leaveForm.patchValue({ noOfDays: diff > 0 ? diff : 1 });
     }
   }
-
+disableSundays = (date: Date | null): boolean => {
+  console.log('Filter called for:', date);
+  if (!date || isNaN(date.getTime())) return false;
+  return date.getDay() !== 0;
+};
   onSubmit(): void {
     if (this.leaveForm.valid) {
       const payload = {

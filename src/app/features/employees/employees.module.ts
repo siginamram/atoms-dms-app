@@ -54,6 +54,7 @@ import { EmloyeepEducationdetailsComponent } from './components/emloyeep-educati
 import { EmployeeWorkExperienceComponent } from './components/employee-work-experience/employee-work-experience.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { EmployeeOtherDetailsComponent } from './components/employee-other-details/employee-other-details.component';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -113,6 +114,7 @@ import { EmployeeOtherDetailsComponent } from './components/employee-other-detai
     MatProgressSpinnerModule ,
     MatCheckboxModule,
     MatExpansionModule, 
+    MatNativeDateModule,
     MatProgressBarModule,
   ]
 })

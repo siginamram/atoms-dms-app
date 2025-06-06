@@ -15,20 +15,25 @@
       </mat-form-field>
 
       <!-- From Date -->
-      <mat-form-field appearance="outline" class="grid-item">
-        <mat-label>From Date</mat-label>
-        <input matInput [matDatepicker]="fromPicker" formControlName="startDate" [min]="minDate" />
-        <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
-        <mat-datepicker #fromPicker></mat-datepicker>
-      </mat-form-field>
+<mat-form-field appearance="outline" class="grid-item">
+  <mat-label>From Date</mat-label>
+  <input matInput [matDatepicker]="fromPicker" formControlName="startDate"
+         [min]="minDate"
+         [matDatepickerFilter]="disableSundays" />
+  <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+  <mat-datepicker #fromPicker></mat-datepicker>
+</mat-form-field>
 
-      <!-- To Date -->
-      <mat-form-field appearance="outline" class="grid-item">
-        <mat-label>To Date</mat-label>
-        <input matInput [matDatepicker]="toPicker" formControlName="endDate" [min]="leaveForm.get('startDate')?.value || minDate" />
-        <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
-        <mat-datepicker #toPicker></mat-datepicker>
-      </mat-form-field>
+<!-- To Date -->
+<mat-form-field appearance="outline" class="grid-item">
+  <mat-label>To Date</mat-label>
+  <input matInput [matDatepicker]="toPicker" formControlName="endDate"
+         [min]="leaveForm.get('startDate')?.value || minDate"
+         [matDatepickerFilter]="disableSundays" />
+  <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+  <mat-datepicker #toPicker></mat-datepicker>
+</mat-form-field>
+
 
       <!-- No of Days (Auto Calculated) -->
       <mat-form-field appearance="outline" class="grid-item">
