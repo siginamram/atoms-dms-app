@@ -35,7 +35,11 @@
     </button>
     <button [class.active]="activeTab === 'nongst'" (click)="switchTab('nongst')">
       <mat-icon>palette</mat-icon> Non-GST Invoice
+     </button>
+    <button [class.active]="activeTab === 'ads'" (click)="switchTab('ads')">
+      <mat-icon>video_library</mat-icon>Additional Services
     </button>
+
   </div>
 
   <!-- Tab Contents -->
@@ -43,4 +47,5 @@
   <app-payment-collection *ngIf="activeTab === 'paymentcollection'" [selectedDate]="triggeredDate"></app-payment-collection>
   <app-gstinvoices *ngIf="activeTab === 'gst'" [selectedDate]="triggeredDate"></app-gstinvoices>
   <app-non-gstinvoices *ngIf="activeTab === 'nongst'" [selectedDate]="triggeredDate"></app-non-gstinvoices>
+  <app-additional-services *ngIf="activeTab === 'ads'" [selectedDate]="triggeredDate"></app-additional-services>
 </div>

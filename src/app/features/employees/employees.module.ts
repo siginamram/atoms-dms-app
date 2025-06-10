@@ -55,6 +55,8 @@ import { EmployeeWorkExperienceComponent } from './components/employee-work-expe
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { EmployeeOtherDetailsComponent } from './components/employee-other-details/employee-other-details.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import { AdditionalServicesComponent } from './components/accounts/additional-services/additional-services.component';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -90,6 +92,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     EmloyeepEducationdetailsComponent,
     EmployeeWorkExperienceComponent,
     EmployeeOtherDetailsComponent,
+    AdditionalServicesComponent,
   ],
   imports: [
     CommonModule,
@@ -116,6 +119,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatExpansionModule, 
     MatNativeDateModule,
     MatProgressBarModule,
+    MatRadioModule,
   ]
 })
 export class EmployeesModule { }

@@ -194,5 +194,13 @@ AddNonDMClient(payload: any): Observable<any> {
   const apiUrl = `${this.baseApiUrl}/api/Account/AddNonDMClient`;
   return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
 }
-
+ getClientsByUser (userId: number): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Client/ClientsByUser/${userId}`;
+    return this.http.get(apiUrl);
+  }
+ 
+GetNonDMClients(date: string): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Account/GetNonDMClients/${date}`;
+  return this.http.get(apiUrl);
+}
 }

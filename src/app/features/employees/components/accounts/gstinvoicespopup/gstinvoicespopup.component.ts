@@ -1,8 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { EmployeesService } from '../../../services/employees.service';
 import * as moment from 'moment';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+
+interface Client {
+  organizationName: string;
+  address?: string;
+  gstNumber?: string;
+  stateCode?: string;
+}
 
 @Component({
   selector: 'app-gstinvoicespopup',
@@ -13,6 +22,11 @@ import * as moment from 'moment';
 export class GstinvoicespopupComponent implements OnInit {
   invoiceForm: FormGroup;
   invoiceId: any;
+  existingClientControl = new FormControl<Client | string | null>(null);
+  clients: Client[] = [];
+  filteredClients!: Observable<Client[]>;
+
+  userId: number = parseInt(localStorage.getItem('UserID') || '0', 10);
 
   constructor(
     private fb: FormBuilder,
@@ -21,22 +35,16 @@ export class GstinvoicespopupComponent implements OnInit {
     private employeesService: EmployeesService
   ) {
     this.invoiceForm = this.fb.group({
+      clientType: ['new'], // ✅ added here
       clientName: ['', Validators.required],
-      clientGST: ['', Validators.required],
+      clientGST: [''],
       invoiceDate: ['', Validators.required],
-      clientAddress: ['', Validators.required],
-      gstStateCode: ['', Validators.required],
+      clientAddress: [''],
+      gstStateCode: [''],
       serviceOpted: ['', Validators.required],
-      basePackage: [0, Validators.required],
-      adjustedPackage: [0, Validators.required],
-      adBudget: [0],
-      adjustedAdBudget: [0],
-      includeAdBudget: [false],
-      gstPercentage: [18, Validators.required],
-      sacCode: ['', Validators.required],
-      items: this.fb.array([]),
-      totalInvoiceValue: [0],
-      totalInvoiceValueWords: ['']
+      Amount: ['', Validators.required],
+      PaymentMode: ['', Validators.required],
+      servicetype: ['', Validators.required],
     });
   }
 
@@ -47,90 +55,144 @@ export class GstinvoicespopupComponent implements OnInit {
       this.invoiceId = invoiceObj?.id || invoiceObj;
     }
 
-    if (this.invoiceId) {
-      this.employeesService.GetInvoiceDetailsById(this.invoiceId).subscribe((res: any) => {
-        this.invoiceForm.patchValue({
-          clientName: res.organizationName || '',
-          clientGST: res.gstNumber || '',
-          invoiceDate: res.date?.split('T')[0] || '',
-          clientAddress: res.address || '',
-          gstStateCode: res.gstStateCode || '',
-          serviceOpted: res.serviceOpted || '',
-          basePackage: res.amount || 0,
-          adjustedPackage: res.adjustedAmount || 0,
-          adBudget: res.adBudget || 0,
-          includeAdBudget: res.includeAdBudget || false,
-          gstPercentage: res.gstPercentage || 18,
-          sacCode: res.sacCode || '',
-          totalInvoiceValue: res.totalAmount || 0,
-          totalInvoiceValueWords: '' // you can convert it if needed
-        });
+    this.fetchAllClients();
 
-        const itemsArray = this.invoiceForm.get('items') as FormArray;
-        itemsArray.clear();
+  this.filteredClients = this.existingClientControl.valueChanges.pipe(
+  startWith(''),
+  map((value: Client | string | null) => {
+    const name = typeof value === 'string' ? value : value?.organizationName || '';
+    return this.filterClients(name);
+  })
+);
 
-        if (res.invoiceItems?.length) {
-          res.invoiceItems.forEach((item: any) => {
-            itemsArray.push(this.fb.group({
-              itemDescription: [item.itemDescription || '', Validators.required],
-              sacCode: [item.sacCode || '', Validators.required],
-              qty: [item.quantity || 1, Validators.required],
-              rate: [item.rate || 0, Validators.required],
-              amount: [item.amount || 0, Validators.required],
-              gst: [18, Validators.required],
-              total: [item.totalAmount || 0]
-            }));
-          });
-        } else {
-          this.addItem();
-        }
-      });
-    }
   }
 
-  get items() {
-    return this.invoiceForm.get('items') as FormArray;
+  get clientType(): 'existing' | 'new' {
+    return this.invoiceForm.get('clientType')?.value;
   }
 
-  addItem() {
-    this.items.push(this.fb.group({
-      itemDescription: ['', Validators.required],
-      sacCode: ['', Validators.required],
-      qty: [1, Validators.required],
-      rate: [0, Validators.required],
-      amount: [0, Validators.required],
-      gst: [0, Validators.required],
-      total: [0]
-    }));
-  }
-
-  removeItem(index: number) {
-    this.items.removeAt(index);
-  }
-
-  saveInvoice() {
-    console.log("Invoice Data:", this.invoiceForm.value);
-  }
-
-  cancel() {
-  const tab = this.route.snapshot.queryParamMap.get('tab') || 'gst';
-    const date = this.route.snapshot.queryParamMap.get('date') || moment().format('YYYY-MM');
-    this.router.navigate(['/home/employees/payment-tabs'], {
-      queryParams: {
-        tab,
-        date
+  fetchAllClients(): void {
+    this.employeesService.getClientsByUser(this.userId).subscribe({
+      next: (response: Client[]) => {
+        this.clients = response;
+      },
+      error: (error) => {
+        console.error('Error fetching clients:', error);
       }
     });
   }
 
-  goBack(): void {
-    const tab = this.route.snapshot.queryParamMap.get('tab') || 'gst';
-      const date = this.route.snapshot.queryParamMap.get('date') || moment().format('YYYY-MM');
-      this.router.navigate(['/home/employees/payment-tabs'], {
-        queryParams: {
-          tab,
-          date
-        }
+  filterClients(value: string): Client[] {
+    const filterValue = value.toLowerCase();
+    return this.clients.filter(client =>
+      client.organizationName.toLowerCase().includes(filterValue)
+    );
+  }
+
+ displayFn(client: Client | string | null): string {
+  return typeof client === 'object' && client !== null ? client.organizationName : client || '';
+}
+
+
+  onClientSelected(client: Client | null): void {
+    if (client && typeof client === 'object') {
+      this.invoiceForm.patchValue({
+        clientName: client.organizationName,
+        clientAddress: client.address || '',
+        clientGST: client.gstNumber || '',
+        gstStateCode: client.stateCode || ''
       });
+    }
+  }
+
+  onServiceTypeChange(): void {
+    const type = this.invoiceForm.get('servicetype')?.value;
+    if (type !== 'GST') {
+      this.invoiceForm.get('clientGST')?.reset();
+      this.invoiceForm.get('gstStateCode')?.reset();
+    }
+  }
+
+saveInvoice(): void {
+  if (this.clientType === 'existing') {
+    const selectedClient = this.existingClientControl.value;
+    if (selectedClient) {
+      const clientName =
+        typeof selectedClient === 'object'
+          ? selectedClient.organizationName
+          : selectedClient;
+      this.invoiceForm.get('clientName')?.setValue(clientName);
+    }
+  }
+
+  if (this.invoiceForm.invalid) {
+    console.warn('Form is invalid.');
+    return;
+  }
+
+  const formValues = this.invoiceForm.value;
+  const isGSTApplicable = formValues.servicetype === 'GST';
+
+  const payload = {
+    id: 0,
+    organizationName: formValues.clientName,
+    address: formValues.clientAddress ||'' ,
+    serviceOpted: formValues.serviceOpted,
+    gstNumber: formValues.clientGST || '',
+    date: formValues.invoiceDate,
+    invoiceNo: '', // If needed, generate or leave empty
+    amount: parseFloat(formValues.Amount),
+    totalAmount: 0, // Will be calculated in SP
+    dueDate: formValues.invoiceDate,
+    adjustedAmount: 0,
+    includeAdBudget: false,
+    isGSTApplicable: isGSTApplicable,
+    isISTApplicable: false,
+    cgstAmount: 0,
+    sgstAmount: 0,
+    istAmount: 0,
+    adBudget: 0,
+    createdBy: this.userId,
+    stateCode: parseInt(formValues.gstStateCode) || 0,
+    invoiceItems: [
+      {
+        invoiceId: 0,
+        itemDescription: formValues.serviceOpted,
+        quantity: 1,
+        rate: parseFloat(formValues.Amount),
+        amount: parseFloat(formValues.Amount),
+        sacCode: 0,
+        isGSTApplicable: isGSTApplicable,
+        cgstAmount: 0,
+        sgstAmount: 0,
+        istAmount: 0,
+        totalAmount: 0
+      }
+    ]
+  };
+
+  this.employeesService.AddNonDMClient(payload).subscribe({
+    next: (response) => {
+      console.log('Invoice saved:', response);
+      alert('Invoice saved successfully!');
+      this.cancel();
+    },
+    error: (err) => {
+      console.error('Error saving invoice:', err);
+      alert('Failed to save invoice.');
+    }
+  });
+}
+
+  cancel(): void {
+    const tab = this.route.snapshot.queryParamMap.get('tab') || 'ads';
+    const date = this.route.snapshot.queryParamMap.get('date') || moment().format('YYYY-MM');
+    this.router.navigate(['/home/employees/payment-tabs'], {
+      queryParams: { tab, date }
+    });
+  }
+
+  goBack(): void {
+    this.cancel();
   }
 }

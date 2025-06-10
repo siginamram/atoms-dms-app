@@ -1,151 +1,101 @@
 <div class="container">
   <mat-toolbar color="primary" style="border-radius: 10px;">
-    <button mat-icon-button  (click)="goBack()" aria-label="Back">
+    <button mat-icon-button (click)="goBack()" aria-label="Back">
       <mat-icon>arrow_back</mat-icon>
     </button>
     <span>Invoice Details</span>
   </mat-toolbar>
+
   <form [formGroup]="invoiceForm">
-    <!-- Client Details -->
+    <!-- Client Type Selection -->
+<div class="form-row" style="margin: 10px 0;">
+<mat-radio-group formControlName="clientType">
+  <mat-radio-button value="existing">Existing Client</mat-radio-button>
+  <mat-radio-button value="new">Non-Existing Client</mat-radio-button>
+</mat-radio-group>
+</div>
+
+
+    <!-- Client Name Field -->
     <div class="form-row">
-      <mat-form-field appearance="outline">
+     <mat-form-field appearance="outline" *ngIf="invoiceForm.get('clientType')?.value === 'existing'">
+  <mat-label>Select Existing Client</mat-label>
+  <input
+    type="text"
+    matInput
+    [formControl]="existingClientControl"
+    [matAutocomplete]="auto" />
+
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    [displayWith]="displayFn"
+    (optionSelected)="onClientSelected($event.option.value)">
+    <mat-option *ngFor="let client of filteredClients | async" [value]="client">
+      {{ client.organizationName }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+
+      <mat-form-field appearance="outline" *ngIf="clientType === 'new'" style="width: 100%;">
         <mat-label>Client Name</mat-label>
         <input matInput formControlName="clientName">
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Client GST No.</mat-label>
-        <input matInput formControlName="clientGST">
+        <mat-label>Service Opted</mat-label>
+        <input matInput formControlName="serviceOpted">
       </mat-form-field>
-      <mat-form-field appearance="outline" class="grid-item">
-        <mat-label>Invoice Date</mat-label>
-        <input matInput [matDatepicker]="fromPicker" formControlName="invoiceDate"  />
+
+      <mat-form-field appearance="outline">
+        <mat-label>Date</mat-label>
+        <input matInput [matDatepicker]="fromPicker" formControlName="invoiceDate">
         <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
         <mat-datepicker #fromPicker></mat-datepicker>
       </mat-form-field>
-   
     </div>
 
     <div class="form-row">
       <mat-form-field appearance="outline">
-        <mat-label>Client Address</mat-label>
-        <textarea matInput formControlName="clientAddress"></textarea>
-      </mat-form-field>
-    </div>
-    <div class="form-row">
-      <mat-form-field appearance="outline">
-        <mat-label>GST State Code</mat-label>
-        <input matInput formControlName="gstStateCode">
+        <mat-label>Amount</mat-label>
+        <input matInput formControlName="Amount" type="number">
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Service Opted</mat-label>
-        <mat-select formControlName="serviceOpted">
-          <mat-option value="Consulting">Consulting</mat-option>
-          <mat-option value="Digital Marketing">Digital Marketing</mat-option>
-          <mat-option value="IT Support">IT Support</mat-option>
+        <mat-label>Payment Mode</mat-label>
+        <mat-select formControlName="PaymentMode">
+          <mat-option value="Current Account">Current Account</mat-option>
+          <mat-option value="Cash">Cash</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Base Package</mat-label>
-        <input matInput type="number" formControlName="basePackage">
+        <mat-label>Service Type</mat-label>
+        <mat-select formControlName="servicetype" (selectionChange)="onServiceTypeChange()">
+          <mat-option value="GST">GST</mat-option>
+          <mat-option value="Non-GST">Non-GST</mat-option>
+        </mat-select>
       </mat-form-field>
     </div>
 
-    <div class="form-row">
+    <!-- GST Fields -->
+    <div class="form-row" *ngIf="invoiceForm.get('servicetype')?.value === 'GST'">
       <mat-form-field appearance="outline">
-        <mat-label>Adjusted Package</mat-label>
-        <input matInput type="number" formControlName="adjustedPackage">
+        <mat-label>Client GST No.</mat-label>
+        <input matInput formControlName="clientGST">
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Ad Budget</mat-label>
-        <input matInput type="number" formControlName="adBudget">
+        <mat-label>GST State Code</mat-label>
+        <input matInput formControlName="gstStateCode">
       </mat-form-field>
-
-      <mat-checkbox formControlName="includeAdBudget">Include Ad Budget in Invoice</mat-checkbox>
-    </div>
-
-    <div class="form-row">
-      <mat-form-field appearance="outline">
-        <mat-label>GST %</mat-label>
-        <input matInput type="number" formControlName="gstPercentage">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>SAC Code</mat-label>
-        <input matInput formControlName="sacCode">
+    
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Client Address</mat-label>
+        <textarea matInput formControlName="clientAddress"></textarea>
       </mat-form-field>
     </div>
 
-    <!-- Item Details -->
-    <h3>Items Details</h3>
-    <div formArrayName="items">
-      <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i" class="item-row">
-        <mat-form-field appearance="outline">
-          <mat-label>Item Description</mat-label>
-          <input matInput formControlName="itemDescription">
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>SAC Code</mat-label>
-          <input matInput formControlName="sacCode">
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>Quantity</mat-label>
-          <input matInput type="number" formControlName="qty" >
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>Rate</mat-label>
-          <input matInput type="number" formControlName="rate" >
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>Amount</mat-label>
-          <input matInput type="number" formControlName="amount" >
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>GST %</mat-label>
-          <input matInput type="number" formControlName="gst" >
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>Total</mat-label>
-          <input matInput formControlName="total" readonly>
-        </mat-form-field>
-
-        <button mat-icon-button color="warn" (click)="removeItem(i)" *ngIf="items.length > 1">
-          <mat-icon>remove_circle</mat-icon>
-        </button>
-      </div>
-    </div>
-<div style="text-align: right;">
-  <button mat-raised-button color="accent"  (click)="addItem()">
-    <mat-icon>add</mat-icon> Add More Items
-  </button>
-</div>
-   
-
-    <!-- Total Invoice -->
-    <!-- <h3>Invoice Summary</h3>
-    <div class="form-row">
-      <mat-form-field appearance="outline">
-        <mat-label>Total Invoice Value (Figures)</mat-label>
-        <input matInput formControlName="totalInvoiceValue" readonly>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Total Invoice Value (Words)</mat-label>
-        <input matInput formControlName="totalInvoiceValueWords" readonly>
-      </mat-form-field>
-    </div> -->
-
-    <!-- Buttons -->
-    <div class="button-group">
+    <div class="button-group" style="margin-top: 20px;">
       <button mat-raised-button color="primary" (click)="saveInvoice()">Save</button>
       <button mat-raised-button color="warn" (click)="cancel()">Cancel</button>
     </div>
