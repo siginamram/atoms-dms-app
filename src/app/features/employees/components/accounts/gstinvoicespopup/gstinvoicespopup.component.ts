@@ -5,6 +5,8 @@ import { EmployeesService } from '../../../services/employees.service';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/alert-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 interface Client {
   organizationName: string;
@@ -32,7 +34,8 @@ export class GstinvoicespopupComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private employeesService: EmployeesService
+    private employeesService: EmployeesService,
+    private dialog: MatDialog, // Inject MatDialog
   ) {
     this.invoiceForm = this.fb.group({
       clientType: ['new'], // ✅ added here
@@ -139,7 +142,7 @@ saveInvoice(): void {
     address: formValues.clientAddress ||'' ,
     serviceOpted: formValues.serviceOpted,
     gstNumber: formValues.clientGST || '',
-    date: formValues.invoiceDate,
+    date: this.formatDate(new Date(this.invoiceForm.get('invoiceDate')?.value || '')),
     invoiceNo: '', // If needed, generate or leave empty
     amount: parseFloat(formValues.Amount),
     totalAmount: 0, // Will be calculated in SP
@@ -174,15 +177,35 @@ saveInvoice(): void {
   this.employeesService.AddNonDMClient(payload).subscribe({
     next: (response) => {
       console.log('Invoice saved:', response);
-      alert('Invoice saved successfully!');
+      //alert('Invoice saved successfully!');
+       this.openAlertDialog('Success', 'Invoice saved successfully!');
       this.cancel();
     },
     error: (err) => {
       console.error('Error saving invoice:', err);
-      alert('Failed to save invoice.');
+      //alert('Failed to save invoice.');
+        this.openAlertDialog('Error', err || 'Unexpected response. Please try again.');
     }
   });
 }
+    // Utility function to format date as YYYY-MM-DD
+    private formatDate(date: Date): string {
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const day = date.getDate().toString().padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+  
+  openAlertDialog(title: string, message: string): void {
+    this.dialog.open(AlertDialogComponent, {
+      width: '400px',
+      data: {
+        title,
+        message,
+        type: title.toLowerCase(), // success, error, or warning
+      },
+    });
+  }
 
   cancel(): void {
     const tab = this.route.snapshot.queryParamMap.get('tab') || 'ads';
