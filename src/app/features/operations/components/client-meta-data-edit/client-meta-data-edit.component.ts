@@ -85,8 +85,8 @@ onClientSelected(event: any): void {
 
       const payload = {
         clientId: formValue.clientId,
-        facebookPageId: formValue.facebookPageId ? parseInt(formValue.facebookPageId) : 0,
-        instagramPageId: formValue.instagramPageId ? parseInt(formValue.instagramPageId) : 0,
+        instagramPageId: formValue.instagramPageId || "0",
+        facebookPageId: formValue.facebookPageId || "0",
         facebookPageToken: formValue.facebookPageToken,
         youtubeRefreshToken: formValue.youtubeRefreshToken,
         postTime: this.formatToTimeSpan(formValue.postTime),
