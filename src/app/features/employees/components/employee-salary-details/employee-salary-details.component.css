@@ -1,0 +1,59 @@
+.employee-container {
+    max-width: 900px;
+    margin-left: 200px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgb(66, 45, 255);
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  
+  mat-form-field {
+    flex: 1;
+    min-width: 250px;
+  }
+  
+  .file-upload {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 250px;
+  }
+  
+  .add-btn,
+  .button-group {
+    margin-top: 20px;
+    text-align: right;
+  }
+  
+  @media (max-width: 768px) {
+    .employee-container {
+      margin-left: 10px;
+      padding: 10px;
+    }
+    .form-row {
+      flex-direction: column;
+    }
+    mat-form-field, .file-upload {
+      width: 100%;
+      min-width: unset;
+    }
+  }
+
+  h4 {
+    font-size: x-large;
+    color: #2f3b80;
+    font-weight: bolder;
+  }
+  .loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px; /* Adjust height as needed */
+  }

@@ -35,7 +35,7 @@ export class EmployeeDashboardComponent {
     { label: 'Education Details', value: 'View' },
     { label: 'Work Experience', value:'View' },
     { label: 'Other Details', value: 'View' },
-    // { label: 'Role Details', value: 'View' },
+     { label: 'Salary Details', value: 'View' },
     // { label: 'Learning Tracker', value:'View' },
   ];
   
@@ -48,7 +48,7 @@ getStatColor(label: string): string {
     'Education Details': '#388E3C',      // Green - Academic background
     'Work Experience': '#F57C00',        // Orange - Career highlights
     'Other Details': '#7B1FA2',          // Purple - Additional info
-    'Role Details': '#0288D1',           // Light Blue - Company role
+    'Salary Details': '#0288D1',           // Light Blue - Company role
     'Learning Tracker': '#C2185B',       // Pink - Training progress
   };
   return colors[label] || '#607d8b';      // Default grey-blue
@@ -89,6 +89,14 @@ getRow(lead: any): void {
       }
     });
   }
+    else if(lead.label=='Salary Details'){
+    this.router.navigate([`/home/employees/employee-salary-detailes`], {
+      queryParams: {
+        empid:this.empId,
+        empName:this.empName
+      }
+    });
+  }
 }
 
 getStatIcon(label: string): string {
@@ -97,7 +105,7 @@ getStatIcon(label: string): string {
     'Education Details':'school',
     'Work Experience': 'work',
     'Other Details': 'portrait',
-    'Role Details': 'person_add',
+    'Salary Details': 'person_add',
     'Learning Tracker': 'important_devices',
   };
   return icons[label] || 'info';

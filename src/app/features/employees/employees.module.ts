@@ -57,6 +57,7 @@ import { EmployeeOtherDetailsComponent } from './components/employee-other-detai
 import { MatNativeDateModule } from '@angular/material/core';
 import { AdditionalServicesComponent } from './components/accounts/additional-services/additional-services.component';
 import { MatRadioModule } from '@angular/material/radio';
+import { EmployeeSalaryDetailsComponent } from './components/employee-salary-details/employee-salary-details.component';
 
 @NgModule({
   declarations: [
@@ -93,6 +94,7 @@ import { MatRadioModule } from '@angular/material/radio';
     EmployeeWorkExperienceComponent,
     EmployeeOtherDetailsComponent,
     AdditionalServicesComponent,
+    EmployeeSalaryDetailsComponent,
   ],
   imports: [
     CommonModule,

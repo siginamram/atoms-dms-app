@@ -1,0 +1,30 @@
+<div class="employee-container" *ngIf="!isLoading; else loading">
+  <mat-toolbar color="primary" class="toolbar" style="border-radius: 10px;">
+    <button mat-icon-button (click)="goBack()" aria-label="Back">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span>{{ empName }} Salary Details</span>
+  </mat-toolbar>
+
+  <form [formGroup]="salaryForm" (ngSubmit)="onSubmit()" class="form" style="padding-top: 20px;">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Base Pay</mat-label>
+      <input matInput type="number" formControlName="basePay" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Per Day</mat-label>
+      <input matInput type="number" formControlName="perday" required>
+    </mat-form-field>
+
+    <div class="button-container">
+      <button mat-raised-button color="primary" type="submit" [disabled]="salaryForm.invalid || isSubmitting">
+        Update Salary
+      </button>
+    </div>
+  </form>
+</div>
+
+<ng-template #loading>
+  <mat-spinner></mat-spinner>
+</ng-template>

@@ -24,6 +24,7 @@ import { PaymentsComponent } from './components/accounts/payments/payments.compo
 import { EmployeeSalarysComponent } from './components/employee-salarys/employee-salarys.component';
 import { EmployeeWorkExperienceComponent } from './components/employee-work-experience/employee-work-experience.component';
 import { EmployeeOtherDetailsComponent } from './components/employee-other-details/employee-other-details.component';
+import { EmployeeSalaryDetailsComponent } from './components/employee-salary-details/employee-salary-details.component';
 
 // const routes: Routes = [{ path: '', component: EmployeesComponent },
 //     { path: 'AddComponent',component: AddEmployeeComponent },
@@ -44,6 +45,7 @@ const routes: Routes = [
       { path:'employee-education', component: EmloyeepEducationdetailsComponent},
       { path:'employee-workexperience', component: EmployeeWorkExperienceComponent},
       { path:'employee-others-doc', component: EmployeeOtherDetailsComponent},
+      { path:'employee-salary-detailes', component: EmployeeSalaryDetailsComponent},
       { path:'gst-invoices', component: GstinvoicesComponent},
       { path:'add-gst-invoices', component: GstinvoicespopupComponent},
       { path:'non-gst-invoices', component: NonGstinvoicesComponent},

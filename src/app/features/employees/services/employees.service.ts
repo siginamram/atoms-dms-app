@@ -203,4 +203,13 @@ GetNonDMClients(date: string): Observable<any> {
   const apiUrl = `${this.baseApiUrl}/api/Account/GetNonDMClients/${date}`;
   return this.http.get(apiUrl);
 }
+GetSalaryDetails(employeeId: number): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Employee/GetSalaryDetails/${employeeId}`;
+  return this.http.get(apiUrl);
+}
+
+UpdateSalaryDetails(payload: any): Observable<any> {
+  const apiUrl = `${this.baseApiUrl}/api/Employee/UpdateSalaryDetails`;
+  return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+}
 }
