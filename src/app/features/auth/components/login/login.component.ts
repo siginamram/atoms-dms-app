@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../../features/auth/services/auth.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/alert-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Location } from '@angular/common';
+import {LoginService} from 'src/app/features/auth/services/login.service';
+
 
 @Component({
   selector: 'app-login',
@@ -23,9 +25,10 @@ export class LoginComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private commanApiService: AuthService,
+    private commanApiService: LoginService,
     private dialog: MatDialog,
-    private location: Location
+    private location: Location,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -43,8 +46,10 @@ export class LoginComponent implements OnInit {
       (res: any) => {
         console.log('API Response:', res);
 
-        if (res) {
+        if (res?.token) {
           // Save user data in localStorage
+          this.authService.setToken(res.token);
+         // localStorage.setItem('authToken', res.token);
           sessionStorage.setItem('isLoggedIn', 'true');
           sessionStorage.setItem('loginTime', Date.now().toString());
           localStorage.setItem('UserID', res.userID);
@@ -68,7 +73,7 @@ export class LoginComponent implements OnInit {
           this.showSpinner = false;
         }
       },
-      (error) => {
+      (error:any) => {
         // Handle error
         this.openAlertDialog('Error', `Login Error: ${error.error}`, 'error');
         console.error('Login Error:', error);

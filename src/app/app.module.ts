@@ -39,6 +39,8 @@ import { UserLayoutModule } from './layouts/user-layout/user-layout.module';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -81,7 +83,9 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
   ],
   providers: [
     provideAnimationsAsync(), // Ensure async animations support
-    { provide: LocationStrategy, useClass: HashLocationStrategy }
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+     
   ],
   bootstrap: [AppComponent]
 })

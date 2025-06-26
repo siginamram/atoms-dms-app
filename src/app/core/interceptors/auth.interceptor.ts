@@ -8,7 +8,7 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AuthService } from '../services/auth.service'; 
+import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -17,19 +17,24 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const token = this.authService.getToken();
-    const newCloneRequest = request.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-    return next.handle(newCloneRequest).pipe(
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 401) {
-          this.authService.logout();
+
+    let authRequest = request;
+
+    if (token) {
+      authRequest = request.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`
         }
-        return throwError(error);
+      });
+    }
+
+    return next.handle(authRequest).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401 || error.status === 403) {
+          this.authService.logout(); // Clear token + redirect to login
+        }
+        return throwError(() => error);
       })
     );
   }
 }
-

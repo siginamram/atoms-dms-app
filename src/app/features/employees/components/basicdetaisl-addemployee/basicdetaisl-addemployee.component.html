@@ -1,82 +1,167 @@
+<mat-dialog-content>
+  <mat-toolbar color="primary" style="border-radius: 10px; margin-bottom: 20px;">
+    <span>Add Employee</span>
+  </mat-toolbar>
+  <form>
+    <div class="form-grid">
 
-    <mat-dialog-content>
-        <mat-toolbar color="primary" style="border-radius: 10px; margin-bottom: 20px;">
-            <span>Add Employee</span>
-          </mat-toolbar>
-        <form>
-          <div class="form-grid">
-            <!-- First Name -->
-            <mat-form-field class="grid-item" appearance="outline">
-                <mat-label>First Name</mat-label>
-                <input matInput [(ngModel)]="firstName" name="firstName"/>
-             </mat-form-field>
-      
-            <!-- Last name-->
-            <mat-form-field class="grid-item" appearance="outline">
-                <mat-label>Last Name</mat-label>
-                <input matInput [(ngModel)]="lastName" name="lastName"/>
-             </mat-form-field>
-      
-            <!-- Dob -->
-            <mat-form-field class="grid-item" appearance="outline">
-                <mat-label>Date Of Birth</mat-label>
-                <input matInput [matDatepicker]="picker1" [(ngModel)]="dateOfBirth" name="dateOfBirth"/>
-                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                <mat-datepicker #picker1></mat-datepicker>
-             </mat-form-field>
-             <!-- email -->
-             <mat-form-field class="grid-item" appearance="outline">
-                <mat-label>Email Id</mat-label>
-                <input matInput [(ngModel)]="EmailId" name="EmailId" />
-             </mat-form-field>
+   <!-- First Name -->
+<mat-form-field appearance="outline" class="dialog-field">
+  <mat-label>First Name</mat-label>
+  <input matInput
+         [(ngModel)]="firstName"
+         name="firstName"
+         #firstNameField="ngModel"
+         required
+         minlength="2"
+         maxlength="30"
+         pattern="^[a-zA-Z ]+$" />
+  <mat-error *ngIf="firstNameField.invalid && firstNameField.touched">
+    <span *ngIf="firstNameField.errors?.['required']">First Name is required.</span>
+    <span *ngIf="firstNameField.errors?.['minlength']">Minimum 2 characters.</span>
+    <span *ngIf="firstNameField.errors?.['maxlength']">Maximum 30 characters.</span>
+    <span *ngIf="firstNameField.errors?.['pattern']">Only alphabets allowed.</span>
+  </mat-error>
+</mat-form-field>
 
-               <!-- department Field -->
-  <mat-form-field appearance="outline" class="dialog-field">
-    <mat-label>Department</mat-label>
+<!-- Last Name -->
+<mat-form-field appearance="outline" class="dialog-field">
+  <mat-label>Last Name</mat-label>
+  <input matInput
+         [(ngModel)]="lastName"
+         name="lastName"
+         #lastNameField="ngModel"
+         required
+         minlength="1"
+         maxlength="30"
+         pattern="^[a-zA-Z ]+$" />
+  <mat-error *ngIf="lastNameField.invalid && lastNameField.touched">
+    <span *ngIf="lastNameField.errors?.['required']">Last Name is required.</span>
+    <span *ngIf="lastNameField.errors?.['minlength']">Minimum 1 character.</span>
+    <span *ngIf="lastNameField.errors?.['maxlength']">Maximum 30 characters.</span>
+    <span *ngIf="lastNameField.errors?.['pattern']">Only alphabets allowed.</span>
+  </mat-error>
+</mat-form-field>
+
+
+      <mat-form-field appearance="outline" class="dialog-field">
+    <mat-label>Date Of Birth</mat-label>
     <input
-      type="text"
       matInput
-      placeholder="Search Department"
-      [(ngModel)]="selecteddepartmentName"
-      [matAutocomplete]="auto"
-      (input)="filterDeparments($event)"
-      
+      [matDatepicker]="picker1"
+      [(ngModel)]="dateOfBirth"
+      name="dateOfBirth"
+      [max]="maxDate"
+      required
     />
-    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onDeparmentSelected($event)">
-      <mat-option *ngFor="let department of filteredDeparments" [value]="department.departmentName">
-        {{ department.departmentName }}
-      </mat-option>
-    </mat-autocomplete>
+    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+    <mat-datepicker #picker1></mat-datepicker>
+    <mat-error *ngIf="dateOfBirth && !isAgeValid()">
+      You must be at least 18 years old.
+    </mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline" class="dialog-field">
+    <mat-label>Email Id</mat-label>
+    <input
+      matInput
+      type="email"
+      required
+      [(ngModel)]="EmailId"
+      name="EmailId"
+      #emailInput="ngModel"
+      pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+    />
+    <mat-error *ngIf="emailInput.invalid && emailInput.touched">
+      Please enter a valid email address.
+    </mat-error>
   </mat-form-field>
 
-              <!-- Role Field -->
-              <mat-form-field appearance="outline" class="dialog-field">
-                <mat-label>Role</mat-label>
-                <input
-                  type="text"
-                  matInput
-                  placeholder="Search Role"
-                  [(ngModel)]="selectedRoleName"
-                  [matAutocomplete]="autoRole"
-                  (input)="filterRoles($event)"
-                  
-                />
-                <mat-autocomplete #autoRole="matAutocomplete" (optionSelected)="onRoleSelected($event)">
-                  <mat-option *ngFor="let role of filteredRoles" [value]="role.roleName">
-                    {{ role.roleName }}
-                  </mat-option>
-                </mat-autocomplete>
-              </mat-form-field>
 
+      <mat-form-field appearance="outline" class="dialog-field">
+        <mat-label>Primary Contact Number</mat-label>
+        <input matInput type="tel" maxlength="10" pattern="^[6-9][0-9]{9}$"
+          [(ngModel)]="primaryContactNumber" name="primaryContactNumber"
+          required (keypress)="allowOnlyNumbers($event)" />
+        <mat-error *ngIf="isInvalidPhone()">Invalid mobile number</mat-error>
+      </mat-form-field>
 
-          </div>
-      
-      
-          <!-- Actions -->
-          <div class="actions">
-            <button mat-button mat-dialog-close (click)="closeDialog()" color="warn">Cancel</button>
-            <button mat-raised-button color="primary" (click)="submit()">Submit</button>
-          </div>
-        </form>
-      </mat-dialog-content>
-      
+      <mat-form-field appearance="outline" class="dialog-field">
+        <mat-label>Gender</mat-label>
+        <mat-select [(ngModel)]="gender" name="gender">
+          <mat-option *ngFor="let g of genderOptions" [value]="g.id">{{ g.label }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Department -->
+<mat-form-field appearance="outline" class="dialog-field">
+  <mat-label>Department</mat-label>
+  <input matInput
+         [(ngModel)]="selectedDepartmentName"
+         name="department"
+         required
+         #departmentField="ngModel"
+         [matAutocomplete]="autoDept"
+         (input)="filterDeparments($event)"
+         placeholder="Search Department" />
+  <mat-autocomplete #autoDept="matAutocomplete" (optionSelected)="onDeparmentSelected($event)">
+    <mat-option *ngFor="let dept of filteredDeparments" [value]="dept.departmentName">
+      {{ dept.departmentName }}
+    </mat-option>
+  </mat-autocomplete>
+  <mat-error *ngIf="departmentField.invalid && departmentField.touched">
+    Department is required.
+  </mat-error>
+</mat-form-field>
+
+<!-- Role -->
+<mat-form-field appearance="outline" class="dialog-field">
+  <mat-label>Role</mat-label>
+  <input matInput
+         [(ngModel)]="selectedRoleName"
+         name="role"
+         required
+         #roleField="ngModel"
+         [matAutocomplete]="autoRole"
+         (input)="filterRoles($event)"
+         placeholder="Search Role" />
+  <mat-autocomplete #autoRole="matAutocomplete" (optionSelected)="onRoleSelected($event)">
+    <mat-option *ngFor="let role of filteredRoles" [value]="role.roleName">
+      {{ role.roleName }}
+    </mat-option>
+  </mat-autocomplete>
+  <mat-error *ngIf="roleField.invalid && roleField.touched">
+    Role is required.
+  </mat-error>
+</mat-form-field>
+
+<!-- Manager -->
+<mat-form-field appearance="outline" class="dialog-field">
+  <mat-label>Manager</mat-label>
+  <input matInput
+         [(ngModel)]="selectedManagerName"
+         name="manager"
+         required
+         #managerField="ngModel"
+         [matAutocomplete]="autoManager"
+         (input)="filterManagers($event)"
+         placeholder="Search Manager" />
+  <mat-autocomplete #autoManager="matAutocomplete" (optionSelected)="onManagerSelected($event)">
+    <mat-option *ngFor="let m of filteredManagers" [value]="m.firstName + ' ' + m.lastName">
+      {{ m.firstName }} {{ m.lastName }}
+    </mat-option>
+  </mat-autocomplete>
+  <mat-error *ngIf="managerField.invalid && managerField.touched">
+    Manager is required.
+  </mat-error>
+</mat-form-field>
+
+    </div>
+
+    <div class="actions">
+      <button mat-button mat-dialog-close (click)="closeDialog()" color="warn">Cancel</button>
+      <button mat-raised-button color="primary" (click)="submit()">Submit</button>
+    </div>
+  </form>
+</mat-dialog-content>

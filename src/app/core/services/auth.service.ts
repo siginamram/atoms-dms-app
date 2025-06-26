@@ -1,37 +1,54 @@
 // auth.service.ts
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import {jwtDecode} from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private readonly TOKEN_KEY = 'loginToken';
-  private readonly EXPIRATION_KEY = 'tokenExpiration';
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
-  setToken(token: string, expiration: number): void {
+  // ✅ Save the token to localStorage
+  setToken(token: string): void {
     localStorage.setItem(this.TOKEN_KEY, token);
-    localStorage.setItem(this.EXPIRATION_KEY, expiration.toString());
   }
 
+  // ✅ Get token and validate expiry using jwt-decode
   getToken(): string | null {
-    const expiration = localStorage.getItem(this.EXPIRATION_KEY);
-    if (expiration && new Date().getTime() > +expiration) {
+    const token = localStorage.getItem(this.TOKEN_KEY);
+    if (!token) return null;
+
+    try {
+      const decoded: any = jwtDecode(token);
+      const exp = decoded.exp * 1000; // Convert to ms
+      if (Date.now() > exp) {
+        this.logout();
+        return null;
+      }
+      return token;
+    } catch (e) {
       this.logout();
       return null;
     }
-    return localStorage.getItem(this.TOKEN_KEY);
   }
 
+  // ✅ Check login status
   isAuthenticated(): boolean {
     return !!this.getToken();
   }
 
+  // ✅ Clear token and redirect
   logout(): void {
     localStorage.removeItem(this.TOKEN_KEY);
-    localStorage.removeItem(this.EXPIRATION_KEY);
     this.router.navigate(['/auth/login']);
+  }
+
+  // ✅ (Optional) Decode user info
+  getUserInfo(): any {
+    const token = this.getToken();
+    return token ? jwtDecode(token) : null;
   }
 }

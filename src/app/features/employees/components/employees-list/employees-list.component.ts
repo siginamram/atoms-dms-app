@@ -83,7 +83,7 @@ export class EmployeesListComponent implements OnInit {
   Register(): void {
     // this.router.navigate(['/home/employees/AddComponent']);
       this.dialog.open(BasicdetaislAddemployeeComponent, {
-        width: '400px',
+        width: '600px',
         panelClass: 'custom-dialog-container',
       });
   }

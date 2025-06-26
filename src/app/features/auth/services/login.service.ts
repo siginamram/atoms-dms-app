@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class LoginService {
 
   baseApiUrl : string = environment.baseApiUrl;   // retrieve the base URL from environmet.ts
   constructor(private http: HttpClient) { }
