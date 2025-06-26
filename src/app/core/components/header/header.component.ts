@@ -8,13 +8,13 @@ import { AuthService } from 'src/app/core/services/auth.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  username: string = '';
+  username: any = '';
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     const userInfo = this.authService.getUserInfo();
-    this.username = userInfo?.userName || 'Guest';
+    this.username = localStorage.getItem('Username') || 'Guest';
   }
 
   logout(): void {
