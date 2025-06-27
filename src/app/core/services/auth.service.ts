@@ -12,28 +12,35 @@ export class AuthService {
   constructor(private router: Router) {}
 
   // ✅ Save the token to localStorage
-  setToken(token: string): void {
-    localStorage.setItem(this.TOKEN_KEY, token);
-  }
+ setToken(token: string): void {
+  localStorage.setItem(this.TOKEN_KEY, token);
+  console.log('[AuthService] Token stored:', token);
+}
 
   // ✅ Get token and validate expiry using jwt-decode
-  getToken(): string | null {
-    const token = localStorage.getItem(this.TOKEN_KEY);
-    if (!token) return null;
+ getToken(): string | null {
+  const token = localStorage.getItem(this.TOKEN_KEY);
+  if (!token) {
+    console.warn('[AuthService] No token found');
+    return null;
+  }
 
-    try {
-      const decoded: any = jwtDecode(token);
-      const exp = decoded.exp * 1000; // Convert to ms
-      if (Date.now() > exp) {
-        this.logout();
-        return null;
-      }
-      return token;
-    } catch (e) {
+  try {
+    const decoded: any = jwtDecode(token);
+    const exp = decoded.exp * 1000;
+    if (Date.now() > exp) {
+      console.warn('[AuthService] Token expired');
       this.logout();
       return null;
     }
+    return token;
+  } catch (e) {
+    console.error('[AuthService] Invalid token', e);
+    this.logout();
+    return null;
   }
+}
+
 
   // ✅ Check login status
   isAuthenticated(): boolean {

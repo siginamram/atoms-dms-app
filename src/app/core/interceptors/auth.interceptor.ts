@@ -8,7 +8,7 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -17,7 +17,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const token = this.authService.getToken();
-
+     console.log('[Interceptor] Token used:', token); // Add this
     let authRequest = request;
 
     if (token) {
@@ -26,6 +26,10 @@ export class AuthInterceptor implements HttpInterceptor {
           Authorization: `Bearer ${token}`
         }
       });
+       console.log('[Interceptor] Auth header set.');
+    }
+    else {
+      console.warn('[Interceptor] No token found, request will not have Authorization header.');
     }
 
     return next.handle(authRequest).pipe(

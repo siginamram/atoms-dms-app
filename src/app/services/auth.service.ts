@@ -11,27 +11,27 @@ export class AuthService {
 
   constructor(private router: Router) { }
 
-  setToken(token: string, expiration: number): void {
-    localStorage.setItem(this.TOKEN_KEY, token);
-    localStorage.setItem(this.EXPIRATION_KEY, expiration.toString());
-  }
+  // setToken(token: string, expiration: number): void {
+  //   localStorage.setItem(this.TOKEN_KEY, token);
+  //   localStorage.setItem(this.EXPIRATION_KEY, expiration.toString());
+  // }
 
-  getToken(): string | null {
-    const expiration = localStorage.getItem(this.EXPIRATION_KEY);
-    if (expiration && new Date().getTime() > +expiration) {
-      this.logout();
-      return null;
-    }
-    return localStorage.getItem(this.TOKEN_KEY);
-  }
+  // getToken(): string | null {
+  //   const expiration = localStorage.getItem(this.EXPIRATION_KEY);
+  //   if (expiration && new Date().getTime() > +expiration) {
+  //     this.logout();
+  //     return null;
+  //   }
+  //   return localStorage.getItem(this.TOKEN_KEY);
+  // }
 
-  isAuthenticated(): boolean {
-    return !!this.getToken();
-  }
+  // isAuthenticated(): boolean {
+  //   return !!this.getToken();
+  // }
 
-  logout(): void {
-    localStorage.removeItem(this.TOKEN_KEY);
-    localStorage.removeItem(this.EXPIRATION_KEY);
-    this.router.navigate(['/login']);
-  }
+  // logout(): void {
+  //   localStorage.removeItem(this.TOKEN_KEY);
+  //   localStorage.removeItem(this.EXPIRATION_KEY);
+  //   this.router.navigate(['/login']);
+  // }
 }
