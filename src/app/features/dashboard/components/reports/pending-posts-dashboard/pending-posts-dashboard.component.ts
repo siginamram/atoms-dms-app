@@ -125,6 +125,8 @@ export class PendingPostsDashboardComponent implements OnInit {
         return 'Approved';
       case 6:
         return 'Sent for client approval';
+      case 7:
+        return 'Sent for lead approval';
       default:
         return 'N/A';
     }

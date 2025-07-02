@@ -158,7 +158,8 @@ export class ContentWritersApprovalComponent implements OnInit {
     'sent for approval': 3,
     'changes recommended': 4,
     'approved': 5,
-    'sent for client approval': 6
+    'sent for client approval': 6,
+    'sent for Lead approval': 7
   };
 
   // Convert string to number if necessary
@@ -188,6 +189,8 @@ export class ContentWritersApprovalComponent implements OnInit {
       return 'Approved';
     case 6:
       return 'Sent for client approval';
+    case 7:
+      return 'Sent for Lead approval';
     default:
       return 'Unknown';
   }

@@ -48,17 +48,19 @@ export class LeftMenuComponent implements OnInit {
       this.menuItems = [
         { title: 'Dashboard', icon: 'home', route: '/home/dashboard/admin-dashboard' },
       ];
-    } else if (roleID === 2) {
+    } else if (roleID === 6) {
       this.menuItems = [
-        { title: 'Dashboard', icon: 'home', route: '/home/dashboard/manager-dashboard' },
+        { title: 'Dashboard', icon: 'home', route: '/home/dashboard/lead-dashboard' },
       ];
-    } else if (roleID === 3) {
+    } 
+    else if (roleID === 3) {
       this.menuItems = [
         { title: 'Dashboard', icon: 'home', route: '/home/dashboard/lead-dashboard' },
       ];
     } else if (roleID === 10) {
       this.menuItems = [
-        { title: 'Dashboard', icon: 'home', route: '/home/dashboard/cw-dashboard' },
+        { title: 'Task Dashboard', icon: 'event', route: '/home/dashboard/cw-dashboard' },
+        { title: 'Main Dashboard', icon: 'home', route: '/home/dashboard/lead-dashboard'} 
       ];
     }
      else if (roleID === 11) {
@@ -66,9 +68,11 @@ export class LeftMenuComponent implements OnInit {
         { title: 'Dashboard', icon: 'home', route: '/home/dashboard/pd-dashboard' },
       ];
     } 
-    else if (roleID === 12) {
+    else if (roleID === 12 ) {
       this.menuItems = [
-        { title: 'Dashboard', icon: 'home', route: '/home/dashboard/video-editor-dashboard' },
+        { title: 'Task Dashboard', icon: 'event', route: '/home/dashboard/video-editor-dashboard' },
+        { title: 'Poster Designer Dashboard', icon: 'design_services', route: '/home/dashboard/pd-dashboard' },
+        { title: 'Main Dashboard', icon: 'home', route: '/home/dashboard/lead-dashboard' },
       ];
     }
     else if (roleID === 13) {
@@ -76,6 +80,7 @@ export class LeftMenuComponent implements OnInit {
         { title: 'Dashboard', icon: 'home', route: '/home/dashboard/pg-dashboard' },
       ];
     } 
+    
     else if (roleID === 9) {
       this.menuItems = [
         { title: 'Dashboard', icon: 'home', route: '/home/dashboard/dma-dashboard' },
@@ -84,7 +89,7 @@ export class LeftMenuComponent implements OnInit {
     else if (roleID === 8) {
       this.menuItems = [
         { title: 'Dashboard', icon: 'home', route: '/home/dashboard/manager-dashboard' },
-        { title: 'Sales Dashboard', icon: 'home', route: '/home/dashboard/sl-dashboard' },
+        { title: 'Sales Dashboard', icon: 'event', route: '/home/dashboard/sl-dashboard' },
       ];
     } 
     else if (roleID === 7) {

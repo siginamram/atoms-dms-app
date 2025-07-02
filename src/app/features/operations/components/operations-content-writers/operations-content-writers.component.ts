@@ -236,7 +236,8 @@ export class OperationsContentWritersComponent implements OnInit {
       'sent for approval': 3,
       'changes recommended': 4,
       'approved': 5,
-      'sent for client approval': 6
+      'sent for client approval': 6,
+      'sent for lead approval': 7, // Added for completeness
     };
   
     // Convert string to number if necessary
@@ -266,6 +267,8 @@ export class OperationsContentWritersComponent implements OnInit {
         return 'Approved';
       case 6:
         return 'Sent for client approval';
+      case 7:
+        return 'Sent for Lead approval'; // Added for completeness
       default:
         return 'Unknown';
     }

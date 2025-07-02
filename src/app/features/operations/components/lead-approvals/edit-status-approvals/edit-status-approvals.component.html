@@ -22,7 +22,7 @@
           </mat-form-field>
         </div>
    <!-- Reference Doc Link -->
-   <div class="content-field" *ngIf="data.referenceDoc && data.referenceDoc !== ''; " style="padding: 20px;">
+   <!-- <div class="content-field" *ngIf="data.referenceDoc && data.referenceDoc !== ''; " style="padding: 20px;">
     <label class="link-label">Reference Doc Link:</label>
     <a
       *ngIf="editForm.get('referenceDoc')?.value"
@@ -34,7 +34,17 @@
       {{ editForm.get('referenceDoc')?.value }}
     </a>
     <span *ngIf="!editForm.get('referenceDoc')?.value">No URL available</span>
-  </div>
+  </div> -->
+
+      <!-- Reference Doc Link -->
+    <div class="content-field" *ngIf="data.referenceDoc && data.referenceDoc !== ''" style="padding: 20px;">
+       <mat-form-field appearance="outline" class="content-field">
+          <mat-label>Reference</mat-label>
+          <textarea matInput formControlName="referenceDoc" ></textarea>
+        </mat-form-field>
+
+    </div>
+
       </div>
       <div class="form-row" *ngIf="data.role=='Content-Video'">
         <mat-form-field appearance="outline" class="content-field">

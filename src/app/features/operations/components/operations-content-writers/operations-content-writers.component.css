@@ -293,6 +293,11 @@ mat-chip {
   color: white !important;
 }
 
+.status-sent-for-lead-approval {
+  background-color: palegreen !important; /* Blue */
+  color: white !important;
+}
+
 .status-changes-recommended {
   background-color: orangered !important; /* Yellow */
   color: white !important;

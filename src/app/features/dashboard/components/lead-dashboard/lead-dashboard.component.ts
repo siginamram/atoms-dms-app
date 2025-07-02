@@ -155,6 +155,7 @@ export class LeadDashboardComponent implements OnInit {
       'Number of Clients': '#4caf50',
       'K.T Sessions':'#ff9800',
       'Content Writer': '#3f51b5',
+      'Content Lead': '#4caf50',
       'Poster Designer': '#9c27b0',
       'Video Editor': '#f44336',
       'DMA': '#00bcd4',
@@ -281,6 +282,45 @@ Rejected(lead: any): void {
 
 getRow(lead: any): void {
   console.log(lead);
+   const RoleId = +localStorage.getItem('RoleId')!;
+   if(RoleId==10){
+    if(lead.label=='Content Writer'){
+    console.log(lead.label);
+    this.router.navigate(['/home/dashboard/resource-list'],{
+      queryParams: {
+        roleid:10,
+        creativeTypeId:1,
+        name:'Content Writer',
+        type:'lead'
+      },
+    });
+  }
+  }
+ else if(RoleId==11 || RoleId==12){
+
+    if(lead.label=='Poster Designer'){
+        this.router.navigate(['/home/dashboard/resource-list'],{
+          queryParams: {
+            roleid:11,
+            creativeTypeId:2,
+            name:'Poster Designer',
+            type:'lead'
+          },
+        });
+      }
+
+   if(lead.label=='Video Editor'){
+    this.router.navigate(['/home/dashboard/resource-list'],{
+      queryParams: {
+        roleid:12,
+        creativeTypeId:3,
+        name:'Video Editor',
+        type:'lead'
+      },
+    });
+  }
+ }
+else{
   if(lead.label=='Number of Clients'){
     this.router.navigate(['/home/dashboard/clients-list'],{
       queryParams: {type:'lead'},
@@ -310,6 +350,17 @@ getRow(lead: any): void {
       },
     });
   }
+    else if(lead.label=='Content Lead'){
+    console.log(lead.label);
+    this.router.navigate(['/home/dashboard/resource-list'],{
+      queryParams: {
+        roleid:17,
+        creativeTypeId:1,
+        name:'Content Lead',
+        type:'lead'
+      },
+    });
+  }
   else if(lead.label=='Poster Designer'){
     this.router.navigate(['/home/dashboard/resource-list'],{
       queryParams: {
@@ -320,12 +371,32 @@ getRow(lead: any): void {
       },
     });
   }
+    else if(lead.label=='Posters Lead'){
+    this.router.navigate(['/home/dashboard/resource-list'],{
+      queryParams: {
+        roleid:18,
+        creativeTypeId:2,
+        name:'Posters Lead',
+        type:'lead'
+      },
+    });
+  }
   else if(lead.label=='Video Editor'){
     this.router.navigate(['/home/dashboard/resource-list'],{
       queryParams: {
         roleid:12,
         creativeTypeId:3,
         name:'Video Editor',
+        type:'lead'
+      },
+    });
+  }
+   else if(lead.label=='Videos Lead'){
+    this.router.navigate(['/home/dashboard/resource-list'],{
+      queryParams: {
+        roleid:19,
+        creativeTypeId:3,
+        name:'Videos Lead',
         type:'lead'
       },
     });
@@ -360,6 +431,7 @@ getRow(lead: any): void {
     });
   }
  }
+
 }
 
-
+}

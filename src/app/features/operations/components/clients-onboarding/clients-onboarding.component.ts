@@ -4,6 +4,7 @@ import { ActivatedRoute,Router } from '@angular/router';
 import { OperationsService } from '../../services/operations.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/alert-dialog.component'; 
+import { content } from 'html2canvas/dist/types/css/property-descriptors/content';
 
 export interface Employee {
   employeeid: number;
@@ -55,7 +56,7 @@ export class ClientsOnboardingComponent implements OnInit {
   
   ];
   
-  
+  approvalUsersList: { userID: number; empname: string }[] = [];
   minDate: Date;
   KtDocUpload: { fileName: string; fileBytes: any } = {
     fileName: '',
@@ -103,6 +104,12 @@ export class ClientsOnboardingComponent implements OnInit {
       videoEditor1: [null],
       videoEditor2: [null],
       dma: [null],
+
+      contentApprovals: [null],
+      postersApprovals: [null], 
+      graphicVideoApprovals: [null],
+      generalVideoApprovals: [null],
+   
       loginCredentials: ['', Validators.required],
       posterDesigns: [''],
       graphicReels: [''],
@@ -119,13 +126,26 @@ export class ClientsOnboardingComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDropdownOptions();
+    this.loadApprovalsDropdownOptions();
     this.clientId = +this.route.snapshot.paramMap.get('id')!;
     if (this.clientId) {
       this.showSpinner = true;
       this.loadClientData(this.clientId);
     }
   }
-
+  loadApprovalsDropdownOptions(){
+    this.operationsService.getAllEmployeesList().subscribe({
+      next: (data: any[]) => {
+        this.approvalUsersList = data.map(emp => ({
+          userID: emp.userID,
+          empname: `${emp.firstName} ${emp.lastName}`,
+        }));
+      },
+      error: (error) => {
+        console.error('Failed to load approval users list:', error);
+      }
+    });
+  }
   loadDropdownOptions() {
     this.fetchRoleData(3, 'teamLeader');
     this.fetchRoleData(10, 'contentWriters');
@@ -194,6 +214,12 @@ export class ClientsOnboardingComponent implements OnInit {
           videoEditor1: data.clientResourceAllocation?.opVideoEditor1ID ,
           videoEditor2: data.clientResourceAllocation?.opVideoEditor2ID ,
           dma: data.clientResourceAllocation?.opDMAID ,
+
+          contentApprovals: data.clientResourceAllocation?.opCWApprovalsID || null,
+          postersApprovals: data.clientResourceAllocation?.opPDApprovalsID || null,  
+          graphicVideoApprovals: data.clientResourceAllocation?.opGDApprovalsID || null,
+          generalVideoApprovals: data.clientResourceAllocation?.opVideosApprovalsID,
+
           loginCredentials: data.loginCredentials ? 1 : 0,
           posterDesigns: data.package.noOfPosters,
           graphicReels: data.package.noOfGraphicReels,
@@ -396,6 +422,10 @@ export class ClientsOnboardingComponent implements OnInit {
         opVideoEditor2ID: formValue.videoEditor2,
         opDMAID: formValue.dma,
         opPhotographerID: formValue.photographer,
+        opCWApprovalsID: formValue.contentApprovals,
+        opPDApprovalsID: formValue.postersApprovals,  
+        opGDApprovalsID: formValue.graphicVideoApprovals,
+        opVideosApprovalsID: formValue.generalVideoApprovals,
       },
       createdBy: this.userId,
     };

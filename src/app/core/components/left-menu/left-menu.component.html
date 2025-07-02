@@ -120,7 +120,7 @@
         </li>
         <li>
           <a [routerLink]="['/home', 'operations', 'lead-approvals']" 
-             *ngIf="roleService.hasRole(['Sales Lead', 'Manager','Team Lead'])" 
+             *ngIf="roleService.hasRole(['Sales Lead', 'Manager','Team Lead','Content Writer','Poster Designer','Video Editor','HR'])" 
              routerLinkActive="active">
             <i class="material-icons">event</i>Approvals
           </a>
@@ -146,9 +146,9 @@
         </li>
         <li>
           <a [routerLink]="['/home', 'operations', 'poster-designer-client']" 
-             *ngIf="roleService.hasRole(['Poster Designer'])" 
+             *ngIf="roleService.hasRole(['Poster Designer','Video Editor'])" 
              routerLinkActive="active">
-            <i class="material-icons">design_services</i>Daily Tasks
+            <i class="material-icons">design_services</i>Poster Designer Daily Tasks
           </a>
         </li>
         <li>
@@ -174,7 +174,7 @@
         </li>
         <li>
           <a [routerLink]="['/home', 'operations', 'graphicreels-designer-client']" 
-             *ngIf="roleService.hasRole([ 'Video Editor'])" 
+             *ngIf="roleService.hasRole([ 'Video Editor', 'Videos Lead'])" 
              routerLinkActive="active">
             <i class="material-icons">movie_creation</i>Graphic Videos
           </a>
@@ -275,13 +275,13 @@
                 <i class="material-icons">bar_chart</i> Balance Statement 
               </a>
             </li>
-            <li>
+            <!-- <li>
               <a [routerLink]="['/home', 'employees', 'budget-planning']" 
                  *ngIf="roleService.hasRole(['Sales Lead'])"
                  routerLinkActive="active">
                 <i class="material-icons">calculate</i> Budget Planning
               </a>
-            </li>
+            </li> -->
             <li>
               <a [routerLink]="['/home', 'employees', 'employee-salary']" 
                  *ngIf="roleService.hasRole(['Sales Lead','HR'])"

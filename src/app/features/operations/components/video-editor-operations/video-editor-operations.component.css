@@ -193,7 +193,10 @@ textarea {
   background-color: #ff9800 !important; /* Orange */
   color: white !important;
 }
-
+.status-sent-for-lead-approval {
+  background-color: palegreen !important; /* Blue */
+  color: white !important;
+}
 .status-draft-saved {
   background-color: #9e9e9e !important; /* Grey */
   color: white !important;

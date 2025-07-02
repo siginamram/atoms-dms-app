@@ -90,7 +90,10 @@ mat-chip {
   background-color: orangered !important; /* Yellow */
   color: white !important;
 }
-
+.status-sent-for-lead-approval {
+  background-color: palegreen !important; /* Purple */
+  color: white !important;
+}
 .status-approved {
   background-color: #4caf50 !important; /* Green */
   color: white !important;

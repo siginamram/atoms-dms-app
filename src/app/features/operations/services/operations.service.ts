@@ -280,5 +280,9 @@ export class OperationsService {
     const apiUrl = `${this.baseApiUrl}/api/Client/AddClientMetadata`;
     return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
   }
-  
+
+   getAllEmployeesList(): Observable<any> {
+       const apiUrl = `${this.baseApiUrl}/api/Employee/getAllEmployeesList`;
+     return this.http.get(apiUrl);
+  } 
 }
