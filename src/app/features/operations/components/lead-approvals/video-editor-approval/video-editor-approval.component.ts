@@ -113,7 +113,7 @@ export class VideoEditorApprovalComponent implements OnInit {
     'changes recommended': 4,
     'approved': 5,
     'sent for client approval': 6,
-    'sent for lead approval': 7, // Added for completeness
+    'lead approval completed': 7, // Added for completeness
   };
 
   // Convert string to number if necessary
@@ -144,7 +144,7 @@ export class VideoEditorApprovalComponent implements OnInit {
     case 6:
       return 'Sent for client approval';
     case 7:
-      return 'Sent for Lead approval'; // Added for completeness
+      return 'Lead approval Completed'; // Added for completeness
     default:
       return 'Unknown';
   }

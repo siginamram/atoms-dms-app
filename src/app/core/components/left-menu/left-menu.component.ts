@@ -59,8 +59,9 @@ export class LeftMenuComponent implements OnInit {
       ];
     } else if (roleID === 10) {
       this.menuItems = [
-        { title: 'Task Dashboard', icon: 'event', route: '/home/dashboard/cw-dashboard' },
-        { title: 'Main Dashboard', icon: 'home', route: '/home/dashboard/lead-dashboard'} 
+       { title: 'Main Dashboard', icon: 'home', route: '/home/dashboard/lead-dashboard'} ,
+       { title: 'Task Dashboard', icon: 'event', route: '/home/dashboard/cw-dashboard' },
+     
       ];
     }
      else if (roleID === 11) {
@@ -70,9 +71,9 @@ export class LeftMenuComponent implements OnInit {
     } 
     else if (roleID === 12 ) {
       this.menuItems = [
-        { title: 'Task Dashboard', icon: 'event', route: '/home/dashboard/video-editor-dashboard' },
-        { title: 'Poster Designer Dashboard', icon: 'design_services', route: '/home/dashboard/pd-dashboard' },
         { title: 'Main Dashboard', icon: 'home', route: '/home/dashboard/lead-dashboard' },
+        { title: 'Video Editor Dashboard', icon: 'event', route: '/home/dashboard/video-editor-dashboard' },
+        { title: 'Poster Designer Dashboard', icon: 'design_services', route: '/home/dashboard/pd-dashboard' },
       ];
     }
     else if (roleID === 13) {

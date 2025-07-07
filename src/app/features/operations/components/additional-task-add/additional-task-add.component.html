@@ -1,0 +1,179 @@
+<div class="container">
+  <mat-toolbar color="primary" style="border-radius: 10px;">
+    <button mat-icon-button (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span>Add New Task</span>
+  </mat-toolbar>
+
+  <form [formGroup]="taskForm">
+    <div class="form-row">
+       <!-- <mat-form-field appearance="outline">
+      <mat-label>Client Type</mat-label>
+        <mat-select formControlName="clientType">
+          <mat-option value="Existing">Existing</mat-option>
+          <mat-option value="Non-Existing">Non-Existing</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Client Name</mat-label>
+        <input matInput formControlName="clientName">
+      </mat-form-field> -->
+
+        <div class="form-group">
+        <label class="mat-label">Client Type</label>
+        <mat-radio-group formControlName="clientType" class="radio-group">
+            <mat-radio-button value="existing">Existing Client</mat-radio-button>
+            <mat-radio-button value="new">Non-Existing Client</mat-radio-button>
+        </mat-radio-group>
+        </div>
+        </div>
+   <div class="form-row">
+        <mat-form-field appearance="outline" *ngIf="taskForm.get('clientType')?.value === 'existing'">
+        <mat-label>Select Existing Client</mat-label>
+        <input
+        type="text"
+        matInput
+        [formControl]="existingClientControl"
+        [matAutocomplete]="auto" />
+
+        <mat-autocomplete
+        #auto="matAutocomplete"
+        [displayWith]="displayFn"
+        (optionSelected)="onClientSelected($event.option.value)">
+        <mat-option *ngFor="let client of filteredClients | async" [value]="client">
+            {{ client.organizationName }}
+        </mat-option>
+        </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" *ngIf="clientType === 'new'" style="width: 100%;">
+        <mat-label>Client Name</mat-label>
+        <input matInput formControlName="clientName">
+        </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Creative Type</mat-label>
+        <mat-select formControlName="creativeType">
+          <mat-option *ngFor="let type of creativeTypes" [value]="type">{{ type }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Deadline</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="deadline">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      
+         <mat-form-field appearance="outline">
+        <mat-label>Reference Link</mat-label>
+        <input matInput formControlName="referenceLink">
+      </mat-form-field>
+    </div>
+    <div class="form-row">
+              <mat-form-field appearance="outline">
+        <mat-label>Task</mat-label>
+        <textarea matInput formControlName="task" rows="2"></textarea>
+      </mat-form-field>
+
+    </div>
+   <!-- Dropdown Section -->
+      <h3>Resources Allocation</h3>
+    
+      <div class="form-row">
+      <mat-form-field class="form-field" appearance="outline">
+      <mat-label>Contents Approvals</mat-label>
+      <mat-select formControlName="contentApprovals">
+      <mat-option *ngFor="let option of approvalUsersList" [value]="option.userID">
+      {{ option.empname }}
+      </mat-option>
+      </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="form-field" appearance="outline">
+      <mat-label>Posters Approvals</mat-label>
+      <mat-select formControlName="postersApprovals">
+      <mat-option *ngFor="let option of approvalUsersList" [value]="option.userID">
+      {{ option.empname }}
+      </mat-option>
+      </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="form-field" appearance="outline">
+      <mat-label>General Video Approvals</mat-label>
+      <mat-select formControlName="generalVideoApprovals">
+      <mat-option *ngFor="let option of approvalUsersList" [value]="option.userID">
+      {{ option.empname }}
+      </mat-option>
+      </mat-select>
+      </mat-form-field>
+
+      </div>
+      <div class="form-row">
+    
+ 
+      <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Content Writer</mat-label>
+          <mat-select formControlName="contentWriter">
+            <mat-option *ngFor="let option of dropdownOptions.contentWriters" [value]="option.userid">
+              {{ option.empname }}
+            </mat-option>
+          </mat-select>
+          <button type="button"
+          mat-icon-button
+          matSuffix
+          *ngIf ="taskForm.controls['contentWriter'].value"
+          (click) = "clearContentWriter()"
+          class="clear-button"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+        </mat-form-field>
+        <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Poster Designer</mat-label>
+            <mat-select formControlName="posterDesigner">
+           <mat-option *ngFor="let option of approvalUsersList" [value]="option.userID">
+          {{ option.empname }}
+          </mat-option>
+          </mat-select>
+            <button type="button"
+            mat-icon-button
+            matSuffix
+            *ngIf ="taskForm.controls['posterDesigner'].value"
+            (click) = "clearPosterDesigner()"
+            class="clear-button"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+          </mat-form-field>
+       
+  
+        <mat-form-field class="form-field" appearance="outline">
+            <mat-label>General Video Editor</mat-label>
+            <mat-select formControlName="videoEditor1">
+            <mat-option *ngFor="let option of approvalUsersList" [value]="option.userID">
+            {{ option.empname }}
+            </mat-option>
+            </mat-select>
+            <button type="button"
+            mat-icon-button
+            matSuffix
+            *ngIf ="taskForm.controls['videoEditor1'].value"
+            (click) = "clearVideoEditor1()"
+            class="clear-button"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+          </mat-form-field>
+        
+   
+    </div>
+
+    <div class="button-group">
+      <button mat-raised-button color="primary" (click)="submitTask()">Submit</button>
+      <button mat-raised-button color="warn" (click)="cancel()">Cancel</button>
+    </div>
+  </form>
+</div>

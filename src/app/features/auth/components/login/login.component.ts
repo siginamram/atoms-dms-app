@@ -83,11 +83,13 @@ export class LoginComponent implements OnInit {
   }
 
   navigateBasedOnRole(roleID: number) {
+
     // Dynamically navigate based on roleID
     const routes: { [key: number]: string } = {
       1: '/home/admin-dashboard',
       2: '/home/dashboard/manager-dashboard',
       3: '/home/dashboard/lead-dashboard',
+      6: '/home/dashboard/lead-dashboard',
       10: '/home/dashboard/cw-dashboard',
       11: '/home/dashboard/pd-dashboard',
       12: '/home/dashboard/video-editor-dashboard',

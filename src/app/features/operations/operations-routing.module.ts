@@ -29,6 +29,8 @@ import { AdCampaignReportsComponent } from './components/ad-campaign-reports/ad-
 import { ContentWriterVideosClientsComponent } from './components/content-writer-videos-clients/content-writer-videos-clients.component';
 import { ContentWriterVideosOperationsComponent } from './components/content-writer-videos-operations/content-writer-videos-operations.component';
 import { ClientMetaDataComponent } from './components/client-meta-data/client-meta-data.component';
+import { AdditionalTaskViewComponent } from './components/additional-task-view/additional-task-view.component';
+import { AdditionalTaskAddComponent } from './components/additional-task-add/additional-task-add.component';
 
 const routes: Routes = [
   {
@@ -74,6 +76,10 @@ const routes: Routes = [
       { path: 'lead-approvals-history', component: LeadApprovalHistoryComponent },
 
       { path: 'clientMeta-view', component: ClientMetaDataComponent },
+      
+      {path: 'additional-task-view', component: AdditionalTaskViewComponent},
+      {path: 'additional-task-add', component: AdditionalTaskAddComponent},
+
   
     ]
   }

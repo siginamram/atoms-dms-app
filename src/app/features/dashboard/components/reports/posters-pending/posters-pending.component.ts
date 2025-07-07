@@ -158,7 +158,7 @@ export class PostersPendingComponent implements OnInit {
       case 6:
         return 'Sent for client approval';
       case 7:
-        return 'Sent for lead approval';
+        return 'Lead approval Completed';
       default:
         return 'N/A';
     }

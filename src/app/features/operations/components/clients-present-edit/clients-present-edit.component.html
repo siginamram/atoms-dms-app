@@ -91,19 +91,59 @@
           </div>
         </div>
       </div>
+    
+      <!-- Dropdown Section -->
       <h3>Resources Allocation</h3>
+    
       <div class="form-row">
-       
-        <mat-form-field class="form-field" appearance="outline">
-          <mat-label>Team Leader</mat-label>
-          <mat-select formControlName="teamLeader">
-            <mat-option *ngFor="let option of dropdownOptions.teamLeaders" [value]="option.userId">
-              {{ option.empname }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+      <mat-form-field class="form-field" appearance="outline">
+      <mat-label>Contents Approvals</mat-label>
+      <mat-select formControlName="contentApprovals">
+      <mat-option *ngFor="let option of approvalUsersList" [value]="option.userID">
+      {{ option.empname }}
+      </mat-option>
+      </mat-select>
+      </mat-form-field>
 
+      <mat-form-field class="form-field" appearance="outline">
+      <mat-label>Posters Approvals</mat-label>
+      <mat-select formControlName="postersApprovals">
+      <mat-option *ngFor="let option of approvalUsersList" [value]="option.userID">
+      {{ option.empname }}
+      </mat-option>
+      </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="form-field" appearance="outline">
+      <mat-label>Graphic Video Approvals</mat-label>
+      <mat-select formControlName="graphicVideoApprovals">
+      <mat-option *ngFor="let option of approvalUsersList" [value]="option.userID">
+      {{ option.empname }}
+      </mat-option>
+      </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="form-field" appearance="outline">
+      <mat-label>General Video Approvals</mat-label>
+      <mat-select formControlName="generalVideoApprovals">
+      <mat-option *ngFor="let option of approvalUsersList" [value]="option.userID">
+      {{ option.empname }}
+      </mat-option>
+      </mat-select>
+      </mat-form-field>
+
+      </div>
+      <div class="form-row">
         <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Team Leader</mat-label>
+            <mat-select formControlName="teamLeader">
+              <mat-option *ngFor="let option of dropdownOptions.teamLeaders" [value]="option.userId">
+                {{ option.empname }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+      <mat-form-field class="form-field" appearance="outline">
           <mat-label>Content Writer</mat-label>
           <mat-select formControlName="contentWriter">
             <mat-option *ngFor="let option of dropdownOptions.contentWriters" [value]="option.userId">
@@ -120,101 +160,96 @@
           <mat-icon>close</mat-icon>
         </button>
         </mat-form-field>
-
         <mat-form-field class="form-field" appearance="outline">
-          <mat-label>Poster Designer</mat-label>
-          <mat-select formControlName="posterDesigner">
-            <mat-option *ngFor="let option of dropdownOptions.posterDesigners" [value]="option.userId">
+            <mat-label>Poster Designer</mat-label>
+            <mat-select formControlName="posterDesigner">
+           <mat-option *ngFor="let option of approvalUsersList" [value]="option.userID">
+          {{ option.empname }}
+          </mat-option>
+          </mat-select>
+            <button type="button"
+            mat-icon-button
+            matSuffix
+            *ngIf ="editForm.controls['posterDesigner'].value"
+            (click) = "clearPosterDesigner()"
+            class="clear-button"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+          </mat-form-field>
+        <mat-form-field class="form-field" appearance="outline">
+          <mat-label>Photographer</mat-label>
+          <mat-select formControlName="photographer">
+            <mat-option *ngFor="let option of dropdownOptions.photographers" [value]="option.userId">
               {{ option.empname }}
             </mat-option>
           </mat-select>
           <button type="button"
           mat-icon-button
           matSuffix
-          *ngIf ="editForm.controls['posterDesigner'].value"
-          (click) = "clearPosterDesigner()"
+          *ngIf ="editForm.controls['photographer'].value"
+          (click) = "clearPhotographer()"
           class="clear-button"
         >
           <mat-icon>close</mat-icon>
         </button>
         </mat-form-field>
       </div>
-  
       <div class="form-row">
-      
-      <mat-form-field class="form-field" appearance="outline">
-        <mat-label>Photographer</mat-label>
-        <mat-select formControlName="photographer">
-          <mat-option *ngFor="let option of dropdownOptions.photographers" [value]="option.userId">
-            {{ option.empname }}
-          </mat-option>
-        </mat-select>
-        <button type="button"
-        mat-icon-button
-        matSuffix
-        *ngIf ="editForm.controls['photographer'].value"
-        (click) = "clearPhotographer()"
-        class="clear-button"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
-      </mat-form-field>
-
-      <mat-form-field class="form-field" appearance="outline">
-        <mat-label>General Video Editor</mat-label>
-        <mat-select formControlName="videoEditor1">
-          <mat-option *ngFor="let option of dropdownOptions.videoEditors" [value]="option.userId">
-            {{ option.empname }}
-          </mat-option>
-        </mat-select>
-        <button type="button"
-        mat-icon-button
-        matSuffix
-        *ngIf ="editForm.controls['videoEditor1'].value"
-        (click) = "clearVideoEditor1()"
-        class="clear-button"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
-      </mat-form-field>
-
-      <mat-form-field class="form-field" appearance="outline">
-        <mat-label>Graphic Video Editor</mat-label>
-        <mat-select formControlName="videoEditor2">
-          <mat-option *ngFor="let option of dropdownOptions.videoEditors" [value]="option.userId">
-            {{ option.empname }}
-          </mat-option>
-        </mat-select>
-        <button type="button"
-        mat-icon-button
-        matSuffix
-        *ngIf ="editForm.controls['videoEditor2'].value"
-        (click) = "clearVideoEditor2()"
-        class="clear-button"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
-      </mat-form-field>
-
         <mat-form-field class="form-field" appearance="outline">
-          <mat-label>DMA</mat-label>
-          <mat-select formControlName="dma">
-            <mat-option *ngFor="let option of dropdownOptions.dmas" [value]="option.userId">
-              {{ option.empname }}
+            <mat-label>General Video Editor</mat-label>
+            <mat-select formControlName="videoEditor1">
+            <mat-option *ngFor="let option of approvalUsersList" [value]="option.userID">
+            {{ option.empname }}
             </mat-option>
-          </mat-select>
-          <button type="button"
-          mat-icon-button
-          matSuffix
-          *ngIf ="editForm.controls['dma'].value"
-          (click) = "clearDMA()"
-          class="clear-button"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-        </mat-form-field>
+            </mat-select>
+            <button type="button"
+            mat-icon-button
+            matSuffix
+            *ngIf ="editForm.controls['videoEditor1'].value"
+            (click) = "clearVideoEditor1()"
+            class="clear-button"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+          </mat-form-field>
+        
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label>Graphic Video Editor</mat-label>
+            <mat-select formControlName="videoEditor2">
+             <mat-option *ngFor="let option of approvalUsersList" [value]="option.userID">
+            {{ option.empname }}
+            </mat-option>
+            </mat-select>
+            <button type="button"
+            mat-icon-button
+            matSuffix
+            *ngIf ="editForm.controls['videoEditor2'].value"
+            (click) = "clearVideoEditor2()"
+            class="clear-button"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+          </mat-form-field>
+        
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label>DMA</mat-label>
+            <mat-select formControlName="dma">
+              <mat-option *ngFor="let option of dropdownOptions.dmas" [value]="option.userId">
+                {{ option.empname }}
+              </mat-option>
+            </mat-select>
+            <button type="button"
+            mat-icon-button
+            matSuffix
+            *ngIf ="editForm.controls['dma'].value"
+            (click) = "clearDMA()"
+            class="clear-button"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+          </mat-form-field>
       </div>
-   
    
    <!-- Package Section -->
    <h3>Package</h3>

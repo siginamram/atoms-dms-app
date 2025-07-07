@@ -135,8 +135,8 @@ mat-chip {
   background-color: #2196f3 !important; /* Blue */
   color: white !important;
 }
-.status-sent-for-lead-approval {
-  background-color: palegreen !important; /* Blue */
+.status-lead-approval-completed {
+  background-color: rgb(246, 41, 150) !important; 
   color: white !important;
 }
 .status-changes-recommended {

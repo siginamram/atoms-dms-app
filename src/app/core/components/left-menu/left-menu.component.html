@@ -127,9 +127,16 @@
         </li>
         <li>
           <a [routerLink]="['/home', 'operations', 'lead-approvals-history']" 
-             *ngIf="roleService.hasRole(['Manager','Team Lead'])" 
+             *ngIf="roleService.hasRole(['Manager','Team Lead','Content Writer','Poster Designer','Video Editor'])" 
              routerLinkActive="active">
             <i class="material-icons">history</i>Approvals History
+          </a>
+        </li>
+          <li>
+          <a [routerLink]="['/home', 'operations', 'additional-task-view']" 
+             *ngIf="roleService.hasRole(['Team Lead'])" 
+             routerLinkActive="active">
+            <i class="material-icons">add</i>Additional Task
           </a>
         </li>
         <li>

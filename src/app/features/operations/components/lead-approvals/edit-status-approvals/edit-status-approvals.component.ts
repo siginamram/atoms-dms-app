@@ -17,7 +17,7 @@ export class EditStatusApprovalsComponent implements OnInit {
     { value: 4, text: 'Changes recommended' },
     { value: 5, text: 'Approved' },
     { value: 6, text: 'Sent for client approval' },
-    { value: 7, text: 'Sent for Lead approval' },
+    { value: 7, text: 'Lead approval Completed' },
   ];
 
   constructor(

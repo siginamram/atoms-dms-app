@@ -159,7 +159,7 @@ export class ContentWriterVideosOperationsComponent implements OnInit {
       4: 'Changes Recommended',
       5: 'Approved',
       6: 'Sent for Client Approval',
-      7: 'Sent for Lead Approval', // Added for completeness
+      7: 'Lead approval Completed', // Added for completeness
     };
   
     // If status is a string like "Sent for Approval", try converting

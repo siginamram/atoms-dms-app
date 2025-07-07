@@ -25,6 +25,7 @@ export class ClientsPresentEditComponent implements OnInit{
   showPdfMessage: boolean = false;
   organizationName:string='';
   userId = +localStorage.getItem('UserID')!
+   approvalUsersList: { userID: number; empname: string }[] = [];
   promotionTypes = [
     { value: 1, text: 'Branding' },
     { value: 2, text: 'Educational' },
@@ -94,6 +95,10 @@ export class ClientsPresentEditComponent implements OnInit{
       videoEditor1: [''],
       videoEditor2: [''],
       dma: [''],
+        contentApprovals: [null],
+      postersApprovals: [null], 
+      graphicVideoApprovals: [null],
+      generalVideoApprovals: [null],
       loginCredentials: ['', Validators.required],
       paymentRenewalDate: ['' , Validators.required],
       // Package Section
@@ -126,13 +131,26 @@ export class ClientsPresentEditComponent implements OnInit{
 
   ngOnInit(): void {
     this.loadDropdownOptions();
+     this.loadApprovalsDropdownOptions();
     this.clientId = +this.route.snapshot.paramMap.get('id')!;
     if (this.clientId) {
       this.showSpinner = true;
       this.loadClientData(this.clientId);
     }
   }
-
+ loadApprovalsDropdownOptions(){
+    this.operationsService.getAllEmployeesList().subscribe({
+      next: (data: any[]) => {
+        this.approvalUsersList = data.map(emp => ({
+          userID: emp.userID,
+          empname: `${emp.firstName} ${emp.lastName}`,
+        }));
+      },
+      error: (error) => {
+        console.error('Failed to load approval users list:', error);
+      }
+    });
+  }
   loadClientData(clientId: number) {
     this.operationsService.getclientByClientId(clientId).subscribe({
       next: (data: any) => {
@@ -151,6 +169,10 @@ export class ClientsPresentEditComponent implements OnInit{
           videoEditor1: data.clientResourceAllocation?.opVideoEditor1ID ,
           videoEditor2: data.clientResourceAllocation?.opVideoEditor2ID,
           dma: data.clientResourceAllocation?.opDMAID ,
+          contentApprovals: data.clientResourceAllocation?.opCWApprovalsID || null,
+          postersApprovals: data.clientResourceAllocation?.opPDApprovalsID || null,  
+          graphicVideoApprovals: data.clientResourceAllocation?.opGDApprovalsID || null,
+          generalVideoApprovals: data.clientResourceAllocation?.opVideosApprovalsID,
           loginCredentials: data.loginCredentials ? 1 : 0,
           paymentRenewalDate: this.formatDate(data.paymentDate),
           basePackage: data.package.basePackage,
@@ -357,6 +379,10 @@ export class ClientsPresentEditComponent implements OnInit{
           opVideoEditor2ID: formValue.videoEditor2,
           opDMAID: formValue.dma,
           opPhotographerID: formValue.photographer,
+          opCWApprovalsID: formValue.contentApprovals,
+          opPDApprovalsID: formValue.postersApprovals,  
+          opGDApprovalsID: formValue.graphicVideoApprovals,
+          opVideosApprovalsID: formValue.generalVideoApprovals,
         },
         clientDeliverables: this.deliverablesArray.value.map((deliverable: any) => ({
           promotionType: deliverable.promotionType,

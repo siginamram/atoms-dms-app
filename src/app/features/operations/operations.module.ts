@@ -77,6 +77,8 @@ import { ContentWritersVideosApprovalComponent } from './components/lead-approva
 import { ContentWritersVideosApprovalHistoryComponent } from './components/lead-approvals-history/content-writers-videos-approval-history/content-writers-videos-approval-history.component';
 import { ClientMetaDataComponent } from './components/client-meta-data/client-meta-data.component';
 import { ClientMetaDataEditComponent } from './components/client-meta-data-edit/client-meta-data-edit.component';
+import { AdditionalTaskAddComponent } from './components/additional-task-add/additional-task-add.component';
+import { AdditionalTaskViewComponent } from './components/additional-task-view/additional-task-view.component';
 
 const MY_FORMATS = {
   parse: {
@@ -142,6 +144,8 @@ const MY_FORMATS = {
     ContentWritersVideosApprovalHistoryComponent,
     ClientMetaDataComponent,
     ClientMetaDataEditComponent,
+    AdditionalTaskAddComponent,
+    AdditionalTaskViewComponent,
   ],
   imports: [
     CommonModule,

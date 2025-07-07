@@ -1,0 +1,76 @@
+<!-- additional-task-view.component.html -->
+<div class="container">
+  <mat-toolbar color="primary" style="border-radius: 10px;">
+    <span> Additional Tasks</span>
+    <span class="spacer"></span>
+    <button mat-raised-button color="accent" (click)="openAddTaskPopup()">
+      <mat-icon>add</mat-icon> Add Task
+    </button>
+  </mat-toolbar>
+
+  <div class="loader-container" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="!isLoading">
+    <ng-container matColumnDef="sno">
+      <th mat-header-cell *matHeaderCellDef>S.No</th>
+      <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="clientName">
+      <th mat-header-cell *matHeaderCellDef>Client Name</th>
+      <td mat-cell *matCellDef="let row">{{ row.clientName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="clientType">
+      <th mat-header-cell *matHeaderCellDef>Client Type</th>
+      <td mat-cell *matCellDef="let row">{{ row.clientType }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="creativeType">
+      <th mat-header-cell *matHeaderCellDef>Creative Type</th>
+      <td mat-cell *matCellDef="let row">{{ row.creativeType }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="deadline">
+      <th mat-header-cell *matHeaderCellDef>Deadline</th>
+      <td mat-cell *matCellDef="let row">{{ row.deadline | date }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="contentWriter">
+      <th mat-header-cell *matHeaderCellDef>Content Writer</th>
+      <td mat-cell *matCellDef="let row">{{ row.contentWriter }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="designer">
+      <th mat-header-cell *matHeaderCellDef>Designer</th>
+      <td mat-cell *matCellDef="let row">{{ row.designer }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="clientApproval">
+      <th mat-header-cell *matHeaderCellDef>Client Approval</th>
+      <td mat-cell *matCellDef="let row">{{ row.clientApproval }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="leadApproval">
+      <th mat-header-cell *matHeaderCellDef>Lead Approval</th>
+      <td mat-cell *matCellDef="let row">{{ row.leadApproval }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="submissionDate">
+      <th mat-header-cell *matHeaderCellDef>Submission</th>
+      <td mat-cell *matCellDef="let row">{{ row.submissionDate }}</td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let row">
+        <button mat-icon-button (click)="editTask(row)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+  </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

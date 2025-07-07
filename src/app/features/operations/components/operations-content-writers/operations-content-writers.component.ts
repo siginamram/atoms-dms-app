@@ -237,7 +237,7 @@ export class OperationsContentWritersComponent implements OnInit {
       'changes recommended': 4,
       'approved': 5,
       'sent for client approval': 6,
-      'sent for lead approval': 7, // Added for completeness
+      'lead approval completed': 7, // Added for completeness
     };
   
     // Convert string to number if necessary
@@ -267,14 +267,14 @@ export class OperationsContentWritersComponent implements OnInit {
         return 'Approved';
       case 6:
         return 'Sent for client approval';
-      case 7:
-        return 'Sent for Lead approval'; // Added for completeness
+       case 7:
+        return 'Lead approval Completed'; // Added for completeness
       default:
         return 'Unknown';
     }
   }
   
-  
+ 
 
   getpromotionType(status: number): string {
     switch (status) {
