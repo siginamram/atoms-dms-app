@@ -27,13 +27,37 @@
             Thumbnail is required.
           </mat-error>
         </mat-form-field>
-  
+
+         <mat-form-field appearance="outline" class="content-field">
+          <mat-label>Content in Video</mat-label>
+          <textarea matInput formControlName="contentRemarks" ></textarea>
+          <mat-error *ngIf="emergencyRequestForm.get('contentRemarks')?.hasError('required')">
+           Content in Video is required.
+          </mat-error>
+        </mat-form-field>
         <!-- Caption/Description Field -->
         <mat-form-field appearance="outline" class="content-field">
           <mat-label>Caption/Description</mat-label>
           <textarea matInput formControlName="description" ></textarea>
           <mat-error *ngIf="emergencyRequestForm.get('description')?.hasError('required')">
             Caption/Description is required.
+          </mat-error>
+        </mat-form-field>
+
+             <!-- inputForEditor -->
+        <mat-form-field appearance="outline" class="content-field">
+          <mat-label>Input for Editor</mat-label>
+          <textarea matInput formControlName="cwInputsForVE" ></textarea>
+          <mat-error *ngIf="emergencyRequestForm.get('cwInputsForVE')?.hasError('required')">
+          Input For Editor is required.
+          </mat-error>
+        </mat-form-field>
+         <!-- inputForPhotoGrapher Field -->
+        <mat-form-field appearance="outline" class="content-field">
+          <mat-label>Input For PhotoGrapher</mat-label>
+          <textarea matInput formControlName="cwInputsForVG" ></textarea>
+          <mat-error *ngIf="emergencyRequestForm.get('cwInputsForVG')?.hasError('required')">
+            Input For PhotoGrapher is required.
           </mat-error>
         </mat-form-field>
       </div>

@@ -1,0 +1,153 @@
+<div class="video-editor-container">
+  <!-- Toolbar -->
+  <mat-toolbar color="primary" class="toolbar">
+    <span>Clients List</span>
+  </mat-toolbar>
+
+  <!-- Filter Section -->
+  <div class="filter-container">
+    <mat-form-field appearance="outline">
+      <mat-label>Month and Year</mat-label>
+      <input
+      matInput
+      [matDatepicker]="dp"
+      [formControl]="date"
+      placeholder="MM/YYYY"
+      readonly
+    />
+    
+      <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+      <mat-datepicker
+        #dp
+        startView="multi-year"
+        (monthSelected)="setMonthAndYear($event, dp)"
+        panelClass="example-month-picker"
+      ></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <!-- Table -->
+  <div class="table-container">
+    <div  class="spinner" *ngIf="showSpinner">
+      <mat-spinner></mat-spinner>
+    </div>
+    <table mat-table [dataSource]="dataSource1" class="mat-elevation-z8">
+      <!-- Serial Number Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>S.No</th>
+        <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+      </ng-container>
+
+      <!-- Organization Name Column -->
+      <!-- <ng-container matColumnDef="organizationName">
+        <th mat-header-cell *matHeaderCellDef>Organization Name</th>
+        <td mat-cell *matCellDef="let row">{{ row.organizationName }}</td>
+      </ng-container> -->
+
+      <ng-container matColumnDef="organizationName">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-icon class="table-icon">person</mat-icon> Name of the Client
+          <button mat-icon-button (click)="toggleFilter('organizationName')">
+            <mat-icon *ngIf="!activeFilters['organizationName']">filter_list</mat-icon>
+            <mat-icon *ngIf="activeFilters['organizationName']">close</mat-icon>
+          </button>
+          <div *ngIf="activeFilters['organizationName']" class="table-filter">
+            <mat-form-field appearance="outline" style="width: 100%;">
+              <mat-label>Filter Client</mat-label>
+              <input matInput [formControl]="clientNameFilter" placeholder="Search Client" />
+            </mat-form-field>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element"> {{ element.organizationName }} </td>
+      </ng-container>
+      
+      <!-- City Column -->
+      <!-- <ng-container matColumnDef="cityName">
+        <th mat-header-cell *matHeaderCellDef>City</th>
+        <td mat-cell *matCellDef="let row">{{ row.cityName }}</td>
+      </ng-container> -->
+
+      <!-- Client Category Column -->
+      <ng-container matColumnDef="clientCategory">
+        <th mat-header-cell *matHeaderCellDef>Category</th>
+        <td mat-cell *matCellDef="let row">{{ row.clientCategory }}</td>
+      </ng-container>
+
+      <!-- No Of YouTube Videos Column -->
+      <ng-container matColumnDef="noOfYouTubeVideos">
+        <th mat-header-cell *matHeaderCellDef>No Of YouTube Videos</th>
+        <td mat-cell *matCellDef="let row">{{ row.noOfYouTubeVideos }}</td>
+      </ng-container>
+
+      <!-- No Of Educational Reels Column -->
+      <ng-container matColumnDef="noOfEducationalReels">
+        <th mat-header-cell *matHeaderCellDef>No Of Educational Reels</th>
+        <td mat-cell *matCellDef="let row">{{ row.noOfEducationalReels }}</td>
+      </ng-container>
+
+      <!-- Total YouTube Videos Approved Count Column -->
+      <ng-container matColumnDef="totYouTubeVideosShotCount">
+        <th mat-header-cell *matHeaderCellDef>Total YouTube Videos Shot</th>
+        <td mat-cell *matCellDef="let row">{{ row.totYouTubeVideosShotCount }}</td>
+      </ng-container>
+
+      <!-- Total Educational Reels Approved Count Column -->
+      <ng-container matColumnDef="totEducationalReelsShotCount">
+        <th mat-header-cell *matHeaderCellDef>Total Educational Reels Shot</th>
+        <td mat-cell *matCellDef="let row">{{ row.totEducationalReelsShotCount }}</td>
+      </ng-container>
+
+      <!-- Percent of YouTube Videos Approved Column -->
+      <!-- <ng-container matColumnDef="percentOfYouTubeVideosApproved">
+        <th mat-header-cell *matHeaderCellDef>Percent of YouTube Videos Approved</th>
+        <td mat-cell *matCellDef="let row">{{ row.percentOfYouTubeVideosApproved }}</td>
+      </ng-container> -->
+
+      <ng-container matColumnDef="percentOfYouTubeVideosShot">
+        <th mat-header-cell *matHeaderCellDef>Percent of YouTube Videos Shot (%)</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-progress-bar
+          mode="determinate"
+          [value]="element.percentOfYouTubeVideosShot"
+          [color]="element.percentOfYouTubeVideosShot > 70 ? 'primary' : 'warn'">
+        </mat-progress-bar>
+          <span>{{ element.percentOfYouTubeVideosShot }}%</span>
+        </td>
+      </ng-container>
+
+      <!-- Percent of Educational Reels Approved Column -->
+      <!-- <ng-container matColumnDef="percentOfEducationalReelsApproved">
+        <th mat-header-cell *matHeaderCellDef>Percent of Educational Reels Approved</th>
+        <td mat-cell *matCellDef="let row">{{ row.percentOfEducationalReelsApproved }}</td>
+      </ng-container> -->
+
+      <ng-container matColumnDef="percentOfEducationalReelsShot">
+        <th mat-header-cell *matHeaderCellDef>Percent of Educational Reels Shot(%)</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-progress-bar
+          mode="determinate"
+          [value]="element.percentOfEducationalReelsShot"
+          [color]="element.percentOfEducationalReelsShot > 70 ? 'primary' : 'warn'">
+        </mat-progress-bar>
+          <span>{{ element.percentOfEducationalReelsShot }}%</span>
+        </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-button color="accent" (click)="editRow(row)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Header and Row Definitions -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <!-- Paginator -->    <mat-paginator [pageSize]="30" [pageSizeOptions]="[5, 10, 20,30]"></mat-paginator>
+  </div>
+</div>

@@ -33,6 +33,9 @@ export class EditStatusApprovalsComponent implements OnInit {
       referenceDoc:[this.data.referenceDoc],
       title:[this.data.title],
       description:[this.data.description],
+      contentRemarks: [this.data.contentRemarks],
+      cwInputsForVE: [this.data.cwInputsForVE],
+      cwInputsForVG: [this.data.cwInputsForVG],
       status: ['', Validators.required],
       remarks: [{ value: '', disabled: true }, Validators.required]
     });
@@ -61,7 +64,10 @@ export class EditStatusApprovalsComponent implements OnInit {
         contentInPost: formData.contentInPost,
         caption: formData.contentCaption,
         title: formData.title,
-        description: formData.description
+        description: formData.description,
+        contentRemarks: formData.contentRemarks,
+        cwInputsForVE: formData.cwInputsForVE,
+        cwInputsForVG: formData.cwInputsForVG,
       };
       
       // ✅ Dynamically Assign 'status' or 'contentStatus' Based on Role

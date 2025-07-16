@@ -127,6 +127,9 @@ export class VideoEditorOperationsComponent implements OnInit {
             monthlyTrackerId:item.monthlyTrackerId,
             postScheduleOn:item.postScheduleOn,
             contentStatus:this.mapGraphicStatus(item.contentStatus),
+            contentRemarks: item.contentRemarks,
+            cwInputsForVE: item.cwInputsForVE || '',
+            vgInputsForVE: item.vgInputsForVE || '',
           }));
           this.cdr.markForCheck(); // Trigger change detection
         },
@@ -223,6 +226,9 @@ export class VideoEditorOperationsComponent implements OnInit {
         title: row.title,
         thumbNail: row.thumbNail,
         description: row.description,
+        contentRemarks: row.contentRemarks,
+        cwInputsForVE: row.cwInputsForVE,
+        vgInputsForVE: row.vgInputsForVE,
       },
     });
 

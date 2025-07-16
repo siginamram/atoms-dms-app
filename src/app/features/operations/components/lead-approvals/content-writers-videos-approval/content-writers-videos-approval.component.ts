@@ -89,6 +89,10 @@ export class ContentWritersVideosApprovalComponent implements OnInit {
           creativeTypeName: item.creativeType,
           creativeType: 5,
           role: 'Content-Video',
+          remarks: item.remarks || '', // Ensure remarks are set
+          contentRemarks: item.contentRemarks || '', // Ensure remarks are set 
+          cwInputsForVE: item.cwInputsForVE || '', // Ensure inputs for video editor are set
+          cwInputsForVG: item.cwInputsForVG || '', // Ensure inputs for graphic designer are set
         }));
         this.dataSource.paginator = this.paginator;
       },

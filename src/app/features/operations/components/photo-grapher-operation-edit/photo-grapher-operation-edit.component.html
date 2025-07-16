@@ -4,18 +4,18 @@
   </mat-toolbar>
   <form [formGroup]="emergencyRequestForm">
     <div class="form-grid">
-      <!-- Video Link Field -->
+      <!-- Shoot Link Field -->
       <mat-form-field appearance="outline">
         <mat-label>Video Link</mat-label>
         <input
           matInput
-          formControlName="editorLink"
-          placeholder="Enter Video Link"
+          formControlName="shootLink"
+          placeholder="Enter Shoot Link"
         />
-        <mat-error *ngIf="emergencyRequestForm.get('editorLink')?.hasError('required')">
-          Video Link is required.
+        <mat-error *ngIf="emergencyRequestForm.get('shootLink')?.hasError('required')">
+          Shoot Link is required.
         </mat-error>
-        <mat-error *ngIf="emergencyRequestForm.get('editorLink')?.hasError('pattern')">
+        <mat-error *ngIf="emergencyRequestForm.get('shootLink')?.hasError('pattern')">
           Please enter a valid URL (e.g., https://example.com).
         </mat-error>
       </mat-form-field>
@@ -57,16 +57,16 @@
       </mat-form-field>
          <mat-form-field appearance="outline" class="content-field">
           <mat-label>Content Writer Input's </mat-label>
-          <textarea matInput formControlName="cwInputsForVE" ></textarea>
-          <mat-error *ngIf="emergencyRequestForm.get('cwInputsForVE')?.hasError('required')">
+          <textarea matInput formControlName="cwInputsForVG" ></textarea>
+          <mat-error *ngIf="emergencyRequestForm.get('cwInputsForVG')?.hasError('required')">
           Content Writer Input's is required.
           </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="content-field">
           <mat-label>VideoGhapher Input's</mat-label>
-          <textarea matInput formControlName="vgInputsForVE" ></textarea>
-          <mat-error *ngIf="emergencyRequestForm.get('vgInputsForVE')?.hasError('required')">
+          <textarea matInput formControlName="vgInputForVE" ></textarea>
+          <mat-error *ngIf="emergencyRequestForm.get('vgInputForVE')?.hasError('required')">
           VideoGhapher Input's is required.
           </mat-error>
         </mat-form-field>
@@ -76,6 +76,6 @@
 
 <div mat-dialog-actions align="end">
   <button mat-raised-button color="warn" (click)="close()">Cancel</button>
-  <button mat-raised-button color="accent" [disabled]="emergencyRequestForm.invalid" (click)="saveDraft()">Save Draft</button>
-  <button mat-raised-button color="primary" [disabled]="emergencyRequestForm.invalid" (click)="sendForApproval()">Send To Approval</button>
+  <!-- <button mat-raised-button color="accent" [disabled]="emergencyRequestForm.invalid" (click)="saveDraft()">Save Draft</button> -->
+  <button mat-raised-button color="primary" [disabled]="emergencyRequestForm.invalid" (click)="sendForApproval()">Submit</button>
 </div>

@@ -5,8 +5,8 @@
         <mat-icon>arrow_back</mat-icon>
       </button>
       <span>{{this.clientName}}</span>
-      <span class="spacer"></span>
-      <!-- <button mat-raised-button color="accent" class="add-button" (click)="addNewEntry()">+ Add Emergency Request</button> -->
+       <span class="spacer"></span>
+      <button mat-raised-button color="accent" class="add-button" (click)="addNewEntry()">+ Add Emergency Request</button>
     </mat-toolbar>
   
   <!-- Filters Section -->
@@ -29,6 +29,8 @@
         (monthSelected)="setMonthAndYear($event, picker)"   readonly
       ></mat-datepicker>
     </mat-form-field>
+     &nbsp;&nbsp;&nbsp;&nbsp;
+    <button mat-raised-button color="accent" class="add-button" (click)="forecast()">Generate Forecast</button>
   </div>
    
    <!-- Table -->

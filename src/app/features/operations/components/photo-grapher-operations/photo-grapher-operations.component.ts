@@ -9,9 +9,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OperationsService } from '../../services/operations.service';
+import { VideoEditorOperationsEditComponent } from '../video-editor-operations-edit/video-editor-operations-edit.component';
+import { PhotoGrapherOperationEditComponent } from '../photo-grapher-operation-edit/photo-grapher-operation-edit.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AddClientVideosEmergrncyRequestComponent } from '../add-client-videos-emergrncy-request/add-client-videos-emergrncy-request.component';
-import { ContentWriterVideosOperationsEditComponent } from '../content-writer-videos-operations-edit/content-writer-videos-operations-edit.component';
 export const MY_FORMATS = {
   parse: {
     dateInput: 'MM/YYYY',
@@ -25,15 +26,15 @@ export const MY_FORMATS = {
 };
 
 @Component({
-  selector: 'app-content-writer-videos-operations',
-  standalone:false,
-  templateUrl: './content-writer-videos-operations.component.html',
-  styleUrl: './content-writer-videos-operations.component.css',
+  selector: 'app-photo-grapher-operations',
+  standalone: false,
+  templateUrl: './photo-grapher-operations.component.html',
+  styleUrl: './photo-grapher-operations.component.css',
     providers: [provideMomentDateAdapter(MY_FORMATS)],
     //encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContentWriterVideosOperationsComponent implements OnInit {
+export class PhotoGrapherOperationsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator; // Reference to MatPaginator
   @ViewChild('fullTextDialog') fullTextDialog: any;
   showSpinner: boolean = false;
@@ -55,6 +56,7 @@ export class ContentWriterVideosOperationsComponent implements OnInit {
     'title',
     'description',
     'contentStatus',
+    'approvalStatus',
     'remarks',
     'actions',
     
@@ -74,10 +76,13 @@ export class ContentWriterVideosOperationsComponent implements OnInit {
     // Retrieve clientId and date from query parameters
     this.route.queryParams.subscribe((params) => {
       this.clientId = Number(params['clientId']) || 0;
-      this.selectedDate = params['date']
-        ? moment(params['date']).format('YYYY-MM-DD')
-        : moment().format('YYYY-MM-DD'); // Default to current date
-        this.date.setValue(this.selectedDate); // Update FormControl
+    if (params['date']) {
+      this.selectedDate = moment(params['date'], 'YYYY-MM').format('YYYY-MM'); // Store only Year and Month
+      this.date.setValue(moment(this.selectedDate, 'YYYY-MM')); // Update FormControl
+    } else {
+      this.selectedDate = moment().format('YYYY-MM'); // Default to current month-year
+      this.date.setValue(moment(this.selectedDate, 'YYYY-MM')); // Update FormControl
+    }
       // Fetch client details and table data
       this.fetchClientDetails(this.clientId);
       this.fetchTableData();
@@ -98,97 +103,53 @@ export class ContentWriterVideosOperationsComponent implements OnInit {
     });
   }
 
-  forecast() {
 
-    if (!this.clientId || !this.selectedDate) {
-      console.warn("Missing clientId or date");
-      return;
-    }
-    this.showSpinner = true;
-  
-    this.operationsService
-      .ContentWriterMonthlyVideosTracker(this.clientId, this.selectedDate,true)
-      .subscribe({
-        next: (response: any[]) => {
-          this.showSpinner = false;
-          
-          console.log("📌 API Response:", response); // 🔍 Debug API response
-  
-          this.contentData.data = response.map((item, index) => ({
-            id: index + 1,
-            creativeType: item.creativeType,
-            shootLink: item.shootLink,
-            editorLink: item.editorLink,
-            title: item.title,
-            description: item.description,
-            contentStatus: this.mapGraphicStatus(item.contentStatus), // ✅ Corrected
-            remarks: item.contentRemarks,
-            thumbNail: item.thumbNail || 'N/A',
-            monthlyTrackerId: item.monthlyTrackerId,
-            postScheduleOn: item.postScheduleOn,
-          }));
-  
-          this.cdr.markForCheck();
-        },
-        error: (error) => {
-          console.error("Error fetching table data:", error);
-          this.contentData.data = [];
-        },
-      });
-
-  }
   fetchTableData(): void {
     if (!this.clientId || !this.selectedDate) {
-      console.warn("Missing clientId or date");
+      console.warn('Missing clientId or date');
       return;
     }
     this.showSpinner = true;
-  
     this.operationsService
-      .ContentWriterMonthlyVideosTracker(this.clientId, this.selectedDate,false)
+      .videoEditorMonthlyTracker(this.clientId, this.selectedDate)
       .subscribe({
         next: (response: any[]) => {
           this.showSpinner = false;
-          
-          console.log("📌 API Response:", response); // 🔍 Debug API response
-  
           this.contentData.data = response.map((item, index) => ({
             id: index + 1,
-            creativeType: item.creativeType,
+            creativeType:item.creativeType,
             shootLink: item.shootLink,
             editorLink: item.editorLink,
-            title: item.title,
-            description: item.description,
-            contentStatus: this.mapGraphicStatus(item.contentStatus), // ✅ Corrected
-            remarks: item.remarks,
+            title: item.title ,
+            description: item.description ,
+            status: this.mapGraphicStatus(item.status),
+            remarks: item.remarks ,
+            thumbNail: item.thumbNail || 'N/A' ,
+            monthlyTrackerId:item.monthlyTrackerId,
+            postScheduleOn:item.postScheduleOn,
+            contentStatus:this.mapGraphicStatus(item.contentStatus),
             contentRemarks: item.contentRemarks,
-            thumbNail: item.thumbNail || 'N/A',
-            monthlyTrackerId: item.monthlyTrackerId,
-            postScheduleOn: item.postScheduleOn,
-            cwInputsForVG:item.cwInputsForVG || '',
-            cwInputsForVE:item.cwInputsForVE || '',  
+            cwInputsForVG: item.cwInputsForVG || '',
+            vgInputsForVE: item.vgInputsForVE || '',
+          
           }));
-  
-          this.cdr.markForCheck();
+          this.cdr.markForCheck(); // Trigger change detection
         },
         error: (error) => {
-          console.error("Error fetching table data:", error);
-          this.contentData.data = [];
+          console.error('Error fetching table data:', error);
+          this.contentData.data = []; // Clear table data on error
         },
       });
   }
-  
-  mapCreativeType(contentStatus: number): string {
+  mapCreativeType(status: number): string {
     const statusMap: { [key: number]: string } = {
       3: 'YouTube Videos',
       4: 'Educational Reels',
     };
-    return statusMap[contentStatus] || 'Unknown Type';
+    return statusMap[status] || 'Unknown Type';
   }
-
-
-  mapGraphicStatus(contentStatus: any): string {
-    if (contentStatus == null || contentStatus === undefined) {
+  mapGraphicStatus(status: any): string {
+    if (status == null || status === undefined) {
       return 'Unknown Status'; // Handle null/undefined
     }
   
@@ -204,28 +165,30 @@ export class ContentWriterVideosOperationsComponent implements OnInit {
     };
   
     // If status is a string like "Sent for Approval", try converting
-    if (typeof contentStatus === 'string') {
+    if (typeof status === 'string') {
       const reverseStatusMap: { [key: string]: number } = Object.fromEntries(
         Object.entries(statusMap).map(([key, value]) => [value.toLowerCase(), Number(key)])
       );
   
-      const lowerStatus = contentStatus.trim().toLowerCase();
+      const lowerStatus = status.trim().toLowerCase();
       if (reverseStatusMap[lowerStatus] !== undefined) {
-        contentStatus = reverseStatusMap[lowerStatus];
+        status = reverseStatusMap[lowerStatus];
       } else {
         return 'Unknown Status'; // If it's an unrecognized string
       }
     }
   
     // Convert number-like strings ("1") to numbers (1)
-    contentStatus = Number(contentStatus);
+    status = Number(status);
   
-    return statusMap[contentStatus] || 'Unknown Status';
+    return statusMap[status] || 'Unknown Status';
   }
-  getStatusClass(contentStatus: any): string {
-    const statusText = this.mapGraphicStatus(contentStatus).toLowerCase().replace(/\s+/g, '-');
+
+  getStatusClass(status: any): string {
+    const statusText = this.mapGraphicStatus(status).toLowerCase().replace(/\s+/g, '-');
     return `status-${statusText}`;
   }
+
   setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>): void {
     const ctrlValue = this.date.value ?? moment();
     ctrlValue.month(normalizedMonthAndYear.month());
@@ -256,19 +219,18 @@ export class ContentWriterVideosOperationsComponent implements OnInit {
   }
   openEditPopup(row: any): void {
     console.log('edit', row);
-    const dialogRef = this.dialog.open(ContentWriterVideosOperationsEditComponent, {
+    const dialogRef = this.dialog.open(PhotoGrapherOperationEditComponent, {
       width: '600px',
       data: {
         monthlyTrackerId: row.monthlyTrackerId,
         userID: parseInt(localStorage.getItem('UserID') || '0', 10),
-        editorLink: row.editorLink,
+        shootLink: row.shootLink,
         title: row.title,
         thumbNail: row.thumbNail,
         description: row.description,
         contentRemarks: row.contentRemarks,
         cwInputsForVG: row.cwInputsForVG,
-        cwInputsForVE: row.cwInputsForVE,
-
+        vgInputsForVE: row.vgInputsForVE,
       },
     });
 
@@ -281,9 +243,8 @@ export class ContentWriterVideosOperationsComponent implements OnInit {
     });
   }
   goBack(): void {
-    this.router.navigate(['/home/operations/content-writer-videos-client']); 
+    this.router.navigate(['/home/operations/video-grapher-client']); 
   }
-
   showFullText(text: string, title: string): void {
     this.dialog.open(this.fullTextDialog, {
       width: '400px',

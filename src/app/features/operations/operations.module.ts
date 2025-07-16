@@ -79,6 +79,9 @@ import { ClientMetaDataComponent } from './components/client-meta-data/client-me
 import { ClientMetaDataEditComponent } from './components/client-meta-data-edit/client-meta-data-edit.component';
 import { AdditionalTaskAddComponent } from './components/additional-task-add/additional-task-add.component';
 import { AdditionalTaskViewComponent } from './components/additional-task-view/additional-task-view.component';
+import { PhotoGrapherClientComponent } from './components/photo-grapher-client/photo-grapher-client.component';
+import { PhotoGrapherOperationsComponent } from './components/photo-grapher-operations/photo-grapher-operations.component';
+import { PhotoGrapherOperationEditComponent } from './components/photo-grapher-operation-edit/photo-grapher-operation-edit.component';
 
 const MY_FORMATS = {
   parse: {
@@ -146,6 +149,9 @@ const MY_FORMATS = {
     ClientMetaDataEditComponent,
     AdditionalTaskAddComponent,
     AdditionalTaskViewComponent,
+    PhotoGrapherClientComponent,
+    PhotoGrapherOperationsComponent,
+    PhotoGrapherOperationEditComponent,
   ],
   imports: [
     CommonModule,

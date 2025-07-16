@@ -23,207 +23,151 @@
             <i class="material-icons">{{ item.icon }}</i> {{ item.title }}
           </a>
         </li>
-        <li class="dropdown" *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])">
+        <li class="dropdown" *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate','Team Lead'])">
           <a  class="dropdown-toggle">
             <i class="material-icons">business_center</i> Marketing
             <i class="material-icons arrow-icon">expand_more</i>
           </a>
           <ul class="submenu">
-            <li *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])">
+            <li *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate','Team Lead'])">
               <a [routerLink]="['/home', 'marketing', 'lead-management']" routerLinkActive="active">
                 <i class="material-icons">supervised_user_circle</i> Lead Management
               </a>
             </li>
-            <li *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])">
+            <li *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate','Team Lead'])">
               <a [routerLink]="['/home', 'marketing', 'meet-management']" routerLinkActive="active">
                 <i class="material-icons">event</i> Meet Management
               </a>
             </li>
-            <li *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])">
+            <li *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate','Team Lead'])">
               <a [routerLink]="['/home', 'marketing', 'meet-management-histoty']" routerLinkActive="active">
                 <i class="material-icons">event</i> Meet History
               </a>
             </li>
-            <li *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])">
+            <li *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate','Team Lead'])">
               <a [routerLink]="['/home', 'marketing', 'generate-quote']" routerLinkActive="active">
                 <i class="material-icons">description</i> Quote Generation
               </a>
             </li>
-            <li *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])">
+            <li *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate','Team Lead'])">
               <a [routerLink]="['/home', 'marketing', 'sla-generation']" routerLinkActive="active">
                 <i class="material-icons">receipt</i> SLA Generation
               </a>
             </li>
-            <li *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])">
+            <li *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate','Team Lead'])">
               <a [routerLink]="['/home', 'marketing', 'sales-converted']" routerLinkActive="active">
                 <i class="material-icons">monetization_on</i> Sales Converted
               </a>
             </li>
           </ul>
         </li>
-        
-        <!-- <li>
-          <a [routerLink]="['/home', 'marketing', 'lead-management']" *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])" routerLinkActive="active">
-            <i class="material-icons">supervised_user_circle</i> Lead Management
-          </a>
+        <li *ngIf="roleService.hasRole(['Sales Lead','Manager', 'Team Lead'])">
+        <a [routerLink]="['/home', 'operations', 'clients-list']" routerLinkActive="active">
+        <i class="material-icons">group</i>Clients
+        </a>
         </li>
-        <li>
-          <a [routerLink]="['/home', 'marketing', 'meet-management']" *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])" routerLinkActive="active">
-            <i class="material-icons">event</i> Meet Management
-          </a>
+        <li class="dropdown" *ngIf="roleService.hasRole(['Sales Lead','Manager','Team Lead','Content Writer','Poster Designer','Video Editor','HR','Videographer','Videos Lead','DMA'])">
+        <a class="dropdown-toggle">
+        <i class="material-icons">event_note</i> Daily Operations
+        <i class="material-icons arrow-icon">expand_more</i>
+        </a>
+        <ul class="submenu">
+        <li *ngIf="roleService.hasRole(['Manager','Team Lead','Content Writer'])">
+        <a [routerLink]="['/home', 'operations', 'specialdays-view']" routerLinkActive="active">
+        <i class="material-icons">event</i>Special Days
+        </a>
         </li>
-        <li>
-          <a [routerLink]="['/home', 'marketing', 'meet-management-histoty']" *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])" routerLinkActive="active">
-            <i class="material-icons">event</i> Meet History
-          </a>
+        <li *ngIf="roleService.hasRole(['Team Lead'])">
+        <a [routerLink]="['/home', 'operations', 'clientMeta-view']" routerLinkActive="active">
+        <i class="material-icons">event</i>Client Meta Data
+        </a>
         </li>
-        <li>
-          <a [routerLink]="['/home', 'marketing', 'generate-quote']" *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])" routerLinkActive="active">
-            <i class="material-icons">description</i> Quote Generation
-          </a>
+        <li *ngIf="roleService.hasRole(['Content Writer'])">
+        <a [routerLink]="['/home', 'operations', 'content-writer-calender-export']" routerLinkActive="active">
+        <i class="material-icons">event</i>Calendar Export
+        </a>
         </li>
-        <li>
-          <a [routerLink]="['/home', 'marketing', 'sla-generation']" *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])" routerLinkActive="active">
-            <i class="material-icons">receipt</i> SLA Generation
-          </a>
+        <li *ngIf="roleService.hasRole(['Sales Lead', 'Manager','Team Lead','Content Writer','Poster Designer','Video Editor','HR'])">
+        <a [routerLink]="['/home', 'operations', 'lead-approvals']" routerLinkActive="active">
+        <i class="material-icons">event</i>Approvals
+        </a>
         </li>
-        <li>
-          <a [routerLink]="['/home', 'marketing', 'sales-converted']" *ngIf="roleService.hasRole(['Sales Lead', 'Sales Associate'])" routerLinkActive="active">
-            <i class="material-icons">monetization_on</i> Sales Converted
-          </a>
-        </li> -->
-        <li>
-          <a [routerLink]="['/home', 'operations', 'clients-list']" *ngIf="roleService.hasRole(['Sales Lead','Manager', 'Team Lead'])" routerLinkActive="active">
-            <i class="material-icons">group</i>Clients
-          </a>
+        <li *ngIf="roleService.hasRole(['Manager','Team Lead','Content Writer','Poster Designer','Video Editor'])">
+        <a [routerLink]="['/home', 'operations', 'lead-approvals-history']" routerLinkActive="active">
+        <i class="material-icons">history</i>Approvals History
+        </a>
         </li>
-        <li>
-          <a [routerLink]="['/home', 'operations', 'specialdays-view']" 
-             *ngIf="roleService.hasRole(['Manager','Team Lead','Content Writer'])" 
-             routerLinkActive="active">
-            <i class="material-icons">event</i>Special Days
-          </a>
+        <li *ngIf="roleService.hasRole(['Team Lead'])">
+        <a [routerLink]="['/home', 'operations', 'additional-task-view']" routerLinkActive="active">
+        <i class="material-icons">add</i>Additional Task
+        </a>
         </li>
-            <li>
-          <a [routerLink]="['/home', 'operations', 'clientMeta-view']" 
-             *ngIf="roleService.hasRole(['Team Lead'])" 
-             routerLinkActive="active">
-            <i class="material-icons">event</i>Client Meta Data
-          </a>
+        <li *ngIf="roleService.hasRole(['Content Writer'])">
+        <a [routerLink]="['/home', 'operations', 'content-writer-client']" routerLinkActive="active">
+        <i class="material-icons">edit</i>Daily Tasks
+        </a>
         </li>
-        <li>
-          <a [routerLink]="['/home', 'operations', 'content-writer-calender-export']" 
-             *ngIf="roleService.hasRole(['Content Writer'])" 
-             routerLinkActive="active">
-            <i class="material-icons">event</i>Calendar Export
-          </a>
+        <li *ngIf="roleService.hasRole(['Content Writer'])">
+        <a [routerLink]="['/home', 'operations', 'content-writer-videos-client']" routerLinkActive="active">
+        <i class="material-icons">edit</i>Daily Tasks (Videos)
+        </a>
         </li>
-        <li>
-          <a [routerLink]="['/home', 'operations', 'lead-approvals']" 
-             *ngIf="roleService.hasRole(['Sales Lead', 'Manager','Team Lead','Content Writer','Poster Designer','Video Editor','HR'])" 
-             routerLinkActive="active">
-            <i class="material-icons">event</i>Approvals
-          </a>
+        <li *ngIf="roleService.hasRole(['Poster Designer','Video Editor'])">
+        <a [routerLink]="['/home', 'operations', 'poster-designer-client']" routerLinkActive="active">
+        <i class="material-icons">design_services</i>Poster Designer Daily Tasks
+        </a>
         </li>
-        <li>
-          <a [routerLink]="['/home', 'operations', 'lead-approvals-history']" 
-             *ngIf="roleService.hasRole(['Manager','Team Lead','Content Writer','Poster Designer','Video Editor'])" 
-             routerLinkActive="active">
-            <i class="material-icons">history</i>Approvals History
-          </a>
+        <li *ngIf="roleService.hasRole([ 'Video Editor'])">
+        <a [routerLink]="['/home', 'operations', 'video-editor-client']" routerLinkActive="active">
+        <i class="material-icons">movie_creation</i>General Educational Videos
+        </a>
         </li>
-          <li>
-          <a [routerLink]="['/home', 'operations', 'additional-task-view']" 
-             *ngIf="roleService.hasRole(['Team Lead'])" 
-             routerLinkActive="active">
-            <i class="material-icons">add</i>Additional Task
-          </a>
+           <li *ngIf="roleService.hasRole([ 'Videographer'])">
+        <a [routerLink]="['/home', 'operations', 'video-grapher-client']" routerLinkActive="active">
+        <i class="material-icons">movie_creation</i>General Educational Videos
+        </a>
         </li>
-        <li>
-          <a [routerLink]="['/home', 'operations', 'content-writer-client']" 
-          *ngIf="roleService.hasRole(['Content Writer'])" routerLinkActive="active">
-            <i class="material-icons">edit</i>Daily Tasks
-          </a>
+        <li *ngIf="roleService.hasRole(['Videographer'])">
+        <a [routerLink]="['/home', 'operations', 'photo-grapher-client']" routerLinkActive="active">
+        <i class="material-icons">videocam</i>Daily Tasks
+        </a>
         </li>
-        <li>
-          <a [routerLink]="['/home', 'operations', 'content-writer-videos-client']" 
-          *ngIf="roleService.hasRole(['Content Writer'])" routerLinkActive="active">
-            <i class="material-icons">edit</i>Daily Tasks (Videos)
-          </a>
+        <li *ngIf="roleService.hasRole(['Videographer'])">
+        <a [routerLink]="['/home', 'operations', 'photo-grapher-history']" routerLinkActive="active">
+        <i class="material-icons">history</i>Shoots History
+        </a>
         </li>
-        <li>
-          <a [routerLink]="['/home', 'operations', 'poster-designer-client']" 
-             *ngIf="roleService.hasRole(['Poster Designer','Video Editor'])" 
-             routerLinkActive="active">
-            <i class="material-icons">design_services</i>Poster Designer Daily Tasks
-          </a>
+        <li *ngIf="roleService.hasRole([ 'Video Editor', 'Videos Lead'])">
+        <a [routerLink]="['/home', 'operations', 'graphicreels-designer-client']" routerLinkActive="active">
+        <i class="material-icons">movie_creation</i>Graphic Videos
+        </a>
         </li>
-        <li>
-          <a [routerLink]="['/home', 'operations', 'video-editor-client']" 
-             *ngIf="roleService.hasRole([ 'Video Editor'])" 
-             routerLinkActive="active">
-            <i class="material-icons">movie_creation</i>General Educational Videos
-          </a>
+        <li *ngIf="roleService.hasRole([ 'DMA'])">
+        <a [routerLink]="['/home', 'operations', 'client-dma']" routerLinkActive="active">
+        <i class="material-icons">trending_up</i>Daily Tasks
+        </a>
         </li>
-        <li>
-          <a [routerLink]="['/home', 'operations', 'photo-grapher-client']" 
-             *ngIf="roleService.hasRole(['Videographer'])" 
-             routerLinkActive="active">
-            <i class="material-icons">videocam</i>Daily Tasks
-          </a>
+        <li *ngIf="roleService.hasRole([ 'DMA'])">
+        <a [routerLink]="['/home', 'operations', 'ad-campaign-dma']" routerLinkActive="active">
+        <i class="material-icons">campaign</i>Ad Campaign Management
+        </a>
         </li>
-        <li>
-          <a [routerLink]="['/home', 'operations', 'photo-grapher-history']" 
-             *ngIf="roleService.hasRole(['Videographer'])" 
-             routerLinkActive="active">
-            <i class="material-icons">history</i>Shoots History
-          </a>
+        <li *ngIf="roleService.hasRole([ 'DMA'])">
+        <a [routerLink]="['/home', 'operations', 'ad-campaign-report']" routerLinkActive="active">
+        <i class="material-icons">analytics</i>Ad Campaign Report
+        </a>
         </li>
-        <li>
-          <a [routerLink]="['/home', 'operations', 'graphicreels-designer-client']" 
-             *ngIf="roleService.hasRole([ 'Video Editor', 'Videos Lead'])" 
-             routerLinkActive="active">
-            <i class="material-icons">movie_creation</i>Graphic Videos
-          </a>
+        <li *ngIf="roleService.hasRole([ 'DMA','Sales Lead','Team Lead'])">
+        <a [routerLink]="['/home', 'dashboard', 'dma-adcampaign-summary']" routerLinkActive="active">
+        <i class="material-icons">analytics</i>Ad Campaign Summary Report
+        </a>
         </li>
-        <li>
-          <a [routerLink]="['/home', 'operations', 'client-dma']" 
-             *ngIf="roleService.hasRole([ 'DMA'])" 
-             routerLinkActive="active">
-            <i class="material-icons">trending_up</i>Daily Tasks
-          </a>
+        <li *ngIf="roleService.hasRole(['Manager','Team Lead','Content Writer'])">
+        <a [routerLink]="['/home', 'operations', 'client-kt-documents']" routerLinkActive="active">
+        <i class="material-icons">description</i>KT Documents
+        </a>
         </li>
-
-        <li>
-          <a [routerLink]="['/home', 'operations', 'ad-campaign-dma']" 
-             *ngIf="roleService.hasRole([ 'DMA'])" 
-             routerLinkActive="active">
-            <i class="material-icons">campaign</i>Ad Campaign Management
-          </a>
-        </li>
-
-        <li>
-          <a [routerLink]="['/home', 'operations', 'ad-campaign-report']" 
-             *ngIf="roleService.hasRole([ 'DMA'])" 
-             routerLinkActive="active">
-            <i class="material-icons">analytics</i>Ad Campaign Report
-          </a>
-        </li>
-
-        <li>
-          <a [routerLink]="['/home', 'dashboard', 'dma-adcampaign-summary']" 
-             *ngIf="roleService.hasRole([ 'DMA','Sales Lead','Team Lead'])" 
-             routerLinkActive="active">
-            <i class="material-icons">analytics</i>Ad Campaign Summary Report
-          </a>
-        </li>
-
-        <li>
-          <a [routerLink]="['/home', 'operations', 'client-kt-documents']" 
-          *ngIf="roleService.hasRole(['Manager','Team Lead','Content Writer'])"
-             routerLinkActive="active">
-            <i class="material-icons">description</i>KT Documents
-          </a>
+        </ul>
         </li>
         <li class="dropdown" >
           <a  class="dropdown-toggle">
@@ -282,13 +226,7 @@
                 <i class="material-icons">bar_chart</i> Balance Statement 
               </a>
             </li>
-            <!-- <li>
-              <a [routerLink]="['/home', 'employees', 'budget-planning']" 
-                 *ngIf="roleService.hasRole(['Sales Lead'])"
-                 routerLinkActive="active">
-                <i class="material-icons">calculate</i> Budget Planning
-              </a>
-            </li> -->
+        
             <li>
               <a [routerLink]="['/home', 'employees', 'employee-salary']" 
                  *ngIf="roleService.hasRole(['Sales Lead','HR'])"
@@ -298,19 +236,15 @@
             </li>
           </ul>
         </li>
-        
       </ul>
-      
       <!-- Logout Button -->
       <div class="logout-btn">
       <a (click)="logout()">
       <i class="material-icons">exit_to_app</i> Log Out
       </a>
       </div>
-
     </div>
   </nav>
-  
 </nav>
 
 <!-- Mobile Menu -->

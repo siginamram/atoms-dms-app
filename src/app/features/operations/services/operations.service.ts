@@ -110,6 +110,11 @@ export class OperationsService {
     return this.http.get(apiUrl);
   }
 
+  getclientsByVideoGrapher(userId: number, date: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/clientsByVideoGrapher/${userId}/${date}`;
+    return this.http.get(apiUrl);
+  }
+
   videoEditorMonthlyTracker(clientId: number, date: string): Observable<any> {
     const apiUrl = `${this.baseApiUrl}/api/Operations/videoEditorMonthlyTracker/${clientId}/${date}`;
     return this.http.get(apiUrl);
@@ -117,6 +122,11 @@ export class OperationsService {
   
   UpdateClientMonthlyVideoURL(payload: any): Observable<any> {
     const apiUrl = `${this.baseApiUrl}/api/Operations/UpdateClientMonthlyVideoURL`;
+    return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+  }
+
+   UpdateVideoShootLink(payload: any): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/UpdateVideoShootLink`;
     return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
   }
 
@@ -251,8 +261,8 @@ export class OperationsService {
     return this.http.get(apiUrl);
   }
 
-  ContentWriterMonthlyVideosTracker(clientId: number, date: string): Observable<any> {
-    const apiUrl = `${this.baseApiUrl}/api/Operations/ContentWriterMonthlyVideosTracker/${clientId}/${date}`;
+  ContentWriterMonthlyVideosTracker(clientId: number, date: string,Id:boolean): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/ContentWriterMonthlyVideosTracker/${clientId}/${date}/${Id}`;
     return this.http.get(apiUrl);
   }
 

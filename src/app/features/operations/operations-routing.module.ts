@@ -31,6 +31,8 @@ import { ContentWriterVideosOperationsComponent } from './components/content-wri
 import { ClientMetaDataComponent } from './components/client-meta-data/client-meta-data.component';
 import { AdditionalTaskViewComponent } from './components/additional-task-view/additional-task-view.component';
 import { AdditionalTaskAddComponent } from './components/additional-task-add/additional-task-add.component';
+import { PhotoGrapherClientComponent } from './components/photo-grapher-client/photo-grapher-client.component';
+import { PhotoGrapherOperationsComponent } from './components/photo-grapher-operations/photo-grapher-operations.component';
 
 const routes: Routes = [
   {
@@ -55,6 +57,8 @@ const routes: Routes = [
 
       { path: 'photo-grapher-client', component: PhotoGrapherScheduleMeetComponent },
       { path: 'photo-grapher-history', component: PhotoGrapherCompleteHistoryComponent },
+      { path: 'operations-photo-grapher', component: PhotoGrapherOperationsComponent },
+      { path: 'video-grapher-client', component: PhotoGrapherClientComponent },
 
       { path: 'content-writer-videos-client', component: ContentWriterVideosClientsComponent },
       { path: 'operations-videos-content-writer', component: ContentWriterVideosOperationsComponent },

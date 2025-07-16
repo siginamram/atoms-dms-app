@@ -6,12 +6,12 @@ import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/ale
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-video-editor-operations-edit',
+  selector: 'app-photo-grapher-operation-edit',
   standalone: false,
-  templateUrl: './video-editor-operations-edit.component.html',
-  styleUrls: ['./video-editor-operations-edit.component.css'],
+  templateUrl: './photo-grapher-operation-edit.component.html',
+  styleUrl: './photo-grapher-operation-edit.component.css'
 })
-export class VideoEditorOperationsEditComponent implements OnInit {
+export class PhotoGrapherOperationEditComponent implements OnInit {
   emergencyRequestForm: FormGroup;
   userId: number = parseInt(localStorage.getItem('UserID') || '0', 10);
 
@@ -19,12 +19,12 @@ export class VideoEditorOperationsEditComponent implements OnInit {
     private fb: FormBuilder,
     private dialog: MatDialog,
     private operationsService: OperationsService,
-    private dialogRef: MatDialogRef<VideoEditorOperationsEditComponent>,
+    private dialogRef: MatDialogRef<PhotoGrapherOperationEditComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { monthlyTrackerId: number; editorLink: string; title: string; thumbNail: string; description: string ,contentRemarks: string, cwInputsForVE: string, vgInputsForVE: string }
+    public data: { monthlyTrackerId: number; shootLink: string; title: string; thumbNail: string; description: string ,contentRemarks: string, cwInputsForVG: string, vgInputsForVE: string }
   ) {
     this.emergencyRequestForm = this.fb.group({
-      editorLink: [
+      shootLink: [
         '',
         [
           Validators.required,
@@ -37,8 +37,8 @@ export class VideoEditorOperationsEditComponent implements OnInit {
       thumbNail: [''],
       description: [''],
       contentRemarks: [''],
-      cwInputsForVE: [''],
-      vgInputsForVE: [''],
+      cwInputsForVG: [''],
+      vgInputForVE: ['',Validators.required],
       status: [2], // Default to draft
     });
     
@@ -46,57 +46,57 @@ export class VideoEditorOperationsEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.emergencyRequestForm.patchValue({
-      editorLink: this.data.editorLink || '',
+      shootLink: this.data.shootLink || '',
       title: this.data.title || '',
       thumbNail: this.data.thumbNail || '',
       description: this.data.description || '',
       contentRemarks: this.data.contentRemarks || '',
-      cwInputsForVE: this.data.cwInputsForVE || '',
-      vgInputsForVE: this.data.vgInputsForVE || '',
+      cwInputsForVG: this.data.cwInputsForVG || '',
+      vgInputForVE: this.data.vgInputsForVE || '',
     });
   }
 
-  saveDraft() {
-    if (this.emergencyRequestForm.valid) {
-      const payload = {
-        ...this.emergencyRequestForm.value,
-        monthlyTrackerId: this.data.monthlyTrackerId,
-        status: 2, // Draft status
-        createdBy: this.userId,
-      };
+  // saveDraft() {
+  //   if (this.emergencyRequestForm.valid) {
+  //     const payload = {
+  //       ...this.emergencyRequestForm.value,
+  //       monthlyTrackerId: this.data.monthlyTrackerId,
+  //       status: 2, // Draft status
+  //       createdBy: this.userId,
+  //     };
 
-      this.operationsService.UpdateClientMonthlyVideoURL(payload).subscribe({
-        next: (response: string) => {
-          if (response === 'Success') {
-            this.openAlertDialog('Success', 'Draft Saved Successfully!');
-            this.dialogRef.close(true);
-          } else {
-            this.openAlertDialog('Error', response || 'Unexpected response. Please try again.');
-          }
-        },
-        error: (error) => {
-          const errorMessage = error.error?.message || 'An unexpected error occurred while saving the draft.';
-          this.openAlertDialog('Error', errorMessage);
-        },
-      });
-    } else {
-      this.openAlertDialog('Error', 'Please fill all required fields correctly.');
-    }
-  }
+  //     this.operationsService.UpdateVideoShootLink(payload).subscribe({
+  //       next: (response: string) => {
+  //         if (response === 'Success') {
+  //           this.openAlertDialog('Success', 'Draft Saved Successfully!');
+  //           this.dialogRef.close(true);
+  //         } else {
+  //           this.openAlertDialog('Error', response || 'Unexpected response. Please try again.');
+  //         }
+  //       },
+  //       error: (error) => {
+  //         const errorMessage = error.error?.message || 'An unexpected error occurred while saving the draft.';
+  //         this.openAlertDialog('Error', errorMessage);
+  //       },
+  //     });
+  //   } else {
+  //     this.openAlertDialog('Error', 'Please fill all required fields correctly.');
+  //   }
+  // }
 
   sendForApproval() {
     if (this.emergencyRequestForm.valid) {
       const payload = {
         ...this.emergencyRequestForm.value,
-        monthlyTrackerId: this.data.monthlyTrackerId,
+        id: this.data.monthlyTrackerId,
         status: 3, // Approval status
         createdBy: this.userId,
       };
 
-      this.operationsService.UpdateClientMonthlyVideoURL(payload).subscribe({
+      this.operationsService.UpdateVideoShootLink(payload).subscribe({
         next: (response: string) => {
           if (response === 'Success') {
-            this.openAlertDialog('Success', 'Sent For Approval Successfully!');
+            this.openAlertDialog('Success', 'Sumited Successfully!');
             this.dialogRef.close(true);
           } else {
             this.openAlertDialog('Error', response || 'Unexpected response. Please try again.');

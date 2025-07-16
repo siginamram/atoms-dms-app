@@ -66,7 +66,15 @@
           <td mat-cell *matCellDef="let row">{{ row.title }}</td>
         </ng-container>
 
-       
+      <ng-container matColumnDef="contentRemarks">
+      <th mat-header-cell *matHeaderCellDef>Content In Video</th>
+      <td mat-cell *matCellDef="let row">
+        <div class="truncated-cell" (click)="showFullText(row.contentRemarks, 'contentRemarks')">
+          {{ row.contentRemarks | slice: 0:10 }}...
+        </div>
+      </td>
+    </ng-container>
+
     <ng-container matColumnDef="description">
       <th mat-header-cell *matHeaderCellDef>Description</th>
       <td mat-cell *matCellDef="let row">
@@ -88,6 +96,23 @@
               <span *ngIf="!element.editorLink">N/A</span>
             </td>
           </ng-container>
+      <ng-container matColumnDef="cwInputsForVE">
+      <th mat-header-cell *matHeaderCellDef>CW Input's</th>
+      <td mat-cell *matCellDef="let row">
+        <div class="truncated-cell" (click)="showFullText(row.cwInputsForVE, 'cwInputsForVE')">
+          {{ row.cwInputsForVE | slice: 0:10 }}...
+        </div>
+      </td>
+    </ng-container>
+
+      <ng-container matColumnDef="vgInputsForVE">
+      <th mat-header-cell *matHeaderCellDef>VG Input's</th>
+      <td mat-cell *matCellDef="let row">
+        <div class="truncated-cell" (click)="showFullText(row.vgInputsForVE, 'vgInputsForVE')">
+          {{ row.vgInputsForVE | slice: 0:10 }}...
+        </div>
+      </td>
+    </ng-container>
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef (click)="toggleFilter('status', $event)">
             Status
