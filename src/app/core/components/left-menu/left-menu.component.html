@@ -82,6 +82,11 @@
         <i class="material-icons">event</i>Client Meta Data
         </a>
         </li>
+       <li *ngIf="roleService.hasRole(['Team Lead'])">
+        <a [routerLink]="['/home', 'operations', 'video-emergency-request']" routerLinkActive="active">
+        <i class="material-icons">event</i>Emergency Request
+        </a>
+      </li>
         <li *ngIf="roleService.hasRole(['Content Writer'])">
         <a [routerLink]="['/home', 'operations', 'content-writer-calender-export']" routerLinkActive="active">
         <i class="material-icons">event</i>Calendar Export

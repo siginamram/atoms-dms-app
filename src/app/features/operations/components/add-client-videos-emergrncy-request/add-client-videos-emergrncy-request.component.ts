@@ -2,24 +2,23 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { OperationsService } from '../../services/operations.service';
-import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/alert-dialog.component'; 
+import { AlertDialogComponent } from 'src/app/shared/components/alert-dialog/alert-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-add-client-videos-emergrncy-request',
- standalone:false,
+  selector: 'app-add-client-videos-emergency-request',
+  standalone: false,
   templateUrl: './add-client-videos-emergrncy-request.component.html',
-  styleUrl: './add-client-videos-emergrncy-request.component.css'
+  styleUrls: ['./add-client-videos-emergrncy-request.component.css']
 })
-export class AddClientVideosEmergrncyRequestComponent implements OnInit {
+export class AddClientVideosEmergrncyRequestComponent  implements OnInit {
   emergencyRequestForm: FormGroup;
   showSpinner: boolean = false;
   userId: number = parseInt(localStorage.getItem('UserID') || '0', 10);
-  clientId: number = 0; // Set from params
-  // Regular expression for URL validation
-  urlPattern = '(https?://)?(www\\.)?[a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)';
-
+  clients: any[] = [];
+  filteredClients: any[] = [];
+  selectedClientName: string = '';
+  minDate: Date = new Date();
   creativeTypes = [
     { id: 3, name: 'Youtube Videos' },
     { id: 4, name: 'Educational Reels' },
@@ -33,84 +32,81 @@ export class AddClientVideosEmergrncyRequestComponent implements OnInit {
     private fb: FormBuilder,
     private dialog: MatDialog,
     private operationsService: OperationsService,
-    private route: ActivatedRoute,
     private dialogRef: MatDialogRef<AddClientVideosEmergrncyRequestComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { clientId: number }
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.emergencyRequestForm = this.fb.group({
+      clientId: [null, Validators.required],
       date: ['', Validators.required],
       creativeTypeId: ['', Validators.required],
       emergencyType: [1],
-      title: ['', Validators.required],
-      description: ['', Validators.required],
-      thumbNail: ['', [
+      cwInputsForVE: ['', Validators.required],
+      cwInputsForVG: ['', Validators.required],
+      shootLink: ['', [
+        Validators.required,
         Validators.pattern(
-          '^(https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)?)$'
-        ),
-      ]],
-      editorLink: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(
             '^(https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)?)$'
           ),
-        ]
-      ],
-      shootLink: ['', [
-        Validators.pattern(
-          '^(https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)?)$'
-        ),
-      ]],
+      ]]
     });
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      this.clientId = params['clientId'] ? parseInt(params['clientId'], 10) : 0;
+    this.fetchAllClients();
+  }
+
+  fetchAllClients(): void {
+    this.operationsService.getClientsByUser(this.userId).subscribe({
+      next: (response: any[]) => {
+        this.clients = response;
+        this.filteredClients = response;
+      },
+      error: (error) => {
+        console.error('Error fetching clients:', error);
+      },
     });
   }
 
-  saveDraft() {
-    this.submitRequest(2, 'Draft Saved Successfully!');
+  filterClients(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const search = input.value.toLowerCase();
+    this.filteredClients = this.clients.filter((client) =>
+      client.organizationName.toLowerCase().includes(search)
+    );
+  }
+
+  onClientSelected(event: any): void {
+    const selectedOrg = event.option.value;
+    const selectedClient = this.clients.find(client => client.organizationName === selectedOrg);
+    if (selectedClient) {
+      this.selectedClientName = selectedOrg;
+      this.emergencyRequestForm.patchValue({ clientId: selectedClient.clientId });
+    }
   }
 
   sendForApproval() {
-    this.submitRequest(3, 'Sent for Approval Successfully!');
-  }
-
-  submitRequest(status: number, successMessage: string) {
     if (this.emergencyRequestForm.valid) {
-      this.showSpinner = true;
       const payload = {
-        clientId: this.clientId, // From params
+        ...this.emergencyRequestForm.value,
         date: this.formatDate(new Date(this.emergencyRequestForm.value.date)),
-        creativeTypeId: this.emergencyRequestForm.value.creativeTypeId,
-        status: status, // 2 = Draft, 3 = Approval
-        title: this.emergencyRequestForm.value.title,
-        description: this.emergencyRequestForm.value.description,
-        thumbNail: this.emergencyRequestForm.value.thumbNail || '',
-        editorLink: this.emergencyRequestForm.value.editorLink || '',
-        shootLink: this.emergencyRequestForm.value.shootLink || '',
-        createdBy: this.userId, // From localStorage
+        createdBy: this.userId
       };
-
-      this.operationsService.AddClientVideoEmergencyRequest(payload).subscribe(
-        (response: string) => {
+      this.showSpinner = true;
+      this.operationsService.AddClientVideoEmergencyRequest(payload).subscribe({
+        next: (res: string) => {
           this.showSpinner = false;
-          if (response === 'Success') {
-            this.openAlertDialog('Success', successMessage);
+          if (res === 'Success') {
+            this.openAlertDialog('Success', 'Request submitted successfully!');
+            this.dialogRef.close(true);
           } else {
-            this.openAlertDialog('Error', response || 'Unexpected response. Please try again.');
+            this.openAlertDialog('Error', res || 'Submission failed.');
           }
-          this.dialogRef.close(true);
         },
-        (error: any) => {
+        error: (err) => {
           this.showSpinner = false;
-          console.error('Error:', error);
-          this.openAlertDialog('Error', error.error?.message || 'An unexpected error occurred.');
+          this.openAlertDialog('Error', err.error?.message || 'Unexpected error occurred.');
         }
-      );
+      });
     } else {
       this.openAlertDialog('Error', 'Please fill all required fields correctly.');
     }

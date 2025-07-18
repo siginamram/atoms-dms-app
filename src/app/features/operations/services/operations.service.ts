@@ -55,6 +55,11 @@ export class OperationsService {
     return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
   }
 
+    GetEmergencyVideoRequest(date: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/EmergencyVideoRequest/${date}`;
+    return this.http.get(apiUrl);
+  }
+
   UpdateContentWriterTracker(payload: any): Observable<any> {
     const apiUrl = `${this.baseApiUrl}/api/Operations/UpdateContentWriterTracker`;
     // Set responseType to 'text' since the API returns plain text

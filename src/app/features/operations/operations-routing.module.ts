@@ -33,6 +33,7 @@ import { AdditionalTaskViewComponent } from './components/additional-task-view/a
 import { AdditionalTaskAddComponent } from './components/additional-task-add/additional-task-add.component';
 import { PhotoGrapherClientComponent } from './components/photo-grapher-client/photo-grapher-client.component';
 import { PhotoGrapherOperationsComponent } from './components/photo-grapher-operations/photo-grapher-operations.component';
+import { ClientVideosEmergrncyRequestComponent } from './components/client-videos-emergrncy-request/client-videos-emergrncy-request.component';
 
 const routes: Routes = [
   {
@@ -83,6 +84,8 @@ const routes: Routes = [
       
       {path: 'additional-task-view', component: AdditionalTaskViewComponent},
       {path: 'additional-task-add', component: AdditionalTaskAddComponent},
+
+      { path: 'video-emergency-request', component: ClientVideosEmergrncyRequestComponent },
 
   
     ]

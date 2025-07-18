@@ -82,6 +82,7 @@ import { AdditionalTaskViewComponent } from './components/additional-task-view/a
 import { PhotoGrapherClientComponent } from './components/photo-grapher-client/photo-grapher-client.component';
 import { PhotoGrapherOperationsComponent } from './components/photo-grapher-operations/photo-grapher-operations.component';
 import { PhotoGrapherOperationEditComponent } from './components/photo-grapher-operation-edit/photo-grapher-operation-edit.component';
+import { ClientVideosEmergrncyRequestComponent } from './components/client-videos-emergrncy-request/client-videos-emergrncy-request.component';
 
 const MY_FORMATS = {
   parse: {
@@ -152,6 +153,7 @@ const MY_FORMATS = {
     PhotoGrapherClientComponent,
     PhotoGrapherOperationsComponent,
     PhotoGrapherOperationEditComponent,
+    ClientVideosEmergrncyRequestComponent,
   ],
   imports: [
     CommonModule,
