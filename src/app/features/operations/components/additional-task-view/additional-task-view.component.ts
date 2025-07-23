@@ -105,10 +105,14 @@ export class AdditionalTaskViewComponent implements OnInit {
     const statusMap: { [key: number]: string } = {
       1: 'Logo',
       2: 'Brochure',
-      3: 'YouTube Videos',
-      4: 'Educational Reels',
+      3: 'PPT',
+      4: 'Templates',
       5: 'Posters',
-      6: 'General Video',
+      6: 'Flyers',
+      7: 'Graphic Video',
+      8: 'General Video', 
+      9: 'Podcast',
+      10: 'Flexi',
     };
     return statusMap[status] || 'Unknown Type';
   }
