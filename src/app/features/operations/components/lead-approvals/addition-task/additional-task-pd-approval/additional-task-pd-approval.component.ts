@@ -3,18 +3,19 @@ import {
   OnInit,
   ViewChild,
   ChangeDetectionStrategy,
+  Input,
+  SimpleChanges,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { Router } from '@angular/router';
-import { OperationsService } from '../../services/operations.service';
+import { OperationsService } from 'src/app/features/operations/services/operations.service'; 
 import * as moment from 'moment';
-import { Moment } from 'moment';
 import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
-import { AdditionalTaskAddComponent } from '../additional-task-add/additional-task-add.component';
+import { AdditionalTaskEditStatusApprovalComponent } from '../additional-task-edit-status-approval/additional-task-edit-status-approval.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -29,34 +30,25 @@ export const MY_FORMATS = {
 };
 
 @Component({
-  selector: 'app-additional-task-view',
+  selector: 'app-additional-task-pd-approval',
   standalone: false,
-  templateUrl: './additional-task-view.component.html',
-  styleUrls: ['./additional-task-view.component.css'],
+  templateUrl: './additional-task-pd-approval.component.html',
+  styleUrl: './additional-task-pd-approval.component.css',
   providers: [provideMomentDateAdapter(MY_FORMATS)],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdditionalTaskViewComponent implements OnInit {
+export class AdditionalTaskPdApprovalComponent implements OnInit {
+  @Input() selectedDate!: moment.Moment | null;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
+   @ViewChild('fullTextDialog') fullTextDialog: any;
+  userId: number = parseInt(localStorage.getItem('UserID') || '0', 10); 
+  RoleId: number = parseInt(localStorage.getItem('RoleId') || '0', 10);
   isLoading = false;
-  selectedDate: string = '';
-  readonly date = new FormControl(moment());
+  dateStr:any;
+  type: number = 2; // For PD
+  readonly date = new FormControl(moment());  
   dataSource = new MatTableDataSource<any>([]);
-
-  displayedColumns: string[] = [
-    'sno',
-    'clientName',
-    'clientType',
-    'creativeType',
-    'deadline',
-    'contentWriter',
-    'designer',
-    'contentStatus',
-    'designStatus',
-    'submissionDate',
-    'actions',
-  ];
+  displayedColumns: string[] = [];
 
   constructor(
     private dialog: MatDialog,
@@ -66,26 +58,48 @@ export class AdditionalTaskViewComponent implements OnInit {
 
   ngOnInit() {
     const today = moment().format('YYYY-MM-DD');
-    this.selectedDate = today;
-    this.fetchTableData();
+    this.dateStr = today;
+    this.displayedColumns = [
+    'sno',
+    'clientName',
+    'creativeType',
+    'deadline',
+    'task',
+    'content',
+    'referenceLink',
+    'designer',
+    'url',
+    'Status',
+    'remarks',
+    'sendForApprovalOn',
+    'actions'
+     ]; 
+    
+  // this.date.valueChanges.subscribe(val => {
+  //   if (val && this.type) this.fetchTableData(); // ✅ Ensure type is set
+  // });
+  this.fetchTableData();
   }
 
-  setMonthAndYear(
-    normalizedMonthAndYear: Moment,
-    datepicker: MatDatepicker<Moment>
-  ): void {
-    const ctrlValue = moment(this.date.value ?? moment());
-    ctrlValue.month(normalizedMonthAndYear.month());
-    ctrlValue.year(normalizedMonthAndYear.year());
-    this.date.setValue(ctrlValue);
-    this.selectedDate = ctrlValue.startOf('month').format('YYYY-MM-DD');
-    datepicker.close();
-    this.fetchTableData();
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['selectedDate'] && this.selectedDate) {
+      this.dateStr = this.selectedDate.format('YYYY-MM') + '-01';
+      this.fetchTableData();
+    }
   }
+
+  setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>): void {
+      let ctrlValue = this.date.value ?? moment(); // fallback to current month
+      ctrlValue = ctrlValue.clone().month(normalizedMonthAndYear.month()).year(normalizedMonthAndYear.year());
+      this.date.setValue(ctrlValue);
+      datepicker.close();
+      this.fetchTableData(); // call updated function
+    }
 
   fetchTableData(): void {
     this.isLoading = true;
-    this.operationsService.GetAdditionalTasks(this.selectedDate).subscribe({
+    this.operationsService.GetAdditionalTasksApprovals(this.userId,this.type,this.dateStr).subscribe({
       next: (response: any[]) => {
         this.dataSource.data = response;
         setTimeout(() => {
@@ -146,8 +160,8 @@ export class AdditionalTaskViewComponent implements OnInit {
   }
 
 editTask(row: any): void {
-  const dialogRef = this.dialog.open(AdditionalTaskAddComponent, {
-    width: '800px',
+  const dialogRef = this.dialog.open(AdditionalTaskEditStatusApprovalComponent, {
+    width: '600px',
     data: {
       id: row.id || 0,
       isExistingClient: row.isExistingClient,
@@ -157,8 +171,10 @@ editTask(row: any): void {
       creativeType: row.creativeType,
       deadline: row.deadline,
       task: row.task || '',
+      content: row.content || '',
       contentWriter: row.contentWriter || 0,
       contentApprover: row.contentApprover || 0,
+      url: row.url || '',
       designer: row.designer || 0,
       designApprover: row.designApprover || 0,
       contentStatus: row.contentStatus || 0,
@@ -167,7 +183,8 @@ editTask(row: any): void {
       designerName: row.designerName || '',
       contentApproverName: row.contentApproverName || '',
       designApproverName: row.designApproverName || '',
-  
+      type: 4, // 1 for CW, 2 for Designer
+      userId: this.userId,
     },
   });
 
@@ -177,9 +194,14 @@ editTask(row: any): void {
     }
   });
 }
-
-
-  openAddTaskPopup() {
-    this.router.navigate(['/home/operations/additional-task-add']);
+   showFullText(text: string, title: string): void {
+    this.dialog.open(this.fullTextDialog, {
+      width: '400px',
+      data: {
+        text: text,
+        title: title,
+      },
+    });
   }
 }
+

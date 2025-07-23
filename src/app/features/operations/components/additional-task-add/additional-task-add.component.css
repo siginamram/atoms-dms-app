@@ -1,5 +1,11 @@
 .container {
-  padding-left: 140px;
+  padding-left: 120px;
+  margin: auto;
+}
+
+/* Update Modal Container */
+.update-container {
+  padding: 20px;
   margin: auto;
 }
 
@@ -37,6 +43,7 @@ h2, h3 {
     flex-direction: column;
   }
 }
+
 mat-toolbar {
   margin-bottom: 16px;
   font-size: 20px;
@@ -99,11 +106,11 @@ mat-toolbar {
     padding: 10px;
   }
 }
+
 .radio-group {
   display: flex;
   gap: 20px;
   margin-top: 5px;
- 
 }
 
 .mat-label {
@@ -111,4 +118,63 @@ mat-toolbar {
   font-weight: 500;
   display: block;
   margin-bottom: 4px;
+}
+
+::ng-deep .mat-dialog-container {
+  padding: 0 !important;
+  border-radius: 10px;
+  max-width: 720px;
+  width: 100% !important;
+  overflow-y: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.update-toolbar {
+  background-color: #3f51b5;
+  color: white;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.update-toolbar mat-icon {
+  color: white;
+}
+
+.dialog-content {
+  padding: 24px;
+  background-color: #fff;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px 24px 24px;
+}
+
+@media screen and (max-width: 768px) {
+  ::ng-deep .mat-dialog-container {
+    padding: 0;
+    margin: 8px;
+    width: calc(100% - 16px) !important;
+  }
+
+  .update-toolbar {
+    font-size: 18px;
+    flex-wrap: wrap;
+    padding: 12px;
+  }
+
+  .dialog-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }

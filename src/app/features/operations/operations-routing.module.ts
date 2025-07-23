@@ -34,6 +34,8 @@ import { AdditionalTaskAddComponent } from './components/additional-task-add/add
 import { PhotoGrapherClientComponent } from './components/photo-grapher-client/photo-grapher-client.component';
 import { PhotoGrapherOperationsComponent } from './components/photo-grapher-operations/photo-grapher-operations.component';
 import { ClientVideosEmergrncyRequestComponent } from './components/client-videos-emergrncy-request/client-videos-emergrncy-request.component';
+import { AdditionalTaskClientsComponent } from './components/additional-task-clients/additional-task-clients.component';
+import { LeadApprovalComponent } from './components/lead-approvals/addition-task/lead-approval/lead-approval.component';
 
 const routes: Routes = [
   {
@@ -84,6 +86,8 @@ const routes: Routes = [
       
       {path: 'additional-task-view', component: AdditionalTaskViewComponent},
       {path: 'additional-task-add', component: AdditionalTaskAddComponent},
+      {path: 'additional-task-Clients', component: AdditionalTaskClientsComponent},  
+      {path: 'additional-task-Appoval', component: LeadApprovalComponent}, 
 
       { path: 'video-emergency-request', component: ClientVideosEmergrncyRequestComponent },
 

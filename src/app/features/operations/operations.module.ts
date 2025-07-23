@@ -83,6 +83,12 @@ import { PhotoGrapherClientComponent } from './components/photo-grapher-client/p
 import { PhotoGrapherOperationsComponent } from './components/photo-grapher-operations/photo-grapher-operations.component';
 import { PhotoGrapherOperationEditComponent } from './components/photo-grapher-operation-edit/photo-grapher-operation-edit.component';
 import { ClientVideosEmergrncyRequestComponent } from './components/client-videos-emergrncy-request/client-videos-emergrncy-request.component';
+import { AdditionalTaskClientsComponent } from './components/additional-task-clients/additional-task-clients.component';
+import { AdditionalTaskClientsEditComponent } from './components/additional-task-clients-edit/additional-task-clients-edit.component';
+import { LeadApprovalComponent } from './components/lead-approvals/addition-task/lead-approval/lead-approval.component';
+import { AdditionalTaskEditStatusApprovalComponent } from './components/lead-approvals/addition-task/additional-task-edit-status-approval/additional-task-edit-status-approval.component';
+import { AdditionalTaskCwApprovalComponent } from './components/lead-approvals/addition-task/additional-task-cw-approval/additional-task-cw-approval.component';
+import { AdditionalTaskPdApprovalComponent } from './components/lead-approvals/addition-task/additional-task-pd-approval/additional-task-pd-approval.component';
 
 const MY_FORMATS = {
   parse: {
@@ -154,6 +160,13 @@ const MY_FORMATS = {
     PhotoGrapherOperationsComponent,
     PhotoGrapherOperationEditComponent,
     ClientVideosEmergrncyRequestComponent,
+    AdditionalTaskClientsComponent,
+    AdditionalTaskClientsEditComponent,
+    LeadApprovalComponent,
+    AdditionalTaskEditStatusApprovalComponent,
+    AdditionalTaskCwApprovalComponent,
+    AdditionalTaskPdApprovalComponent,
+
   ],
   imports: [
     CommonModule,

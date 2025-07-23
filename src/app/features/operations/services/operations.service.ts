@@ -300,4 +300,29 @@ export class OperationsService {
        const apiUrl = `${this.baseApiUrl}/api/Employee/getAllEmployeesList`;
      return this.http.get(apiUrl);
   } 
+
+   AddAdditionalTask(payload: any): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/AddAdditionalTask`;
+    return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+  }
+
+    GetAdditionalTasks( date: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/GetAdditionalTasks/${date}`;
+    return this.http.get(apiUrl);
+  }
+
+    GetAdditinalTasksForUpdate(userId: number,type : number, date: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/GetAdditinalTasksForUpdate/${userId}/${type}/${date}`;
+    return this.http.get(apiUrl);
+  }
+
+   UpdateAdditionalTask(payload: any): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/UpdateAdditionalTask`;
+    return this.http.post(apiUrl, payload, { responseType: 'text' as 'json' });
+  }
+  
+  GetAdditionalTasksApprovals(userId: number,type : number, date: string): Observable<any> {
+    const apiUrl = `${this.baseApiUrl}/api/Operations/GetAdditionalTasksApprovals/${userId}/${type}/${date}`;
+    return this.http.get(apiUrl);
+  }
 }

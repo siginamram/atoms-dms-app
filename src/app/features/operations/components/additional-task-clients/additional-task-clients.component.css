@@ -33,7 +33,7 @@ margin-bottom: 16px;
   vertical-align: middle;
   margin-right: 6px;
   font-size: 18px;
-  color: orange;
+  color: #555;
 }
 /* General Chip Styling */
  mat-chip {
@@ -80,4 +80,20 @@ margin-bottom: 16px;
 .status-unknown-status {
   background-color: #f44336 !important; /* Red */
   color: white !important;
+}
+
+/* Styling for the truncated cell */
+.truncated-cell {
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* Limit content to 1 line */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* Do not wrap */
+  cursor: pointer;
+}
+
+.truncated-cell:hover {
+  text-decoration: underline; /* Indicate clickable text */
+  color: blue; /* Optional: Highlight on hover */
 }

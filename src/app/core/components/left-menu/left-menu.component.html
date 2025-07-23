@@ -107,6 +107,16 @@
         <i class="material-icons">add</i>Additional Task
         </a>
         </li>
+        <li *ngIf="roleService.hasRole(['Sales Lead', 'Manager','Team Lead','Content Writer','Poster Designer','Video Editor','HR'])">
+        <a [routerLink]="['/home', 'operations', 'additional-task-Appoval']" routerLinkActive="active">
+        <i class="material-icons">add</i>Approvals Additional Task
+        </a>
+        </li>
+           <li *ngIf="roleService.hasRole(['Content Writer','Poster Designer','Video Editor'])">
+        <a [routerLink]="['/home', 'operations', 'additional-task-Clients']" routerLinkActive="active">
+        <i class="material-icons">add</i>Additional Task
+        </a>
+        </li>
         <li *ngIf="roleService.hasRole(['Content Writer'])">
         <a [routerLink]="['/home', 'operations', 'content-writer-client']" routerLinkActive="active">
         <i class="material-icons">edit</i>Daily Tasks

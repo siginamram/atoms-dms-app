@@ -1,0 +1,56 @@
+<h1 mat-dialog-title class="dialog-title">Update Additional Task</h1>
+<div mat-dialog-content class="dialog-content" style="padding-top: 20px;">
+  
+<div *ngIf="data.type == 1" class="content-field">
+  <mat-form-field appearance="outline" class="content-field">
+    <mat-label>Content</mat-label>
+    <textarea matInput [(ngModel)]="data.content" name="content" required></textarea>
+  </mat-form-field>
+</div>
+
+<div *ngIf="data.type == 2" class="content-field">
+   <mat-form-field appearance="outline" class="content-field">
+    <mat-label>Content</mat-label>
+    <textarea matInput [(ngModel)]="data.content" name="content" readonly=""></textarea>
+  </mat-form-field>
+
+  <!-- Update Design Link Field -->
+  <form #designForm="ngForm">
+    <mat-form-field appearance="outline" class="dialog-field">
+      <mat-label>Update Design Link</mat-label>
+      <input
+        matInput
+        name="designLink"
+       [(ngModel)]="data.url"
+        #urlInput="ngModel"
+        placeholder="Enter Design Link"
+        required
+        pattern="https?://.+"
+      />
+      <mat-error *ngIf="urlInput.errors?.['required']">
+        Link is required.
+      </mat-error>
+      <mat-error *ngIf="urlInput.errors?.['pattern']">
+        Please enter a valid URL (e.g., https://example.com).
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+</div>
+
+<div mat-dialog-actions class="dialog-actions">
+  <button mat-button color="warn" (click)="onCancel()">Cancel</button>
+  <button
+    mat-raised-button
+    color="accent"
+    (click)="onSave('draft')">
+    Save Draft
+  </button>
+ <button
+  mat-raised-button
+  color="primary"
+  (click)="onSave('approval')"
+>
+  Send To Approval
+</button>
+</div>

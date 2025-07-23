@@ -1,0 +1,39 @@
+<div class="approvals-container">
+  <!-- Filters -->
+  <div class="filters-container">
+    <mat-form-field appearance="outline">
+      <mat-label>Month and Year</mat-label>
+      <input
+        matInput
+        [matDatepicker]="dp"
+        [formControl]="sharedDate"
+        placeholder="MM/YYYY"
+        readonly
+      />
+      <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+      <mat-datepicker
+        #dp
+        startView="multi-year"
+        (monthSelected)="setMonthAndYear($event, dp)"
+        panelClass="example-month-picker">
+      </mat-datepicker>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="onDateChange()">Apply</button>
+  </div>
+
+  <!-- Tab Switcher -->
+  <div class="tabs">
+    <button [class.active]="activeTab === 'CW'" (click)="switchTab('CW')">
+      <mat-icon>text_snippet</mat-icon> Contents
+    </button>
+    <button [class.active]="activeTab === 'PD'" (click)="switchTab('PD')">
+      <mat-icon>text_snippet</mat-icon> Designs
+    </button>
+  </div>
+
+  <!-- Tab Contents -->
+    <app-additional-task-cw-approval *ngIf="activeTab === 'CW'" [selectedDate]="triggeredDate"></app-additional-task-cw-approval>
+    <app-additional-task-pd-approval *ngIf="activeTab === 'PD'" [selectedDate]="triggeredDate"></app-additional-task-pd-approval>
+
+</div>

@@ -14,7 +14,7 @@ import { Moment } from 'moment';
 import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
-import { AdditionalTaskAddComponent } from '../additional-task-add/additional-task-add.component';
+import { AdditionalTaskClientsEditComponent } from '../additional-task-clients-edit/additional-task-clients-edit.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -29,34 +29,24 @@ export const MY_FORMATS = {
 };
 
 @Component({
-  selector: 'app-additional-task-view',
-  standalone: false,
-  templateUrl: './additional-task-view.component.html',
-  styleUrls: ['./additional-task-view.component.css'],
-  providers: [provideMomentDateAdapter(MY_FORMATS)],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-additional-task-clients',
+  standalone:false,
+  templateUrl: './additional-task-clients.component.html',
+  styleUrl: './additional-task-clients.component.css',
+    providers: [provideMomentDateAdapter(MY_FORMATS)],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdditionalTaskViewComponent implements OnInit {
+export class AdditionalTaskClientsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
+   @ViewChild('fullTextDialog') fullTextDialog: any;
+  userId: number = parseInt(localStorage.getItem('UserID') || '0', 10); 
+  RoleId: number = parseInt(localStorage.getItem('RoleId') || '0', 10);
   isLoading = false;
   selectedDate: string = '';
-  readonly date = new FormControl(moment());
+  type: any;
+  readonly date = new FormControl(moment());  
   dataSource = new MatTableDataSource<any>([]);
-
-  displayedColumns: string[] = [
-    'sno',
-    'clientName',
-    'clientType',
-    'creativeType',
-    'deadline',
-    'contentWriter',
-    'designer',
-    'contentStatus',
-    'designStatus',
-    'submissionDate',
-    'actions',
-  ];
+  displayedColumns: string[] = [];
 
   constructor(
     private dialog: MatDialog,
@@ -67,6 +57,39 @@ export class AdditionalTaskViewComponent implements OnInit {
   ngOnInit() {
     const today = moment().format('YYYY-MM-DD');
     this.selectedDate = today;
+   
+    if(this.RoleId== 10) {
+     this.type = 1; // For CW
+     this.displayedColumns = [
+    'sno',
+    'clientName',
+    'clientType',
+    'creativeType',
+    'task',
+    'referenceLink',
+    'deadline',
+    'Status',
+      'remarks',
+    'actions'
+     ];       
+    }
+    else{
+      this.type = 2; // For Designer
+         this.displayedColumns = [
+    'sno',
+    'clientName',
+    'clientType',
+    'creativeType',
+    'task',
+    'content',
+    'contentStatus',
+    'referenceLink',
+    'deadline',
+    'Status',
+   'remarks',
+    'actions'
+     ]; 
+    }
     this.fetchTableData();
   }
 
@@ -85,7 +108,7 @@ export class AdditionalTaskViewComponent implements OnInit {
 
   fetchTableData(): void {
     this.isLoading = true;
-    this.operationsService.GetAdditionalTasks(this.selectedDate).subscribe({
+    this.operationsService.GetAdditinalTasksForUpdate(this.userId,this.type,this.selectedDate).subscribe({
       next: (response: any[]) => {
         this.dataSource.data = response;
         setTimeout(() => {
@@ -146,7 +169,7 @@ export class AdditionalTaskViewComponent implements OnInit {
   }
 
 editTask(row: any): void {
-  const dialogRef = this.dialog.open(AdditionalTaskAddComponent, {
+  const dialogRef = this.dialog.open(AdditionalTaskClientsEditComponent, {
     width: '800px',
     data: {
       id: row.id || 0,
@@ -157,8 +180,10 @@ editTask(row: any): void {
       creativeType: row.creativeType,
       deadline: row.deadline,
       task: row.task || '',
+      content: row.content || '',
       contentWriter: row.contentWriter || 0,
       contentApprover: row.contentApprover || 0,
+      url: row.url || '',
       designer: row.designer || 0,
       designApprover: row.designApprover || 0,
       contentStatus: row.contentStatus || 0,
@@ -167,7 +192,8 @@ editTask(row: any): void {
       designerName: row.designerName || '',
       contentApproverName: row.contentApproverName || '',
       designApproverName: row.designApproverName || '',
-  
+      type: this.type, // 1 for CW, 2 for Designer
+      userId: this.userId,
     },
   });
 
@@ -177,9 +203,13 @@ editTask(row: any): void {
     }
   });
 }
-
-
-  openAddTaskPopup() {
-    this.router.navigate(['/home/operations/additional-task-add']);
+   showFullText(text: string, title: string): void {
+    this.dialog.open(this.fullTextDialog, {
+      width: '400px',
+      data: {
+        text: text,
+        title: title,
+      },
+    });
   }
 }
